@@ -7,7 +7,7 @@
 
 UBaseWeaponObject::UBaseWeaponObject()
 {
-	
+	bWeaponUsed = false;
 }
 
 int32 UBaseWeaponObject::GetFunctionCallspace(UFunction* Function, FFrame* Stack)
@@ -33,6 +33,7 @@ void UBaseWeaponObject::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 
 	DOREPLIFETIME(UBaseWeaponObject, CharacterOwner);
 	DOREPLIFETIME(UBaseWeaponObject, WeaponData);
+	DOREPLIFETIME_CONDITION(UBaseWeaponObject, bWeaponUsed, COND_SkipOwner);
 }
 
 void UBaseWeaponObject::PostInitProperties()
@@ -50,6 +51,11 @@ void UBaseWeaponObject::BeginPlay()
 	}
 }
 
+void UBaseWeaponObject::Init(const FEquipWeaponData& NewData)
+{
+	WeaponData = NewData;
+}
+
 void UBaseWeaponObject::SetCharacterOwner(ASpaceWarCharacter* NewOwner)
 {
 	CharacterOwner = NewOwner;
@@ -61,7 +67,74 @@ void UBaseWeaponObject::OnRep_CharOwner()
 	OnOwnerChanged.Broadcast();
 }
 
+bool UBaseWeaponObject::IsAbleToUseWeapon()
+{
+	return !GetWorld()->GetTimerManager().IsTimerActive(UseWeaponHandle);
+}
 
+bool UBaseWeaponObject::UseWeapon()
+{
+	if(!IsAbleToUseWeapon()) return false;
 
+	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &UBaseWeaponObject::StopRateDelay, WeaponData.DelayBeforeUse, false);
 
+	return true;
+}
 
+void UBaseWeaponObject::StopRateDelay()
+{
+	GetWorld()->GetTimerManager().ClearTimer(UseWeaponHandle);
+
+	if(WeaponData.bCanAutoFire && bWeaponUsed)
+	{
+		UseWeapon();
+	}
+}
+
+void UBaseWeaponObject::StopUseWeapon()
+{
+	bWeaponUsed = false;
+}
+
+void UBaseWeaponObject::Server_StartUseWeapon_Implementation()
+{
+	UseWeapon();
+	NetMulticast_StartUseWeapon();
+}
+
+void UBaseWeaponObject::Server_StopUseWeapon_Implementation()
+{
+	StopUseWeapon();
+	NetMulticast_StopUseWeapon();
+}
+
+void UBaseWeaponObject::OwnerStartUseWeapon()
+{
+	if(IsAbleToUseWeapon())
+	{
+		UseWeapon();
+		Server_StartUseWeapon();
+	}
+}
+
+void UBaseWeaponObject::OwnerStopUseWeapon()
+{
+	StopUseWeapon();
+	Server_StopUseWeapon();
+}
+
+void UBaseWeaponObject::NetMulticast_StartUseWeapon_Implementation()
+{
+	if(!CharacterOwner->Controller)
+	{
+		UseWeapon();
+	}
+}
+
+void UBaseWeaponObject::NetMulticast_StopUseWeapon_Implementation()
+{
+	if(!CharacterOwner->Controller)
+	{
+		StopUseWeapon();
+	}
+}
