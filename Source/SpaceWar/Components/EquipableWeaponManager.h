@@ -9,6 +9,7 @@
 #include "EquipableWeaponManager.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCurrentWeaponChanged, UBaseWeaponObject*, NewCurrentWeapon);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWeaponSelect, bool, NewState);
 
 UENUM(BlueprintType)
 enum class EWeaponType : uint8
@@ -24,8 +25,17 @@ class SPACEWAR_API UEquipableWeaponManager : public UActorComponent
 
 	UFUNCTION()
 	void OnRep_CurrentWeapon();
+
+	UFUNCTION()
+	void OnRep_WeaponSelect();
 	
 	void AddWeaponToStorage(EWeaponType Key, UBaseWeaponObject* Value);
+
+	void SelectWeapon(EWeaponType NewType);
+	void FinishWeaponSelect(UBaseWeaponObject* NewWeapon);
+
+	UFUNCTION(Server, Unreliable)
+	void Server_SelectWeapon(EWeaponType NewType);
 
 public:	
 
@@ -40,8 +50,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "WeaponManager|Server")
 	void SetCurrentWeapon(UBaseWeaponObject* NewWeapon);
 
-	UFUNCTION(BlueprintPure, Category = "Weapons||Getting")
+	UFUNCTION(BlueprintCallable, Category = "WeaponManager|Button")
+	void OwnerWeaponSelect(EWeaponType NewType);
+
+	UFUNCTION(BlueprintPure, Category = "Weapons|Getting")
 	UBaseWeaponObject* GetCurrentWeapon() const { return CurrentWeapon; } 
+	
+	UFUNCTION(BlueprintPure, Category = "Weapons|Getting")
+	bool GetWeaponSelect() const { return bWeaponSelect; }
 	
 protected:
 
@@ -51,6 +67,7 @@ protected:
 
 private:
 
+	/** Set in blueprints */
 	UPROPERTY(EditAnywhere, Category = "DataAsset")
 	UWeaponDataAsset* WeaponDataAsset;
 
@@ -60,8 +77,16 @@ private:
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentWeapon)
 	UBaseWeaponObject* CurrentWeapon;
 
+	UPROPERTY(ReplicatedUsing = OnRep_WeaponSelect)
+	bool bWeaponSelect;
+
+	FTimerHandle SelectWeaponHandle;
+
 public:
 
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "WeaponManager|Delegate")
 	FCurrentWeaponChanged OnCurrentWeaponChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "WeaponManager|Delegate")
+	FWeaponSelect OnWeaponSelect;
 };

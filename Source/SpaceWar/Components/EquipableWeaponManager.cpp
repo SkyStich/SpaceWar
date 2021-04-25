@@ -9,7 +9,7 @@
 UEquipableWeaponManager::UEquipableWeaponManager()
 {
 	CurrentWeapon = nullptr;
-
+	bWeaponSelect = false;
 	SetIsReplicated(true);
 }
 
@@ -37,6 +37,7 @@ void UEquipableWeaponManager::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(UEquipableWeaponManager, CurrentWeapon);
+	DOREPLIFETIME(UEquipableWeaponManager, bWeaponSelect);
 	DOREPLIFETIME_CONDITION(UEquipableWeaponManager, Weapons, COND_OwnerOnly);
 }
 
@@ -66,4 +67,49 @@ void UEquipableWeaponManager::SetCurrentWeapon(UBaseWeaponObject* NewWeapon)
 void UEquipableWeaponManager::OnRep_CurrentWeapon()
 {
 	OnCurrentWeaponChanged.Broadcast(CurrentWeapon);
+}
+
+void UEquipableWeaponManager::OnRep_WeaponSelect()
+{
+	OnWeaponSelect.Broadcast(bWeaponSelect);
+}
+
+void UEquipableWeaponManager::SelectWeapon(EWeaponType NewType)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("StartSelect"));
+	auto const NewWeapon = Weapons.FindRef(NewType);
+	if(!NewWeapon) return;
+
+	if(NewWeapon != CurrentWeapon)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("Continue"));
+		bWeaponSelect = true;
+		OnRep_WeaponSelect();
+		FTimerDelegate TimerDel;
+		TimerDel.BindUObject(this, &UEquipableWeaponManager::FinishWeaponSelect, NewWeapon);
+		GetWorld()->GetTimerManager().SetTimer(SelectWeaponHandle, TimerDel, 1.5f, false);
+	}
+}
+
+void UEquipableWeaponManager::FinishWeaponSelect(UBaseWeaponObject* NewWeapon)
+{
+	SetCurrentWeapon(NewWeapon);
+	bWeaponSelect = false;
+	OnRep_WeaponSelect();
+}
+
+void UEquipableWeaponManager::Server_SelectWeapon_Implementation(EWeaponType NewType)
+{
+	if(!bWeaponSelect)
+	{
+		SelectWeapon(NewType);
+	}
+}
+
+void UEquipableWeaponManager::OwnerWeaponSelect(EWeaponType NewType)
+{
+	if(!bWeaponSelect)
+	{
+		Server_SelectWeapon(NewType);
+	}
 }

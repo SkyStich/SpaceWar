@@ -51,6 +51,11 @@ void UBaseWeaponObject::BeginPlay()
 	}
 }
 
+void UBaseWeaponObject::OnWeaponSelectingEvent(bool NewState)
+{
+	StopUseWeapon();
+}
+
 void UBaseWeaponObject::Init(const FEquipWeaponData& NewData)
 {
 	WeaponData = NewData;
@@ -65,11 +70,12 @@ void UBaseWeaponObject::SetCharacterOwner(ASpaceWarCharacter* NewOwner)
 void UBaseWeaponObject::OnRep_CharOwner()
 {
 	OnOwnerChanged.Broadcast();
+	CharacterOwner->GetWeaponManager()->OnWeaponSelect.AddDynamic(this, &UBaseWeaponObject::OnWeaponSelectingEvent);
 }
 
 bool UBaseWeaponObject::IsAbleToUseWeapon()
 {
-	return !GetWorld()->GetTimerManager().IsTimerActive(UseWeaponHandle);
+	return !GetWorld()->GetTimerManager().IsTimerActive(UseWeaponHandle) && !CharacterOwner->GetWeaponManager()->GetWeaponSelect();
 }
 
 bool UBaseWeaponObject::UseWeapon()
@@ -104,8 +110,11 @@ void UBaseWeaponObject::Server_StartUseWeapon_Implementation()
 
 void UBaseWeaponObject::Server_StopUseWeapon_Implementation()
 {
-	StopUseWeapon();
-	NetMulticast_StopUseWeapon();
+	if(bWeaponUsed)
+	{
+		StopUseWeapon();
+		NetMulticast_StopUseWeapon();
+	}
 }
 
 void UBaseWeaponObject::OwnerStartUseWeapon()

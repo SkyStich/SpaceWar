@@ -44,11 +44,17 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
 	void OwnerStopUseWeapon();
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	FEquipWeaponData GetWeaponData() const { return WeaponData; }
 	
 protected:
 
 	UFUNCTION()
 	virtual void OnRep_CharOwner();
+
+	UFUNCTION()
+	virtual void OnWeaponSelectingEvent(bool NewState);
 
 	virtual void PostInitProperties() override;
 	virtual void BeginPlay();

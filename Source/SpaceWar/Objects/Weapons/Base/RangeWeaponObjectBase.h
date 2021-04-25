@@ -20,6 +20,10 @@ class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject
 	void ReloadStart();
 	void ReloadStop();
 
+	/** Stop reload with field (with out calculate ammo) */
+	UFUNCTION()
+	void ClearReload();
+
 	UFUNCTION()
 	void OnRep_Reload();
 
@@ -47,6 +51,8 @@ protected:
 	virtual void StopUseWeapon() override;
 	virtual bool IsAbleToUseWeapon() override;
 	virtual bool IsAbleToReload();
+
+	virtual void OnWeaponSelectingEvent(bool NewState) override;
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;

@@ -40,6 +40,13 @@ void URangeWeaponObjectBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, bReloading, COND_SkipOwner);
 }
 
+void URangeWeaponObjectBase::OnWeaponSelectingEvent(bool NewState)
+{
+	Super::OnWeaponSelectingEvent(NewState);
+
+	ClearReload();
+}
+
 bool URangeWeaponObjectBase::UseWeapon()
 {
 	if(!Super::UseWeapon()) return false;
@@ -158,3 +165,10 @@ void URangeWeaponObjectBase::OwnerReload()
 		Server_ReloadStart();
 	}
 }
+
+void URangeWeaponObjectBase::ClearReload()
+{
+	GetWorld()->GetTimerManager().ClearTimer(ReloadHandle);
+	bReloading = false;
+}
+
