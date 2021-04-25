@@ -42,7 +42,7 @@ UBaseWeaponObject* UWeaponDataAsset::CreateWeaponObject(const FName& WeaponName,
 	if(WeaponType == nullptr) return nullptr;
 
 	auto const Weapon = NewObject<UBaseWeaponObject>(Outer, WeaponType);
-	Weapon->Init(TempData);
+	Weapon->SetWeaponData(TempData);
 	return Weapon;
 }
 
