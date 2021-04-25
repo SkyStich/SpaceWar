@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "SpaceWarCharacter.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Singleton/BaseSingleton.h"
@@ -138,6 +137,11 @@ void ASpaceWarCharacter::UpdateWeaponMesh(UBaseWeaponObject* Weapon)
 		TempMesh = Cast<USkeletalMesh>(UBaseSingleton::Get().AssetLoader.LoadSynchronous(Ref));
 	}
 	WeaponMesh->SetSkeletalMesh(TempMesh.Get());
+}
+
+void ASpaceWarCharacter::GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo)
+{
+	DamageCauserInfo.CauserName = WeaponManager->GetCurrentWeapon()->GetWeaponData().WeaponName;
 }
 
 

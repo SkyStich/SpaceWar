@@ -48842,6 +48842,10 @@
             <e p="WeaponDataAsset.cpp" t="Include" />
             <e p="WeaponDataAsset.h" t="Include" />
           </e>
+          <e p="Interfaces" t="Include">
+            <e p="GetDamageCauserInfo.cpp" t="Include" />
+            <e p="GetDamageCauserInfo.h" t="Include" />
+          </e>
           <e p="Objects" t="Include">
             <e p="Weapons" t="Include">
               <e p="base" t="Include">

@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Components/EquipableWeaponManager.h"
+#include "Interfaces/GetDamageCauserInfo.h"
 #include "SpaceWarCharacter.generated.h"
 
 UCLASS(config=Game)
-class ASpaceWarCharacter : public ACharacter
+class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo
 {
 	GENERATED_BODY()
 
@@ -18,6 +19,8 @@ class ASpaceWarCharacter : public ACharacter
 public:
 	ASpaceWarCharacter();
 
+	void GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo) override;
+
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
@@ -26,7 +29,6 @@ public:
 	FORCEINLINE UEquipableWeaponManager* GetWeaponManager() const { return WeaponManager; }
 
 	virtual void OnConstruction(const FTransform& Transform) override;
-	
 
 protected:
 	
