@@ -48837,6 +48837,8 @@
           <e p="Components" t="Include">
             <e p="EquipableWeaponManager.cpp" t="Include" />
             <e p="EquipableWeaponManager.h" t="Include" />
+            <e p="HealthComponent.cpp" t="Include" />
+            <e p="HealthComponent.h" t="Include" />
           </e>
           <e p="DataAssets" t="Include">
             <e p="WeaponDataAsset.cpp" t="Include" />

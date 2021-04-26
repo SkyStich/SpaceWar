@@ -14,7 +14,7 @@ class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject
 	GENERATED_BODY()
 
 	void DropLineTrace(FHitResult& OutHit);
-	void ApplyPointDamage();
+	void ApplyPointDamage(const FHitResult& Hit);
 	FVector GetShootDirection();
 
 	void ReloadStart();

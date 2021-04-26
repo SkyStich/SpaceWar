@@ -42,6 +42,8 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MeaponMesh"));
 
 	WeaponManager = CreateDefaultSubobject<UEquipableWeaponManager>(TEXT("Weapon manager"));
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 }
 
 void ASpaceWarCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -65,6 +67,9 @@ void ASpaceWarCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "WeaponPoint");
+	IsLocallyControlled() ? GetMesh()->SetVisibility(false) : SkeletalArm->SetVisibility(false);
+
+	HealthComponent->OnOwnerDead.AddDynamic(this, &ASpaceWarCharacter::CharDead);
 }
 
 void ASpaceWarCharacter::Tick(float DeltaTime)
@@ -86,6 +91,21 @@ void ASpaceWarCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ASpaceWarCharacter, LookUpPitch);
+}
+
+void ASpaceWarCharacter::CharDead()
+{
+	if(IsLocallyControlled())
+	{
+		SkeletalArm->SetVisibility(false);
+		GetMesh()->SetVisibility(true);
+	}
+	if(GetNetMode() != ENetMode::NM_DedicatedServer)
+	{
+		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+		GetMesh()->SetSimulatePhysics(true);
+	}
 }
 
 void ASpaceWarCharacter::TurnAtRate(float Rate)

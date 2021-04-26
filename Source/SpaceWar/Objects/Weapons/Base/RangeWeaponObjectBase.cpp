@@ -6,6 +6,7 @@
 #include "DrawDebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "Camera/CameraComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 
 URangeWeaponObjectBase::URangeWeaponObjectBase() 
@@ -62,7 +63,7 @@ bool URangeWeaponObjectBase::UseWeapon()
 
 	if(IsAuthority())
 	{
-		ApplyPointDamage();
+		ApplyPointDamage(OutHit);
 	}
 	
 	return true;
@@ -104,9 +105,13 @@ void URangeWeaponObjectBase::DropLineTrace(FHitResult& Hit)
 	DrawDebugSphere(GetWorld(), Hit.ImpactPoint, 14.f, 6,FColor::Yellow, false, 0.5f);                                                      	   
 }
 
-void URangeWeaponObjectBase::ApplyPointDamage()
+void URangeWeaponObjectBase::ApplyPointDamage(const FHitResult& Hit)
 {
-
+	if(Hit.GetActor())
+	{
+		FVector const HitFromDirection = UKismetMathLibrary::GetDirectionUnitVector(Hit.TraceEnd, Hit.TraceStart);
+		UGameplayStatics::ApplyPointDamage(Hit.GetActor(), WeaponData.BaseDamage, HitFromDirection, Hit, CharacterOwner->Controller, CharacterOwner, UDamageType::StaticClass());
+	}
 }
 
 bool URangeWeaponObjectBase::IsAbleToReload()

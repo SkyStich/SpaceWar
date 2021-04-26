@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Components/EquipableWeaponManager.h"
 #include "Interfaces/GetDamageCauserInfo.h"
+#include "Components/HealthComponent.h"
 #include "SpaceWarCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -15,6 +16,9 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo
 
 	UFUNCTION()
 	void UpdateWeaponMesh(UBaseWeaponObject* Weapon);
+
+	UFUNCTION()
+	void CharDead();
 
 public:
 	ASpaceWarCharacter();
@@ -68,6 +72,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = SkeletalMesh, meta = (AllowPrivateAccess = "true"))
 	UEquipableWeaponManager* WeaponManager;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = SkeletalMesh, meta = (AllowPrivateAccess = "true"))
+	UHealthComponent* HealthComponent;
 
 private:
 
