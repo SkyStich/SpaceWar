@@ -12,7 +12,7 @@ class ASpaceWarCharacter;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOwnerChanged);
 
-UCLASS()
+UCLASS(Abstract, BlueprintType)
 class SPACEWAR_API UBaseWeaponObject : public UObject
 {
 	GENERATED_BODY()
