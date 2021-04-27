@@ -48841,8 +48841,24 @@
             <e p="HealthComponent.h" t="Include" />
           </e>
           <e p="DataAssets" t="Include">
+            <e p="MatchWidgetDataAsset.cpp" t="Include" />
+            <e p="MatchWidgetDataAsset.h" t="Include" />
             <e p="WeaponDataAsset.cpp" t="Include" />
             <e p="WeaponDataAsset.h" t="Include" />
+          </e>
+          <e p="GameModes" t="Include">
+            <e p="Match" t="Include">
+              <e p="base" t="Include">
+                <e p="MatchGameModeBase.cpp" t="Include" />
+                <e p="MatchGameModeBase.h" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="HUD" t="Include">
+            <e p="Match" t="Include">
+              <e p="BaseMatchHUD.cpp" t="Include" />
+              <e p="BaseMatchHUD.h" t="Include" />
+            </e>
           </e>
           <e p="Interfaces" t="Include">
             <e p="GetDamageCauserInfo.cpp" t="Include" />
@@ -48858,6 +48874,14 @@
               </e>
             </e>
           </e>
+          <e p="PlayerControllers" t="Include">
+            <e p="Match" t="Include">
+              <e p="base" t="Include">
+                <e p="MatchPlayerControllerBase.cpp" t="Include" />
+                <e p="MatchPlayerControllerBase.h" t="Include" />
+              </e>
+            </e>
+          </e>
           <e p="Singleton" t="Include">
             <e p="BaseSingleton.cpp" t="Include" />
             <e p="BaseSingleton.h" t="Include" />
@@ -48867,8 +48891,12 @@
           <e p="SpaceWar.h" t="Include" />
           <e p="SpaceWarCharacter.cpp" t="Include" />
           <e p="SpaceWarCharacter.h" t="Include" />
-          <e p="SpaceWarGameMode.cpp" t="Include" />
-          <e p="SpaceWarGameMode.h" t="Include" />
+          <e p="Spectator" t="Include">
+            <e p="base" t="Include">
+              <e p="BaseMatchSpectator.cpp" t="Include" />
+              <e p="BaseMatchSpectator.h" t="Include" />
+            </e>
+          </e>
         </e>
         <e p="SpaceWar.Target.cs" t="Include" />
         <e p="SpaceWarEditor.Target.cs" t="Include" />
