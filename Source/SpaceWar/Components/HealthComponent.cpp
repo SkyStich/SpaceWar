@@ -2,6 +2,8 @@
 
 
 #include "HealthComponent.h"
+#include "SpaceWar/GameModes/Match/Base/MatchGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
@@ -47,7 +49,7 @@ void UHealthComponent::OnPlayerTakePointDamage(AActor* DamagedActor, float Damag
 
 	if(IsOwnerDead())
 	{
-		OnPlayerDead.Broadcast(InstigatedBy, GetOwner()->GetInstigatorController(), DamageCauser);
+		Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->CharDead(InstigatedBy, GetOwner()->GetInstigatorController(), DamageCauser);
 		GetOwner()->SetCanBeDamaged(false);
 	}
 }
@@ -57,18 +59,12 @@ float UHealthComponent::ArmorResist(float Damage)
 	float const TempDamage = CurrentArmor - Damage;
 	if(TempDamage <= 0)
 	{
-		CurrentArmor = 0;
+		ChangeCurrentArmor(CurrentArmor * -1);
 		return TempDamage;
 	}
-	CurrentArmor -= Damage;
+	ChangeCurrentArmor(Damage * -1);
 	return  0.f;
 }
-
-void UHealthComponent::ChangeCurrentArmor(float const Value)
-{
-	CurrentArmor += Value;
-}
-
 bool UHealthComponent::IsOwnerDead()
 {
 	if(CurrentHealth <= 0)
@@ -85,7 +81,23 @@ void UHealthComponent::OnRep_OwnerDead()
 	OnOwnerDead.Broadcast();
 }
 
+void UHealthComponent::ChangeCurrentArmor(float const Value)
+{
+	CurrentArmor += Value;
+}
+
 void UHealthComponent::ChangeCurrentHealth(float const Value)
 {
 	CurrentHealth += Value;
 }
+
+void UHealthComponent::Client_ArmorChanged_Implementation()
+{
+	OnArmorChanged.Broadcast();
+}
+
+void UHealthComponent::Client_HealthChanged_Implementation()
+{
+	OnHealthChanged.Broadcast();
+}
+

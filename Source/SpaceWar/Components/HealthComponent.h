@@ -6,11 +6,12 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
-/** Only for server */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FPlayerDead, AController*, InstigatorController, AController*, LoserController, AActor*, DamageCauser);
-
 /** For All */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOwnerDead);
+
+/** For owning client */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FArmorChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHealthChanged);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SPACEWAR_API UHealthComponent : public UActorComponent
@@ -26,6 +27,12 @@ class SPACEWAR_API UHealthComponent : public UActorComponent
 	void OnRep_OwnerDead();
 
 	bool IsOwnerDead();
+
+	UFUNCTION(Client, Unreliable)
+	void Client_HealthChanged();
+
+	UFUNCTION(Client, Unreliable)
+	void Client_ArmorChanged();
 
 public:	
 	// Sets default values for this component's properties
@@ -69,8 +76,11 @@ private:
 public:
 
 	UPROPERTY(BlueprintAssignable, Category = "HealthComponent|Gelegates")
-	FPlayerDead OnPlayerDead;
+	FOwnerDead OnOwnerDead;
 
 	UPROPERTY(BlueprintAssignable, Category = "HealthComponent|Gelegates")
-	FOwnerDead OnOwnerDead;
+	FHealthChanged OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "HealthComponent|Gelegates")
+	FArmorChanged OnArmorChanged;
 };
