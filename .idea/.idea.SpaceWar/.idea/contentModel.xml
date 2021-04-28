@@ -48882,6 +48882,14 @@
               </e>
             </e>
           </e>
+          <e p="PlayerState" t="Include">
+            <e p="Match" t="Include">
+              <e p="base" t="Include">
+                <e p="PlayerStateMatchBase.cpp" t="Include" />
+                <e p="PlayerStateMatchBase.h" t="Include" />
+              </e>
+            </e>
+          </e>
           <e p="Singleton" t="Include">
             <e p="BaseSingleton.cpp" t="Include" />
             <e p="BaseSingleton.h" t="Include" />

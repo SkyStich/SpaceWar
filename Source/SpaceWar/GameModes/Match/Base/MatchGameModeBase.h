@@ -8,13 +8,17 @@
 
 class ASpaceWarCharacter;
 class AMatchPlayerControllerBase;
+class APlayerStateMatchBase;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FPlayerDead, AController*, InstegatedBy, AController*, LoserController, AActor*, DamageCauser);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchEnded, const FString&, Reason);
 
 UCLASS()
 class SPACEWAR_API AMatchGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+	void TickTime(APlayerStateMatchBase* MatchPlayerState);
 
 public:
 
@@ -24,9 +28,19 @@ public:
 protected:
 
 	virtual APawn* SpawnSpectator(AController* PossessController, const FVector& Location);
+	virtual void LaunchGameTimer();
+	void MatchEnded(const FString& Reason);
+
+	virtual void BeginPlay() override;
 
 public:
 
 	FPlayerDead OnPlayerDead;
-	
+
+	UPROPERTY()
+	FMatchEnded OnMatchEnded;
+
+private:
+
+	FTimerHandle TimeMatchHandle;
 };

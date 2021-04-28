@@ -7,7 +7,16 @@
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
 #include "SpaceWar/SpaceWarCharacter.h"
+#include "SpaceWar/PlayerState/Match/Base/PlayerStateMatchBase.h"
 #include "SpaceWar/Spectator/Base/BaseMatchSpectator.h"
+
+void AMatchGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	LaunchGameTimer();
+
+}
 
 void AMatchGameModeBase::CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)
 {
@@ -64,3 +73,26 @@ void AMatchGameModeBase::SpawnCharacter(AMatchPlayerControllerBase* Controller, 
 		}
 	}
 }
+
+void AMatchGameModeBase::LaunchGameTimer()
+{
+	FTimerDelegate TimerDel;
+	TimerDel.BindUObject(this, &AMatchGameModeBase::TickTime, GetGameState<APlayerStateMatchBase>());
+	GetWorld()->GetTimerManager().SetTimer(TimeMatchHandle, TimerDel, 1.f, true);
+}
+
+void AMatchGameModeBase::TickTime(APlayerStateMatchBase* MatchPlayerState)
+{
+	MatchPlayerState->IncrementTime();
+	if(MatchPlayerState->GetCurrentMatchTime() <= 0)
+	{
+		MatchEnded("Time leave");
+		GetWorld()->GetTimerManager().ClearTimer(TimeMatchHandle);
+	}
+}
+
+void AMatchGameModeBase::MatchEnded(const FString& Reason)
+{
+	OnMatchEnded.Broadcast(Reason);
+}
+
