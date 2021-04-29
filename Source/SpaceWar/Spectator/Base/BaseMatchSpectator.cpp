@@ -42,4 +42,3 @@ void ABaseMatchSpectator::LookUpAtRate(float Rate)
 {
 	AddControllerYawInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
-

@@ -7,7 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
 #include "SpaceWar/SpaceWarCharacter.h"
-#include "SpaceWar/PlayerState/Match/Base/PlayerStateMatchBase.h"
+#include "SpaceWar/GameStates/Base/GameStateMatchGame.h"
 #include "SpaceWar/Spectator/Base/BaseMatchSpectator.h"
 
 void AMatchGameModeBase::BeginPlay()
@@ -77,14 +77,14 @@ void AMatchGameModeBase::SpawnCharacter(AMatchPlayerControllerBase* Controller, 
 void AMatchGameModeBase::LaunchGameTimer()
 {
 	FTimerDelegate TimerDel;
-	TimerDel.BindUObject(this, &AMatchGameModeBase::TickTime, GetGameState<APlayerStateMatchBase>());
+	TimerDel.BindUObject(this, &AMatchGameModeBase::TickTime, GetGameState<AGameStateMatchGame>());
 	GetWorld()->GetTimerManager().SetTimer(TimeMatchHandle, TimerDel, 1.f, true);
 }
 
-void AMatchGameModeBase::TickTime(APlayerStateMatchBase* MatchPlayerState)
+void AMatchGameModeBase::TickTime(AGameStateMatchGame* MatchGameState)
 {
-	MatchPlayerState->IncrementTime();
-	if(MatchPlayerState->GetCurrentMatchTime() <= 0)
+	MatchGameState->IncrementTime();
+	if(MatchGameState->GetCurrentMatchTime() <= 0)
 	{
 		MatchEnded("Time leave");
 		GetWorld()->GetTimerManager().ClearTimer(TimeMatchHandle);
@@ -94,5 +94,12 @@ void AMatchGameModeBase::TickTime(APlayerStateMatchBase* MatchPlayerState)
 void AMatchGameModeBase::MatchEnded(const FString& Reason)
 {
 	OnMatchEnded.Broadcast(Reason);
+}
+
+void AMatchGameModeBase::PostLogin(APlayerController* NewPlayer)
+{
+	Super::PostLogin(NewPlayer);
+
+	OnPlayerPostLogin.Broadcast(NewPlayer);
 }
 

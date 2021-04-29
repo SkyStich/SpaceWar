@@ -6,13 +6,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerState/Match/Base/PlayerStateMatchBase.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerState/Match/Base/PlayerStateMatchBase.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Base/GameStateMatchGame.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Base/GameStateMatchGame.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/BP_MatchGamemode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/BP_MatchGamemode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerState/Match/Base/PlayerStateMatchBase.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerState/Match/Base/PlayerStateMatchBase.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Spectator/Base/BaseMatchSpectator.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Spectator/Base/BaseMatchSpectator.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,13 +59,21 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Spectator/Base/BaseMatchSpectator.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Spectator/Base/BaseMatchSpectator.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerState/Match/Base/PlayerStateMatchBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerState/Match/Base/PlayerStateMatchBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Spectator/Base/BaseMatchSpectator.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Base/GameStateMatchGame.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Base/GameStateMatchGame.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -315,6 +333,9 @@
       <workItem from="1619534080636" duration="6894000" />
       <workItem from="1619544338526" duration="14333000" />
       <workItem from="1619595889716" duration="16395000" />
+      <workItem from="1619696592745" duration="2840000" />
+      <workItem from="1619718585617" duration="8017000" />
+      <workItem from="1619730927889" duration="3698000" />
     </task>
     <servers />
   </component>

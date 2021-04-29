@@ -48852,6 +48852,18 @@
                 <e p="MatchGameModeBase.cpp" t="Include" />
                 <e p="MatchGameModeBase.h" t="Include" />
               </e>
+              <e p="OnlineMatchGameModeBase.cpp" t="Include" />
+              <e p="OnlineMatchGameModeBase.h" t="Include" />
+            </e>
+          </e>
+          <e p="GameStates" t="Include">
+            <e p="base" t="Include">
+              <e p="GameStateMatchGame.cpp" t="Include" />
+              <e p="GameStateMatchGame.h" t="Include" />
+            </e>
+            <e p="Match" t="Include">
+              <e p="OnlinetMatchGameStateBase.cpp" t="Include" />
+              <e p="OnlinetMatchGameStateBase.h" t="Include" />
             </e>
           </e>
           <e p="HUD" t="Include">
@@ -48882,11 +48894,11 @@
               </e>
             </e>
           </e>
-          <e p="PlayerState" t="Include">
+          <e p="PlayerStates" t="Include">
             <e p="Match" t="Include">
               <e p="base" t="Include">
-                <e p="PlayerStateMatchBase.cpp" t="Include" />
-                <e p="PlayerStateMatchBase.h" t="Include" />
+                <e p="OnlinePlayerStateBase.cpp" t="Include" />
+                <e p="OnlinePlayerStateBase.h" t="Include" />
               </e>
             </e>
           </e>
