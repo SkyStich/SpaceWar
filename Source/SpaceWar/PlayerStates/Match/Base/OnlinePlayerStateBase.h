@@ -26,6 +26,7 @@ public:
 	
 	virtual void SetTeam(const ETeam NewTeam);
 
+
 protected:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -34,4 +35,5 @@ private:
 
 	UPROPERTY(Replicated)
 	ETeam PlayerTeam;
+	
 };

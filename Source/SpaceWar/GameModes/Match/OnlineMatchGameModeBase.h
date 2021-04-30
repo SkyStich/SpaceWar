@@ -4,12 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Base/MatchGameModeBase.h"
+#include "SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h"
 #include "OnlineMatchGameModeBase.generated.h"
-
 
 UCLASS()
 class SPACEWAR_API AOnlineMatchGameModeBase : public AMatchGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+
+	void UpdateTamPoints(const int32 Value, ETeam Team);
+	virtual void CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) override;
 	
 };

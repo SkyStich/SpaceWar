@@ -15,3 +15,4 @@ void AOnlinePlayerStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 
 	DOREPLIFETIME(AOnlinePlayerStateBase, PlayerTeam);
 }
+
