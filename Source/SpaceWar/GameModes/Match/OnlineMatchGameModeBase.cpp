@@ -6,7 +6,11 @@
 
 void AOnlineMatchGameModeBase::UpdateTamPoints(const int32 Value, ETeam Team)
 {
-	GetGameState<AOnlinetMatchGameStateBase>()->UpdateTeamPoints(Team, Value);
+	if(GetGameState<AOnlinetMatchGameStateBase>()->UpdateTeamPoints(Team, Value) >= 5)
+	{
+		FString const ReasonMessage = FString::Printf(TEXT("Max amount points. %d - winner"), Team); 
+		MatchEnded(ReasonMessage);
+	}
 }
 
 void AOnlineMatchGameModeBase::CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)

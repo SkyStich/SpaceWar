@@ -46,16 +46,15 @@ void AOnlinetMatchGameStateBase::AutoBalanceTeam()
 	
 }
 
-void AOnlinetMatchGameStateBase::UpdateTeamPoints(ETeam Team, int32 Value)
+int32 AOnlinetMatchGameStateBase::UpdateTeamPoints(ETeam Team, int32 Value)
 {
 	if(Team == ETeam::TeamA)
 	{
 		TeamPointsA += Value;
+		return TeamPointsA;
 	}
-	else if (Team == ETeam::TeamB)
-	{
-		TeamPointsB += Value;
-	}
+	TeamPointsB += Value;
+	return TeamPointsB;
 }
 
 

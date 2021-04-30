@@ -27,7 +27,7 @@ void AMatchGameModeBase::CharDead(AController* InstigatorController, AController
 	auto const LosController = Cast<AMatchPlayerControllerBase>(LoserController);
 	if(LosController)
 	{
-		LosController->LaunchRespawnTimer(5.f);
+		LosController->LaunchRespawnTimer(2.f);
 	}
 }
 

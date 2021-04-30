@@ -18,7 +18,7 @@ public:
 
 	AOnlinetMatchGameStateBase();
 
-	void UpdateTeamPoints(ETeam Team, int32 Value);
+	int32 UpdateTeamPoints(ETeam Team, int32 Value);
 
 	UFUNCTION(BlueprintPure)
 	int32 GetTeamPointsA() const { return TeamPointsA; }
