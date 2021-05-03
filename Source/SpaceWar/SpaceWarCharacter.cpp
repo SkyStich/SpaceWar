@@ -95,17 +95,26 @@ void ASpaceWarCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 
 void ASpaceWarCharacter::CharDead()
 {
-	if(IsLocallyControlled())
+	/*if(IsLocallyControlled())
 	{
 		SkeletalArm->SetVisibility(false);
 		GetMesh()->SetVisibility(true);
-	}
+		WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+	}*/
+	
 	if(GetNetMode() != ENetMode::NM_DedicatedServer)
 	{
 		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 		GetMesh()->SetSimulatePhysics(true);
 	}
+	FTimerHandle DestroyTimerHandle;
+	FTimerDelegate TimerDel;
+	TimerDel.BindLambda([&]() -> void
+	{
+		Destroy();
+	});
+	GetWorld()->GetTimerManager().SetTimer(DestroyTimerHandle, TimerDel, 5.f, false);
 }
 
 void ASpaceWarCharacter::TurnAtRate(float Rate)

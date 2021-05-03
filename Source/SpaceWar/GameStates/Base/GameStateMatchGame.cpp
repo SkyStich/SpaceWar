@@ -2,12 +2,12 @@
 
 
 #include "GameStateMatchGame.h"
-
+#include "Net/UnrealNetwork.h"
 #include "SpaceWar/GameModes/Match/Base/MatchGameModeBase.h"
 
 AGameStateMatchGame::AGameStateMatchGame()
 {
-	MaxMatchTime = 10;
+	MaxMatchTime = 60;
 	CurrentMatchTime = MaxMatchTime;
 }
 
@@ -31,6 +31,8 @@ void AGameStateMatchGame::NewPlayerLogin(APlayerController* PC)
 void AGameStateMatchGame::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AGameStateMatchGame, CurrentMatchTime);
 }
 
 void AGameStateMatchGame::IncrementTime()

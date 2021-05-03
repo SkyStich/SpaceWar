@@ -4,7 +4,7 @@
 #include "OnlineMatchGameModeBase.h"
 #include "SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h"
 
-void AOnlineMatchGameModeBase::UpdateTamPoints(const int32 Value, ETeam Team)
+void AOnlineMatchGameModeBase::UpdateTeamPoints(const int32 Value, ETeam Team)
 {
 	if(GetGameState<AOnlinetMatchGameStateBase>()->UpdateTeamPoints(Team, Value) >= 5)
 	{
@@ -17,7 +17,24 @@ void AOnlineMatchGameModeBase::CharDead(AController* InstigatorController, ACont
 {
 	Super::CharDead(InstigatorController, LoserController, DamageCauser);
 
+	UpdatePlayerStatistics(InstigatorController, LoserController);
+
 	/**Test*/
 	auto const PS = InstigatorController->GetPlayerState<AOnlinePlayerStateBase>();
-	UpdateTamPoints(1, PS->GetPlayerTeam());
+	UpdateTeamPoints(1, PS->GetPlayerTeam());
+}
+
+void AOnlineMatchGameModeBase::UpdatePlayerStatistics(AController* InstigatorController, AController* LoserController)
+{
+	auto const OnlineLoserState = Cast<AOnlinePlayerStateBase>(LoserController->PlayerState);
+	if(!InstigatorController || InstigatorController == LoserController)
+	{
+		OnlineLoserState->DecrementNumberOfMurders();
+		OnlineLoserState->IncrementNumberOfDeaths();
+		return;
+	}
+	auto const OnlineInstigatorState = Cast<AOnlinePlayerStateBase>(InstigatorController->PlayerState);
+
+	OnlineLoserState->IncrementNumberOfDeaths();
+	OnlineInstigatorState->IncrementNumberOfMurders();
 }

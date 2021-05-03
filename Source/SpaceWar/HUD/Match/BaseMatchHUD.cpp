@@ -20,9 +20,71 @@ void ABaseMatchHUD::BeginPlay()
 	Super::BeginPlay();
 
 	MatchWidgetData = AssetData->GetWidgetData(MatchType);
-	auto const Widget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->HUD, GetOwningPlayerController());
-	if(Widget)
+	
+	CreateTabMenu();
+	GetOwningPlayerController()->GetOnNewPawnNotifier().AddUObject(this, &ABaseMatchHUD::NewOwningPlayerPawn);
+}
+
+void ABaseMatchHUD::NewOwningPlayerPawn(APawn* NewPawn)
+{
+	if(GetOwningPlayerController()->GetCharacter())
 	{
-		Widget->AddToViewport();
+		//Character
+		RemoveSpectatorWidgets();
+		CreateCharacterWidgets();
+	}
+	else
+	{
+		//Spectator
+		RemoveCharacterWidgets();
+		CreateSpectatorWidgets();
 	}
 }
+
+void ABaseMatchHUD::CreateTabMenu()
+{
+	TabMenuWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->StatisticMatchGrid, GetOwningPlayerController());
+	TabMenuWidget->AddToViewport();
+	TabMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
+}
+
+void ABaseMatchHUD::CreateCharacterWidgets()
+{
+	MainHudWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->HUD, GetOwningPlayerController());
+	MainHudWidget->AddToViewport();
+}
+
+void ABaseMatchHUD::RemoveCharacterWidgets()
+{
+	if(MainHudWidget)
+	{
+		MainHudWidget->RemoveFromParent();
+		MainHudWidget = nullptr;
+	}
+}
+
+void ABaseMatchHUD::CreateSpectatorWidgets()
+{
+}
+
+void ABaseMatchHUD::RemoveSpectatorWidgets()
+{
+	if(MainHudWidget)
+	{
+		MainHudWidget->RemoveFromParent();
+		MainHudWidget = nullptr;
+	}
+}
+
+void ABaseMatchHUD::ShowTabMenu()
+{
+	TabMenuWidget->SetVisibility(ESlateVisibility::Visible);
+}
+
+void ABaseMatchHUD::HiddenTabMenu()
+{
+	TabMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
+}
+
+
+

@@ -7,12 +7,17 @@
 #include "SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h"
 #include "OnlinetMatchGameStateBase.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNewPlayerPostLogin, APlayerState*, PlayerState);
+
 UCLASS()
 class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame
 {
 	GENERATED_BODY()
 
 	void SetTeamForPlayer(APlayerController* PC);
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void NetMulticast_NewPlayerPostLogin(APlayerState* PlayerState);
 
 public:
 
@@ -33,6 +38,11 @@ protected:
 
 	/** Call if player log out */
 	virtual void AutoBalanceTeam();
+
+public:
+
+	UPROPERTY(BlueprintAssignable, Category = "Delegates")
+	FNewPlayerPostLogin OnNewPlayerPostLogin;
 
 private:
 

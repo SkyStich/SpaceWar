@@ -15,10 +15,21 @@ class SPACEWAR_API ABaseMatchHUD : public AHUD
 protected:
 
 	virtual void BeginPlay() override;
+	virtual void NewOwningPlayerPawn(APawn* NewPawn);
+
+	virtual void CreateCharacterWidgets();
+	virtual void RemoveCharacterWidgets();
+	virtual void CreateSpectatorWidgets();
+	virtual void RemoveSpectatorWidgets();
+	
+	virtual void CreateTabMenu();
 
 public:
 
 	ABaseMatchHUD();
+	
+	void ShowTabMenu();
+	void HiddenTabMenu();
 
 protected:
 	
@@ -27,4 +38,10 @@ protected:
 
 	UPROPERTY()
 	UMatchWidgetDataAsset* AssetData;
+
+	UPROPERTY()
+	UUserWidget* MainHudWidget;
+
+	UPROPERTY()
+	UUserWidget* TabMenuWidget;
 };

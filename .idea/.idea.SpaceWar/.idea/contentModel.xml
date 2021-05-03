@@ -48834,6 +48834,10 @@
       <e p="README.md" t="Include" />
       <e p="Source" t="Include">
         <e p="SpaceWar" t="Include">
+          <e p="BPFLibrary" t="Include">
+            <e p="TimeWorkLibrary.cpp" t="Include" />
+            <e p="TimeWorkLibrary.h" t="Include" />
+          </e>
           <e p="Components" t="Include">
             <e p="EquipableWeaponManager.cpp" t="Include" />
             <e p="EquipableWeaponManager.h" t="Include" />

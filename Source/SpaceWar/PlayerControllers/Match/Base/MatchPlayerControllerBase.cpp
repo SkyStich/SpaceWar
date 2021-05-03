@@ -2,7 +2,7 @@
 
 
 #include "MatchPlayerControllerBase.h"
-
+#include "SpaceWar/HUD/Match/BaseMatchHUD.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 #include "UObject/ConstructorHelpers.h"
@@ -76,5 +76,29 @@ void AMatchPlayerControllerBase::SetupInputComponent()
 	}
 
 	InputComponent->BindAction("SpawnPlayer", IE_Released, this, &AMatchPlayerControllerBase::Server_SpawnPlayerPressed);
+
+	InputComponent->BindAction("TabMenu", IE_Pressed, this, &AMatchPlayerControllerBase::PressTabMenu);
+	InputComponent->BindAction("TabMenu", IE_Released, this, &AMatchPlayerControllerBase::ReleasedTabMenu);
 }
+
+void AMatchPlayerControllerBase::OnRep_Pawn()
+{
+	Super::OnRep_Pawn();
+	
+	if(GetLocalRole() != ROLE_Authority)
+	{
+		OnNewPawn.Broadcast(GetPawn());
+	}
+}
+
+void AMatchPlayerControllerBase::PressTabMenu()
+{
+	GetHUD<ABaseMatchHUD>()->ShowTabMenu();
+}
+
+void AMatchPlayerControllerBase::ReleasedTabMenu()
+{
+	GetHUD<ABaseMatchHUD>()->HiddenTabMenu();
+}
+
 

@@ -16,6 +16,8 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController
 	UFUNCTION(Server, Unreliable)
 	void Server_SpawnPlayerPressed();
 
+	void PressTabMenu();
+	void ReleasedTabMenu();
 public:
 
 	AMatchPlayerControllerBase();
@@ -32,6 +34,7 @@ protected:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void SetupInputComponent() override;
+	virtual void OnRep_Pawn() override;
 
 private:
 

@@ -15,6 +15,8 @@ void AOnlinetMatchGameStateBase::NewPlayerLogin(APlayerController* PC)
 	Super::NewPlayerLogin(PC);
 
 	SetTeamForPlayer(PC);
+	
+	NetMulticast_NewPlayerPostLogin(PC->PlayerState);
 }
 
 void AOnlinetMatchGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -56,5 +58,11 @@ int32 AOnlinetMatchGameStateBase::UpdateTeamPoints(ETeam Team, int32 Value)
 	TeamPointsB += Value;
 	return TeamPointsB;
 }
+
+void AOnlinetMatchGameStateBase::NetMulticast_NewPlayerPostLogin_Implementation(APlayerState* PlayerState)
+{
+	OnNewPlayerPostLogin.Broadcast(PlayerState);
+}
+
 
 
