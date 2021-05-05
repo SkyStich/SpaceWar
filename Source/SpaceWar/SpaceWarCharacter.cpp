@@ -95,13 +95,11 @@ void ASpaceWarCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 
 void ASpaceWarCharacter::CharDead()
 {
-	/*if(IsLocallyControlled())
-	{
-		SkeletalArm->SetVisibility(false);
-		GetMesh()->SetVisibility(true);
-		WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
-	}*/
-	
+	SkeletalArm->SetVisibility(false);
+    GetMesh()->SetVisibility(true);
+    WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    		
 	if(GetNetMode() != ENetMode::NM_DedicatedServer)
 	{
 		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);

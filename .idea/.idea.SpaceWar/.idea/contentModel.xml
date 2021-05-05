@@ -48834,6 +48834,14 @@
       <e p="README.md" t="Include" />
       <e p="Source" t="Include">
         <e p="SpaceWar" t="Include">
+          <e p="Actors" t="Include">
+            <e p="Match" t="Include">
+              <e p="TeamPoints" t="Include">
+                <e p="TeamPoints.cpp" t="Include" />
+                <e p="TeamPoints.h" t="Include" />
+              </e>
+            </e>
+          </e>
           <e p="BPFLibrary" t="Include">
             <e p="TimeWorkLibrary.cpp" t="Include" />
             <e p="TimeWorkLibrary.h" t="Include" />
