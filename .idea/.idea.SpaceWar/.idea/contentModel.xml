@@ -48851,6 +48851,8 @@
             <e p="EquipableWeaponManager.h" t="Include" />
             <e p="HealthComponent.cpp" t="Include" />
             <e p="HealthComponent.h" t="Include" />
+            <e p="JetpackComponent.cpp" t="Include" />
+            <e p="JetpackComponent.h" t="Include" />
           </e>
           <e p="DataAssets" t="Include">
             <e p="MatchWidgetDataAsset.cpp" t="Include" />

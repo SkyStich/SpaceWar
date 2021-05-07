@@ -30,11 +30,6 @@ ATeamPoints::ATeamPoints()
 
 	PointCaptureCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Point collision"));
 	PointCaptureCollision->SetupAttachment(RootComponent);
-	
-	
-	TeamOwnershipCollision = CreateDefaultSubobject<USphereComponent>(TEXT("TeamOwnershipCollision"));
-	TeamOwnershipCollision->SetupAttachment(RootComponent);
-	TeamOwnershipCollision->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
 }
 
 // Called when the game starts or when spawned

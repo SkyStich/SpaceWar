@@ -7,6 +7,7 @@
 #include "Components/EquipableWeaponManager.h"
 #include "Interfaces/GetDamageCauserInfo.h"
 #include "Components/HealthComponent.h"
+#include "Components/JetpackComponent.h"
 #include "SpaceWarCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -19,6 +20,9 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo
 
 	UFUNCTION()
 	void CharDead();
+
+	UFUNCTION(Server, Unreliable)
+	void Server_UseJetpack();
 
 public:
 	ASpaceWarCharacter();
@@ -47,6 +51,10 @@ protected:
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	
+	
+	UFUNCTION(BlueprintCallable)
+	void UseJetpackPressed();
 
 public:
 
@@ -75,6 +83,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = SkeletalMesh, meta = (AllowPrivateAccess = "true"))
 	UHealthComponent* HealthComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = SkeletalMesh, meta = (AllowPrivateAccess = "true"))
+	UJetpackComponent* JetpackComponent;
 
 private:
 

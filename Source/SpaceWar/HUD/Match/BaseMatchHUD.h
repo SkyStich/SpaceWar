@@ -28,6 +28,9 @@ public:
 
 	ABaseMatchHUD();
 	
+	UFUNCTION(BlueprintPure)
+	UUserWidget* GetMainWidget() const { return MainHudWidget; }
+	 
 	void ShowTabMenu();
 	void HiddenTabMenu();
 

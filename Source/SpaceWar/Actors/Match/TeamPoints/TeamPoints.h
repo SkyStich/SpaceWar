@@ -49,12 +49,8 @@ protected:
 	
 private:
 
-	UPROPERTY(EditAnywhere, Category = "Collision")
+	UPROPERTY(VisibleAnywhere, Category = "Collision")
 	class UBoxComponent* PointCaptureCollision;
-
-	/**  The enemy team will not be able to appear within the currents or use any special technique */
-	UPROPERTY(EditAnywhere, Category = "Collision")
-	class USphereComponent* TeamOwnershipCollision;
 	
 	UPROPERTY(ReplicatedUsing = OnRep_TeamPoints)
 	ETeam OwnerTeam;

@@ -18,10 +18,6 @@ void AOnlineMatchGameModeBase::CharDead(AController* InstigatorController, ACont
 	Super::CharDead(InstigatorController, LoserController, DamageCauser);
 
 	UpdatePlayerStatistics(InstigatorController, LoserController);
-
-	/**Test*/
-	auto const PS = InstigatorController->GetPlayerState<AOnlinePlayerStateBase>();
-	UpdateTeamPoints(1, PS->GetPlayerTeam());
 }
 
 void AOnlineMatchGameModeBase::UpdatePlayerStatistics(AController* InstigatorController, AController* LoserController)

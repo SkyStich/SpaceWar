@@ -44,6 +44,8 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	WeaponManager = CreateDefaultSubobject<UEquipableWeaponManager>(TEXT("Weapon manager"));
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
+
+	JetpackComponent = CreateDefaultSubobject<UJetpackComponent>(TEXT("JetpackComponent"));
 }
 
 void ASpaceWarCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -171,4 +173,18 @@ void ASpaceWarCharacter::GetCauserInfo_Implementation(FDamageCauserInfo& DamageC
 	DamageCauserInfo.CauserName = WeaponManager->GetCurrentWeapon()->GetWeaponData().WeaponName;
 }
 
+void ASpaceWarCharacter::UseJetpackPressed()
+{
+	if(JetpackComponent->IsAbleToUseJetpack())
+	{
+		Server_UseJetpack();
+	}
+}
+
+void ASpaceWarCharacter::Server_UseJetpack_Implementation()
+{
+	FVector Location;
+	JetpackComponent->StartUseJetpack(Controller->GetControlRotation().Vector(), Location);
+	LaunchCharacter(Location, true, false);
+}
 
