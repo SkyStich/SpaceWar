@@ -5,6 +5,8 @@
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "Engine/ActorChannel.h"
 #include "Net/UnrealNetwork.h"
+#include "SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.h"
+
 // Sets default values for this component's properties
 UEquipableWeaponManager::UEquipableWeaponManager()
 {
@@ -28,7 +30,11 @@ bool UEquipableWeaponManager::ReplicateSubobjects(UActorChannel* Channel, FOutBu
 {
 	bool ParentReturn = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);
 
-	if(CurrentWeapon) ParentReturn = Channel->ReplicateSubobject(CurrentWeapon, *Bunch, *RepFlags);
+	TArray<UObject*> ReplicationArray;
+	if(CurrentWeapon) ReplicationArray.Add(CurrentWeapon);
+	if(ThrowWeaponBase) ReplicationArray.Add(ThrowWeaponBase);
+
+	if(ThrowWeaponBase) ParentReturn = Channel->ReplicateSubobjectList(ReplicationArray, *Bunch, *RepFlags);
 	return ParentReturn;
 }
 
@@ -38,10 +44,11 @@ void UEquipableWeaponManager::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 
 	DOREPLIFETIME(UEquipableWeaponManager, CurrentWeapon);
 	DOREPLIFETIME(UEquipableWeaponManager, bWeaponSelect);
+	DOREPLIFETIME(UEquipableWeaponManager, ThrowWeaponBase);
 	DOREPLIFETIME_CONDITION(UEquipableWeaponManager, Weapons, COND_OwnerOnly);
 }
 
-UBaseWeaponObject* UEquipableWeaponManager::CreateWeaponByName(const FName& Name, EWeaponType Type)
+URangeWeaponObjectBase* UEquipableWeaponManager::CreateWeaponByName(const FName& Name, EWeaponType Type)
 {
 	if(!WeaponDataAsset)
 	{
@@ -53,12 +60,12 @@ UBaseWeaponObject* UEquipableWeaponManager::CreateWeaponByName(const FName& Name
 	return TempWeapon;
 }
 
-void UEquipableWeaponManager::AddWeaponToStorage(EWeaponType Key, UBaseWeaponObject* Value)
+void UEquipableWeaponManager::AddWeaponToStorage(EWeaponType Key, URangeWeaponObjectBase* Value)
 {
 	Weapons.Add(Key, Value);
 }
 
-void UEquipableWeaponManager::SetCurrentWeapon(UBaseWeaponObject* NewWeapon)
+void UEquipableWeaponManager::SetCurrentWeapon(URangeWeaponObjectBase* NewWeapon)
 {
 	CurrentWeapon = NewWeapon;
 	OnRep_CurrentWeapon();
@@ -76,13 +83,11 @@ void UEquipableWeaponManager::OnRep_WeaponSelect()
 
 void UEquipableWeaponManager::SelectWeapon(EWeaponType NewType)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("StartSelect"));
 	auto const NewWeapon = Weapons.FindRef(NewType);
 	if(!NewWeapon) return;
 
 	if(NewWeapon != CurrentWeapon)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("Continue"));
 		bWeaponSelect = true;
 		OnRep_WeaponSelect();
 		FTimerDelegate TimerDel;
@@ -91,7 +96,7 @@ void UEquipableWeaponManager::SelectWeapon(EWeaponType NewType)
 	}
 }
 
-void UEquipableWeaponManager::FinishWeaponSelect(UBaseWeaponObject* NewWeapon)
+void UEquipableWeaponManager::FinishWeaponSelect(URangeWeaponObjectBase* NewWeapon)
 {
 	SetCurrentWeapon(NewWeapon);
 	bWeaponSelect = false;
@@ -112,4 +117,15 @@ void UEquipableWeaponManager::OwnerWeaponSelect(EWeaponType NewType)
 	{
 		Server_SelectWeapon(NewType);
 	}
+}
+
+bool UEquipableWeaponManager::CreateThrow(const FName Name)
+{
+	if(!WeaponDataAsset)
+	{
+		UE_LOG(LogActorComponent, Error, TEXT("-- DataAsset is null: CreateThrow"), *GetFullName());
+		return false;
+	}
+	ThrowWeaponBase = WeaponDataAsset->CreateThrowWeaponObject(Name, GetWorld(), GetOwner());
+	return ThrowWeaponBase != nullptr;
 }

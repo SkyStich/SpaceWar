@@ -16,17 +16,14 @@ URangeWeaponObjectBase::URangeWeaponObjectBase()
 
 void URangeWeaponObjectBase::BeginPlay()
 {
-	Super::BeginPlay();
-
-	
+	Super::BeginPlay();	
 }
 
 void URangeWeaponObjectBase::Init(const FEquipWeaponData& NewData)
-{
-	Super::Init(NewData);
-	
+{	
 	if(IsAuthority())
     {
+		WeaponData = NewData;
     	CurrentAmmoInWeapon = WeaponData.MaxAmmoInWeapon;
     	CurrentAmmoInStorage = WeaponData.MaxAmmoInStorage;
     }
@@ -39,6 +36,7 @@ void URangeWeaponObjectBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, CurrentAmmoInStorage, COND_OwnerOnly);
 	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, CurrentAmmoInWeapon, COND_OwnerOnly);
 	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, bReloading, COND_SkipOwner);
+	DOREPLIFETIME(URangeWeaponObjectBase, WeaponData);
 }
 
 void URangeWeaponObjectBase::OnWeaponSelectingEvent(bool NewState)
@@ -58,6 +56,8 @@ bool URangeWeaponObjectBase::UseWeapon()
 		CurrentAmmoInWeapon--;
 	}
 
+	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &URangeWeaponObjectBase::StopRateDelay, WeaponData.DelayBeforeUse, false);
+
 	FHitResult OutHit;
 	DropLineTrace(OutHit);
 
@@ -67,6 +67,16 @@ bool URangeWeaponObjectBase::UseWeapon()
 	}
 	
 	return true;
+}
+
+void URangeWeaponObjectBase::StopRateDelay()
+{
+	GetWorld()->GetTimerManager().ClearTimer(UseWeaponHandle);
+
+	if(WeaponData.bCanAutoFire && bWeaponUsed)
+	{
+		UseWeapon();
+	}
 }
 
 void URangeWeaponObjectBase::StopUseWeapon()
@@ -128,7 +138,6 @@ void URangeWeaponObjectBase::ReloadStart()
 {
 	if(IsAbleToReload())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("ReloadStart"));
 		bReloading = true;
 		OnRep_Reload();
 		GetWorld()->GetTimerManager().SetTimer(ReloadHandle, this, &URangeWeaponObjectBase::ReloadStop, WeaponData.ReloadTime, false);
@@ -139,7 +148,7 @@ void URangeWeaponObjectBase::ReloadStop()
 {
 	GetWorld()->GetTimerManager().ClearTimer(ReloadHandle);
 	bReloading = false;
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("ReloadStop"));
+
 	if(CharacterOwner->Controller)
 	{
 		int32 const NeedToMaxAmmo = WeaponData.MaxAmmoInWeapon - CurrentAmmoInWeapon;

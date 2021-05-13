@@ -24,6 +24,7 @@ void UHealthComponent::BeginPlay()
 	if(GetOwnerRole() == ROLE_Authority)
 	{
 		GetOwner()->OnTakePointDamage.AddDynamic(this, &UHealthComponent::OnPlayerTakePointDamage);
+		GetOwner()->OnTakeRadialDamage.AddDynamic(this, &UHealthComponent::OnPlayerTakeRadialDamage);
 	}
 }
 
@@ -38,7 +39,15 @@ void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 void UHealthComponent::OnPlayerTakeRadialDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, FVector Origin, FHitResult HitInfo, AController* InstigatedBy, AActor* DamageCauser)
 {
-	
+	float const NewDamage = ArmorResist(Damage);
+
+	ChangeCurrentHealth(NewDamage);
+
+	if(IsOwnerDead())
+	{
+		Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->CharDead(InstigatedBy, GetOwner()->GetInstigatorController(), DamageCauser);
+		GetOwner()->SetCanBeDamaged(false);
+	}
 }
 
 void UHealthComponent::OnPlayerTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
@@ -88,6 +97,8 @@ void UHealthComponent::ChangeCurrentArmor(float const Value)
 
 void UHealthComponent::ChangeCurrentHealth(float const Value)
 {
+	if(Value == 0) return;
+	
 	CurrentHealth += Value;
 }
 

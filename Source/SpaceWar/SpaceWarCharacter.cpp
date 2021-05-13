@@ -156,16 +156,21 @@ USkeletalMeshComponent* ASpaceWarCharacter::GetLocalMesh() const
 	return IsLocallyControlled() ? SkeletalArm : GetMesh();
 }
 
-void ASpaceWarCharacter::UpdateWeaponMesh(UBaseWeaponObject* Weapon)
+void ASpaceWarCharacter::SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr)
 {
-	TAssetPtr<USkeletalMesh> TempMesh = Weapon->GetWeaponMesh();
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Update"));
-	if(TempMesh.IsPending())
+	if(MeshPtr.IsPending())
 	{
-		FSoftObjectPath Ref = TempMesh.ToSoftObjectPath();
-		TempMesh = Cast<USkeletalMesh>(UBaseSingleton::Get().AssetLoader.LoadSynchronous(Ref));
+		FSoftObjectPath Ref = MeshPtr.ToSoftObjectPath();
+		MeshPtr = Cast<USkeletalMesh>(UBaseSingleton::Get().AssetLoader.LoadSynchronous(Ref));
 	}
-	WeaponMesh->SetSkeletalMesh(TempMesh.Get());
+	WeaponMesh->SetSkeletalMesh(MeshPtr.Get());
+}
+
+void ASpaceWarCharacter::UpdateWeaponMesh(URangeWeaponObjectBase* Weapon)
+{
+	if(!Weapon) return;
+	SyncLoadMesh(Weapon->GetWeaponMesh());
 }
 
 void ASpaceWarCharacter::GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo)

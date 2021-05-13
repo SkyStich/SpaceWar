@@ -17,36 +17,22 @@ class SPACEWAR_API UBaseWeaponObject : public UObject
 {
 	GENERATED_BODY()
 	
-	UFUNCTION(Server, Unreliable)
-    void Server_StartUseWeapon();
-	
-	UFUNCTION(Server, Unreliable)
-    void Server_StopUseWeapon();
-
-	UFUNCTION(NetMulticast, Unreliable)
-	void NetMulticast_StartUseWeapon();
-
-	UFUNCTION(NetMulticast, Unreliable)
-	void NetMulticast_StopUseWeapon();
-	
 public:
 
 	UBaseWeaponObject();
 
 	void SetCharacterOwner(ASpaceWarCharacter* NewOwner);
-
-	virtual void Init(const FEquipWeaponData& NewData);
-
-	TAssetPtr<USkeletalMesh> GetWeaponMesh() { return WeaponData.ItemMesh; }
+	bool GetWeaponUsed() const { return bWeaponUsed; }
 	
 	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
-	void OwnerStartUseWeapon();
+	virtual void OwnerStartUseWeapon();
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
-	void OwnerStopUseWeapon();
-
-	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
-	FEquipWeaponData GetWeaponData() const { return WeaponData; }
+	virtual void OwnerStopUseWeapon();
+	
+	virtual TAssetPtr<USkeletalMesh> GetWeaponMesh() { return nullptr; }
+	
+	virtual void StopUseWeapon();
 	
 protected:
 
@@ -55,6 +41,18 @@ protected:
 
 	UFUNCTION()
 	virtual void OnWeaponSelectingEvent(bool NewState);
+	
+	UFUNCTION(Server, Unreliable)
+	virtual void Server_StartUseWeapon();
+	
+	UFUNCTION(Server, Unreliable)
+    virtual void Server_StopUseWeapon();
+
+	UFUNCTION(NetMulticast, Unreliable)
+    virtual void NetMulticast_StartUseWeapon();
+
+	UFUNCTION(NetMulticast, Unreliable)
+    virtual void NetMulticast_StopUseWeapon();
 
 	virtual void PostInitProperties() override;
 	virtual void BeginPlay();
@@ -70,10 +68,6 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	virtual bool UseWeapon();
-	virtual void StopUseWeapon();
-
-	/** Clear weapon timer used */
-	virtual void StopRateDelay();
 
 	virtual bool IsAbleToUseWeapon();
 
@@ -86,9 +80,6 @@ protected:
 
 	UPROPERTY(ReplicatedUsing = OnRep_CharOwner)
 	ASpaceWarCharacter* CharacterOwner;
-	
-	UPROPERTY(Replicated)
-	FEquipWeaponData WeaponData;
 
 	UPROPERTY(Replicated);
 	bool bWeaponUsed;

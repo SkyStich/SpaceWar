@@ -2,7 +2,8 @@
 
 
 #include "WeaponDataAsset.h"
-#include "../Objects/Weapons/Base/BaseWeaponObject.h"
+#include "../Objects/Weapons/Base/RangeWeaponObjectBase.h"
+#include "SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.h"
 #include "../Singleton/BaseSingleton.h"
 
 USkeletalMesh* UWeaponDataAsset::GetWeaponMesh(TAssetPtr<USkeletalMesh> ItemMesh) const
@@ -16,19 +17,51 @@ USkeletalMesh* UWeaponDataAsset::GetWeaponMesh(TAssetPtr<USkeletalMesh> ItemMesh
 	return ItemMesh.Get();
 }
 
+FBaseThrowData UWeaponDataAsset::GetThrowData(const FName& WeaponName) const
+{
+	return ThrowWeaponData.FindRef(WeaponName);
+}
+
 FEquipWeaponData UWeaponDataAsset::GetEquipWeaponData(const FName& WeaponName) const
 {
 	return EquipWeaponData.FindRef(WeaponName);
 }
 
-UBaseWeaponObject* UWeaponDataAsset::CreateWeaponObject(const FName& WeaponName, UObject* WorldContext, UObject* Outer)
+UThrowWeaponBase* UWeaponDataAsset::CreateThrowWeaponObject(const FName& WeaponName, UObject* WorldContext, UObject* Outer)
+{
+	auto const TempData = GetThrowData(WeaponName);
+	auto const TempMesh = TempData.WeaponObject;
+
+	if(TempMesh.IsNull())
+	{
+		FString const InstigatorName = WorldContext != nullptr ? *WorldContext->GetFullName() : TEXT("Unknown");
+		UE_LOG(LogAssetData, Error, TEXT("UWeaponDataAsset::CreateThrowWeaponObject -- Asset ptr is null for : %s"), *InstigatorName);
+		return nullptr;
+	}
+
+	/** Load asset to memory */
+	FStreamableManager& AssetLoader = UBaseSingleton::Get().AssetLoader;
+	FSoftObjectPath const Ref = TempMesh.ToSoftObjectPath();
+	AssetLoader.LoadSynchronous(Ref);
+
+	/** Load object and check that it has desired class */
+	UClass* Type = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), Outer, *Ref.ToString()));
+
+	if(Type == nullptr) return nullptr;
+
+	auto const ObjectThrow = NewObject<UThrowWeaponBase>(Outer, Type);
+	ObjectThrow->Init(TempData);
+	return ObjectThrow;
+}
+
+URangeWeaponObjectBase* UWeaponDataAsset::CreateWeaponObject(const FName& WeaponName, UObject* WorldContext, UObject* Outer)
 {
 	auto const TempData = GetEquipWeaponData(WeaponName);
 	auto const TempMesh = TempData.WeaponObject;
 	if(TempMesh.IsNull())
 	{
 		FString const InstigatorName = WorldContext != nullptr ? *WorldContext->GetFullName() : TEXT("Unknown");
-		UE_LOG(LogAssetData, Error, TEXT("UMyAssetLibrary::SyncCreateObject -- Asset ptr is null for: %s"), *InstigatorName);
+		UE_LOG(LogAssetData, Error, TEXT("UWeaponDataAsset::CreateWeaponObject -- Asset ptr is null for: %s"), *InstigatorName);
 		return nullptr;
 	}
 	/** Load sync assert in memory */
@@ -41,7 +74,7 @@ UBaseWeaponObject* UWeaponDataAsset::CreateWeaponObject(const FName& WeaponName,
 
 	if(WeaponType == nullptr) return nullptr;
 
-	auto const Weapon = NewObject<UBaseWeaponObject>(Outer, WeaponType);
+	auto const Weapon = NewObject<URangeWeaponObjectBase>(Outer, WeaponType);
 	Weapon->Init(TempData);
 	return Weapon;
 }

@@ -16,7 +16,7 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo
 	GENERATED_BODY()
 
 	UFUNCTION()
-	void UpdateWeaponMesh(UBaseWeaponObject* Weapon);
+	void UpdateWeaponMesh(URangeWeaponObjectBase* Weapon);
 
 	UFUNCTION()
 	void CharDead();
@@ -24,10 +24,12 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo
 	UFUNCTION(Server, Unreliable)
 	void Server_UseJetpack();
 
+	void SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr);
+
 public:
 	ASpaceWarCharacter();
 
-	void GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo) override;
+	virtual void GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo) override;
 
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
@@ -37,6 +39,9 @@ public:
 	FORCEINLINE UEquipableWeaponManager* GetWeaponManager() const { return WeaponManager; }
 
 	virtual void OnConstruction(const FTransform& Transform) override;
+	
+	UFUNCTION(BlueprintCallable, Category = "Character|Getting")
+	USkeletalMeshComponent* GetWeaponMesh() const { return WeaponMesh; }
 
 protected:
 	

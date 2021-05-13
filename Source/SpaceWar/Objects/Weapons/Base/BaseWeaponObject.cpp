@@ -32,7 +32,6 @@ void UBaseWeaponObject::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(UBaseWeaponObject, CharacterOwner);
-	DOREPLIFETIME(UBaseWeaponObject, WeaponData);
 	DOREPLIFETIME_CONDITION(UBaseWeaponObject, bWeaponUsed, COND_SkipOwner);
 }
 
@@ -56,11 +55,6 @@ void UBaseWeaponObject::OnWeaponSelectingEvent(bool NewState)
 	StopUseWeapon();
 }
 
-void UBaseWeaponObject::Init(const FEquipWeaponData& NewData)
-{
-	WeaponData = NewData;
-}
-
 void UBaseWeaponObject::SetCharacterOwner(ASpaceWarCharacter* NewOwner)
 {
 	CharacterOwner = NewOwner;
@@ -75,26 +69,12 @@ void UBaseWeaponObject::OnRep_CharOwner()
 
 bool UBaseWeaponObject::IsAbleToUseWeapon()
 {
-	return !GetWorld()->GetTimerManager().IsTimerActive(UseWeaponHandle) && !CharacterOwner->GetWeaponManager()->GetWeaponSelect();
+	return !GetWorld()->GetTimerManager().IsTimerActive(UseWeaponHandle) && !CharacterOwner->GetWeaponManager()->GetWeaponSelect() && !CharacterOwner->GetWeaponManager()->GetThrowUsed();
 }
 
 bool UBaseWeaponObject::UseWeapon()
 {
-	if(!IsAbleToUseWeapon()) return false;
-
-	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &UBaseWeaponObject::StopRateDelay, WeaponData.DelayBeforeUse, false);
-
-	return true;
-}
-
-void UBaseWeaponObject::StopRateDelay()
-{
-	GetWorld()->GetTimerManager().ClearTimer(UseWeaponHandle);
-
-	if(WeaponData.bCanAutoFire && bWeaponUsed)
-	{
-		UseWeapon();
-	}
+	return IsAbleToUseWeapon();
 }
 
 void UBaseWeaponObject::StopUseWeapon()
@@ -110,11 +90,8 @@ void UBaseWeaponObject::Server_StartUseWeapon_Implementation()
 
 void UBaseWeaponObject::Server_StopUseWeapon_Implementation()
 {
-	if(bWeaponUsed)
-	{
-		StopUseWeapon();
-		NetMulticast_StopUseWeapon();
-	}
+	StopUseWeapon();
+	NetMulticast_StopUseWeapon();
 }
 
 void UBaseWeaponObject::OwnerStartUseWeapon()

@@ -34,7 +34,9 @@ public:
 
 	URangeWeaponObjectBase();
 
-	virtual void Init(const FEquipWeaponData& NewData) override;
+	virtual void Init(const FEquipWeaponData& NewData);
+
+	virtual TAssetPtr<USkeletalMesh> GetWeaponMesh() override { return WeaponData.ItemMesh; }
 	
 	UFUNCTION(BlueprintPure)
 	int32 GetCurrentAmmo() const { return CurrentAmmoInWeapon; }
@@ -44,6 +46,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon|Button")
 	void OwnerReload();
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	FEquipWeaponData GetWeaponData() const { return WeaponData; }
 
 protected:
 
@@ -56,6 +61,9 @@ protected:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
+
+	/** Clear weapon timer used */
+	virtual void StopRateDelay();
 
 private:
 
@@ -70,6 +78,11 @@ private:
 	
 	FTimerHandle ReloadHandle;
 
+protected:
+		
+	UPROPERTY(Replicated)
+	FEquipWeaponData WeaponData;
+	
 public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Weapon|Delegate")

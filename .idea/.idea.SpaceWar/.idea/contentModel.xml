@@ -48836,6 +48836,16 @@
         <e p="SpaceWar" t="Include">
           <e p="Actors" t="Include">
             <e p="Match" t="Include">
+              <e p="Projectile" t="Include">
+                <e p="Throw" t="Include">
+                  <e p="base" t="Include">
+                    <e p="BaseThrowProjectile.cpp" t="Include" />
+                    <e p="BaseThrowProjectile.h" t="Include" />
+                  </e>
+                  <e p="BaseGrenadeProjectile.cpp" t="Include" />
+                  <e p="BaseGrenadeProjectile.h" t="Include" />
+                </e>
+              </e>
               <e p="TeamPoints" t="Include">
                 <e p="TeamPoints.cpp" t="Include" />
                 <e p="TeamPoints.h" t="Include" />
@@ -48898,6 +48908,12 @@
                 <e p="RangeWeaponObjectBase.cpp" t="Include" />
                 <e p="RangeWeaponObjectBase.h" t="Include" />
               </e>
+            </e>
+            <e p="WeaponsThrow" t="Include">
+              <e p="BaseGrenadeObject.cpp" t="Include" />
+              <e p="BaseGrenadeObject.h" t="Include" />
+              <e p="ThrowWeaponBase.cpp" t="Include" />
+              <e p="ThrowWeaponBase.h" t="Include" />
             </e>
           </e>
           <e p="PlayerControllers" t="Include">

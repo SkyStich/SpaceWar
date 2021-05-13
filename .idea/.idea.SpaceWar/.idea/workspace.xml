@@ -6,28 +6,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/MiniMap/Blueprints/Components/BP_IconMiniMapComponent.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/MiniMap/DataTables/DT_MiniMapIconData.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/MiniMap/Enums/EMiniMapIconType.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/MiniMap/Interfaces/BPI_WidgetComponent.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/MiniMap/MapTextures/Testmap/TestMapMaterial.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/MiniMap/MapTextures/Testmap/TestMapRender.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/MiniMap/MiniMapParamCollection/MapDataCollection.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/MiniMap/Structs/FMiniMapIconData.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Interfaces/BPI_WidgetInterface.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MiniMap/W_Minimap.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MiniMap/W_PlayerIcon.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/JetpackComponent.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/JetpackComponent.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/Assets/Weapons/Grenade/NewFolder/Boom/Grenade.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/Assets/Weapons/Grenade/NewFolder/Boom/Grenade_PhysicsAsset.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/Assets/Weapons/Grenade/NewFolder/Boom/Grenade_Skeleton.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/Assets/Weapons/Grenade/NewFolder/Boom/textures/wire_115115115_AO.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/Assets/Weapons/Grenade/NewFolder/Boom/textures/wire_115115115_albedo.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/Assets/Weapons/Grenade/NewFolder/Boom/textures/wire_115115115_emissive.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/Assets/Weapons/Grenade/NewFolder/Boom/textures/wire_115115115_metallic.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/Assets/Weapons/Grenade/NewFolder/Boom/textures/wire_115115115_normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/Assets/Weapons/Grenade/NewFolder/Boom/textures/wire_115115115_roughness.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/Assets/Weapons/Grenade/NewFolder/Boom/wire_115115115.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Actors/Projectiles/ThrowWeapon/BP_GrenadeProjectile.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/Base/BaseThrowProjectile.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/Base/BaseThrowProjectile.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/BaseGrenadeProjectile.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/BaseGrenadeProjectile.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/BaseGrenadeObject.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/BaseGrenadeObject.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_MatchHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_MatchHUD.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataAssets/EquipWeaponDataAsset.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataAssets/EquipWeaponDataAsset.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/Ammo/W_AmmoStats.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/Ammo/W_AmmoStats.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" afterDir="false" />
     </list>
@@ -40,28 +49,20 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../../Epic Games/UE_4.26/Engine/Source/Runtime/Engine/Classes/Engine/SkeletalMesh.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../Epic Games/UE_4.26/Engine/Source/Runtime/Engine/Classes/GameFramework/GameModeBase.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../Epic Games/UE_4.26/Engine/Source/Runtime/Engine/Private/KismetSystemLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../Epic Games/UE_4.26/Engine/Source/Runtime/Engine/Classes/Engine/SkeletalMesh.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/Source/SpaceWar/Singleton/BaseSingleton.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Singleton/BaseSingleton.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Interfaces/GetDamageCauserInfo.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Interfaces/GetDamageCauserInfo.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWar.Build.cs" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/MatchWidgetDataAsset.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/MatchWidgetDataAsset.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Spectator/Base/BaseMatchSpectator.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerState/Match/Base/PlayerStateMatchBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerState/Match/Base/PlayerStateMatchBase.h" />
@@ -85,9 +86,26 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/JetpackComponent.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/JetpackComponent.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/BaseGrenadeObject.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/Base/BaseThrowProjectile.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/Base/BaseThrowProjectile.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/BaseGrenadeProjectile.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/BaseGrenadeProjectile.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/BaseGrenadeObject.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -362,6 +380,23 @@
       <workItem from="1620228549422" duration="6543000" />
       <workItem from="1620240796685" duration="2905000" />
       <workItem from="1620292793853" duration="1272000" />
+      <workItem from="1620477139915" duration="8673000" />
+      <workItem from="1620499342614" duration="2568000" />
+      <workItem from="1620504501320" duration="5809000" />
+      <workItem from="1620514495820" duration="5866000" />
+      <workItem from="1620581210050" duration="2636000" />
+      <workItem from="1620603619554" duration="3954000" />
+      <workItem from="1620639839038" duration="2650000" />
+      <workItem from="1620644460199" duration="37000" />
+      <workItem from="1620644587857" duration="12908000" />
+      <workItem from="1620667314781" duration="5933000" />
+      <workItem from="1620675357279" duration="851000" />
+      <workItem from="1620688947976" duration="6743000" />
+      <workItem from="1620721488330" duration="13074000" />
+      <workItem from="1620747641531" duration="10015000" />
+      <workItem from="1620776404283" duration="2084000" />
+      <workItem from="1620815303979" duration="6474000" />
+      <workItem from="1620862531197" duration="850000" />
     </task>
     <servers />
   </component>
