@@ -34,9 +34,6 @@ struct FBaseWeaponData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Base")
 	TAssetPtr<USkeletalMesh> ItemMesh;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Equipable")
-	TSubclassOf<ABaseThrowProjectile> ProjectileClass;
 };
 
 USTRUCT()
@@ -52,7 +49,7 @@ struct FBaseThrowData : public FBaseWeaponData
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Base")
 	int32 MaxAmount;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Equipable")
 	TSoftClassPtr<UThrowWeaponBase>WeaponObject;
 };
@@ -68,6 +65,9 @@ struct FEquipWeaponData : public FBaseWeaponData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Equipable")
 	int32 MaxAmmoInWeapon;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Base")
+	float SelectWeaponTime;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Equipable")
 	float ReloadTime;
 
@@ -82,6 +82,9 @@ struct FEquipWeaponData : public FBaseWeaponData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Equipable")
 	EWeaponCategory Category;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Equipable")
+	UAnimSequence* ReloadInstance;
 };
 
 

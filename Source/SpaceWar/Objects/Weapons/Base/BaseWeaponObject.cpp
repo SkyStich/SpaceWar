@@ -74,12 +74,18 @@ bool UBaseWeaponObject::IsAbleToUseWeapon()
 
 bool UBaseWeaponObject::UseWeapon()
 {
-	return IsAbleToUseWeapon();
+	if(IsAbleToUseWeapon())
+	{
+		OnWeaponUsed.Broadcast(true);
+		return true;
+	}
+	return false;
 }
 
 void UBaseWeaponObject::StopUseWeapon()
 {
 	bWeaponUsed = false;
+	OnWeaponUsed.Broadcast(false);
 }
 
 void UBaseWeaponObject::Server_StartUseWeapon_Implementation()

@@ -11,8 +11,9 @@
 class ASpaceWarCharacter;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOwnerChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWeaponUsed, bool, bIsUsed);
 
-UCLASS(Abstract, BlueprintType)
+UCLASS(Abstract)
 class SPACEWAR_API UBaseWeaponObject : public UObject
 {
 	GENERATED_BODY()
@@ -75,6 +76,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Weapon|Delegates")
 	FOwnerChanged OnOwnerChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "Weapon|Delegates")
+	FWeaponUsed OnWeaponUsed;
 	
 protected:
 

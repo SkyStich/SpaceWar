@@ -148,6 +148,7 @@ void URangeWeaponObjectBase::ReloadStop()
 {
 	GetWorld()->GetTimerManager().ClearTimer(ReloadHandle);
 	bReloading = false;
+	OnRep_Reload();
 
 	if(CharacterOwner->Controller)
 	{
