@@ -9,6 +9,8 @@
 
 class ASpaceWarCharacter;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWeaponThrow);
+
 UCLASS(Abstract)
 class SPACEWAR_API UThrowWeaponBase : public UBaseWeaponObject
 {
@@ -41,4 +43,9 @@ private:
 
 	UPROPERTY(Replicated)
 	int32 CurrentAmountThrow;
+
+public:
+
+	UPROPERTY(BlueprintAssignable, Category = "Object|Throw")
+	FWeaponThrow OnWeaponThrow;
 };

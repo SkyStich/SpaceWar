@@ -34,10 +34,20 @@ class SPACEWAR_API UEquipableWeaponManager : public UActorComponent
 	void AddWeaponToStorage(EWeaponType Key, URangeWeaponObjectBase* Value);
 
 	void SelectWeapon(EWeaponType NewType);
-	void FinishWeaponSelect(URangeWeaponObjectBase* NewWeapon);
+	void FinishWeaponSelect();
 
 	UFUNCTION(Server, Unreliable)
 	void Server_SelectWeapon(EWeaponType NewType);
+	
+	UFUNCTION()
+	void OnRep_ThrowWeapon();
+
+	UFUNCTION()
+	void OnThrowUsed(bool bUsed);
+	
+	UFUNCTION()
+	void CurrentWeaponUnEquip(URangeWeaponObjectBase* NewWeapon);
+	
 public:	
 
 	UEquipableWeaponManager();
@@ -90,7 +100,7 @@ private:
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentWeapon)
 	URangeWeaponObjectBase* OldWeapon;
 	
-	UPROPERTY(Replicated)
+	UPROPERTY(ReplicatedUsing = OnRep_ThrowWeapon)
 	class UThrowWeaponBase* ThrowWeaponBase;
 
 	UPROPERTY(ReplicatedUsing = OnRep_WeaponSelect)

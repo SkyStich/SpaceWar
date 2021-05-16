@@ -20,10 +20,6 @@ class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject
 	void ReloadStart();
 	void ReloadStop();
 
-	/** Stop reload with field (with out calculate ammo) */
-	UFUNCTION()
-	void ClearReload();
-
 	UFUNCTION()
 	void OnRep_Reload();
 
@@ -49,11 +45,16 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
 	FEquipWeaponData GetWeaponData() const { return WeaponData; }
+	
+	/** Stop reload with field (with out calculate ammo) */
+	UFUNCTION()
+    void ClearReload();
+    
+	virtual void StopUseWeapon() override;
 
 protected:
 
 	virtual bool UseWeapon() override;
-	virtual void StopUseWeapon() override;
 	virtual bool IsAbleToUseWeapon() override;
 	virtual bool IsAbleToReload();
 

@@ -22,8 +22,6 @@ void UEquipableWeaponManager::BeginPlay()
 	Super::BeginPlay();
 
 	if(!WeaponDataAsset) UE_LOG(LogTemp, Error, TEXT("Weapon Data Asset is nullptr"), *GetName());
-
-	//if(GetOwnerRole() == ROLE_Authority) CharacterOwner = Cast<ASpaceWarCharacter>(GetOwner());
 }
 
 bool UEquipableWeaponManager::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags)
@@ -79,6 +77,7 @@ void UEquipableWeaponManager::OnRep_CurrentWeapon()
 void UEquipableWeaponManager::OnRep_WeaponSelect()
 {
 	OnWeaponSelect.Broadcast(bWeaponSelect);
+	//CurrentWeapon->OnWeaponUsed.AddDynamic(this, &UEquipableWeaponManager::Test);
 }
 
 void UEquipableWeaponManager::SelectWeapon(EWeaponType NewType)
@@ -91,14 +90,20 @@ void UEquipableWeaponManager::SelectWeapon(EWeaponType NewType)
 		bWeaponSelect = true;
 		OnRep_WeaponSelect();
 		FTimerDelegate TimerDel;
-		TimerDel.BindUObject(this, &UEquipableWeaponManager::FinishWeaponSelect, NewWeapon);
-		GetWorld()->GetTimerManager().SetTimer(SelectWeaponHandle, TimerDel, 1.5f, false);
+		TimerDel.BindUObject(this, &UEquipableWeaponManager::CurrentWeaponUnEquip, NewWeapon);
+		GetWorld()->GetTimerManager().SetTimer(SelectWeaponHandle, TimerDel, CurrentWeapon->GetWeaponData().SelectWeaponTime, false);
 	}
 }
 
-void UEquipableWeaponManager::FinishWeaponSelect(URangeWeaponObjectBase* NewWeapon)
+void UEquipableWeaponManager::CurrentWeaponUnEquip(URangeWeaponObjectBase* NewWeapon)
 {
+	GetWorld()->GetTimerManager().ClearTimer(SelectWeaponHandle);
 	SetCurrentWeapon(NewWeapon);
+	GetWorld()->GetTimerManager().SetTimer(SelectWeaponHandle, this, &UEquipableWeaponManager::FinishWeaponSelect, NewWeapon->GetWeaponData().SelectWeaponTime, false);
+}
+
+void UEquipableWeaponManager::FinishWeaponSelect()
+{
 	bWeaponSelect = false;
 	OnRep_WeaponSelect();
 }
@@ -129,3 +134,17 @@ bool UEquipableWeaponManager::CreateThrow(const FName Name)
 	ThrowWeaponBase = WeaponDataAsset->CreateThrowWeaponObject(Name, GetWorld(), GetOwner());
 	return ThrowWeaponBase != nullptr;
 }
+
+void UEquipableWeaponManager::OnThrowUsed(bool bUsed)
+{
+	CurrentWeapon->ClearReload();
+}
+
+void UEquipableWeaponManager::OnRep_ThrowWeapon()
+{
+	if(ThrowWeaponBase != nullptr)
+	{
+		ThrowWeaponBase->OnWeaponUsed.AddDynamic(this, &UEquipableWeaponManager::OnThrowUsed);
+	}
+}
+

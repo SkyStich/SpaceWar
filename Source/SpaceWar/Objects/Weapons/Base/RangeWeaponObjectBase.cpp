@@ -86,7 +86,7 @@ void URangeWeaponObjectBase::StopUseWeapon()
 
 bool URangeWeaponObjectBase::IsAbleToUseWeapon()
 {
-	return Super::IsAbleToUseWeapon() && (!CharacterOwner->Controller || CurrentAmmoInWeapon > 0);
+	return Super::IsAbleToUseWeapon() && (!CharacterOwner->Controller || CurrentAmmoInWeapon > 0) && !bReloading;
 }
 
 FVector URangeWeaponObjectBase::GetShootDirection()
@@ -126,11 +126,12 @@ void URangeWeaponObjectBase::ApplyPointDamage(const FHitResult& Hit)
 
 bool URangeWeaponObjectBase::IsAbleToReload()
 {
-	return !bWeaponUsed && CurrentAmmoInWeapon < WeaponData.MaxAmmoInWeapon && CurrentAmmoInStorage > 0;
+	return CurrentAmmoInWeapon < WeaponData.MaxAmmoInWeapon && CurrentAmmoInStorage > 0 && !bReloading;
 }
 
 void URangeWeaponObjectBase::OnRep_Reload()
 {
+	StopUseWeapon();
 	OnReload.Broadcast(bReloading);
 }
 

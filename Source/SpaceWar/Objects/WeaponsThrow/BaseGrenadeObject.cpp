@@ -9,6 +9,11 @@
 
 void UBaseGrenadeObject::GrenadeThrow(float const TotalTimeBeforeExplosion, bool bThrowSucceeded, AController* Controller)
 {
+	if(TotalTimeBeforeExplosion > 0)
+	{
+		OnWeaponThrow.Broadcast();
+	}
+	
 	GetWorld()->GetTimerManager().ClearTimer(ExplosionHandle);
 	StopUseWeapon();
 

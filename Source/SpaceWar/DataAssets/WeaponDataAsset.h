@@ -52,6 +52,9 @@ struct FBaseThrowData : public FBaseWeaponData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Equipable")
 	TSoftClassPtr<UThrowWeaponBase>WeaponObject;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Equipable")
+	TSubclassOf<ABaseThrowProjectile>ProjectileClass;
 };
 
 USTRUCT(BlueprintType)

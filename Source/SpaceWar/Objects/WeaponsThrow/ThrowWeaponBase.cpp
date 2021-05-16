@@ -25,7 +25,7 @@ void UThrowWeaponBase::Init(const FBaseThrowData& NewData)
 
 bool UThrowWeaponBase::IsAbleToUseWeapon()
 {
-	return Super::IsAbleToUseWeapon() && (!CharacterOwner->Controller || CurrentAmountThrow > 0);// && !GetWorld()->GetTimerManager().IsTimerActive(PreparationForUseHandle);
+	return Super::IsAbleToUseWeapon() && (!CharacterOwner->Controller || CurrentAmountThrow > 0) && !GetWorld()->GetTimerManager().IsTimerActive(PreparationForUseHandle) && !bWeaponUsed;
 }
 
 bool UThrowWeaponBase::UseWeapon()
