@@ -48863,10 +48863,14 @@
             <e p="HealthComponent.h" t="Include" />
             <e p="JetpackComponent.cpp" t="Include" />
             <e p="JetpackComponent.h" t="Include" />
+            <e p="SpecialObjectManagerComponent.cpp" t="Include" />
+            <e p="SpecialObjectManagerComponent.h" t="Include" />
           </e>
           <e p="DataAssets" t="Include">
             <e p="MatchWidgetDataAsset.cpp" t="Include" />
             <e p="MatchWidgetDataAsset.h" t="Include" />
+            <e p="SpecialObjectDataAsset.cpp" t="Include" />
+            <e p="SpecialObjectDataAsset.h" t="Include" />
             <e p="WeaponDataAsset.cpp" t="Include" />
             <e p="WeaponDataAsset.h" t="Include" />
           </e>
