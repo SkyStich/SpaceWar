@@ -5,7 +5,10 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Engine/DataTable.h"
+#include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
 #include "SpecialObjectDataAsset.generated.h"
+
+DECLARE_DYNAMIC_DELEGATE_ThreeParams(FAsyncSpecialSpawnActor, bool, bResult, FStringAssetReference, LoadedRef, ASpecialWeaponObjectBase*, SpecialActor);
 
 USTRUCT(BlueprintType)
 struct FSpecialObject : public FTableRowBase
@@ -17,6 +20,18 @@ struct FSpecialObject : public FTableRowBase
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Price;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UTexture2D* Icon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TAssetSubclassOf<ASpecialWeaponObjectBase> SpecialActor;
+
+	FSpecialObject() :
+		ObjectName(TEXT("None")),
+		Price(0.f),
+		Icon(nullptr),
+		SpecialActor(nullptr) {}
 };
 
 UCLASS()
@@ -24,4 +39,13 @@ class SPACEWAR_API USpecialObjectDataAsset : public UDataAsset
 {
 	GENERATED_BODY()
 
+public:
+
+	UFUNCTION(BlueprintCallable, Category = "MyProject|MyAssetLibrary", meta = (WorldContext = "WorldContextObject", DisplayName = "Spawn Special object (Async)"))
+	static bool AsyncSpawnActor(UObject* WorldContextObject, TAssetSubclassOf<ASpecialWeaponObjectBase> AssetPtr, FTransform SpawnTransform, const FAsyncSpecialSpawnActor& Callback);
+
+private:
+
+	/** Called when asset loading for actor spawn is finished */
+	static void OnAsyncSpawnActorComplete(UObject* WorldContextObject, FStringAssetReference Reference, FTransform SpawnTransform, FAsyncSpecialSpawnActor Callback);
 };

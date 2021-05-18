@@ -2,6 +2,8 @@
 
 
 #include "MatchPlayerControllerBase.h"
+
+#include "TimerManager.h"
 #include "SpaceWar/HUD/Match/BaseMatchHUD.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
@@ -14,6 +16,8 @@ AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 	bReplicates = true;
 	NetUpdateFrequency = 5.f;
 	bCanSpawn = true;
+
+	SpecialObjectManager = CreateDefaultSubobject<USpecialObjectManagerComponent>(TEXT("SpecialObjectManager"));
 
 	static ConstructorHelpers::FClassFinder<ASpaceWarCharacter> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter"));
 	if(PlayerPawnBPClass.Class != nullptr)
@@ -101,4 +105,15 @@ void AMatchPlayerControllerBase::ReleasedTabMenu()
 	GetHUD<ABaseMatchHUD>()->HiddenTabMenu();
 }
 
+void AMatchPlayerControllerBase::Client_SpecialObjectErrorSpawned_Implementation()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("ErrorSpawnedSpecialObject"));
+}
 
+void AMatchPlayerControllerBase::Server_CreateSpecialObject_Implementation(const FName& ObjectId, const FTransform& Transform)
+{
+	if(!SpecialObjectManager->CreateSpecialObject(ObjectId, Transform))
+	{
+		Client_SpecialObjectErrorSpawned();
+	}
+}

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "SpaceWar/Components/SpecialObjectManagerComponent.h"
+
 #include "MatchPlayerControllerBase.generated.h"
 
 class ASpaceWarCharacter;
@@ -18,6 +20,10 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController
 
 	void PressTabMenu();
 	void ReleasedTabMenu();
+
+	UFUNCTION(Client, Unreliable)
+	void Client_SpecialObjectErrorSpawned();
+	
 public:
 
 	AMatchPlayerControllerBase();
@@ -29,6 +35,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "PlayerController|PlayerClass")
 	TSubclassOf<ASpaceWarCharacter> GetPlayerClass() const { return PlayerClass; }
+
+	UFUNCTION(BlueprintCallable, Server, Unreliable)
+	void Server_CreateSpecialObject(const FName& ObjectId, const FTransform& Transform);
 
 protected:
 
@@ -43,6 +52,9 @@ private:
 	
 	UPROPERTY(Replicated)
 	bool bCanSpawn;
+
+	UPROPERTY()
+	USpecialObjectManagerComponent* SpecialObjectManager;
 
 	FTimerHandle RespawnTimer;
 };

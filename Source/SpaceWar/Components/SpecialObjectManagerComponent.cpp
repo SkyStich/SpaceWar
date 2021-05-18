@@ -2,13 +2,26 @@
 
 
 #include "SpecialObjectManagerComponent.h"
+#include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
+#include "SGraphPinDataTableRowName.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "UObject/ConstructorHelpers.h"
+#include "SpaceWar/DataAssets/SpecialObjectDataAsset.h"
 #include "Net/UnrealNetwork.h"
 
 USpecialObjectManagerComponent::USpecialObjectManagerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 
-	// ...
+	SetIsReplicated(true);
+
+	ConstructorHelpers::FObjectFinder<UDataTable>SpecialTable(TEXT("/Game/ThirdPersonCPP/DataTables/DT_SpecialWeaponObject"));
+	if(SpecialTable.Succeeded())
+	{
+		SpecialDataTable = SpecialTable.Object;
+	}
+
+	CurrentSpecialPoints = 5000;
 }
 
 
@@ -16,5 +29,46 @@ USpecialObjectManagerComponent::USpecialObjectManagerComponent()
 void USpecialObjectManagerComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	SpecialActorDelegate.BindUFunction(this, TEXT("FinishSpecialSpawnObject"));
 }
 
+void USpecialObjectManagerComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME_CONDITION(USpecialObjectManagerComponent, CurrentSpecialPoints, COND_OwnerOnly);
+}
+
+void USpecialObjectManagerComponent::DecreasePoints(int32 const Value)
+{
+	CurrentSpecialPoints -= Value;
+}
+
+void USpecialObjectManagerComponent::IncreasePoints(int32 const Value)
+{
+	CurrentSpecialPoints += Value;
+}
+
+bool USpecialObjectManagerComponent::CreateSpecialObject(const FName& ObjectId, const FTransform& Transform)
+{
+	static const FString ContextString("DT_SpecialWeaponObject");
+	auto const SpecialRow = SpecialDataTable->FindRow<FSpecialObject>(ObjectId, *ContextString);
+
+	if(CurrentSpecialPoints >= SpecialRow->Price)
+	{
+		if(USpecialObjectDataAsset::AsyncSpawnActor(GetWorld(), SpecialRow->SpecialActor, Transform, SpecialActorDelegate))
+		{
+			DecreasePoints(SpecialRow->Price);
+		}
+		return true;
+	}
+	
+	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("do not have CurrentSpecialPoints for buy object --USpecialObjectManagerComponent::CreateSpecialObject"));
+	return false;
+}
+
+void USpecialObjectManagerComponent::FinishSpecialSpawnObject(bool bResult, FStringAssetReference Reference, ASpecialWeaponObjectBase* SpecialActor)
+{
+	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("FinishSpecialSpawnObject"));
+}

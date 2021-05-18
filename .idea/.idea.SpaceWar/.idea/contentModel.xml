@@ -48846,6 +48846,10 @@
                   <e p="BaseGrenadeProjectile.h" t="Include" />
                 </e>
               </e>
+              <e p="SpecialWeapon" t="Include">
+                <e p="SpecialWeaponObjectBase.cpp" t="Include" />
+                <e p="SpecialWeaponObjectBase.h" t="Include" />
+              </e>
               <e p="TeamPoints" t="Include">
                 <e p="TeamPoints.cpp" t="Include" />
                 <e p="TeamPoints.h" t="Include" />
