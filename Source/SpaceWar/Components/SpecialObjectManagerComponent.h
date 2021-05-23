@@ -6,11 +6,12 @@
 #include "Components/ActorComponent.h"
 #include "Engine/DataTable.h"
 #include "SpaceWar/DataAssets/SpecialObjectDataAsset.h"
-
-
 #include "SpecialObjectManagerComponent.generated.h"
 
 class ASpecialWeaponObjectBase;
+class ASpaceWarCharacter;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FObjectSpawned, ASpecialWeaponObjectBase*, Object);
 
 /** Controller component */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -31,7 +32,11 @@ public:
 	UFUNCTION(BlueprintPure, Category = "SpecialObject|Getting") 
 	int32 GetCurrentSpecialPoints() const { return CurrentSpecialPoints; }
 
-	bool CreateSpecialObject(const FName& ObjectId, const FTransform& Transform);
+	bool CreateSpecialObject(const FName& ObjectId, const FTransform& Transform, APawn* CharOwner);
+
+public:
+
+	FObjectSpawned OnObjectSpawned;
 	
 protected:
 	
@@ -49,4 +54,6 @@ private:
 	UDataTable* SpecialDataTable;
 
 	FAsyncSpecialSpawnActor SpecialActorDelegate;
+
+	FTimerHandle DropSpecialObjectHandle;
 };

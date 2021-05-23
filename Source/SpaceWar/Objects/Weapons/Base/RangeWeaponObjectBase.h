@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "BaseWeaponObject.h"
+#include "SpaceWar/Interfaces/CurrentCharacterObjectInterface.h"
 #include "RangeWeaponObjectBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FReload, bool, NewReloadState);
 
 UCLASS(Blueprintable)
-class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject
+class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject, public ICurrentCharacterObjectInterface
 {
 	GENERATED_BODY()
 
@@ -33,6 +34,9 @@ public:
 	virtual void Init(const FEquipWeaponData& NewData);
 
 	virtual TAssetPtr<USkeletalMesh> GetWeaponMesh() override { return WeaponData.ItemMesh; }
+
+	virtual bool UseCurrentPlayerObject_Implementation() override;
+	virtual void UnUseCurrentPlayerObject_Implementation() override;
 	
 	UFUNCTION(BlueprintPure)
 	int32 GetCurrentAmmo() const { return CurrentAmmoInWeapon; }

@@ -2,8 +2,10 @@
 
 
 #include "SpecialObjectManagerComponent.h"
+#include "DrawDebugHelpers.h"
 #include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
-#include "SGraphPinDataTableRowName.h"
+#include "Camera/CameraComponent.h"
+#include "SpaceWar/SpaceWarCharacter.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "UObject/ConstructorHelpers.h"
 #include "SpaceWar/DataAssets/SpecialObjectDataAsset.h"
@@ -50,14 +52,14 @@ void USpecialObjectManagerComponent::IncreasePoints(int32 const Value)
 	CurrentSpecialPoints += Value;
 }
 
-bool USpecialObjectManagerComponent::CreateSpecialObject(const FName& ObjectId, const FTransform& Transform)
+bool USpecialObjectManagerComponent::CreateSpecialObject(const FName& ObjectId, const FTransform& Transform, APawn* CharOwner)
 {
 	static const FString ContextString("DT_SpecialWeaponObject");
 	auto const SpecialRow = SpecialDataTable->FindRow<FSpecialObject>(ObjectId, *ContextString);
 
 	if(CurrentSpecialPoints >= SpecialRow->Price)
 	{
-		if(USpecialObjectDataAsset::AsyncSpawnActor(GetWorld(), SpecialRow->SpecialActor, Transform, SpecialActorDelegate))
+		if(USpecialObjectDataAsset::AsyncSpawnActor(GetWorld(), SpecialRow->SpecialActor, Transform, CharOwner, SpecialActorDelegate))
 		{
 			DecreasePoints(SpecialRow->Price);
 		}
@@ -70,5 +72,5 @@ bool USpecialObjectManagerComponent::CreateSpecialObject(const FName& ObjectId, 
 
 void USpecialObjectManagerComponent::FinishSpecialSpawnObject(bool bResult, FStringAssetReference Reference, ASpecialWeaponObjectBase* SpecialActor)
 {
-	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("FinishSpecialSpawnObject"));
+
 }

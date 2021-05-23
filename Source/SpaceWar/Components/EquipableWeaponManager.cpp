@@ -32,7 +32,7 @@ bool UEquipableWeaponManager::ReplicateSubobjects(UActorChannel* Channel, FOutBu
 	if(CurrentWeapon) ReplicationArray.Add(CurrentWeapon);
 	if(ThrowWeaponBase) ReplicationArray.Add(ThrowWeaponBase);
 
-	if(ThrowWeaponBase) ParentReturn = Channel->ReplicateSubobjectList(ReplicationArray, *Bunch, *RepFlags);
+	ParentReturn = Channel->ReplicateSubobjectList(ReplicationArray, *Bunch, *RepFlags);
 	return ParentReturn;
 }
 

@@ -2,12 +2,14 @@
 
 
 #include "MatchPlayerControllerBase.h"
-
 #include "TimerManager.h"
 #include "SpaceWar/HUD/Match/BaseMatchHUD.h"
 #include "Kismet/GameplayStatics.h"
+#include "Camera/CameraComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "DrawDebugHelpers.h"
 #include "UObject/ConstructorHelpers.h"
+#include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "SpaceWar/GameModes/Match/Base/MatchGameModeBase.h"
 
@@ -112,8 +114,15 @@ void AMatchPlayerControllerBase::Client_SpecialObjectErrorSpawned_Implementation
 
 void AMatchPlayerControllerBase::Server_CreateSpecialObject_Implementation(const FName& ObjectId, const FTransform& Transform)
 {
-	if(!SpecialObjectManager->CreateSpecialObject(ObjectId, Transform))
+	if(!SpecialObjectManager->CreateSpecialObject(ObjectId, Transform, GetPawn()))
 	{
 		Client_SpecialObjectErrorSpawned();
 	}
 }
+
+bool AMatchPlayerControllerBase::OwnerAddSpecialObject(const FName& ObjectId)
+{
+	Server_CreateSpecialObject(ObjectId, GetPawn()->GetTransform());
+	return true;
+}
+

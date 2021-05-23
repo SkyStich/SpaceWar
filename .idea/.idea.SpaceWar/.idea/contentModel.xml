@@ -48905,6 +48905,8 @@
             </e>
           </e>
           <e p="Interfaces" t="Include">
+            <e p="CurrentCharacterObjectInterface.cpp" t="Include" />
+            <e p="CurrentCharacterObjectInterface.h" t="Include" />
             <e p="GetDamageCauserInfo.cpp" t="Include" />
             <e p="GetDamageCauserInfo.h" t="Include" />
           </e>

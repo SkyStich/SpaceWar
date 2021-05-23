@@ -3,9 +3,10 @@
 
 #include "SpecialObjectDataAsset.h"
 #include "Engine/StreamableManager.h"
+#include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
 #include "SpaceWar/Singleton/BaseSingleton.h"
 
-bool USpecialObjectDataAsset::AsyncSpawnActor(UObject* WorldContextObject, TAssetSubclassOf<ASpecialWeaponObjectBase> AssetPtr, FTransform SpawnTransform, const FAsyncSpecialSpawnActor& Callback)
+bool USpecialObjectDataAsset::AsyncSpawnActor(UObject* WorldContextObject, TAssetSubclassOf<ASpecialWeaponObjectBase> AssetPtr, FTransform SpawnTransform, APawn* Owner, const FAsyncSpecialSpawnActor& Callback)
 {
 	if(AssetPtr == nullptr)
 	{
@@ -16,22 +17,27 @@ bool USpecialObjectDataAsset::AsyncSpawnActor(UObject* WorldContextObject, TAsse
 	FStreamableManager& StreamableManager = UBaseSingleton::Get().AssetLoader;
 	FSoftObjectPath const Ref = AssetPtr.ToSoftObjectPath();
 
-	StreamableManager.RequestAsyncLoad(Ref, FStreamableDelegate::CreateStatic(&USpecialObjectDataAsset::OnAsyncSpawnActorComplete, WorldContextObject, Ref, SpawnTransform, Callback));
+	StreamableManager.RequestAsyncLoad(Ref, FStreamableDelegate::CreateStatic(&USpecialObjectDataAsset::OnAsyncSpawnActorComplete, WorldContextObject, Ref, SpawnTransform, Owner, Callback));
 	return true;
 }
 
-void USpecialObjectDataAsset::OnAsyncSpawnActorComplete(UObject* WorldContextObject, FStringAssetReference Reference, FTransform SpawnTransform, FAsyncSpecialSpawnActor Callback)
+void USpecialObjectDataAsset::OnAsyncSpawnActorComplete(UObject* WorldContextObject, FStringAssetReference Reference, FTransform SpawnTransform, APawn* Owner, FAsyncSpecialSpawnActor Callback)
 {
 	ASpecialWeaponObjectBase* SpawnActor = nullptr;
+	if(!Owner) return;
 
-	UClass* ActorClass = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), nullptr, *Reference.ToString()));
+	UClass* ActorClass = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), Owner, *Reference.ToString()));
 	if(ActorClass == nullptr)
 	{
 		UE_LOG(LogAssetData, Error, TEXT("Actor class is NULL -- USpecialObjectDataAsset::OnAsyncSpawnActorComplete"), *Reference.ToString());
 	}
 	else
 	{
-		SpawnActor = WorldContextObject->GetWorld()->SpawnActor<ASpecialWeaponObjectBase>(ActorClass, SpawnTransform);
+		FActorSpawnParameters Param;
+		Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		Param.Owner = Owner->GetController();
+		Param.Instigator = Owner;
+		SpawnActor = WorldContextObject->GetWorld()->SpawnActor<ASpecialWeaponObjectBase>(ActorClass, SpawnTransform, Param);
 	}
 	Callback.ExecuteIfBound(SpawnActor != nullptr, Reference, SpawnActor);
 }

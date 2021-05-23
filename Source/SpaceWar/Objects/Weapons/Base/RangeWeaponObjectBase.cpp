@@ -188,3 +188,15 @@ void URangeWeaponObjectBase::ClearReload()
 	bReloading = false;
 }
 
+bool URangeWeaponObjectBase::UseCurrentPlayerObject_Implementation()
+{
+	OwnerStartUseWeapon();
+	return true;
+}
+
+void URangeWeaponObjectBase::UnUseCurrentPlayerObject_Implementation()
+{
+	OwnerStopUseWeapon();
+}
+
+

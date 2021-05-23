@@ -6,6 +6,7 @@
 #include "Singleton/BaseSingleton.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Engine/ActorChannel.h"
 #include "GameFramework/Controller.h"
 #include "Net/UnrealNetwork.h" 
 
@@ -77,7 +78,7 @@ void ASpaceWarCharacter::BeginPlay()
 void ASpaceWarCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 	if(GetLocalRole() == ROLE_Authority && Controller)
 		LookUpPitch = Controller->GetControlRotation().Vector().Rotation().Pitch;
 }
@@ -158,7 +159,6 @@ USkeletalMeshComponent* ASpaceWarCharacter::GetLocalMesh() const
 
 void ASpaceWarCharacter::SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Update"));
 	if(MeshPtr.IsPending())
 	{
 		FSoftObjectPath Ref = MeshPtr.ToSoftObjectPath();

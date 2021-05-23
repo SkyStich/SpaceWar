@@ -42,6 +42,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Character|Getting")
 	USkeletalMeshComponent* GetWeaponMesh() const { return WeaponMesh; }
+	
+	UFUNCTION(BlueprintPure, Category = "Character|Getting")
+	FORCEINLINE UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
 protected:
 	

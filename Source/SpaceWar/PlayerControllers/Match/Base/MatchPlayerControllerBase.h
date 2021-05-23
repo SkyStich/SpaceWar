@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "SpaceWar/Components/SpecialObjectManagerComponent.h"
-
 #include "MatchPlayerControllerBase.generated.h"
 
 class ASpaceWarCharacter;
@@ -36,8 +35,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = "PlayerController|PlayerClass")
 	TSubclassOf<ASpaceWarCharacter> GetPlayerClass() const { return PlayerClass; }
 
-	UFUNCTION(BlueprintCallable, Server, Unreliable)
+	UFUNCTION(BlueprintPure, Category = "PlayerController|PlayerClass")
+	USpecialObjectManagerComponent* GetSpecialManagerComponent() const { return SpecialObjectManager; }
+
+	UFUNCTION(Server, Unreliable)
 	void Server_CreateSpecialObject(const FName& ObjectId, const FTransform& Transform);
+
+	UFUNCTION(BlueprintCallable, Category = "PlayerController|SpecialObject")
+	bool OwnerAddSpecialObject(const FName& ObjectId);
 
 protected:
 
