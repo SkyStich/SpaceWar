@@ -12,11 +12,14 @@ ASpecialWeaponObjectBase::ASpecialWeaponObjectBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	SetActorTickInterval(0.05f);
+
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
+	BoxComponent->SetupAttachment(RootComponent);
 	
 	SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMesh"));
-	SkeletalMesh->SetupAttachment(BoxComponent);
+	SkeletalMesh->SetupAttachment(RootComponent);
 	
 	bReplicates = true;
 	NetUpdateFrequency = 10.f;
