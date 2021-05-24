@@ -18,9 +18,6 @@ class SPACEWAR_API UHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-	void ChangeCurrentHealth(float const Value);
-	void ChangeCurrentArmor(float const Value);
-
 	float ArmorResist(float Damage);
 
 	UFUNCTION()
@@ -34,6 +31,9 @@ class SPACEWAR_API UHealthComponent : public UActorComponent
 	UFUNCTION(Client, Unreliable)
 	void Client_ArmorChanged();
 
+	void StartRegenerationHealth();
+	void StartRegenerationArmor();
+
 public:	
 	// Sets default values for this component's properties
 	UHealthComponent();
@@ -44,6 +44,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Health|Getting")
 	float GetCurrentHealth() const { return CurrentHealth; }
 
+	/** Call on take damage or pick up regeneration object */
+	UFUNCTION(BlueprintCallable, Category = "HealthComponent")
+	void ChangeCurrentHealth(float const Value);
+
+	/** Call on take damage or pick up regeneration object */
+	UFUNCTION(BlueprintCallable, Category = "HealthComponent")
+	void ChangeCurrentArmor(float const Value);
+
 protected:
 	
 	UFUNCTION()
@@ -52,6 +60,10 @@ protected:
 	UFUNCTION()
     void OnPlayerTakeRadialDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, FVector Origin, FHitResult HitInfo, AController* InstigatedBy, AActor* DamageCauser);
 
+	UFUNCTION()
+	void OnPlayerTakeAnyDamage(AActor* DamagedActor, float BaseDamage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser);
+
+	
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -63,6 +75,12 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Health")
 	float MaxArmor;
+	
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float HealthRegenerationPerSec;
+
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float ArmorRegenerationPerSec;
 
 	UPROPERTY(Replicated)
 	float CurrentHealth;
@@ -72,6 +90,9 @@ private:
 
 	UPROPERTY(ReplicatedUsing = OnRep_OwnerDead)
 	bool bOwnerDead;
+
+	FTimerHandle RegenerationHandle;
+	FTimerHandle PreRegenerationHandle;
 
 public:
 

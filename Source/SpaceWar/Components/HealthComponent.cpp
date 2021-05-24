@@ -10,8 +10,11 @@ UHealthComponent::UHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 
-	CurrentArmor = MaxArmor = 120.f;
-	CurrentHealth = MaxHealth = 100.f;
+	CurrentArmor = MaxArmor = 220.f;
+	CurrentHealth = MaxHealth = 160.f;
+	HealthRegenerationPerSec = 1.f;
+	ArmorRegenerationPerSec = 2.f;
+	
 	SetIsReplicated(true);
 }
 
@@ -25,6 +28,7 @@ void UHealthComponent::BeginPlay()
 	{
 		GetOwner()->OnTakePointDamage.AddDynamic(this, &UHealthComponent::OnPlayerTakePointDamage);
 		GetOwner()->OnTakeRadialDamage.AddDynamic(this, &UHealthComponent::OnPlayerTakeRadialDamage);
+		GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::OnPlayerTakeAnyDamage);
 	}
 }
 
@@ -35,6 +39,27 @@ void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME_CONDITION(UHealthComponent, CurrentHealth, COND_OwnerOnly);
 	DOREPLIFETIME_CONDITION(UHealthComponent, CurrentArmor, COND_OwnerOnly);
 	DOREPLIFETIME(UHealthComponent, bOwnerDead);
+}
+
+void UHealthComponent::OnPlayerTakeAnyDamage(AActor* DamagedActor, float BaseDamage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)
+{
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+
+	auto PreStart = [&]() -> void
+	{
+		if(CurrentHealth < MaxHealth)
+		{
+			StartRegenerationHealth();
+		}
+		else
+		{
+			StartRegenerationArmor();
+		}	
+	};
+	
+	FTimerDelegate TimerDel;
+	TimerDel.BindLambda(PreStart);
+	GetWorld()->GetTimerManager().SetTimer(PreRegenerationHandle, TimerDel, 4.f, false);
 }
 
 void UHealthComponent::OnPlayerTakeRadialDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, FVector Origin, FHitResult HitInfo, AController* InstigatedBy, AActor* DamageCauser)
@@ -111,4 +136,36 @@ void UHealthComponent::Client_HealthChanged_Implementation()
 {
 	OnHealthChanged.Broadcast();
 }
+
+void UHealthComponent::StartRegenerationHealth()
+{
+	FTimerDelegate TimerDel;
+	TimerDel.BindLambda([&]() -> void
+	{
+		CurrentHealth += HealthRegenerationPerSec;
+		if(CurrentHealth >= MaxHealth)
+		{
+			GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+			StartRegenerationArmor();
+		}
+	});
+	GetWorld()->GetTimerManager().SetTimer(RegenerationHandle, TimerDel, 0.05f, true);
+}
+
+void UHealthComponent::StartRegenerationArmor()
+{
+	auto f = [&]() -> void
+	{
+		CurrentArmor += ArmorRegenerationPerSec;
+		if(CurrentArmor >= MaxArmor)
+		{
+			GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+		}
+	};
+	FTimerDelegate TimerDelegate;
+	TimerDelegate.BindLambda(f);
+	GetWorld()->GetTimerManager().SetTimer(RegenerationHandle, TimerDelegate, 0.05f, true);
+}
+
+
 
