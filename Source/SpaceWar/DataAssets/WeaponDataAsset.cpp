@@ -50,6 +50,7 @@ UThrowWeaponBase* UWeaponDataAsset::CreateThrowWeaponObject(const FName& WeaponN
 	if(Type == nullptr) return nullptr;
 
 	auto const ObjectThrow = NewObject<UThrowWeaponBase>(Outer, Type);
+	ObjectThrow->SetWeaponName(WeaponName);
 	ObjectThrow->Init(TempData);
 	return ObjectThrow;
 }
@@ -75,6 +76,7 @@ URangeWeaponObjectBase* UWeaponDataAsset::CreateWeaponObject(const FName& Weapon
 	if(WeaponType == nullptr) return nullptr;
 
 	auto const Weapon = NewObject<URangeWeaponObjectBase>(Outer, WeaponType);
+	Weapon->SetWeaponName(WeaponName);
 	Weapon->Init(TempData);
 	return Weapon;
 }

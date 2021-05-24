@@ -18,9 +18,15 @@ UCLASS()
 class SPACEWAR_API ASpecialWeaponObjectBase : public AActor, public ICurrentCharacterObjectInterface
 {
 	GENERATED_BODY()
+
+	UFUNCTION()
+	void OnRep_ObjectConstruct();
 	
 	UFUNCTION()
 	void UpdateLocation();
+	
+	UFUNCTION(Server, Unreliable)
+	void Server_InstigatorIsNull();
 	
 public:	
 	// Sets default values for this actor's properties
@@ -43,7 +49,6 @@ public:
 
 protected:
 
-	/** On Server */
 	UPROPERTY()
 	AController* OwnerController;
 
@@ -53,6 +58,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UBoxComponent* BoxComponent;
 	
-	UPROPERTY(Replicated)
+	UPROPERTY(ReplicatedUsing = OnRep_ObjectConstruct)
 	bool bObjectConstruct;
 };

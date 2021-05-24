@@ -32,6 +32,7 @@ void UBaseWeaponObject::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(UBaseWeaponObject, CharacterOwner);
+	DOREPLIFETIME(UBaseWeaponObject, WeaponName);
 	DOREPLIFETIME_CONDITION(UBaseWeaponObject, bWeaponUsed, COND_SkipOwner);
 }
 

@@ -30,6 +30,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
 	virtual void OwnerStopUseWeapon();
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	FName GetWeaponName() const { return WeaponName; }
+
+	void SetWeaponName(const FName& Name) { WeaponName = Name; } 
 	
 	virtual TAssetPtr<USkeletalMesh> GetWeaponMesh() { return nullptr; }
 	
@@ -87,6 +92,9 @@ protected:
 
 	UPROPERTY(Replicated);
 	bool bWeaponUsed;
+	
+	UPROPERTY(Replicated);
+	FName WeaponName;
 
 	FTimerHandle UseWeaponHandle;
 };

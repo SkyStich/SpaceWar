@@ -4,6 +4,7 @@
 #include "SpecialWeaponObjectBase.h"
 #include "Net/UnrealNetwork.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 
 // Sets default values
@@ -45,15 +46,25 @@ void ASpecialWeaponObjectBase::BeginPlay()
 
 	SetActorTickEnabled(false);
 
+	if(GetInstigator()->IsLocallyControlled())
+	{
+		SetActorTickEnabled(true);
+	}
+	else
+	{
+		SkeletalMesh->SetVisibility(false);
+	}
+
 	if(GetLocalRole() == ROLE_Authority)
 	{
 		OwnerController = GetInstigator()->GetController();
 		bObjectConstruct = true;
-	}
-	
-	if(GetInstigator()->GetController())
-	{
-		SetActorTickEnabled(true);
+		
+		if(!GetInstigator()->IsLocallyControlled())
+		{
+			FTimerHandle TimerHandle;
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ASpecialWeaponObjectBase::UpdateLocation, 0.2f, true);;
+		}
 	}
 }
 
@@ -61,25 +72,30 @@ void ASpecialWeaponObjectBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("Tick"), true, true, FColor::Blue, 0.f);
+
 	if(bObjectConstruct)
 	{
-		if(!GetInstigator())
+		if(!GetInstigator()->GetController())
 		{
-			Destroy(true);
+			Server_InstigatorIsNull();
 			return;
 		}
 		
-		if(GetInstigator()->IsLocallyControlled())
-		{
-			UpdateLocation();
-		}
+		UpdateLocation();
 	}
+}
+
+void ASpecialWeaponObjectBase::Server_InstigatorIsNull_Implementation()
+{
+	if(!GetInstigator()->GetController())
+		Destroy(true);
 }
 
 void ASpecialWeaponObjectBase::UpdateLocation()
 {
 	FVector Location = GetInstigator()->GetActorLocation() + FVector(0.f, 0.f, 40.f);
-	FVector TraceEnd = GetInstigator()->GetController()->GetControlRotation().Vector() * 230.f + Location;
+	FVector TraceEnd = GetInstigatorController()->GetControlRotation().Vector() * 230.f + Location;
 
 	FHitResult OutHit;
 	FCollisionQueryParams Params;
@@ -103,18 +119,35 @@ void ASpecialWeaponObjectBase::UpdateLocation()
 	DrawDebugSphere(GetWorld(), NewHit.ImpactPoint, 8.f, 8, FColor::Yellow);
 	
 	SetActorLocation(NewHit.ImpactPoint);
+	SetActorRotation(GetInstigator()->GetActorRotation());
+}
+
+void ASpecialWeaponObjectBase::OnRep_ObjectConstruct()
+{
+	if(!bObjectConstruct)
+	{
+		SetActorTickEnabled(false);
+		SkeletalMesh->SetVisibility(true);
+	}
 }
 
 bool ASpecialWeaponObjectBase::InteractionObject_Implementation(ASpaceWarCharacter* Player)
-{
+{	
 	if(bObjectConstruct)
 	{
-		SetActorTickEnabled(false);
-		if(GetLocalRole() == ROLE_Authority)
-		{
-			bObjectConstruct = false;
-			OnPlaceSucceeded.Broadcast(this);
-		}
+		if(Player != GetInstigator()) return false;
+	
+		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+		
+		UpdateLocation();
+		
+		bObjectConstruct = false;
+		OnRep_ObjectConstruct();
+		
+		OnPlaceSucceeded.Broadcast(this);
 	}
 	return true;
 }
+
+
+

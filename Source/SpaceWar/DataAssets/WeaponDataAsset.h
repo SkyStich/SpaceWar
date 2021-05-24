@@ -85,9 +85,6 @@ struct FEquipWeaponData : public FBaseWeaponData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Equipable")
 	EWeaponCategory Category;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Equipable")
-	UAnimSequence* ReloadInstance;
 };
 
 
