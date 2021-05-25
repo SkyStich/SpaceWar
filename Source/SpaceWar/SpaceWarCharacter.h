@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Components/EquipableWeaponManager.h"
+#include "Components/StaminaComponent.h"
 #include "Interfaces/GetDamageCauserInfo.h"
 #include "Components/HealthComponent.h"
 #include "Components/JetpackComponent.h"
@@ -94,6 +95,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = SkeletalMesh, meta = (AllowPrivateAccess = "true"))
 	UJetpackComponent* JetpackComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = SkeletalMesh, meta = (AllowPrivateAccess = "true"))
+	UStaminaComponent* StaminaComponent;
 
 private:
 

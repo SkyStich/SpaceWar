@@ -44,6 +44,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Health|Getting")
 	float GetCurrentHealth() const { return CurrentHealth; }
 
+	UFUNCTION(BlueprintPure, Category = "Health|Getting")
+	float GetMaxHealth() const { return MaxHealth; }
+
+	UFUNCTION(BlueprintPure, Category = "Health|Getting")
+	float GetMaxArmor() const { return MaxArmor; }
+
 	/** Call on take damage or pick up regeneration object */
 	UFUNCTION(BlueprintCallable, Category = "HealthComponent")
 	void ChangeCurrentHealth(float const Value);
