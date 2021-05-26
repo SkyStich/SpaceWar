@@ -20,6 +20,9 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo
 	void UpdateWeaponMesh(URangeWeaponObjectBase* Weapon);
 
 	UFUNCTION()
+	void OnStaminaUsedEvent(bool bState);
+	
+	UFUNCTION()
 	void CharDead();
 
 	UFUNCTION(Server, Unreliable)
@@ -46,6 +49,12 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = "Character|Getting")
 	FORCEINLINE UHealthComponent* GetHealthComponent() const { return HealthComponent; }
+
+	UFUNCTION(BlueprintCallable, Category = "Character|Keyboard")
+	void OwnerStartUseStamina();
+	
+	UFUNCTION(BlueprintCallable, Category = "Character|Keyboard")
+	void OwnerStopUseStamina();
 
 protected:
 	
@@ -103,5 +112,11 @@ private:
 
 	UPROPERTY(Replicated)
 	float LookUpPitch;
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float StaminaSpeed;
+	
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float RunSpeed;
 };
 

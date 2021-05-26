@@ -8,12 +8,15 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/ActorChannel.h"
 #include "GameFramework/Controller.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Net/UnrealNetwork.h" 
 
 ASpaceWarCharacter::ASpaceWarCharacter()
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+
+	PrimaryActorTick.TickInterval = 0.05f;
 
 	bReplicates = true;
 
@@ -31,6 +34,9 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
+
+	RunSpeed = GetCharacterMovement()->MaxWalkSpeed;
+	StaminaSpeed = RunSpeed * 1.6f;
 
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
@@ -69,8 +75,23 @@ void ASpaceWarCharacter::BeginPlay()
 
 	WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "WeaponPoint");
 	IsLocallyControlled() ? GetMesh()->SetVisibility(false) : SkeletalArm->SetVisibility(false);
+	UKismetSystemLibrary::PrintString(GetWorld(), FString::Printf(TEXT("Locally: %d"), IsLocallyControlled()));
 
 	HealthComponent->OnOwnerDead.AddDynamic(this, &ASpaceWarCharacter::CharDead);
+	StaminaComponent->OnStaminaUsed.AddDynamic(this, &ASpaceWarCharacter::OnStaminaUsedEvent);
+	
+}
+
+void ASpaceWarCharacter::OnStaminaUsedEvent(bool bState)
+{
+	if(bState)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = StaminaSpeed;
+	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+	}
 }
 
 void ASpaceWarCharacter::Tick(float DeltaTime)
@@ -190,4 +211,18 @@ void ASpaceWarCharacter::Server_UseJetpack_Implementation()
 	JetpackComponent->StartUseJetpack(Controller->GetControlRotation().Vector(), Location);
 	LaunchCharacter(Location, true, false);
 }
+
+void ASpaceWarCharacter::OwnerStartUseStamina()
+{
+	if(StaminaComponent->GetCurrentStaminaValue() > 0)
+	{
+		StaminaComponent->Server_StartUseStamina();
+	}
+}
+
+void ASpaceWarCharacter::OwnerStopUseStamina()
+{
+	StaminaComponent->Server_StopUseStamina();
+}
+
 
