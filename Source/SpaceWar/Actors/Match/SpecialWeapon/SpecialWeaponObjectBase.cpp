@@ -21,9 +21,13 @@ ASpecialWeaponObjectBase::ASpecialWeaponObjectBase()
 	
 	SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMesh"));
 	SkeletalMesh->SetupAttachment(RootComponent);
+
+	ObjectHealthComponent = CreateDefaultSubobject<USpecialObjectHealthComponent>(TEXT("SpecialObjectHealth"));
 	
 	bReplicates = true;
 	NetUpdateFrequency = 10.f;
+
+	Team = ETeam::NoneTeam;
 
 	bObjectConstruct = false;
 }
@@ -33,6 +37,7 @@ void ASpecialWeaponObjectBase::GetLifetimeReplicatedProps(TArray<FLifetimeProper
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ASpecialWeaponObjectBase, bObjectConstruct);
+	DOREPLIFETIME(ASpecialWeaponObjectBase, Team);
 }
 
 void ASpecialWeaponObjectBase::OnConstruction(const FTransform& Transform)
@@ -143,11 +148,20 @@ bool ASpecialWeaponObjectBase::InteractionObject_Implementation(ASpaceWarCharact
 		
 		bObjectConstruct = false;
 		OnRep_ObjectConstruct();
+		PlaceSucceeded();
 		
 		OnPlaceSucceeded.Broadcast(this);
 	}
 	return true;
 }
+
+void ASpecialWeaponObjectBase::PlaceSucceeded()
+{
+	auto const PS = OwnerController->GetPlayerState<AOnlinePlayerStateBase>();
+	if(PS)
+		Team = PS->GetPlayerTeam();
+}
+
 
 
 

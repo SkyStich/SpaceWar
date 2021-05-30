@@ -9,6 +9,8 @@
 #include "Interfaces/GetDamageCauserInfo.h"
 #include "Components/HealthComponent.h"
 #include "Components/JetpackComponent.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+
 #include "SpaceWarCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -109,6 +111,9 @@ protected:
 	UStaminaComponent* StaminaComponent;
 
 private:
+
+	UPROPERTY()
+	UAIPerceptionStimuliSourceComponent* PerceptionStimuliSourceComponent;
 
 	UPROPERTY(Replicated)
 	float LookUpPitch;

@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
 #include "Components/BoxComponent.h"
-#include "GameFramework/Actor.h"
+#include "GameFramework/Pawn.h"
 #include "SpaceWar/Interfaces/CurrentCharacterObjectInterface.h"
 #include "SpaceWar/Interfaces/GetDamageCauserInfo.h"
+#include "SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h"
+#include "SpaceWar/Components/SpecialObject/SpecialObjectHealthComponent.h"
 #include "SpecialWeaponObjectBase.generated.h"
 
 class ASpaceWarCharacter;
@@ -15,12 +16,9 @@ class ASpecialWeaponObjectBase;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlaceSucceeded, ASpecialWeaponObjectBase*, SpecialActor);
 
 UCLASS()
-class SPACEWAR_API ASpecialWeaponObjectBase : public AActor, public ICurrentCharacterObjectInterface
+class SPACEWAR_API ASpecialWeaponObjectBase : public APawn, public ICurrentCharacterObjectInterface
 {
 	GENERATED_BODY()
-
-	UFUNCTION()
-	void OnRep_ObjectConstruct();
 	
 	UFUNCTION()
 	void UpdateLocation();
@@ -43,6 +41,11 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
+	virtual void PlaceSucceeded();
+	
+	UFUNCTION()
+	virtual void OnRep_ObjectConstruct();
+	
 public:
 
 	FPlaceSucceeded OnPlaceSucceeded;
@@ -52,11 +55,17 @@ protected:
 	UPROPERTY()
 	AController* OwnerController;
 
+	UPROPERTY(Replicated)
+	ETeam Team;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USkeletalMeshComponent* SkeletalMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UBoxComponent* BoxComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	USpecialObjectHealthComponent* ObjectHealthComponent;
 	
 	UPROPERTY(ReplicatedUsing = OnRep_ObjectConstruct)
 	bool bObjectConstruct;

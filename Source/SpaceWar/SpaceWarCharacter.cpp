@@ -10,6 +10,7 @@
 #include "GameFramework/Controller.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Net/UnrealNetwork.h" 
+#include "Perception/AISense_Sight.h"
 
 ASpaceWarCharacter::ASpaceWarCharacter()
 {
@@ -51,6 +52,10 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 	JetpackComponent = CreateDefaultSubobject<UJetpackComponent>(TEXT("JetpackComponent"));
 	StaminaComponent = CreateDefaultSubobject<UStaminaComponent>(TEXT("StaminaComponent"));
+
+	PerceptionStimuliSourceComponent = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("PerceptionStimuliComponent"));
+	PerceptionStimuliSourceComponent->RegisterForSense(TSubclassOf<UAISense_Sight>());
+	PerceptionStimuliSourceComponent->RegisterWithPerceptionSystem();
 }
 
 void ASpaceWarCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)

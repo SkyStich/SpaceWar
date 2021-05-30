@@ -48867,10 +48867,24 @@
             <e p="HealthComponent.h" t="Include" />
             <e p="JetpackComponent.cpp" t="Include" />
             <e p="JetpackComponent.h" t="Include" />
+            <e p="SpecialObject" t="Include">
+              <e p="SpecialObjectHealthComponent.cpp" t="Include" />
+              <e p="SpecialObjectHealthComponent.h" t="Include" />
+            </e>
             <e p="SpecialObjectManagerComponent.cpp" t="Include" />
             <e p="SpecialObjectManagerComponent.h" t="Include" />
             <e p="StaminaComponent.cpp" t="Include" />
             <e p="StaminaComponent.h" t="Include" />
+          </e>
+          <e p="Controllers" t="Include">
+            <e p="SpecialControllers" t="Include">
+              <e p="base" t="Include">
+                <e p="SpecialControllerBase.cpp" t="Include" />
+                <e p="SpecialControllerBase.h" t="Include" />
+              </e>
+              <e p="SpecialTurelController.cpp" t="Include" />
+              <e p="SpecialTurelController.h" t="Include" />
+            </e>
           </e>
           <e p="DataAssets" t="Include">
             <e p="MatchWidgetDataAsset.cpp" t="Include" />
@@ -48926,6 +48940,14 @@
               <e p="BaseGrenadeObject.h" t="Include" />
               <e p="ThrowWeaponBase.cpp" t="Include" />
               <e p="ThrowWeaponBase.h" t="Include" />
+            </e>
+          </e>
+          <e p="Pawns" t="Include">
+            <e p="Match" t="Include">
+              <e p="SpecialWeapon" t="Include">
+                <e p="BaseTurelPawn.cpp" t="Include" />
+                <e p="BaseTurelPawn.h" t="Include" />
+              </e>
             </e>
           </e>
           <e p="PlayerControllers" t="Include">
