@@ -8,6 +8,7 @@
 #include "RangeWeaponObjectBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FReload, bool, NewReloadState);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAccessoryUsed, bool, NewState);
 
 UCLASS(Blueprintable)
 class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject, public ICurrentCharacterObjectInterface
@@ -24,6 +25,9 @@ class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject, public ICu
 	UFUNCTION()
 	void OnRep_Reload();
 
+	UFUNCTION()
+	void OnRep_AccessoryUse();
+
 	UFUNCTION(Server, Unreliable)
 	void Server_ReloadStart();
 
@@ -37,6 +41,11 @@ public:
 
 	virtual bool UseCurrentPlayerObject_Implementation() override;
 	virtual void UnUseCurrentPlayerObject_Implementation() override;
+
+	virtual void StartAdditionalUsed();
+	virtual void StopAdditionalUsed();
+	bool OwnerStartAdditionalUsed();
+	bool OwnerStopAdditionalUsed();
 	
 	UFUNCTION(BlueprintPure)
 	int32 GetCurrentAmmo() const { return CurrentAmmoInWeapon; }
@@ -78,6 +87,10 @@ private:
 	UPROPERTY(Replicated)
 	int32 CurrentAmmoInStorage;
 
+
+	UPROPERTY(ReplicatedUsing = OnRep_AccessoryUse)
+	bool bAccessoryUsed;
+
 	UPROPERTY(ReplicatedUsing = OnRep_Reload)
 	bool bReloading;
 	
@@ -92,4 +105,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Weapon|Delegate")
 	FReload OnReload;
+
+	UPROPERTY(BlueprintAssignable, Category = "Weapon|Delegate")
+	FAccessoryUsed OnAccessoryUsed;
 };

@@ -36,6 +36,7 @@ void URangeWeaponObjectBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, CurrentAmmoInStorage, COND_OwnerOnly);
 	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, CurrentAmmoInWeapon, COND_OwnerOnly);
 	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, bReloading, COND_SkipOwner);
+	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, bAccessoryUsed, COND_SkipOwner);
 	DOREPLIFETIME(URangeWeaponObjectBase, WeaponData);
 }
 
@@ -199,4 +200,35 @@ void URangeWeaponObjectBase::UnUseCurrentPlayerObject_Implementation()
 	OwnerStopUseWeapon();
 }
 
+void URangeWeaponObjectBase::StartAdditionalUsed()
+{
+	if(bReloading) return;
+	bAccessoryUsed = true;
+	OnRep_AccessoryUse();
+}
 
+void URangeWeaponObjectBase::StopAdditionalUsed()
+{
+	bAccessoryUsed = false;
+	OnRep_AccessoryUse();
+}
+
+void URangeWeaponObjectBase::OnRep_AccessoryUse()
+{
+	OnAccessoryUsed.Broadcast(bAccessoryUsed);
+	StopUseWeapon();
+}
+
+bool URangeWeaponObjectBase::OwnerStartAdditionalUsed()
+{
+	if(bReloading) return false;
+	StartAdditionalUsed();
+	return true;
+}
+
+bool URangeWeaponObjectBase::OwnerStopAdditionalUsed()
+{
+	if(!bAccessoryUsed) return false;
+	StopAdditionalUsed();
+	return true;
+}

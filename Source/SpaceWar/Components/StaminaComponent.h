@@ -18,7 +18,6 @@ class SPACEWAR_API UStaminaComponent : public UActorComponent
 	void DecreaseStamina();
 
 	void StartUseStamina();
-	void StopUseStamina();
 
 	UFUNCTION()
 	void OnRep_StaminaUse();
@@ -26,6 +25,8 @@ class SPACEWAR_API UStaminaComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UStaminaComponent();
+
+	void StopUseStamina();
 
 	UFUNCTION(Server, Unreliable, BlueprintCallable)
 	void Server_StartUseStamina();

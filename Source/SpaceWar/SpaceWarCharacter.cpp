@@ -230,4 +230,30 @@ void ASpaceWarCharacter::OwnerStopUseStamina()
 	StaminaComponent->Server_StopUseStamina();
 }
 
+void ASpaceWarCharacter::Server_StartUseAccessionWeapon_Implementation()
+{
+	if(WeaponManager->GetWeaponSelect()) return;
+	
+	StaminaComponent->StopUseStamina();
+	WeaponManager->GetCurrentWeapon()->StartAdditionalUsed();
+}
 
+void ASpaceWarCharacter::Server_StopUseAccessionWeapon_Implementation()
+{
+	WeaponManager->GetCurrentWeapon()->StopAdditionalUsed();
+}
+
+void ASpaceWarCharacter::OwnerStartAdditionalUse()
+{
+	if(WeaponManager->GetWeaponSelect()) return;
+	Server_StartUseAccessionWeapon();
+	if(WeaponManager->GetCurrentWeapon()->OwnerStartAdditionalUsed())
+		StartAiming();
+}
+
+void ASpaceWarCharacter::OwnerStopAdditionalUse()
+{
+	Server_StopUseAccessionWeapon();
+	if(WeaponManager->GetCurrentWeapon()->OwnerStopAdditionalUsed())
+		StopAiming();
+}

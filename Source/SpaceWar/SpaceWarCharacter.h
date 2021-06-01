@@ -32,6 +32,12 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo
 
 	void SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr);
 
+	UFUNCTION(Server, Unreliable)
+	void Server_StartUseAccessionWeapon();
+
+	UFUNCTION(Server, Unreliable)
+	void Server_StopUseAccessionWeapon();
+
 public:
 	ASpaceWarCharacter();
 
@@ -58,6 +64,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Character|Keyboard")
 	void OwnerStopUseStamina();
 
+	UFUNCTION(BlueprintCallable, Category = "Character|Keyboard")
+	void OwnerStartAdditionalUse();
+
+	UFUNCTION(BlueprintCallable, Category = "Character|Keyboard")
+	void OwnerStopAdditionalUse();
+
 protected:
 	
 	void MoveForward(float Value);
@@ -76,6 +88,12 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void UseJetpackPressed();
 
+	UFUNCTION(BlueprintImplementableEvent)
+    void StartAiming();
+
+	UFUNCTION(BlueprintImplementableEvent)
+    void StopAiming();
+
 public:
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
@@ -91,6 +109,9 @@ protected:
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UCameraComponent* AimCamera;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SkeletalMesh, meta = (AllowPrivateAccess = "true"))
 	USkeletalMeshComponent* SkeletalArm;
