@@ -17,8 +17,6 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
-	PrimaryActorTick.TickInterval = 0.05f;
-
 	bReplicates = true;
 
 	// set our turn rates for input
@@ -43,6 +41,8 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 	FollowCamera->SetupAttachment(RootComponent);
+
+	AimCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("AimCameraComponent"));
 
 	SkeletalArm = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Arm"));
 	SkeletalArm->SetupAttachment(FollowCamera);
@@ -85,6 +85,19 @@ void ASpaceWarCharacter::BeginPlay()
 	HealthComponent->OnOwnerDead.AddDynamic(this, &ASpaceWarCharacter::CharDead);
 	StaminaComponent->OnStaminaUsed.AddDynamic(this, &ASpaceWarCharacter::OnStaminaUsedEvent);
 	
+	SetActorTickEnabled(false);
+
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		FTimerHandle TimerHand;
+		GetWorld()->GetTimerManager().SetTimer(TimerHand, this, &ASpaceWarCharacter::ReplicateUpPitch, 0.05f, true);
+	}
+}
+
+void ASpaceWarCharacter::ReplicateUpPitch()
+{
+	if(Controller)
+		LookUpPitch = Controller->GetControlRotation().Vector().Rotation().Pitch;
 }
 
 void ASpaceWarCharacter::OnStaminaUsedEvent(bool bState)
@@ -102,9 +115,13 @@ void ASpaceWarCharacter::OnStaminaUsedEvent(bool bState)
 void ASpaceWarCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	if(GetLocalRole() == ROLE_Authority && Controller)
-		LookUpPitch = Controller->GetControlRotation().Vector().Rotation().Pitch;
+
+	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("Tick!!!!!!!!!!!!!!!"), true, true, FColor::Green, 0.f);
+
+	if(Controller)
+	{
+		FollowCamera->SetWorldRotation(GetController()->GetControlRotation());
+	}
 }
 
 void ASpaceWarCharacter::OnConstruction(const FTransform& Transform)
@@ -195,6 +212,8 @@ void ASpaceWarCharacter::UpdateWeaponMesh(URangeWeaponObjectBase* Weapon)
 {
 	if(!Weapon) return;
 	SyncLoadMesh(Weapon->GetWeaponMesh());
+
+	AimCamera->AttachToComponent(GetWeaponMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "SKT_Aim");
 }
 
 void ASpaceWarCharacter::GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo)
@@ -246,14 +265,26 @@ void ASpaceWarCharacter::Server_StopUseAccessionWeapon_Implementation()
 void ASpaceWarCharacter::OwnerStartAdditionalUse()
 {
 	if(WeaponManager->GetWeaponSelect()) return;
+	
 	Server_StartUseAccessionWeapon();
 	if(WeaponManager->GetCurrentWeapon()->OwnerStartAdditionalUsed())
+	{
+		SetActorTickEnabled(true);
 		StartAiming();
+	}
 }
 
 void ASpaceWarCharacter::OwnerStopAdditionalUse()
 {
 	Server_StopUseAccessionWeapon();
 	if(WeaponManager->GetCurrentWeapon()->OwnerStopAdditionalUsed())
+	{
+		SetActorTickEnabled(false);
 		StopAiming();
+	}
+}
+
+UCameraComponent* ASpaceWarCharacter::GetActiveCamera() const
+{
+	return FollowCamera->IsActive() ? FollowCamera : AimCamera;
 }

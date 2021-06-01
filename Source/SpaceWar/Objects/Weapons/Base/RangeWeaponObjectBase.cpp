@@ -99,7 +99,7 @@ FVector URangeWeaponObjectBase::GetShootDirection()
 
 void URangeWeaponObjectBase::DropLineTrace(FHitResult& Hit)
 {
-	FVector const TraceStart = CharacterOwner->GetFollowCamera()->GetComponentLocation();             
+	FVector const TraceStart = CharacterOwner->GetActiveCamera()->GetComponentLocation();             
 	FVector const TraceEnd = WeaponData.RangeOfUse * GetShootDirection() + TraceStart;                
                                                                                                   
 	FCollisionObjectQueryParams ObjectQueryParams;                                                    

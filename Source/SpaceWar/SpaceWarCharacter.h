@@ -35,6 +35,9 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo
 	UFUNCTION(Server, Unreliable)
 	void Server_StartUseAccessionWeapon();
 
+	UFUNCTION()
+	void ReplicateUpPitch();
+
 	UFUNCTION(Server, Unreliable)
 	void Server_StopUseAccessionWeapon();
 
@@ -69,6 +72,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Character|Keyboard")
 	void OwnerStopAdditionalUse();
+
+	class UCameraComponent* GetActiveCamera() const;
 
 protected:
 	
