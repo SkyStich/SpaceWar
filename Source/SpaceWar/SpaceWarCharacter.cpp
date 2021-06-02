@@ -89,6 +89,7 @@ void ASpaceWarCharacter::BeginPlay()
 
 	if(GetLocalRole() == ROLE_Authority)
 	{
+		SetActorTickEnabled(false);
 		FTimerHandle TimerHand;
 		GetWorld()->GetTimerManager().SetTimer(TimerHand, this, &ASpaceWarCharacter::ReplicateUpPitch, 0.05f, true);
 	}
@@ -287,4 +288,22 @@ void ASpaceWarCharacter::OwnerStopAdditionalUse()
 UCameraComponent* ASpaceWarCharacter::GetActiveCamera() const
 {
 	return FollowCamera->IsActive() ? FollowCamera : AimCamera;
+}
+
+void ASpaceWarCharacter::StartPlayerFirstAid_Implementation(ETeam Team, float const Value)
+{
+	if(!Controller) return;
+	auto const PS = GetPlayerState<AOnlinePlayerStateBase>();
+
+	if(PS && PS->GetPlayerTeam() == Team)
+	{
+		FTimerDelegate TimerDel;
+		TimerDel.BindUObject(HealthComponent, &UHealthComponent::FirstAid, Value);
+		GetWorld()->GetTimerManager().SetTimer(FirstAidHandle, TimerDel, 1.f, true);
+	}
+}
+
+void ASpaceWarCharacter::StopPlayerFirstAid_Implementation()
+{
+	GetWorld()->GetTimerManager().ClearTimer(FirstAidHandle);
 }

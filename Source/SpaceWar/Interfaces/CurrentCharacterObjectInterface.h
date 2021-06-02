@@ -28,6 +28,6 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interfaces")
 	void UnUseCurrentPlayerObject();
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interfaces")
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, BlueprintAuthorityOnly, Category = "Interfaces")
 	bool InteractionObject(class ASpaceWarCharacter* Player);
 };

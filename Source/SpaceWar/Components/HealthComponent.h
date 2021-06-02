@@ -58,6 +58,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "HealthComponent")
 	void ChangeCurrentArmor(float const Value);
 
+	void FirstAid(float const Value);
+
 protected:
 	
 	UFUNCTION()

@@ -80,6 +80,15 @@ struct FEquipWeaponData : public FBaseWeaponData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	float RangeOfUse;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	FRandomStream FireRandomStream;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	float MinSpread;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	float MaxSpread;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponClass")
 	TSoftClassPtr<URangeWeaponObjectBase>WeaponObject;
 

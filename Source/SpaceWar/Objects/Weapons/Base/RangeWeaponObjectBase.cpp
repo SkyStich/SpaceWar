@@ -11,7 +11,6 @@
 
 URangeWeaponObjectBase::URangeWeaponObjectBase() 
 {
-	
 }
 
 void URangeWeaponObjectBase::BeginPlay()
@@ -26,6 +25,7 @@ void URangeWeaponObjectBase::Init(const FEquipWeaponData& NewData)
 		WeaponData = NewData;
     	CurrentAmmoInWeapon = WeaponData.MaxAmmoInWeapon;
     	CurrentAmmoInStorage = WeaponData.MaxAmmoInStorage;
+		CurrentSpread = WeaponData.MinSpread;
     }
 }
 
@@ -83,6 +83,8 @@ void URangeWeaponObjectBase::StopRateDelay()
 void URangeWeaponObjectBase::StopUseWeapon()
 {
 	Super::StopUseWeapon();
+
+	CurrentSpread = GetWeaponData().MinSpread;
 }
 
 bool URangeWeaponObjectBase::IsAbleToUseWeapon()
@@ -94,7 +96,16 @@ FVector URangeWeaponObjectBase::GetShootDirection()
 {
 	FVector RotateAroundVector = CharacterOwner->GetActorForwardVector().RotateAngleAxis(CharacterOwner->GetLookUpPitch(), CharacterOwner->GetActorRightVector());
 	RotateAroundVector.Z *= -1;
-	return RotateAroundVector;
+
+	CurrentSpread += WeaponData.MaxSpread / WeaponData.MaxAmmoInWeapon;
+
+	/** Rotate trace with horizontal */
+	FVector const HorizontalRotate = RotateAroundVector.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(CurrentSpread * -1, CurrentSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Y));
+
+	/** reottae trace with use up vector */
+	FVector const VerticalRotate = HorizontalRotate.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(CurrentSpread * -1, CurrentSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Z));
+
+	return VerticalRotate;
 }
 
 void URangeWeaponObjectBase::DropLineTrace(FHitResult& Hit)

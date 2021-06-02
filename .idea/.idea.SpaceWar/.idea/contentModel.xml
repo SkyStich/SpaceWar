@@ -48923,6 +48923,8 @@
           <e p="Interfaces" t="Include">
             <e p="CurrentCharacterObjectInterface.cpp" t="Include" />
             <e p="CurrentCharacterObjectInterface.h" t="Include" />
+            <e p="FirstAidInterface.cpp" t="Include" />
+            <e p="FirstAidInterface.h" t="Include" />
             <e p="GetDamageCauserInfo.cpp" t="Include" />
             <e p="GetDamageCauserInfo.h" t="Include" />
           </e>
@@ -48947,6 +48949,8 @@
               <e p="SpecialWeapon" t="Include">
                 <e p="BaseTurelPawn.cpp" t="Include" />
                 <e p="BaseTurelPawn.h" t="Include" />
+                <e p="SpecialFirstAidStation.cpp" t="Include" />
+                <e p="SpecialFirstAidStation.h" t="Include" />
               </e>
             </e>
           </e>

@@ -100,6 +100,9 @@ protected:
 		
 	UPROPERTY(Replicated)
 	FEquipWeaponData WeaponData;
+
+	UPROPERTY()
+	float CurrentSpread;
 	
 public:
 

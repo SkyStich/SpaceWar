@@ -41,20 +41,31 @@ void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(UHealthComponent, bOwnerDead);
 }
 
+void UHealthComponent::FirstAid(float const Value)
+{
+	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("FIRSTAID!!!!"));
+	if(CurrentHealth >= MaxHealth)
+	{
+		ChangeCurrentArmor(Value);
+		return;
+	}
+	
+	int32 const TempValue = CurrentHealth + Value - MaxHealth;
+	ChangeCurrentHealth(Value);
+	if(TempValue > 0)
+	{
+		ChangeCurrentArmor(TempValue);
+	}
+}
+
 void UHealthComponent::OnPlayerTakeAnyDamage(AActor* DamagedActor, float BaseDamage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)
 {
-	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+	GetWorld()->GetTimerManager().ClearTimer(PreRegenerationHandle);
+	GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
 
 	auto PreStart = [&]() -> void
 	{
-		if(CurrentHealth < MaxHealth)
-		{
-			StartRegenerationHealth();
-		}
-		else
-		{
-			StartRegenerationArmor();
-		}	
+		CurrentHealth < MaxHealth ? StartRegenerationHealth() : StartRegenerationArmor();
 	};
 	
 	FTimerDelegate TimerDel;
@@ -64,6 +75,8 @@ void UHealthComponent::OnPlayerTakeAnyDamage(AActor* DamagedActor, float BaseDam
 
 void UHealthComponent::OnPlayerTakeRadialDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, FVector Origin, FHitResult HitInfo, AController* InstigatedBy, AActor* DamageCauser)
 {
+	GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
+	
 	float const NewDamage = ArmorResist(Damage);
 
 	ChangeCurrentHealth(NewDamage);
@@ -77,6 +90,7 @@ void UHealthComponent::OnPlayerTakeRadialDamage(AActor* DamagedActor, float Dama
 
 void UHealthComponent::OnPlayerTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
+	GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
 	float const NewDamage = ArmorResist(Damage);
 
 	ChangeCurrentHealth(NewDamage);
@@ -118,6 +132,7 @@ void UHealthComponent::OnRep_OwnerDead()
 void UHealthComponent::ChangeCurrentArmor(float const Value)
 {
 	CurrentArmor += Value;
+	CurrentArmor = FMath::Clamp(CurrentArmor, 0.f, MaxArmor);
 }
 
 void UHealthComponent::ChangeCurrentHealth(float const Value)
@@ -125,6 +140,7 @@ void UHealthComponent::ChangeCurrentHealth(float const Value)
 	if(Value == 0) return;
 	
 	CurrentHealth += Value;
+	CurrentHealth = FMath::Clamp(CurrentHealth, 0.f, MaxHealth);
 }
 
 void UHealthComponent::Client_ArmorChanged_Implementation()
@@ -145,7 +161,7 @@ void UHealthComponent::StartRegenerationHealth()
 		CurrentHealth += HealthRegenerationPerSec;
 		if(CurrentHealth >= MaxHealth)
 		{
-			GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+			GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
 			StartRegenerationArmor();
 		}
 	});
@@ -159,7 +175,7 @@ void UHealthComponent::StartRegenerationArmor()
 		CurrentArmor += ArmorRegenerationPerSec;
 		if(CurrentArmor >= MaxArmor)
 		{
-			GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+			GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
 		}
 	};
 	FTimerDelegate TimerDelegate;

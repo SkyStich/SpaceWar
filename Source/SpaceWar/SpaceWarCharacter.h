@@ -10,11 +10,11 @@
 #include "Components/HealthComponent.h"
 #include "Components/JetpackComponent.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
-
+#include "SpaceWar/Interfaces/FirstAidInterface.h"
 #include "SpaceWarCharacter.generated.h"
 
 UCLASS(config=Game)
-class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo
+class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, public IFirstAidInterface
 {
 	GENERATED_BODY()
 
@@ -86,6 +86,9 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	virtual void StartPlayerFirstAid_Implementation(ETeam Team, float const Value) override;
+	virtual void StopPlayerFirstAid_Implementation() override;
+
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	
@@ -149,5 +152,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float RunSpeed;
+
+	FTimerHandle FirstAidHandle;
 };
 
