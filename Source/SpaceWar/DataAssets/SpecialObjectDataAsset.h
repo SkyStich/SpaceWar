@@ -18,21 +18,21 @@ struct FSpecialObject : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName ObjectName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText Description;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Price;
+		
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UTexture2D* BuyIcon;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UTexture2D* Icon;
+	UTexture2D* DescriptionIcon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TAssetSubclassOf<ASpecialWeaponObjectBase> SpecialActor;
-
-	FSpecialObject() :
-		ObjectName(TEXT("None")),
-		Price(0.f),
-		Icon(nullptr),
-		SpecialActor(nullptr) {}
 };
 
 UCLASS()
