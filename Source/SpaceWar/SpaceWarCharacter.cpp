@@ -239,7 +239,7 @@ void ASpaceWarCharacter::Server_UseJetpack_Implementation()
 
 void ASpaceWarCharacter::OwnerStartUseStamina()
 {
-	if(StaminaComponent->GetCurrentStaminaValue() > 0)
+	if(StaminaComponent->GetCurrentStaminaValue() > 0 && !WeaponManager->GetCurrentWeapon()->GetAdditionalUse())
 	{
 		StaminaComponent->Server_StartUseStamina();
 	}
@@ -252,7 +252,7 @@ void ASpaceWarCharacter::OwnerStopUseStamina()
 
 void ASpaceWarCharacter::Server_StartUseAccessionWeapon_Implementation()
 {
-	if(WeaponManager->GetWeaponSelect()) return;
+	if(WeaponManager->GetWeaponSelect() && WeaponManager->GetCurrentWeapon()->GetAdditionalUse()) return;
 	
 	StaminaComponent->StopUseStamina();
 	WeaponManager->GetCurrentWeapon()->StartAdditionalUsed();

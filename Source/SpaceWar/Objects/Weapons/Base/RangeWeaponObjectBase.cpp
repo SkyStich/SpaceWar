@@ -47,6 +47,18 @@ void URangeWeaponObjectBase::OnWeaponSelectingEvent(bool NewState)
 	ClearReload();
 }
 
+void URangeWeaponObjectBase::PlayUseWeaponEffects()
+{
+	if(CharacterOwner->GetNetMode() != NM_DedicatedServer)
+	{
+		FVector Location;
+		FRotator Rotation;
+		CharacterOwner->GetWeaponMesh()->GetSocketWorldLocationAndRotation("Muzzle", Location, Rotation);
+		UGameplayStatics::SpawnEmitterAttached(WeaponData.MuzzleParticle, CharacterOwner->GetWeaponMesh(), "Muzzle", Location, Rotation, FVector(1.f), EAttachLocation::KeepWorldPosition);
+		UGameplayStatics::SpawnSoundAttached(WeaponData.MuzzleSound, CharacterOwner->GetWeaponMesh(), "Muzzle", Location, Rotation, EAttachLocation::SnapToTarget, false);
+	}
+}
+
 bool URangeWeaponObjectBase::UseWeapon()
 {
 	if(!Super::UseWeapon()) return false;
@@ -66,6 +78,8 @@ bool URangeWeaponObjectBase::UseWeapon()
 	{
 		ApplyPointDamage(OutHit);
 	}
+
+	PlayUseWeaponEffects();
 	
 	return true;
 }
@@ -98,12 +112,13 @@ FVector URangeWeaponObjectBase::GetShootDirection()
 	RotateAroundVector.Z *= -1;
 
 	CurrentSpread += WeaponData.MaxSpread / WeaponData.MaxAmmoInWeapon;
-
+	float const TempSpread = bAccessoryUsed ? 0.f : CurrentSpread;
+	
 	/** Rotate trace with horizontal */
-	FVector const HorizontalRotate = RotateAroundVector.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(CurrentSpread * -1, CurrentSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Y));
+	FVector const HorizontalRotate = RotateAroundVector.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Y));
 
 	/** reottae trace with use up vector */
-	FVector const VerticalRotate = HorizontalRotate.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(CurrentSpread * -1, CurrentSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Z));
+	FVector const VerticalRotate = HorizontalRotate.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Z));
 
 	return VerticalRotate;
 }

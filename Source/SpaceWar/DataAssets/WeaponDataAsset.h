@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Sound/SoundCue.h"
 #include "SpaceWar/Actors/Match/Projectile/Throw/Base/BaseThrowProjectile.h"
 #include "WeaponDataAsset.generated.h"
 
@@ -94,6 +95,12 @@ struct FEquipWeaponData : public FBaseWeaponData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponCategory")
 	EWeaponCategory Category;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|ClientEffects")
+	UParticleSystem* MuzzleParticle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	USoundBase* MuzzleSound;
 };
 
 

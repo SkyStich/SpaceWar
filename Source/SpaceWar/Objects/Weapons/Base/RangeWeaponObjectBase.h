@@ -21,6 +21,7 @@ class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject, public ICu
 
 	void ReloadStart();
 	void ReloadStop();
+	void PlayUseWeaponEffects();
 
 	UFUNCTION()
 	void OnRep_Reload();
@@ -52,6 +53,9 @@ public:
 	
 	UFUNCTION(BlueprintPure)
 	int32 GetCurrentAmmoInStorage() const { return CurrentAmmoInStorage; }
+	
+	UFUNCTION(BlueprintPure)
+	float GetAdditionalUse() const { return bAccessoryUsed; } 
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon|Button")
 	void OwnerReload();
@@ -86,7 +90,6 @@ private:
 
 	UPROPERTY(Replicated)
 	int32 CurrentAmmoInStorage;
-
 
 	UPROPERTY(ReplicatedUsing = OnRep_AccessoryUse)
 	bool bAccessoryUsed;
