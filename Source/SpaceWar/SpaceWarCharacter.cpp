@@ -79,7 +79,7 @@ void ASpaceWarCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "WeaponPoint");
-	IsLocallyControlled() ? GetMesh()->SetVisibility(false) : SkeletalArm->SetVisibility(false);
+	IsLocallyControlled() || GetNetMode() == NM_DedicatedServer ? GetMesh()->SetVisibility(false) : SkeletalArm->DestroyComponent();
 	UKismetSystemLibrary::PrintString(GetWorld(), FString::Printf(TEXT("Locally: %d"), IsLocallyControlled()));
 
 	HealthComponent->OnOwnerDead.AddDynamic(this, &ASpaceWarCharacter::CharDead);
@@ -116,8 +116,6 @@ void ASpaceWarCharacter::OnStaminaUsedEvent(bool bState)
 void ASpaceWarCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("Tick!!!!!!!!!!!!!!!"), true, true, FColor::Green, 0.f);
 
 	if(Controller)
 	{
@@ -214,7 +212,7 @@ void ASpaceWarCharacter::UpdateWeaponMesh(URangeWeaponObjectBase* Weapon)
 	if(!Weapon) return;
 	SyncLoadMesh(Weapon->GetWeaponMesh());
 
-	AimCamera->AttachToComponent(GetWeaponMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "SKT_Aim");
+	AimCamera->AttachToComponent(GetWeaponMesh(), FAttachmentTransformRules::KeepWorldTransform, "SKT_Aim");
 }
 
 void ASpaceWarCharacter::GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo)
@@ -256,11 +254,15 @@ void ASpaceWarCharacter::Server_StartUseAccessionWeapon_Implementation()
 	
 	StaminaComponent->StopUseStamina();
 	WeaponManager->GetCurrentWeapon()->StartAdditionalUsed();
+	SetActorTickEnabled(true);
+	StartAiming();
 }
 
 void ASpaceWarCharacter::Server_StopUseAccessionWeapon_Implementation()
 {
 	WeaponManager->GetCurrentWeapon()->StopAdditionalUsed();
+	SetActorTickEnabled(false);
+	StopAiming();
 }
 
 void ASpaceWarCharacter::OwnerStartAdditionalUse()
@@ -285,9 +287,9 @@ void ASpaceWarCharacter::OwnerStopAdditionalUse()
 	}
 }
 
-UCameraComponent* ASpaceWarCharacter::GetActiveCamera() const
+FVector ASpaceWarCharacter::GetCurrentFireTrace() const
 {
-	return FollowCamera->IsActive() ? FollowCamera : AimCamera;
+	return GetWeaponManager()->GetCurrentWeapon()->GetAdditionalUse() ? AimCamera->GetComponentLocation() : FollowCamera->GetComponentLocation();
 }
 
 void ASpaceWarCharacter::StartPlayerFirstAid_Implementation(ETeam Team, float const Value)

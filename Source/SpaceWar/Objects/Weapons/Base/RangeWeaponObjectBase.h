@@ -22,7 +22,8 @@ class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject, public ICu
 	void ReloadStart();
 	void ReloadStop();
 	void PlayUseWeaponEffects();
-
+	FVector FindRotateAround();
+	
 	UFUNCTION()
 	void OnRep_Reload();
 

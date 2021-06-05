@@ -90,6 +90,10 @@ void UHealthComponent::OnPlayerTakeRadialDamage(AActor* DamagedActor, float Dama
 
 void UHealthComponent::OnPlayerTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
+	if(BoneName == "b_head")
+	{
+		Damage *= 2.f;
+	}
 	GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
 	float const NewDamage = ArmorResist(Damage);
 

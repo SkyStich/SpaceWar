@@ -5,6 +5,7 @@
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include "SpaceWar/Interfaces/DropHelperTraceInterface.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
@@ -106,16 +107,21 @@ bool URangeWeaponObjectBase::IsAbleToUseWeapon()
 	return Super::IsAbleToUseWeapon() && (!CharacterOwner->Controller || CurrentAmmoInWeapon > 0) && !bReloading;
 }
 
-FVector URangeWeaponObjectBase::GetShootDirection()
+FVector URangeWeaponObjectBase::FindRotateAround()
 {
 	FVector RotateAroundVector = CharacterOwner->GetActorForwardVector().RotateAngleAxis(CharacterOwner->GetLookUpPitch(), CharacterOwner->GetActorRightVector());
-	RotateAroundVector.Z *= -1;
+ 	RotateAroundVector.Z *= -1;
+	return RotateAroundVector;
+}
 
+FVector URangeWeaponObjectBase::GetShootDirection()
+{
+	FVector const RotateAroundVector = FindRotateAround();
 	CurrentSpread += WeaponData.MaxSpread / WeaponData.MaxAmmoInWeapon;
 	float const TempSpread = bAccessoryUsed ? 0.f : CurrentSpread;
 	
 	/** Rotate trace with horizontal */
-	FVector const HorizontalRotate = RotateAroundVector.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Y));
+	FVector const HorizontalRotate = FindRotateAround().RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Y));
 
 	/** reottae trace with use up vector */
 	FVector const VerticalRotate = HorizontalRotate.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Z));
@@ -125,20 +131,16 @@ FVector URangeWeaponObjectBase::GetShootDirection()
 
 void URangeWeaponObjectBase::DropLineTrace(FHitResult& Hit)
 {
-	FVector const TraceStart = CharacterOwner->GetActiveCamera()->GetComponentLocation();             
-	FVector const TraceEnd = WeaponData.RangeOfUse * GetShootDirection() + TraceStart;                
-                                                                                                  
-	FCollisionObjectQueryParams ObjectQueryParams;                                                    
-	ObjectQueryParams.AddObjectTypesToQuery(ECC_Pawn);
-	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
-	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);   
+	FVector const TraceStart = CharacterOwner->GetCurrentFireTrace();
+	FVector const TraceEnd = WeaponData.RangeOfUse * GetShootDirection() + TraceStart;
+	
                                                                                                   
 	FCollisionQueryParams QueryParams;                                                                
 	QueryParams.AddIgnoredActor(CharacterOwner);                                                      
                                                                                                   
-	GetWorld()->LineTraceSingleByObjectType(Hit,TraceStart, TraceEnd, ObjectQueryParams, QueryParams);
+	GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECC_GameTraceChannel4, QueryParams);
                                                                                                   
-	DrawDebugLine(GetWorld(), Hit.TraceStart, Hit.TraceEnd, FColor::Green, false, 0.5f);
+	DrawDebugLine(GetWorld(), Hit.TraceStart, Hit.TraceEnd, IsAuthority() ? FColor::Purple : FColor::Green, false, 0.5f);
 	DrawDebugSphere(GetWorld(), Hit.ImpactPoint, 14.f, 6,FColor::Yellow, false, 0.5f);                                                      	   
 }
 

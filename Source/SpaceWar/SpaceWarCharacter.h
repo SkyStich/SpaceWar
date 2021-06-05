@@ -73,7 +73,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Character|Keyboard")
 	void OwnerStopAdditionalUse();
 
-	class UCameraComponent* GetActiveCamera() const;
+	FVector GetCurrentFireTrace() const;
 
 protected:
 	

@@ -18,6 +18,7 @@ AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 	bReplicates = true;
 	NetUpdateFrequency = 5.f;
 	bCanSpawn = true;
+	bAttachToPawn = true;
 
 	SpecialObjectManager = CreateDefaultSubobject<USpecialObjectManagerComponent>(TEXT("SpecialObjectManager"));
 
@@ -125,4 +126,3 @@ bool AMatchPlayerControllerBase::OwnerAddSpecialObject(const FName& ObjectId)
 	Server_CreateSpecialObject(ObjectId, GetPawn()->GetTransform());
 	return true;
 }
-
