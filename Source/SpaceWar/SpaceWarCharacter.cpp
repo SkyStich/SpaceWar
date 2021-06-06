@@ -43,6 +43,7 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	FollowCamera->SetupAttachment(RootComponent);
 
 	AimCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("AimCameraComponent"));
+	AimCamera->SetupAttachment(WeaponMesh);
 
 	SkeletalArm = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Arm"));
 	SkeletalArm->SetupAttachment(FollowCamera);
@@ -194,7 +195,7 @@ void ASpaceWarCharacter::MoveRight(float Value)
 
 USkeletalMeshComponent* ASpaceWarCharacter::GetLocalMesh() const
 {
-	return IsLocallyControlled() ? SkeletalArm : GetMesh();
+	return IsLocallyControlled() || NM_DedicatedServer ? SkeletalArm : GetMesh();
 }
 
 void ASpaceWarCharacter::SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr)
@@ -211,8 +212,7 @@ void ASpaceWarCharacter::UpdateWeaponMesh(URangeWeaponObjectBase* Weapon)
 {
 	if(!Weapon) return;
 	SyncLoadMesh(Weapon->GetWeaponMesh());
-
-	AimCamera->AttachToComponent(GetWeaponMesh(), FAttachmentTransformRules::KeepWorldTransform, "SKT_Aim");
+	AimCamera->AttachToComponent(GetWeaponMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "SKT_Aim");
 }
 
 void ASpaceWarCharacter::GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo)
@@ -269,9 +269,9 @@ void ASpaceWarCharacter::OwnerStartAdditionalUse()
 {
 	if(WeaponManager->GetWeaponSelect()) return;
 	
-	Server_StartUseAccessionWeapon();
 	if(WeaponManager->GetCurrentWeapon()->OwnerStartAdditionalUsed())
 	{
+		Server_StartUseAccessionWeapon();
 		SetActorTickEnabled(true);
 		StartAiming();
 	}
@@ -279,10 +279,10 @@ void ASpaceWarCharacter::OwnerStartAdditionalUse()
 
 void ASpaceWarCharacter::OwnerStopAdditionalUse()
 {
-	Server_StopUseAccessionWeapon();
 	if(WeaponManager->GetCurrentWeapon()->OwnerStopAdditionalUsed())
 	{
 		SetActorTickEnabled(false);
+		Server_StopUseAccessionWeapon();
 		StopAiming();
 	}
 }

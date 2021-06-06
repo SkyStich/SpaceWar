@@ -34,6 +34,9 @@ class SPACEWAR_API UHealthComponent : public UActorComponent
 	void StartRegenerationHealth();
 	void StartRegenerationArmor();
 
+	void ArmorRegeneration();
+	void HealthRegeneration();
+
 public:	
 	// Sets default values for this component's properties
 	UHealthComponent();

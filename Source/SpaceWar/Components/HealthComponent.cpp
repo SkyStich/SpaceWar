@@ -140,9 +140,7 @@ void UHealthComponent::ChangeCurrentArmor(float const Value)
 }
 
 void UHealthComponent::ChangeCurrentHealth(float const Value)
-{
-	if(Value == 0) return;
-	
+{	
 	CurrentHealth += Value;
 	CurrentHealth = FMath::Clamp(CurrentHealth, 0.f, MaxHealth);
 }
@@ -160,32 +158,34 @@ void UHealthComponent::Client_HealthChanged_Implementation()
 void UHealthComponent::StartRegenerationHealth()
 {
 	FTimerDelegate TimerDel;
-	TimerDel.BindLambda([&]() -> void
-	{
-		CurrentHealth += HealthRegenerationPerSec;
-		if(CurrentHealth >= MaxHealth)
-		{
-			GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
-			StartRegenerationArmor();
-		}
-	});
+	TimerDel.BindUObject(this, &UHealthComponent::HealthRegeneration);
 	GetWorld()->GetTimerManager().SetTimer(RegenerationHandle, TimerDel, 0.05f, true);
 }
 
 void UHealthComponent::StartRegenerationArmor()
 {
-	auto f = [&]() -> void
-	{
-		CurrentArmor += ArmorRegenerationPerSec;
-		if(CurrentArmor >= MaxArmor)
-		{
-			GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
-		}
-	};
 	FTimerDelegate TimerDelegate;
-	TimerDelegate.BindLambda(f);
+	TimerDelegate.BindUObject(this, &UHealthComponent::ArmorRegeneration);
 	GetWorld()->GetTimerManager().SetTimer(RegenerationHandle, TimerDelegate, 0.05f, true);
 }
 
+void UHealthComponent::HealthRegeneration()
+{
+	CurrentHealth += HealthRegenerationPerSec;
+	if(CurrentHealth >= MaxHealth)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
+		StartRegenerationArmor();
+	}
+}
+
+void UHealthComponent::ArmorRegeneration()
+{
+	CurrentArmor += ArmorRegenerationPerSec;
+	if(CurrentArmor >= MaxArmor)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
+	}
+}
 
 
