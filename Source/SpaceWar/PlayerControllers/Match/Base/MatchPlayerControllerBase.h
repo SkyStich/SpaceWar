@@ -5,12 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "SpaceWar/Components/SpecialObjectManagerComponent.h"
+#include "SpaceWar/Interfaces/UpdateSpecialPointsInterface.h"
 #include "MatchPlayerControllerBase.generated.h"
 
 class ASpaceWarCharacter;
 
 UCLASS(Blueprintable)
-class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController
+class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public IUpdateSpecialPointsInterface
 {
 	GENERATED_BODY()
 	
@@ -44,22 +45,31 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "PlayerController|SpecialObject")
 	bool OwnerAddSpecialObject(const FName& ObjectId);
 
+	void IncreaseSpecialPoint_Implementation(int32 const Value) override;
+	void DecreaseSpecialPoint_Implementation(int32 const Value) override;
+	
+
 protected:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void SetupInputComponent() override;
 	virtual void OnRep_Pawn() override;
+	virtual void OnPossess(APawn* InPawn) override;
+	virtual void BeginPlay() override;
 
 private:
 
 	UPROPERTY(Replicated)
 	TSubclassOf<ASpaceWarCharacter>PlayerClass;
 	
-	UPROPERTY(Replicated)
+//	UPROPERTY(Replicated)
 	bool bCanSpawn;
 
 	UPROPERTY()
 	USpecialObjectManagerComponent* SpecialObjectManager;
 
+	UPROPERTY(EditAnywhere, Category = "Special")
+	int32 DecreaseSpecialPointsValue;
+	
 	FTimerHandle RespawnTimer;
 };

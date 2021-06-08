@@ -15,7 +15,6 @@ void AMatchGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	LaunchGameTimer();
-
 }
 
 void AMatchGameModeBase::CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)

@@ -8,8 +8,10 @@
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
+#include "SpaceWar/SpaceWarCharacter.h"
 #include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
 #include "SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h"
+#include "SpaceWar/Interfaces/UpdateSpecialPointsInterface.h"
 
 
 // Sets default values
@@ -64,6 +66,7 @@ void ATeamPoints::OnPointCaptureCollisionBeginOverlap(UPrimitiveComponent* Overl
 	if(OtherState->GetPlayerTeam() == OwnerTeam)
 	{
 		CurrentAmountOwnerInPoint++;
+		OwnersController.Add(OtherCharacter->Controller);
 
 		if(CurrentAmountOwnerInPoint > 1 && CurrentValueCapture >= 100) return;
 		
@@ -102,6 +105,8 @@ void ATeamPoints::OnPointCaptureCollisionEndOverlap(UPrimitiveComponent* Overlap
 	if(OtherState->GetPlayerTeam() == OwnerTeam)
 	{
 		CurrentAmountOwnerInPoint--;
+		OwnersController.Remove(OtherCharacter->Controller);
+		
 		if(CurrentAmountOwnerInPoint <= 0 && CurrentValueCapture <= 100)
 		{
 			if(CurrentAmountEnemyAtPoint <= 0)
@@ -144,6 +149,20 @@ void ATeamPoints::LaunchPointCapture(ETeam CaptureTeam)
 		CurrentAmountOwnerInPoint = CurrentAmountEnemyAtPoint;
 		CurrentAmountEnemyAtPoint = 0;
 		OwnerTeam = CaptureTeam;
+		
+		OwnersController.RemoveAll(AController::StaticClass());
+		TArray<AActor*> OverlapActors;
+		PointCaptureCollision->GetOverlappingActors(OverlapActors, ASpaceWarCharacter::StaticClass());
+		for(auto& ByArray : OverlapActors)
+		{
+			auto const Character = Cast<ASpaceWarCharacter>(ByArray);
+			if(!Character) continue;
+			
+			if()
+			{
+				OwnersController.Add(Character->Controller);
+			}
+		}
 		OnRep_TeamPoints();
 		GetWorld()->GetTimerManager().SetTimer(CaptureHandle, this, &ATeamPoints::IncreaseCurrentValueCapture, 0.1, true);
 	}

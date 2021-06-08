@@ -60,6 +60,9 @@ private:
 
 	UPROPERTY(Replicated)
 	float CurrentValueCapture;
+
+	UPROPERTY()
+	TArray<AController*> OwnersController;
 	
 	int32 CurrentAmountOwnerInPoint;
 	int32 CurrentAmountEnemyAtPoint;

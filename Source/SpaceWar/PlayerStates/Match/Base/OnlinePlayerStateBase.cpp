@@ -33,6 +33,7 @@ void AOnlinePlayerStateBase::IncrementNumberOfDeaths()
 void AOnlinePlayerStateBase::DecrementNumberOfMurders()
 {
 	NumberOfMurders--;
+	OnNumberOnMurdersDecrease.Broadcast();
 	OnRep_NumberOfMurders();
 }
 
@@ -45,7 +46,6 @@ void AOnlinePlayerStateBase::IncrementNumberOfMurders()
 void AOnlinePlayerStateBase::OnRep_NumberOfDeaths()
 {
 	OnNumberOfDeathsChanged.Broadcast();
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("OnRep_NumberOfDeaths"));
 }
 
 void AOnlinePlayerStateBase::OnRep_NumberOfMurders()

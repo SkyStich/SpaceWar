@@ -16,7 +16,9 @@
 AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 {
 	bReplicates = true;
-	NetUpdateFrequency = 5.f;
+	NetUpdateFrequency = 2.f;
+
+	DecreaseSpecialPointsValue = 200;
 	bCanSpawn = true;
 	bAttachToPawn = true;
 
@@ -29,12 +31,17 @@ AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 	}
 }
 
+void AMatchPlayerControllerBase::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 void AMatchPlayerControllerBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AMatchPlayerControllerBase, PlayerClass);
-	DOREPLIFETIME_CONDITION(AMatchPlayerControllerBase, bCanSpawn, COND_OwnerOnly);
+	//DOREPLIFETIME_CONDITION(AMatchPlayerControllerBase, bCanSpawn, COND_OwnerOnly);
 }
 
 void AMatchPlayerControllerBase::SetPlayerClass(TSubclassOf<ASpaceWarCharacter> NewPlayerClass)
@@ -49,6 +56,7 @@ void AMatchPlayerControllerBase::SpawnPlayer()
 {
 	if(!bCanSpawn) return;
 
+	GetWorld()->GetTimerManager().ClearTimer(RespawnTimer);
 	ASpaceWarCharacter* CharacterForSpawn;
 	auto const GM = Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	if(GM)
@@ -56,6 +64,11 @@ void AMatchPlayerControllerBase::SpawnPlayer()
 		GM->SpawnCharacter(this, CharacterForSpawn);
 		bCanSpawn = false;
 	}	
+}
+
+void AMatchPlayerControllerBase::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
 }
 
 void AMatchPlayerControllerBase::LaunchRespawnTimer(float const Time)
@@ -70,7 +83,6 @@ void AMatchPlayerControllerBase::LaunchRespawnTimer(float const Time)
 
 void AMatchPlayerControllerBase::Server_SpawnPlayerPressed_Implementation()
 {
-	GetWorld()->GetTimerManager().ClearTimer(RespawnTimer);
 	SpawnPlayer();
 }
 
@@ -126,3 +138,14 @@ bool AMatchPlayerControllerBase::OwnerAddSpecialObject(const FName& ObjectId)
 	Server_CreateSpecialObject(ObjectId, GetPawn()->GetTransform());
 	return true;
 }
+
+void AMatchPlayerControllerBase::DecreaseSpecialPoint_Implementation(int32 const Value)
+{
+	SpecialObjectManager->DecreasePoints(Value);
+}
+
+void AMatchPlayerControllerBase::IncreaseSpecialPoint_Implementation(int32 const Value)
+{
+	SpecialObjectManager->IncreasePoints(Value);
+}
+

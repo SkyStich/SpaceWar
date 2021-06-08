@@ -6,7 +6,8 @@
 #include "GameFramework/PlayerState.h"
 #include "OnlinePlayerStateBase.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNumberOfMurdersChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNumberOfMurdersIncrease);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNumberOnMurdersDecrease);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNumberOfDeathsChanged);
 
 UENUM(BlueprintType)
@@ -53,7 +54,10 @@ protected:
 public:
 
 	UPROPERTY(BlueprintAssignable, Category = "PlayerState|Delegates")
-	FNumberOfMurdersChanged OnNumberOfMurdersChanged;
+	FNumberOfMurdersIncrease OnNumberOfMurdersChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "PlayerState|Delegates")
+	FNumberOnMurdersDecrease OnNumberOnMurdersDecrease;
 	
 	UPROPERTY(BlueprintAssignable, Category = "PlayerState|Delegates")
 	FNumberOfDeathsChanged OnNumberOfDeathsChanged;

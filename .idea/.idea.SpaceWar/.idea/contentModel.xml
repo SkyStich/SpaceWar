@@ -48929,6 +48929,10 @@
             <e p="FirstAidInterface.h" t="Include" />
             <e p="GetDamageCauserInfo.cpp" t="Include" />
             <e p="GetDamageCauserInfo.h" t="Include" />
+            <e p="GetPlayerTeamInterface.cpp" t="Include" />
+            <e p="GetPlayerTeamInterface.h" t="Include" />
+            <e p="UpdateSpecialPointsInterface.cpp" t="Include" />
+            <e p="UpdateSpecialPointsInterface.h" t="Include" />
           </e>
           <e p="Objects" t="Include">
             <e p="Weapons" t="Include">
