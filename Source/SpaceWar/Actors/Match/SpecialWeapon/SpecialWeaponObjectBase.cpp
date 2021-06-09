@@ -157,9 +157,10 @@ bool ASpecialWeaponObjectBase::InteractionObject_Implementation(ASpaceWarCharact
 
 void ASpecialWeaponObjectBase::PlaceSucceeded()
 {
-	auto const PS = OwnerController->GetPlayerState<AOnlinePlayerStateBase>();
-	if(PS)
-		Team = PS->GetPlayerTeam();
+	if(OwnerController->PlayerState->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass()))
+	{
+		Team = IGetPlayerTeamInterface::Execute_FindPlayerTeam(OwnerController->PlayerState);
+	}
 }
 
 

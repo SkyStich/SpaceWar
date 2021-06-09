@@ -202,7 +202,7 @@ void ASpaceWarCharacter::SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr)
 {
 	if(MeshPtr.IsPending())
 	{
-		FSoftObjectPath Ref = MeshPtr.ToSoftObjectPath();
+		FSoftObjectPath const Ref = MeshPtr.ToSoftObjectPath();
 		MeshPtr = Cast<USkeletalMesh>(UBaseSingleton::Get().AssetLoader.LoadSynchronous(Ref));
 	}
 	WeaponMesh->SetSkeletalMesh(MeshPtr.Get());
@@ -295,9 +295,7 @@ FVector ASpaceWarCharacter::GetCurrentFireTrace() const
 void ASpaceWarCharacter::StartPlayerFirstAid_Implementation(ETeam Team, float const Value)
 {
 	if(!Controller) return;
-	auto const PS = GetPlayerState<AOnlinePlayerStateBase>();
-
-	if(PS && PS->GetPlayerTeam() == Team)
+	if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(Controller->PlayerState) == Team)
 	{
 		FTimerDelegate TimerDel;
 		TimerDel.BindUObject(HealthComponent, &UHealthComponent::FirstAid, Value);

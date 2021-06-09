@@ -45,8 +45,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "PlayerController|SpecialObject")
 	bool OwnerAddSpecialObject(const FName& ObjectId);
 
-	void IncreaseSpecialPoint_Implementation(int32 const Value) override;
-	void DecreaseSpecialPoint_Implementation(int32 const Value) override;
+	virtual void IncreaseSpecialPoint_Implementation(int32 const Value) override;
+	virtual void DecreaseSpecialPoint_Implementation(int32 const Value) override;
 	
 
 protected:

@@ -39,8 +39,8 @@ void ASpecialTurelController::OnPerceptionUpdate(AActor* Actor, FAIStimulus Stim
 	{
 		if(TurelPawn->bObjectUsed) return;
 
-		auto const PS = Actor->GetInstigatorController()->GetPlayerState<AOnlinePlayerStateBase>();
-		if(!PS || PS->GetPlayerTeam() == TurelPawn->Team) return;
+		auto const PS = Actor->GetInstigatorController()->PlayerState;
+		if(!PS->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass()) && IGetPlayerTeamInterface::Execute_FindPlayerTeam(PS) == TurelPawn->Team) return;                                                         
 
 		GetWorld()->GetTimerManager().ClearTimer(PerceptionRefreshHandle);
 		TurelPawn->TargetActor = Actor;
@@ -69,8 +69,8 @@ AActor* ASpecialTurelController::GetFirstPerceptionByTeam()
 	Perception->GetKnownPerceivedActors(UAISense_Sight::StaticClass(), Actors);
 	for(auto& ByArray : Actors)
 	{
-		auto const PS = ByArray->GetInstigatorController()->GetPlayerState<AOnlinePlayerStateBase>();
-		if(PS && PS->GetPlayerTeam() != TurelPawn->Team)
+		auto const PS = ByArray->GetInstigatorController()->PlayerState;
+		if(PS->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass()) && IGetPlayerTeamInterface::Execute_FindPlayerTeam(PS) != TurelPawn->Team)
 		{
 			return ByArray;
 		}

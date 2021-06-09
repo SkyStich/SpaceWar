@@ -24,6 +24,7 @@ class SPACEWAR_API ATeamPoints : public AActor
 
 	void StartAddPoint();
 	void UpdateTeamPoints(class AOnlineMatchGameModeBase* OnlineGameMode);
+	void UpdateSpecialPoints();
 	
 public:	
 	// Sets default values for this actor's properties
@@ -59,7 +60,7 @@ private:
 	bool bIsCapture;
 
 	UPROPERTY(Replicated)
-	float CurrentValueCapture;
+	int32 CurrentValueCapture;
 
 	UPROPERTY()
 	TArray<AController*> OwnersController;
@@ -69,4 +70,5 @@ private:
 
 	FTimerHandle CaptureHandle;
 	FTimerHandle AddPointHandle;
+	FTimerHandle AddPointsForOwnerHandle;
 };

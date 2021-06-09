@@ -4,6 +4,11 @@
 #include "OnlinePlayerStateBase.h"
 #include "Net/UnrealNetwork.h"
 
+bool AOnlinePlayerStateBase::operator()(AOnlinePlayerStateBase* State)
+{
+	return PlayerTeam == State->PlayerTeam;
+}
+
 void AOnlinePlayerStateBase::SetTeam(const ETeam NewTeam)
 {
 	PlayerTeam = NewTeam;

@@ -10,9 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
-#include "SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h"
 #include "SpaceWar/Interfaces/UpdateSpecialPointsInterface.h"
-
 
 // Sets default values
 ATeamPoints::ATeamPoints()
@@ -61,9 +59,11 @@ void ATeamPoints::OnPointCaptureCollisionBeginOverlap(UPrimitiveComponent* Overl
 	ACharacter* OtherCharacter = Cast<ACharacter>(OtherActor);
 	if(!OtherCharacter) return;
 
-	auto const OtherState = Cast<AOnlinePlayerStateBase>(OtherCharacter->Controller->PlayerState);
+	auto const TempState = OtherCharacter->GetController()->PlayerState;
+	if(!TempState->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass())) return;
+	ETeam const TempTeam = IGetPlayerTeamInterface::Execute_FindPlayerTeam(TempState);
 	
-	if(OtherState->GetPlayerTeam() == OwnerTeam)
+	if(TempTeam == OwnerTeam)
 	{
 		CurrentAmountOwnerInPoint++;
 		OwnersController.Add(OtherCharacter->Controller);
@@ -91,7 +91,7 @@ void ATeamPoints::OnPointCaptureCollisionBeginOverlap(UPrimitiveComponent* Overl
 	
 	if(!GetWorld()->GetTimerManager().IsTimerActive(CaptureHandle))
 	{
-		LaunchPointCapture(OtherState->GetPlayerTeam());
+		LaunchPointCapture(TempTeam);
 	}
 }
 
@@ -100,9 +100,11 @@ void ATeamPoints::OnPointCaptureCollisionEndOverlap(UPrimitiveComponent* Overlap
 	ACharacter* OtherCharacter = Cast<ACharacter>(OtherActor);
 	if(!OtherCharacter) return;
 
-	auto const OtherState = Cast<AOnlinePlayerStateBase>(OtherCharacter->Controller->PlayerState);
+	auto const TempState = OtherCharacter->GetController()->PlayerState;
+	if(!TempState->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass())) return;
+	ETeam const TempTeam = IGetPlayerTeamInterface::Execute_FindPlayerTeam(TempState);
 
-	if(OtherState->GetPlayerTeam() == OwnerTeam)
+	if(TempTeam == OwnerTeam)
 	{
 		CurrentAmountOwnerInPoint--;
 		OwnersController.Remove(OtherCharacter->Controller);
@@ -112,6 +114,7 @@ void ATeamPoints::OnPointCaptureCollisionEndOverlap(UPrimitiveComponent* Overlap
 			if(CurrentAmountEnemyAtPoint <= 0)
 			{
 				GetWorld()->GetTimerManager().ClearTimer(CaptureHandle);
+				GetWorld()->GetTimerManager().ClearTimer(AddPointsForOwnerHandle);
 			}
 			else
 			{
@@ -131,6 +134,7 @@ void ATeamPoints::OnPointCaptureCollisionEndOverlap(UPrimitiveComponent* Overlap
 void ATeamPoints::RefreshLaunchCapture()
 {
 	GetWorld()->GetTimerManager().SetTimer(CaptureHandle, this, &ATeamPoints::IncreaseCurrentValueCapture, 0.1, true);
+	GetWorld()->GetTimerManager().SetTimer(AddPointsForOwnerHandle, this, &ATeamPoints::UpdateSpecialPoints, 2.f, true);
 }
 
 void ATeamPoints::OnRep_TeamPoints()
@@ -143,29 +147,34 @@ void ATeamPoints::LaunchPointCapture(ETeam CaptureTeam)
 	if(CurrentValueCapture > 0)
 	{
 		GetWorld()->GetTimerManager().SetTimer(CaptureHandle, this, &ATeamPoints::DecreaseCurrentValueCapture, 0.1, true);
+		return;
 	}
-	else
+	
+	CurrentAmountOwnerInPoint = CurrentAmountEnemyAtPoint;
+	CurrentAmountEnemyAtPoint = 0;
+	OwnerTeam = CaptureTeam;
+
+	TArray<AActor*> OverlapActors;
+	PointCaptureCollision->GetOverlappingActors(OverlapActors, ASpaceWarCharacter::StaticClass());
+	for(auto& ByArray : OverlapActors)
 	{
-		CurrentAmountOwnerInPoint = CurrentAmountEnemyAtPoint;
-		CurrentAmountEnemyAtPoint = 0;
-		OwnerTeam = CaptureTeam;
-		
-		OwnersController.RemoveAll(AController::StaticClass());
-		TArray<AActor*> OverlapActors;
-		PointCaptureCollision->GetOverlappingActors(OverlapActors, ASpaceWarCharacter::StaticClass());
-		for(auto& ByArray : OverlapActors)
-		{
-			auto const Character = Cast<ASpaceWarCharacter>(ByArray);
-			if(!Character) continue;
+		auto const Character = Cast<ASpaceWarCharacter>(ByArray);
+		if(!Character) continue;
 			
-			if()
-			{
-				OwnersController.Add(Character->Controller);
-			}
+		auto const TempState = Character->GetController()->PlayerState;
+		if(!TempState->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass())) continue;
+
+		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(TempState) == OwnerTeam)
+		{
+			OwnersController.Add(Character->Controller);
 		}
-		OnRep_TeamPoints();
-		GetWorld()->GetTimerManager().SetTimer(CaptureHandle, this, &ATeamPoints::IncreaseCurrentValueCapture, 0.1, true);
+		else
+		{
+			OwnersController.Remove(Character->Controller);
+		}
 	}
+	OnRep_TeamPoints();
+	RefreshLaunchCapture();
 }
 
 void ATeamPoints::StopPointCapture()
@@ -176,6 +185,7 @@ void ATeamPoints::StopPointCapture()
 void ATeamPoints::IncreaseCurrentValueCapture()
 {
 	CurrentValueCapture += 1 * FMath::Min(CurrentAmountOwnerInPoint, 5);
+		
 	if(CurrentValueCapture >= 100)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(CaptureHandle);
@@ -192,9 +202,7 @@ void ATeamPoints::DecreaseCurrentValueCapture()
 	{
 		bIsCapture = false;
 		
-		GetWorld()->GetTimerManager().ClearTimer(CaptureHandle);
-		GetWorld()->GetTimerManager().ClearTimer(AddPointHandle);
-		
+		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 		LaunchPointCapture(OwnerTeam == ETeam::TeamA ? ETeam::TeamB : ETeam::TeamA);
 	}
 }
@@ -213,4 +221,12 @@ void ATeamPoints::StartAddPoint()
 void ATeamPoints::UpdateTeamPoints(AOnlineMatchGameModeBase* OnlineGameMode)
 {
 	OnlineGameMode->UpdateTeamPoints(1, OwnerTeam);
+}
+
+void ATeamPoints::UpdateSpecialPoints()
+{
+	for(auto& ByArray : OwnersController)
+	{
+		IUpdateSpecialPointsInterface::Execute_IncreaseSpecialPoint(ByArray, 160 * FMath::Min(CurrentAmountOwnerInPoint, 5));
+	}
 }

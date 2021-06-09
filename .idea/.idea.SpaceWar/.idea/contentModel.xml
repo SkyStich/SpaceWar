@@ -48894,6 +48894,10 @@
             <e p="WeaponDataAsset.cpp" t="Include" />
             <e p="WeaponDataAsset.h" t="Include" />
           </e>
+          <e p="Enums" t="Include">
+            <e p="PlayerTeamEnum.cpp" t="Include" />
+            <e p="PlayerTeamEnum.h" t="Include" />
+          </e>
           <e p="GameModes" t="Include">
             <e p="Match" t="Include">
               <e p="base" t="Include">

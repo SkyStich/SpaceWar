@@ -4,22 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
+#include "SpaceWar/Enums/PlayerTeamEnum.h"
+#include "SpaceWar/Interfaces/GetPlayerTeamInterface.h"
 #include "OnlinePlayerStateBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNumberOfMurdersIncrease);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNumberOnMurdersDecrease);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNumberOfDeathsChanged);
 
-UENUM(BlueprintType)
-enum class ETeam : uint8
-{
-	NoneTeam,
-	TeamA,
-    TeamB
-};
+
 
 UCLASS()
-class SPACEWAR_API AOnlinePlayerStateBase : public APlayerState
+class SPACEWAR_API AOnlinePlayerStateBase : public APlayerState, public IGetPlayerTeamInterface
 {
 	GENERATED_BODY()
 
@@ -31,8 +27,7 @@ class SPACEWAR_API AOnlinePlayerStateBase : public APlayerState
 
 public:
 
-	UFUNCTION(BlueprintPure, Category = "PlayerState|Team")
-	ETeam GetPlayerTeam() const { return PlayerTeam; }
+	virtual ETeam FindPlayerTeam_Implementation() override { return PlayerTeam; }
 
 	UFUNCTION(BlueprintPure, Category = "PlayerState|Statistics")
 	int32 GetNumberOfMurders() const { return NumberOfMurders; }
@@ -46,6 +41,8 @@ public:
 	//void DecrementNumberOfDeaths();
 	void IncrementNumberOfMurders();
 	void DecrementNumberOfMurders();
+	
+	bool operator()(AOnlinePlayerStateBase* State);
 
 protected:
 
