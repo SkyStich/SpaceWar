@@ -5,6 +5,8 @@
 #include "SpaceWar/GameModes/Match/Base/MatchGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "GameFramework/PlayerState.h"
+#include "SpaceWar/Interfaces/GetPlayerTeamInterface.h"
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
 {
@@ -60,6 +62,8 @@ void UHealthComponent::FirstAid(float const Value)
 
 void UHealthComponent::OnPlayerTakeAnyDamage(AActor* DamagedActor, float BaseDamage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)
 {
+	if(CheckForFriendlyFire(DamagedActor->GetInstigatorController(), InstigatorController)) return;
+	
 	GetWorld()->GetTimerManager().ClearTimer(PreRegenerationHandle);
 	GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
 
@@ -75,6 +79,8 @@ void UHealthComponent::OnPlayerTakeAnyDamage(AActor* DamagedActor, float BaseDam
 
 void UHealthComponent::OnPlayerTakeRadialDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, FVector Origin, FHitResult HitInfo, AController* InstigatedBy, AActor* DamageCauser)
 {
+	if(CheckForFriendlyFire(DamagedActor->GetInstigatorController(), InstigatedBy)) return;
+	
 	GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);
 	
 	float const NewDamage = ArmorResist(Damage);
@@ -90,6 +96,8 @@ void UHealthComponent::OnPlayerTakeRadialDamage(AActor* DamagedActor, float Dama
 
 void UHealthComponent::OnPlayerTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
+	if(CheckForFriendlyFire(DamagedActor->GetInstigatorController(), InstigatedBy)) return;
+	
 	if(BoneName == "b_head")
 	{
 		Damage *= 2.f;
@@ -188,4 +196,11 @@ void UHealthComponent::ArmorRegeneration()
 	}
 }
 
+bool UHealthComponent::CheckForFriendlyFire(AController* DamageReceiver, AController* InstigatorController)
+{
+	if(!InstigatorController->PlayerState->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass())) return true;
 
+	if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(DamageReceiver->PlayerState) == IGetPlayerTeamInterface::Execute_FindPlayerTeam(InstigatorController->PlayerState)) return false;
+
+	return true;
+}

@@ -76,6 +76,9 @@ struct FEquipWeaponData : public FBaseWeaponData
 	float ReloadTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	int32 MaxDamageDistance;  // Write in cm 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	bool bCanAutoFire;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")

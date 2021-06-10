@@ -36,6 +36,8 @@ class SPACEWAR_API UHealthComponent : public UActorComponent
 
 	void ArmorRegeneration();
 	void HealthRegeneration();
+	
+	bool CheckForFriendlyFire(AController* DamageReceiver, AController* InstigatorController); // return true, if damage be apply not friend
 
 public:	
 	// Sets default values for this component's properties

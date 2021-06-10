@@ -149,7 +149,9 @@ void URangeWeaponObjectBase::ApplyPointDamage(const FHitResult& Hit)
 	if(Hit.GetActor())
 	{
 		FVector const HitFromDirection = UKismetMathLibrary::GetDirectionUnitVector(Hit.TraceEnd, Hit.TraceStart);
-		UGameplayStatics::ApplyPointDamage(Hit.GetActor(), WeaponData.BaseDamage, HitFromDirection, Hit, CharacterOwner->Controller, CharacterOwner, UDamageType::StaticClass());
+		int32 const TempDistance = FVector::Distance(CharacterOwner->GetActorLocation(), Hit.Actor->GetActorLocation()) - WeaponData.MaxDamageDistance;
+		float const TempDamage = TempDistance > 0 ? FMath::Min(WeaponData.BaseDamage - TempDistance / 100, WeaponData.BaseDamage / 1.8f) : WeaponData.BaseDamage;
+		UGameplayStatics::ApplyPointDamage(Hit.GetActor(), TempDamage, HitFromDirection, Hit, CharacterOwner->Controller, CharacterOwner, UDamageType::StaticClass());
 	}
 }
 
