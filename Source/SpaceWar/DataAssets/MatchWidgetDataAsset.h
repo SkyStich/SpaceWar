@@ -23,6 +23,9 @@ struct FMatchWidgetData
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSoftClassPtr<UUserWidget> StatisticMatchGrid;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSoftClassPtr<UUserWidget> SpecialShop;
 };
 
 UCLASS(Blueprintable)

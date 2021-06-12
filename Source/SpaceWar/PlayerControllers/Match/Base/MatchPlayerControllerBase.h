@@ -20,6 +20,8 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public
 
 	void PressTabMenu();
 	void ReleasedTabMenu();
+	
+	void PressSpecialShop();
 
 	UFUNCTION(Client, Unreliable)
 	void Client_SpecialObjectErrorSpawned();

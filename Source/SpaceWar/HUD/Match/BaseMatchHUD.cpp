@@ -3,11 +3,12 @@
 
 #include "BaseMatchHUD.h"
 #include "Blueprint/UserWidget.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "UObject/ConstructorHelpers.h"
 
 ABaseMatchHUD::ABaseMatchHUD()
 {
-	MatchType = EMatchData::EveryManForHimSelfGame;
+	MatchType = EMatchData::CommandGame;
 	ConstructorHelpers::FObjectFinder<UMatchWidgetDataAsset>WidgetData(TEXT("/Game/ThirdPersonCPP/DataAssets/WidgetDataAsset"));
 	if(WidgetData.Succeeded())
 	{
@@ -32,11 +33,13 @@ void ABaseMatchHUD::NewOwningPlayerPawn(APawn* NewPawn)
 		//Character
 		RemoveSpectatorWidgets();
 		CreateCharacterWidgets();
+		CreateSpecialWidget();
 	}
 	else
 	{
 		//Spectator
 		RemoveCharacterWidgets();
+		RemoveSpecialWidget();
 		CreateSpectatorWidgets();
 	}
 }
@@ -87,4 +90,31 @@ void ABaseMatchHUD::HiddenTabMenu()
 }
 
 
+void ABaseMatchHUD::CreateSpecialWidget()
+{
+	if(MatchWidgetData->SpecialShop)
+	{
+		SpecialShopWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->SpecialShop, GetOwningPlayerController());
+		SpecialShopWidget->AddToViewport(1);
+	}
+}
 
+void ABaseMatchHUD::RemoveSpecialWidget()
+{
+	if(!SpecialShopWidget) return;
+	
+	SpecialShopWidget->RemoveFromParent();
+	SpecialShopWidget = nullptr;
+}
+
+void ABaseMatchHUD::ShowSpecialWidget()
+{
+	if(SpecialShopWidget && !SpecialShopWidget->GetIsVisible())
+	{
+		FInputModeUIOnly InputMode;
+		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockInFullscreen);
+		GetOwningPlayerController()->SetInputMode(InputMode);
+		GetOwningPlayerController()->bShowMouseCursor = true;
+		SpecialShopWidget->SetVisibility(ESlateVisibility::Visible);
+	}
+}

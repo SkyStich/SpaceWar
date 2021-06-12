@@ -21,6 +21,8 @@ protected:
 	virtual void RemoveCharacterWidgets();
 	virtual void CreateSpectatorWidgets();
 	virtual void RemoveSpectatorWidgets();
+	void CreateSpecialWidget();
+	void RemoveSpecialWidget();
 	
 	virtual void CreateTabMenu();
 
@@ -33,6 +35,8 @@ public:
 	 
 	void ShowTabMenu();
 	void HiddenTabMenu();
+
+	virtual void ShowSpecialWidget();
 
 protected:
 	
@@ -47,4 +51,7 @@ protected:
 
 	UPROPERTY()
 	UUserWidget* TabMenuWidget;
+
+	UPROPERTY()
+	UUserWidget* SpecialShopWidget;
 };

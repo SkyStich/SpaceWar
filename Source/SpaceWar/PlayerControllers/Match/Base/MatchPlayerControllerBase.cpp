@@ -98,6 +98,9 @@ void AMatchPlayerControllerBase::SetupInputComponent()
 
 	InputComponent->BindAction("TabMenu", IE_Pressed, this, &AMatchPlayerControllerBase::PressTabMenu);
 	InputComponent->BindAction("TabMenu", IE_Released, this, &AMatchPlayerControllerBase::ReleasedTabMenu);
+
+	InputComponent->BindAction("SpecialShop", IE_Pressed, this, &AMatchPlayerControllerBase::PressSpecialShop);
+	InputComponent->BindAction("SpecialShop", IE_Released, this, &AMatchPlayerControllerBase::ReleaseSpecialShop);
 }
 
 void AMatchPlayerControllerBase::OnRep_Pawn()
@@ -148,4 +151,11 @@ void AMatchPlayerControllerBase::IncreaseSpecialPoint_Implementation(int32 const
 {
 	SpecialObjectManager->IncreasePoints(Value);
 }
+
+void AMatchPlayerControllerBase::PressSpecialShop()
+{
+	GetHUD<ABaseMatchHUD>()->ShowSpecialWidget();
+}
+
+
 
