@@ -19,11 +19,12 @@ class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame
 	UFUNCTION(NetMulticast, Unreliable)
 	void NetMulticast_NewPlayerPostLogin(APlayerState* PlayerState);
 
+	/** Call on game mode */
+	int32 UpdateTeamPoints(ETeam Team, int32 Value);
+
 public:
 
 	AOnlinetMatchGameStateBase();
-
-	int32 UpdateTeamPoints(ETeam Team, int32 Value);
 
 	UFUNCTION(BlueprintPure)
 	int32 GetTeamPointsA() const { return TeamPointsA; }
@@ -51,4 +52,6 @@ private:
 
 	UPROPERTY(Replicated)
 	int32 TeamPointsB;
+
+friend class AOnlineMatchGameModeBase;
 };

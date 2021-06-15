@@ -10,6 +10,11 @@
 #include "SpaceWar/GameStates/Base/GameStateMatchGame.h"
 #include "SpaceWar/Spectator/Base/BaseMatchSpectator.h"
 
+AMatchGameModeBase::AMatchGameModeBase()
+{
+	PointForWin = 6;
+}
+
 void AMatchGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -22,11 +27,14 @@ void AMatchGameModeBase::CharDead(AController* InstigatorController, AController
 	OnPlayerDead.Broadcast(InstigatorController, LoserController, DamageCauser);
 
 	SpawnSpectator(LoserController, LoserController->GetPawn()->GetActorLocation());
-	
+}
+
+void AMatchGameModeBase::RespawnPlayer(AController* LoserController, float const Time)
+{
 	auto const LosController = Cast<AMatchPlayerControllerBase>(LoserController);
 	if(LosController)
 	{
-		LosController->LaunchRespawnTimer(2.f);
+		LosController->LaunchRespawnTimer(Time);
 	}
 }
 

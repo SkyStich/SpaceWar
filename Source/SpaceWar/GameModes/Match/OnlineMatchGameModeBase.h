@@ -7,7 +7,9 @@
 #include "SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h"
 #include "OnlineMatchGameModeBase.generated.h"
 
-UCLASS()
+
+/** Game mode with Team logic */
+UCLASS(Abstract)
 class SPACEWAR_API AOnlineMatchGameModeBase : public AMatchGameModeBase
 {
 	GENERATED_BODY()
@@ -16,7 +18,8 @@ class SPACEWAR_API AOnlineMatchGameModeBase : public AMatchGameModeBase
 
 public:
 
+	AOnlineMatchGameModeBase();
+
 	void UpdateTeamPoints(const int32 Value, ETeam Team);
 	virtual void CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) override;
-	
 };

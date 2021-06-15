@@ -38,6 +38,8 @@ public:
 
 	virtual void ShowSpecialWidget();
 
+	UUserWidget* GetSpecialShop() const { return SpecialShopWidget; }
+
 protected:
 	
 	FMatchWidgetData* MatchWidgetData;

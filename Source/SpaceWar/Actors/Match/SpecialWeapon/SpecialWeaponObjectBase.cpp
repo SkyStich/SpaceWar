@@ -81,7 +81,7 @@ void ASpecialWeaponObjectBase::Tick(float DeltaTime)
 
 	if(bObjectConstruct)
 	{
-		if(!GetInstigator()->GetController())
+		if(!GetInstigator() || !GetInstigator()->GetController())
 		{
 			Server_InstigatorIsNull();
 			return;
@@ -93,8 +93,16 @@ void ASpecialWeaponObjectBase::Tick(float DeltaTime)
 
 void ASpecialWeaponObjectBase::Server_InstigatorIsNull_Implementation()
 {
-	if(!GetInstigator()->GetController())
+	if(!GetInstigator() || !GetInstigator()->GetController())
+	{
+		if(Controller)
+		{
+			auto const TempController = Controller;
+			Controller->UnPossess();
+			TempController->Destroy();
+		}
 		Destroy(true);
+	}
 }
 
 void ASpecialWeaponObjectBase::UpdateLocation()
@@ -148,9 +156,8 @@ bool ASpecialWeaponObjectBase::InteractionObject_Implementation(ASpaceWarCharact
 		
 		bObjectConstruct = false;
 		OnRep_ObjectConstruct();
-		PlaceSucceeded();
 		
-		OnPlaceSucceeded.Broadcast(this);
+		PlaceSucceeded();
 	}
 	return true;
 }
@@ -161,6 +168,7 @@ void ASpecialWeaponObjectBase::PlaceSucceeded()
 	{
 		Team = IGetPlayerTeamInterface::Execute_FindPlayerTeam(OwnerController->PlayerState);
 	}
+	OnPlaceSucceeded.Broadcast(this);
 }
 
 

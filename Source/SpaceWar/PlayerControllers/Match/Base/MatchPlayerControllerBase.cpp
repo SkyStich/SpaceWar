@@ -3,6 +3,7 @@
 
 #include "MatchPlayerControllerBase.h"
 #include "TimerManager.h"
+#include "Blueprint/UserWidget.h"
 #include "SpaceWar/HUD/Match/BaseMatchHUD.h"
 #include "Kismet/GameplayStatics.h"
 #include "Camera/CameraComponent.h"
@@ -100,7 +101,6 @@ void AMatchPlayerControllerBase::SetupInputComponent()
 	InputComponent->BindAction("TabMenu", IE_Released, this, &AMatchPlayerControllerBase::ReleasedTabMenu);
 
 	InputComponent->BindAction("SpecialShop", IE_Pressed, this, &AMatchPlayerControllerBase::PressSpecialShop);
-	InputComponent->BindAction("SpecialShop", IE_Released, this, &AMatchPlayerControllerBase::ReleaseSpecialShop);
 }
 
 void AMatchPlayerControllerBase::OnRep_Pawn()

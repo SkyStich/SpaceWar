@@ -18,6 +18,11 @@ void ASpecialTurelController::OnPossess(APawn* InPawn)
 
 	if(GetLocalRole() != ROLE_Authority) return;
 	TurelPawn->ObjectHealthComponent->OnHealthEnded.AddDynamic(this, &ASpecialTurelController::ObjectDead);
+	TurelPawn->OnPlaceSucceeded.AddDynamic(this, &ASpecialTurelController::OwnerPlaced);
+}
+
+void ASpecialTurelController::OwnerPlaced(ASpecialWeaponObjectBase* SpecialWeapon)
+{
 	Perception->OnTargetPerceptionUpdated.AddDynamic(this, &ASpecialTurelController::OnPerceptionUpdate);
 }
 
@@ -37,14 +42,15 @@ void ASpecialTurelController::OnPerceptionUpdate(AActor* Actor, FAIStimulus Stim
 {
 	if(Stimulus.WasSuccessfullySensed())
 	{
-		if(TurelPawn->bObjectUsed) return;
-
 		auto const PS = Actor->GetInstigatorController()->PlayerState;
-		if(!PS->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass()) && IGetPlayerTeamInterface::Execute_FindPlayerTeam(PS) == TurelPawn->Team) return;                                                         
+		if(TurelPawn->bObjectUsed || !PS->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass())) return;                                                         
 
-		GetWorld()->GetTimerManager().ClearTimer(PerceptionRefreshHandle);
-		TurelPawn->TargetActor = Actor;
-		LaunchObjectUsed();
+		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(PS) != TurelPawn->Team)
+		{
+			GetWorld()->GetTimerManager().ClearTimer(PerceptionRefreshHandle);
+			TurelPawn->TargetActor = Actor;
+			LaunchObjectUsed();
+		}
 	}
 	else
 	{

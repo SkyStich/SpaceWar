@@ -2,13 +2,16 @@
 
 
 #include "OnlineMatchGameModeBase.h"
-
 #include "SpaceWar/Interfaces/UpdateSpecialPointsInterface.h"
 #include "SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h"
 
+AOnlineMatchGameModeBase::AOnlineMatchGameModeBase()
+{
+}
+
 void AOnlineMatchGameModeBase::UpdateTeamPoints(const int32 Value, ETeam Team)
 {
-	if(GetGameState<AOnlinetMatchGameStateBase>()->UpdateTeamPoints(Team, Value) >= 1000)
+	if(GetGameState<AOnlinetMatchGameStateBase>()->UpdateTeamPoints(Team, Value) >= PointForWin)
 	{
 		FString const ReasonMessage = FString::Printf(TEXT("Max amount points. %d - winner"), Team); 
 		MatchEnded(ReasonMessage);
@@ -40,5 +43,4 @@ void AOnlineMatchGameModeBase::UpdatePlayerStatistics(AController* InstigatorCon
 	OnlineInstigatorState->IncrementNumberOfMurders();
 	IUpdateSpecialPointsInterface::Execute_DecreaseSpecialPoint(LoserController, 200);
 	IUpdateSpecialPointsInterface::Execute_IncreaseSpecialPoint(InstigatorController, 150);
-	
 }

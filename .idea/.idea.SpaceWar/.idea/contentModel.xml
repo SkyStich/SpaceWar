@@ -48836,6 +48836,12 @@
         <e p="SpaceWar" t="Include">
           <e p="Actors" t="Include">
             <e p="Match" t="Include">
+              <e p="CaptureMode" t="Include">
+                <e p="FlagForCapture.cpp" t="Include" />
+                <e p="FlagForCapture.h" t="Include" />
+                <e p="SpawnFlagHelpers.cpp" t="Include" />
+                <e p="SpawnFlagHelpers.h" t="Include" />
+              </e>
               <e p="Projectile" t="Include">
                 <e p="Throw" t="Include">
                   <e p="base" t="Include">
@@ -48895,7 +48901,6 @@
             <e p="WeaponDataAsset.h" t="Include" />
           </e>
           <e p="Enums" t="Include">
-            <e p="PlayerTeamEnum.cpp" t="Include" />
             <e p="PlayerTeamEnum.h" t="Include" />
           </e>
           <e p="GameModes" t="Include">
@@ -48903,6 +48908,10 @@
               <e p="base" t="Include">
                 <e p="MatchGameModeBase.cpp" t="Include" />
                 <e p="MatchGameModeBase.h" t="Include" />
+              </e>
+              <e p="LastGameMode" t="Include">
+                <e p="CaptureHoldGameMode.cpp" t="Include" />
+                <e p="CaptureHoldGameMode.h" t="Include" />
               </e>
               <e p="OnlineMatchGameModeBase.cpp" t="Include" />
               <e p="OnlineMatchGameModeBase.h" t="Include" />

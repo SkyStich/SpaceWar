@@ -32,6 +32,9 @@ class SPACEWAR_API ASpecialTurelController : public ASpecialControllerBase
 	UFUNCTION()
 	void ObjectDead();
 
+	UFUNCTION()
+	void OwnerPlaced(ASpecialWeaponObjectBase* SpecialWeapon);
+
 	AActor* GetFirstPerceptionByTeam();
 
 protected:

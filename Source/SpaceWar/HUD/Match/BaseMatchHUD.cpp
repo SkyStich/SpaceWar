@@ -95,7 +95,8 @@ void ABaseMatchHUD::CreateSpecialWidget()
 	if(MatchWidgetData->SpecialShop)
 	{
 		SpecialShopWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->SpecialShop, GetOwningPlayerController());
-		SpecialShopWidget->AddToViewport(1);
+		SpecialShopWidget->AddToViewport();
+		SpecialShopWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 
@@ -109,11 +110,8 @@ void ABaseMatchHUD::RemoveSpecialWidget()
 
 void ABaseMatchHUD::ShowSpecialWidget()
 {
-	if(SpecialShopWidget && !SpecialShopWidget->GetIsVisible())
+	if(SpecialShopWidget && SpecialShopWidget->GetVisibility() != ESlateVisibility::Visible)
 	{
-		FInputModeUIOnly InputMode;
-		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockInFullscreen);
-		GetOwningPlayerController()->SetInputMode(InputMode);
 		GetOwningPlayerController()->bShowMouseCursor = true;
 		SpecialShopWidget->SetVisibility(ESlateVisibility::Visible);
 	}
