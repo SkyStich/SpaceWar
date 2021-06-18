@@ -7,11 +7,12 @@
 #include "Components/EquipableWeaponManager.h"
 #include "Components/StaminaComponent.h"
 #include "Interfaces/GetDamageCauserInfo.h"
-#include "Components/HealthComponent.h"
 #include "Components/JetpackComponent.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "SpaceWar/Interfaces/FirstAidInterface.h"
 #include "SpaceWarCharacter.generated.h"
+
+class UHealthComponent;
 
 UCLASS(config=Game)
 class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, public IFirstAidInterface
@@ -74,6 +75,12 @@ public:
 	void OwnerStopAdditionalUse();
 
 	FVector GetCurrentFireTrace() const;
+	
+	UFUNCTION()
+	void StartUseWeapon();
+
+	UFUNCTION()
+	void StopUseWeapon();
 
 protected:
 	
@@ -101,6 +108,9 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent)
     void StopAiming();
+
+	/*UFUNCTION(Server, Unreliable, BlueprintCallable)
+	void Server_InteractionObject();*/
 
 public:
 

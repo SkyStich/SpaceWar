@@ -96,7 +96,7 @@ void UHealthComponent::OnPlayerTakeRadialDamage(AActor* DamagedActor, float Dama
 
 void UHealthComponent::OnPlayerTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
-	if(CheckForFriendlyFire(DamagedActor->GetInstigatorController(), InstigatedBy)) return;
+	//if(CheckForFriendlyFire(DamagedActor->GetInstigatorController(), InstigatedBy)) return;
 	
 	if(BoneName == "b_head")
 	{

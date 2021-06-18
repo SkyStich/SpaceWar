@@ -1195,8 +1195,12 @@
                 <e p="MemoryMappedFileStreamWindows.h" t="Include" />
                 <e p="MemoryStreamImpl.cpp" t="Include" />
                 <e p="MemoryStreamImpl.h" t="Include" />
+                <e p="StreamStatus.cpp" t="Include" />
+                <e p="StreamStatus.h" t="Include" />
               </e>
               <e p="Utils" t="Include">
+                <e p="NativeString.h" t="Include" />
+                <e p="PlatformWindows.h" t="Include" />
                 <e p="ScopedEnumEx.h" t="Include" />
               </e>
             </e>
@@ -1435,6 +1439,12 @@
               <e p="Defs.h" t="Include" />
               <e p="TestT128.cpp" t="Include" />
               <e p="TestT256.cpp" t="Include" />
+            </e>
+            <e p="triotests" t="Include">
+              <e p="Defs.h" t="Include" />
+              <e p="TestStreams.cpp" t="Include" />
+              <e p="TestStreams.h" t="Include" />
+              <e p="TestStreamsIntegration.cpp" t="Include" />
             </e>
           </e>
           <e p="Public" t="Include">
@@ -16319,9 +16329,11 @@
           <e p="ThirdParty" t="Include">
             <e p="arm64-v8a" t="Include">
               <e p="libazurespatialanchorsndk.so" t="Include" />
+              <e p="libCoarseRelocalization.so" t="Include" />
             </e>
             <e p="armeabi-v7a" t="Include">
               <e p="libazurespatialanchorsndk.so" t="Include" />
+              <e p="libCoarseRelocalization.so" t="Include" />
             </e>
             <e p="Include" t="Include">
               <e p="AzureSpatialAnchorsLibrary_Exports.h" t="Include" />
@@ -16330,6 +16342,7 @@
             </e>
             <e p="x86" t="Include">
               <e p="libazurespatialanchorsndk.so" t="Include" />
+              <e p="libCoarseRelocalization.so" t="Include" />
             </e>
           </e>
         </e>
@@ -16350,6 +16363,7 @@
           </e>
           <e p="ThirdParty" t="Include">
             <e p="AzureSpatialAnchors.embeddedframework.zip" t="Include" />
+            <e p="CoarseReloc.embeddedframework.zip" t="Include" />
           </e>
         </e>
       </e>
@@ -48837,6 +48851,8 @@
           <e p="Actors" t="Include">
             <e p="Match" t="Include">
               <e p="CaptureMode" t="Include">
+                <e p="FlagDeliveryPoint.cpp" t="Include" />
+                <e p="FlagDeliveryPoint.h" t="Include" />
                 <e p="FlagForCapture.cpp" t="Include" />
                 <e p="FlagForCapture.h" t="Include" />
                 <e p="SpawnFlagHelpers.cpp" t="Include" />

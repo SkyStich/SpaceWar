@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
+class UHealthComponent;
+
 /** For All */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOwnerDead);
 

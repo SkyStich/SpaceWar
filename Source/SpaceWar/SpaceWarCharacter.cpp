@@ -3,6 +3,7 @@
 #include "SpaceWarCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/HealthComponent.h"
 #include "Singleton/BaseSingleton.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -63,8 +64,15 @@ void ASpaceWarCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
+	
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	
+	PlayerInputComponent->BindAction("AdditionWeapon", IE_Pressed, this, &ASpaceWarCharacter::OwnerStartAdditionalUse);
+	PlayerInputComponent->BindAction("AdditionWeapon", IE_Released, this, &ASpaceWarCharacter::OwnerStopAdditionalUse);
+
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASpaceWarCharacter::StartUseWeapon);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ASpaceWarCharacter::StopUseWeapon);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASpaceWarCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASpaceWarCharacter::MoveRight);
@@ -144,7 +152,7 @@ void ASpaceWarCharacter::CharDead()
     WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     		
-	if(GetNetMode() != ENetMode::NM_DedicatedServer)
+	if(GetNetMode() != NM_DedicatedServer)
 	{
 		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
@@ -306,4 +314,14 @@ void ASpaceWarCharacter::StartPlayerFirstAid_Implementation(ETeam Team, float co
 void ASpaceWarCharacter::StopPlayerFirstAid_Implementation()
 {
 	GetWorld()->GetTimerManager().ClearTimer(FirstAidHandle);
+}
+
+void ASpaceWarCharacter::StartUseWeapon()
+{
+	WeaponManager->GetCurrentWeapon()->OwnerStartUseWeapon();
+}
+
+void ASpaceWarCharacter::StopUseWeapon()
+{
+	WeaponManager->GetCurrentWeapon()->OwnerStopUseWeapon();
 }

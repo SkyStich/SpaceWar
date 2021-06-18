@@ -4,6 +4,7 @@
 #include "SpawnFlagHelpers.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 ASpawnFlagHelpers::ASpawnFlagHelpers()
@@ -11,7 +12,9 @@ ASpawnFlagHelpers::ASpawnFlagHelpers()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	ConstructorHelpers::FClassFinder<AFlagForCapture>FlagClassFinder(TEXT(""));
+	NetUpdateFrequency = 1.f;
+
+	ConstructorHelpers::FClassFinder<AFlagForCapture>FlagClassFinder(TEXT("/Game/ThirdPersonCPP/Blueprints/Actors/CaptureMode/BP_FlagForCapture"));
 
 	if(FlagClassFinder.Succeeded())
 		FlagClass = FlagClassFinder.Class;
@@ -23,12 +26,22 @@ void ASpawnFlagHelpers::BeginPlay()
 	Super::BeginPlay();
 
 	if(GetLocalRole() != ROLE_Authority) Destroy();
+
+	SpawnFlag();
+}
+
+void ASpawnFlagHelpers::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+
+	SetActorLocation(FVector::ZeroVector);
 }
 
 void ASpawnFlagHelpers::SpawnFlag()
 {
-	int32 const Index = UKismetMathLibrary::RandomInteger(SpawnPoints.Num() - 1);
+	if(GetLocalRole() != ROLE_Authority) return;
 	
+	int32 const Index = UKismetMathLibrary::RandomIntegerInRange(0, SpawnPoints.Num() - 1);
 	FActorSpawnParameters SpawnParam;
 	SpawnParam.Owner = this;
 	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
