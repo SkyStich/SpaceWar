@@ -62,7 +62,7 @@ void UHealthComponent::FirstAid(float const Value)
 
 void UHealthComponent::OnPlayerTakeAnyDamage(AActor* DamagedActor, float BaseDamage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)
 {
-	if(CheckForFriendlyFire(DamagedActor->GetInstigatorController(), InstigatorController)) return;
+	//if(CheckForFriendlyFire(DamagedActor->GetInstigatorController(), InstigatorController)) return;
 	
 	GetWorld()->GetTimerManager().ClearTimer(PreRegenerationHandle);
 	GetWorld()->GetTimerManager().ClearTimer(RegenerationHandle);

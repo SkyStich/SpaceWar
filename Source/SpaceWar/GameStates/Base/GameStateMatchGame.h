@@ -13,15 +13,12 @@ UCLASS()
 class SPACEWAR_API AGameStateMatchGame : public AGameStateBase
 {
 	GENERATED_BODY()
-	
-	UFUNCTION(NetMulticast, Reliable)
-    void MatchFinish(const FString& Reason);
 
 public:
     
     AGameStateMatchGame();
     
-    void IncrementTime();
+    virtual void IncrementTime();
 
 	UFUNCTION(BlueprintPure, Category = "GameState|Getting")
     int32 GetCurrentMatchTime() const { return CurrentMatchTime; }
@@ -34,12 +31,17 @@ protected:
 	UFUNCTION()
 	virtual void NewPlayerLogin(APlayerController* PC);
 
-private:
-    
-    UPROPERTY(EditAnywhere, Category = "Time")
-    int32 MaxMatchTime;
+	UFUNCTION()
+	virtual void PlayerDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) {}
+		
+	UFUNCTION(NetMulticast, Reliable)
+    void MatchFinish(const FString& Reason);
+
+protected:
+
+	UPROPERTY(EditAnywhere, Category = "Time")
+	int32 MaxMatchTime;
     	
-    UPROPERTY(Replicated)
-    int32 CurrentMatchTime;
-	
+	UPROPERTY(Replicated)
+	int32 CurrentMatchTime;
 };

@@ -9,6 +9,7 @@
 #include "Camera/CameraComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/PlayerStart.h"
 #include "UObject/ConstructorHelpers.h"
 #include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
 #include "SpaceWar/SpaceWarCharacter.h"
@@ -20,7 +21,6 @@ AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 	NetUpdateFrequency = 2.f;
 
 	DecreaseSpecialPointsValue = 200;
-	bCanSpawn = true;
 	bAttachToPawn = true;
 
 	SpecialObjectManager = CreateDefaultSubobject<USpecialObjectManagerComponent>(TEXT("SpecialObjectManager"));
@@ -53,38 +53,21 @@ void AMatchPlayerControllerBase::SetPlayerClass(TSubclassOf<ASpaceWarCharacter> 
 	}
 }
 
-void AMatchPlayerControllerBase::SpawnPlayer()
+bool AMatchPlayerControllerBase::SpawnPlayer(const FVector& Location)
 {
-	if(!bCanSpawn) return;
-
-	GetWorld()->GetTimerManager().ClearTimer(RespawnTimer);
 	ASpaceWarCharacter* CharacterForSpawn;
 	auto const GM = Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	if(GM)
 	{
-		GM->SpawnCharacter(this, CharacterForSpawn);
-		bCanSpawn = false;
-	}	
+		GM->SpawnCharacter(this, CharacterForSpawn, Location);
+		return true;
+	}
+	return false;
 }
 
 void AMatchPlayerControllerBase::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
-}
-
-void AMatchPlayerControllerBase::LaunchRespawnTimer(float const Time)
-{
-	FTimerDelegate TimerDel;
-	TimerDel.BindLambda([&]() -> void
-	{
-		bCanSpawn = true;
-	});
-	GetWorld()->GetTimerManager().SetTimer(RespawnTimer, TimerDel, Time, false);
-}
-
-void AMatchPlayerControllerBase::Server_SpawnPlayerPressed_Implementation()
-{
-	SpawnPlayer();
 }
 
 void AMatchPlayerControllerBase::SetupInputComponent()
@@ -94,8 +77,6 @@ void AMatchPlayerControllerBase::SetupInputComponent()
 		InputComponent = NewObject<UInputComponent>(this);
 		InputComponent->RegisterComponent();
 	}
-
-	InputComponent->BindAction("SpawnPlayer", IE_Released, this, &AMatchPlayerControllerBase::Server_SpawnPlayerPressed);
 
 	InputComponent->BindAction("TabMenu", IE_Pressed, this, &AMatchPlayerControllerBase::PressTabMenu);
 	InputComponent->BindAction("TabMenu", IE_Released, this, &AMatchPlayerControllerBase::ReleasedTabMenu);

@@ -17,9 +17,10 @@ class SPACEWAR_API ACaptureHoldGameMode : public AOnlineMatchGameModeBase
 public:
 
 	ACaptureHoldGameMode();
-
 protected:
 
 	virtual void CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) override;
-	
+	virtual void RespawnPlayer(AController* LoserController, float const Time) override;
+	virtual void MatchEnded(const FString& Reason) override;
+	virtual void TickTime(AGameStateMatchGame* MatchGameState) override;
 };

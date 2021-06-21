@@ -48851,8 +48851,6 @@
           <e p="Actors" t="Include">
             <e p="Match" t="Include">
               <e p="CaptureMode" t="Include">
-                <e p="FlagDeliveryPoint.cpp" t="Include" />
-                <e p="FlagDeliveryPoint.h" t="Include" />
                 <e p="FlagForCapture.cpp" t="Include" />
                 <e p="FlagForCapture.h" t="Include" />
                 <e p="SpawnFlagHelpers.cpp" t="Include" />
@@ -48926,6 +48924,8 @@
                 <e p="MatchGameModeBase.h" t="Include" />
               </e>
               <e p="LastGameMode" t="Include">
+                <e p="CaptureFlagGameMode.cpp" t="Include" />
+                <e p="CaptureFlagGameMode.h" t="Include" />
                 <e p="CaptureHoldGameMode.cpp" t="Include" />
                 <e p="CaptureHoldGameMode.h" t="Include" />
               </e>
@@ -48939,6 +48939,10 @@
               <e p="GameStateMatchGame.h" t="Include" />
             </e>
             <e p="Match" t="Include">
+              <e p="CaptureHoldGamestate.cpp" t="Include" />
+              <e p="CaptureHoldGamestate.h" t="Include" />
+              <e p="CaptureOfFlagGameState.cpp" t="Include" />
+              <e p="CaptureOfFlagGameState.h" t="Include" />
               <e p="OnlinetMatchGameStateBase.cpp" t="Include" />
               <e p="OnlinetMatchGameStateBase.h" t="Include" />
             </e>
@@ -48960,6 +48964,8 @@
             <e p="GetDamageCauserInfo.h" t="Include" />
             <e p="GetPlayerTeamInterface.cpp" t="Include" />
             <e p="GetPlayerTeamInterface.h" t="Include" />
+            <e p="PlayerControllerInterface.cpp" t="Include" />
+            <e p="PlayerControllerInterface.h" t="Include" />
             <e p="UpdateSpecialPointsInterface.cpp" t="Include" />
             <e p="UpdateSpecialPointsInterface.h" t="Include" />
           </e>
@@ -48998,6 +49004,12 @@
               <e p="base" t="Include">
                 <e p="MatchPlayerControllerBase.cpp" t="Include" />
                 <e p="MatchPlayerControllerBase.h" t="Include" />
+              </e>
+              <e p="Last" t="Include">
+                <e p="CaptureFlagController.cpp" t="Include" />
+                <e p="CaptureFlagController.h" t="Include" />
+                <e p="CaptureHoldController.cpp" t="Include" />
+                <e p="CaptureHoldController.h" t="Include" />
               </e>
             </e>
           </e>

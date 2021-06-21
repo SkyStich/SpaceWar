@@ -1,7 +1,11 @@
 #include "FlagForCapture.h"
+
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "SpaceWar/Components/HealthComponent.h"
+#include "SpaceWar/GameModes/Match/LastGameMode/CaptureFlagGameMode.h"
+#include "SpaceWaR/GameStates/Match/CaptureOfFlagGameState.h"
 #include "SpaceWar/Interfaces/GetPlayerTeamInterface.h"
 
 AFlagForCapture::AFlagForCapture()
@@ -34,7 +38,15 @@ void AFlagForCapture::BeginPlay()
 	if(GetLocalRole() == ROLE_Authority)
 	{
 		SphereCollision->OnComponentBeginOverlap.AddDynamic(this, &AFlagForCapture::OnPointCaptureCollisionBeginOverlap);
+		auto const GS = Cast<ACaptureOfFlagGameState>(UGameplayStatics::GetGameState(GetWorld()));
+		if(GS)
+			GS->OnRoundEnded.AddDynamic(this, &AFlagForCapture::RoundEnded);
 	}
+}
+
+void AFlagForCapture::RoundEnded()
+{
+	Destroy();
 }
 
 void AFlagForCapture::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -72,16 +84,25 @@ void AFlagForCapture::OnRep_CharOwner()
 		SetHidden(true);
 	}
 	else
-	{
+	{     
 		SetHidden(false);
 		DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
 	}
 }
 
+
+
 void AFlagForCapture::OnPointCaptureCollisionBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool FromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("OVERLAP!!!!!!!!!!"));
+	//If this Delivery point of flag
+	if(!OtherActor->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass()) || !OwnerCharacter) return;
+	auto const TempTeam = IGetPlayerTeamInterface::Execute_FindPlayerTeam(OwnerCharacter->Controller->PlayerState);
+     
+	if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(OtherActor) == TempTeam)
+	{
+		auto const GM = Cast<ACaptureFlagGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+		if(!GM) return;
+     
+		GM->UpdateTeamPoints(1, TempTeam);
+	}
 }
-
-
-

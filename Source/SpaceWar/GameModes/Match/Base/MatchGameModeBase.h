@@ -19,24 +19,24 @@ class SPACEWAR_API AMatchGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
-	void TickTime(AGameStateMatchGame* MatchPlayerState);
-
 public:
 
 	AMatchGameModeBase();
 
 	virtual void CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser);
-	virtual void SpawnCharacter(AMatchPlayerControllerBase* Controller, ASpaceWarCharacter*& SpawnCharacter);
+	virtual void SpawnCharacter(AMatchPlayerControllerBase* Controller, ASpaceWarCharacter*& SpawnCharacter, const FVector& Location);
 	virtual void PostLogin(APlayerController* NewPlayer) override;
+	virtual APawn* SpawnSpectator(AController* PossessController, const FVector& Location);
 
 protected:
 
-	virtual APawn* SpawnSpectator(AController* PossessController, const FVector& Location);
 	virtual void LaunchGameTimer();
-	void MatchEnded(const FString& Reason);
-	virtual void RespawnPlayer(AController* LoserController, float const Time);
-
+	virtual void MatchEnded(const FString& Reason);
+	virtual void RespawnPlayer(AController* RespawnController, float const Time) {}
+	virtual void RespawnPlayer(AController* RespawnController) {}
+	virtual void TickTime(AGameStateMatchGame* MatchPlayerState);
 	virtual void BeginPlay() override;
+	
 public:
 
 	FPlayerDead OnPlayerDead;
@@ -47,12 +47,10 @@ public:
 	UPROPERTY()
 	FPlayerPostLogin OnPlayerPostLogin;
 
-private:
-
-	FTimerHandle TimeMatchHandle;
-
 protected:
 
 	UPROPERTY(EditAnywhere)
 	int32 PointForWin;
+
+	FTimerHandle TimeMatchHandle;
 };

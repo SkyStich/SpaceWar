@@ -20,6 +20,9 @@ class SPACEWAR_API AFlagForCapture : public AActor, public ICurrentCharacterObje
 
 	UFUNCTION()
 	void OnRep_CharOwner();
+
+	UFUNCTION()
+	void RoundEnded();
 	
 public:	
 	// Sets default values for this actor's properties

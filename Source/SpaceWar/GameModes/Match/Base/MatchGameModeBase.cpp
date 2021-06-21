@@ -12,7 +12,7 @@
 
 AMatchGameModeBase::AMatchGameModeBase()
 {
-	PointForWin = 6;
+	PointForWin = 1000;
 }
 
 void AMatchGameModeBase::BeginPlay()
@@ -24,18 +24,9 @@ void AMatchGameModeBase::BeginPlay()
 
 void AMatchGameModeBase::CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)
 {
-	OnPlayerDead.Broadcast(InstigatorController, LoserController, DamageCauser);
-
 	SpawnSpectator(LoserController, LoserController->GetPawn()->GetActorLocation());
-}
-
-void AMatchGameModeBase::RespawnPlayer(AController* LoserController, float const Time)
-{
-	auto const LosController = Cast<AMatchPlayerControllerBase>(LoserController);
-	if(LosController)
-	{
-		LosController->LaunchRespawnTimer(Time);
-	}
+	
+	OnPlayerDead.Broadcast(InstigatorController, LoserController, DamageCauser);
 }
 
 APawn* AMatchGameModeBase::SpawnSpectator(AController* PossessController, const FVector& Location)
@@ -56,28 +47,20 @@ APawn* AMatchGameModeBase::SpawnSpectator(AController* PossessController, const 
 	return nullptr;
 }
 
-void AMatchGameModeBase::SpawnCharacter(AMatchPlayerControllerBase* Controller, ASpaceWarCharacter*& SpawnCharacter)
+void AMatchGameModeBase::SpawnCharacter(AMatchPlayerControllerBase* Controller, ASpaceWarCharacter*& SpawnCharacter, const FVector& Location)
 {
-	/** test */
+	FVector const Loc = Location;
+	FActorSpawnParameters Params;
+	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	SpawnCharacter = GetWorld()->SpawnActor<ASpaceWarCharacter>(Controller->GetPlayerClass(), Loc, FRotator::ZeroRotator, Params);
 
-	TArray<AActor*> SpawnPoints;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), SpawnPoints);
-
-	for(auto& ByArray : SpawnPoints)
+	if(SpawnCharacter)
 	{
-		FVector const Loc = ByArray->GetActorLocation();
-		FActorSpawnParameters Params;
-		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-		SpawnCharacter = GetWorld()->SpawnActor<ASpaceWarCharacter>(Controller->GetPlayerClass(), Loc, FRotator::ZeroRotator, Params);
-
-		if(SpawnCharacter)
-		{
-			SpawnCharacter->SetOwner(SpawnCharacter);
-			SpawnCharacter->SetInstigator(SpawnCharacter);
-			auto const TempPawn = Controller->GetPawn();
-			Controller->Possess(SpawnCharacter);
-			TempPawn->Destroy();
-		}
+		SpawnCharacter->SetOwner(SpawnCharacter);
+		SpawnCharacter->SetInstigator(SpawnCharacter);
+		auto const TempPawn = Controller->GetPawn();
+		Controller->Possess(SpawnCharacter);
+		TempPawn->Destroy();
 	}
 }
 
@@ -91,15 +74,12 @@ void AMatchGameModeBase::LaunchGameTimer()
 void AMatchGameModeBase::TickTime(AGameStateMatchGame* MatchGameState)
 {
 	MatchGameState->IncrementTime();
-	if(MatchGameState->GetCurrentMatchTime() <= 0)
-	{
-		MatchEnded("Time leave");
-		GetWorld()->GetTimerManager().ClearTimer(TimeMatchHandle);
-	}
 }
 
 void AMatchGameModeBase::MatchEnded(const FString& Reason)
 {
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(GameState);
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 	OnMatchEnded.Broadcast(Reason);
 }
 

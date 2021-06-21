@@ -2,7 +2,10 @@
 
 
 #include "SpawnFlagHelpers.h"
+
+#include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
+#include "SpaceWar/GameStates/Match/CaptureOfFlagGameState.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -25,9 +28,13 @@ void ASpawnFlagHelpers::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(GetLocalRole() != ROLE_Authority) Destroy();
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		auto const GS = Cast<ACaptureOfFlagGameState>(UGameplayStatics::GetGameState(GetWorld()));
+		if(!GS) return;
 
-	SpawnFlag();
+		GS->OnRoundPreparation.AddDynamic(this, &ASpawnFlagHelpers::SpawnFlag);
+	}
 }
 
 void ASpawnFlagHelpers::OnConstruction(const FTransform& Transform)
@@ -39,8 +46,6 @@ void ASpawnFlagHelpers::OnConstruction(const FTransform& Transform)
 
 void ASpawnFlagHelpers::SpawnFlag()
 {
-	if(GetLocalRole() != ROLE_Authority) return;
-	
 	int32 const Index = UKismetMathLibrary::RandomIntegerInRange(0, SpawnPoints.Num() - 1);
 	FActorSpawnParameters SpawnParam;
 	SpawnParam.Owner = this;

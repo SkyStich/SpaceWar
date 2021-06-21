@@ -6,17 +6,15 @@
 #include "GameFramework/PlayerController.h"
 #include "SpaceWar/Components/SpecialObjectManagerComponent.h"
 #include "SpaceWar/Interfaces/UpdateSpecialPointsInterface.h"
+#include "SpaceWar/Interfaces/PlayerControllerInterface.h"
 #include "MatchPlayerControllerBase.generated.h"
 
 class ASpaceWarCharacter;
 
 UCLASS(Blueprintable)
-class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public IUpdateSpecialPointsInterface
+class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public IUpdateSpecialPointsInterface, public IPlayerControllerInterface
 {
 	GENERATED_BODY()
-	
-	UFUNCTION(Server, Unreliable)
-	void Server_SpawnPlayerPressed();
 
 	void PressTabMenu();
 	void ReleasedTabMenu();
@@ -32,9 +30,6 @@ public:
 
 	void SetPlayerClass(TSubclassOf<ASpaceWarCharacter> NewPlayerClass);
 
-	void SpawnPlayer();
-	void LaunchRespawnTimer(float const Time);
-
 	UFUNCTION(BlueprintPure, Category = "PlayerController|PlayerClass")
 	TSubclassOf<ASpaceWarCharacter> GetPlayerClass() const { return PlayerClass; }
 
@@ -49,7 +44,8 @@ public:
 
 	virtual void IncreaseSpecialPoint_Implementation(int32 const Value) override;
 	virtual void DecreaseSpecialPoint_Implementation(int32 const Value) override;
-	
+	virtual bool SpawnPlayer(const FVector& Location);
+	virtual bool IsPLayerCharacterAlive_Implementation() override { return GetCharacter() != nullptr; }
 
 protected:
 
@@ -63,15 +59,10 @@ private:
 
 	UPROPERTY(Replicated)
 	TSubclassOf<ASpaceWarCharacter>PlayerClass;
-	
-//	UPROPERTY(Replicated)
-	bool bCanSpawn;
 
 	UPROPERTY()
 	USpecialObjectManagerComponent* SpecialObjectManager;
 
 	UPROPERTY(EditAnywhere, Category = "Special")
 	int32 DecreaseSpecialPointsValue;
-	
-	FTimerHandle RespawnTimer;
 };

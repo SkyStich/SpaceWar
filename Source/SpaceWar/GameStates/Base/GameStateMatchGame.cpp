@@ -20,6 +20,7 @@ void AGameStateMatchGame::BeginPlay()
 		auto const GameMode = Cast<AMatchGameModeBase>(AuthorityGameMode);
 		GameMode->OnMatchEnded.AddDynamic(this, &AGameStateMatchGame::MatchFinish);
 		GameMode->OnPlayerPostLogin.AddDynamic(this, &AGameStateMatchGame::NewPlayerLogin);
+		GameMode->OnPlayerDead.AddDynamic(this, &AGameStateMatchGame::PlayerDead);
 	}
 }
 

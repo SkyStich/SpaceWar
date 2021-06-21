@@ -19,9 +19,6 @@ class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame
 	UFUNCTION(NetMulticast, Unreliable)
 	void NetMulticast_NewPlayerPostLogin(APlayerState* PlayerState);
 
-	/** Call on game mode */
-	int32 UpdateTeamPoints(ETeam Team, int32 Value);
-
 public:
 
 	AOnlinetMatchGameStateBase();
@@ -39,6 +36,9 @@ protected:
 
 	/** Call if player log out */
 	virtual void AutoBalanceTeam();
+
+	/** Call on game mode */
+	virtual int32 UpdateTeamPoints(ETeam Team, int32 Value);
 
 public:
 
