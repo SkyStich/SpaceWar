@@ -8,7 +8,7 @@
 
 ABaseMatchHUD::ABaseMatchHUD()
 {
-	MatchType = EMatchData::CommandGame;
+	MatchType = EMatchData::CaptureOfFlag;
 	ConstructorHelpers::FObjectFinder<UMatchWidgetDataAsset>WidgetData(TEXT("/Game/ThirdPersonCPP/DataAssets/WidgetDataAsset"));
 	if(WidgetData.Succeeded())
 	{
@@ -53,6 +53,7 @@ void ABaseMatchHUD::CreateTabMenu()
 
 void ABaseMatchHUD::CreateCharacterWidgets()
 {
+	if(!MatchWidgetData) return;
 	MainHudWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->HUD, GetOwningPlayerController());
 	MainHudWidget->AddToViewport();
 }

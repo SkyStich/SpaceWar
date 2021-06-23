@@ -38,7 +38,7 @@ void USpecialObjectManagerComponent::BeginPlay()
 void USpecialObjectManagerComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
+	
 	DOREPLIFETIME_CONDITION(USpecialObjectManagerComponent, CurrentSpecialPoints, COND_OwnerOnly);
 }
 

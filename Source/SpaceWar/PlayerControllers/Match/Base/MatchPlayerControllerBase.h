@@ -31,7 +31,7 @@ public:
 	void SetPlayerClass(TSubclassOf<ASpaceWarCharacter> NewPlayerClass);
 
 	UFUNCTION(BlueprintPure, Category = "PlayerController|PlayerClass")
-	TSubclassOf<ASpaceWarCharacter> GetPlayerClass() const { return PlayerClass; }
+	TAssetSubclassOf<ASpaceWarCharacter> GetPlayerClass() const { return PlayerClass; }
 
 	UFUNCTION(BlueprintPure, Category = "PlayerController|PlayerClass")
 	USpecialObjectManagerComponent* GetSpecialManagerComponent() const { return SpecialObjectManager; }
@@ -58,7 +58,7 @@ protected:
 private:
 
 	UPROPERTY(Replicated)
-	TSubclassOf<ASpaceWarCharacter>PlayerClass;
+	TAssetSubclassOf<ASpaceWarCharacter>PlayerClass;
 
 	UPROPERTY()
 	USpecialObjectManagerComponent* SpecialObjectManager;

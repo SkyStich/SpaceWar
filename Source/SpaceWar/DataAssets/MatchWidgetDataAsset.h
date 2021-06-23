@@ -9,8 +9,8 @@
 UENUM(BlueprintType)
 enum class EMatchData : uint8
 {
-	EveryManForHimSelfGame,
-	CommandGame
+	CaptureOfFlag,
+	CaptureAndHold
 };
 
 USTRUCT(BlueprintType)
@@ -20,6 +20,9 @@ struct FMatchWidgetData
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSoftClassPtr<UUserWidget> HUD;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSoftClassPtr<UUserWidget> PreparationMatch;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSoftClassPtr<UUserWidget> StatisticMatchGrid;

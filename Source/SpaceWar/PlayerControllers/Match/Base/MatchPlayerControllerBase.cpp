@@ -2,14 +2,10 @@
 
 
 #include "MatchPlayerControllerBase.h"
-#include "TimerManager.h"
 #include "Blueprint/UserWidget.h"
 #include "SpaceWar/HUD/Match/BaseMatchHUD.h"
 #include "Kismet/GameplayStatics.h"
-#include "Camera/CameraComponent.h"
 #include "Net/UnrealNetwork.h"
-#include "DrawDebugHelpers.h"
-#include "GameFramework/PlayerStart.h"
 #include "UObject/ConstructorHelpers.h"
 #include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
 #include "SpaceWar/SpaceWarCharacter.h"
@@ -55,11 +51,10 @@ void AMatchPlayerControllerBase::SetPlayerClass(TSubclassOf<ASpaceWarCharacter> 
 
 bool AMatchPlayerControllerBase::SpawnPlayer(const FVector& Location)
 {
-	ASpaceWarCharacter* CharacterForSpawn;
 	auto const GM = Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	if(GM)
 	{
-		GM->SpawnCharacter(this, CharacterForSpawn, Location);
+		GM->SpawnCharacter(this, Location);
 		return true;
 	}
 	return false;

@@ -19,14 +19,22 @@ class SPACEWAR_API AMatchGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
+private:
+
+	UFUNCTION()
+	void AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, FTransform SpawnTransform, AController* Controller);
+
+	UFUNCTION()
+	void AsyncSpawnPlayerCharacterComplete(FSoftObjectPath Reference, FTransform SpawnTransform, AMatchPlayerControllerBase* Controller);
+
 public:
 
 	AMatchGameModeBase();
 
 	virtual void CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser);
-	virtual void SpawnCharacter(AMatchPlayerControllerBase* Controller, ASpaceWarCharacter*& SpawnCharacter, const FVector& Location);
+	virtual void SpawnCharacter(AMatchPlayerControllerBase* Controller, const FVector& Location);
 	virtual void PostLogin(APlayerController* NewPlayer) override;
-	virtual APawn* SpawnSpectator(AController* PossessController, const FVector& Location);
+	virtual void SpawnSpectator(AController* PossessController, const FVector& Location);
 
 protected:
 

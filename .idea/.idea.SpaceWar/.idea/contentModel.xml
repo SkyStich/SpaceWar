@@ -48877,6 +48877,8 @@
             </e>
           </e>
           <e p="BPFLibrary" t="Include">
+            <e p="AsyncSpawnLibrary.cpp" t="Include" />
+            <e p="AsyncSpawnLibrary.h" t="Include" />
             <e p="TimeWorkLibrary.cpp" t="Include" />
             <e p="TimeWorkLibrary.h" t="Include" />
           </e>
@@ -48954,19 +48956,12 @@
             </e>
           </e>
           <e p="Interfaces" t="Include">
-            <e p="CurrentCharacterObjectInterface.cpp" t="Include" />
             <e p="CurrentCharacterObjectInterface.h" t="Include" />
-            <e p="DropHelperTraceInterface.cpp" t="Include" />
             <e p="DropHelperTraceInterface.h" t="Include" />
-            <e p="FirstAidInterface.cpp" t="Include" />
             <e p="FirstAidInterface.h" t="Include" />
-            <e p="GetDamageCauserInfo.cpp" t="Include" />
             <e p="GetDamageCauserInfo.h" t="Include" />
-            <e p="GetPlayerTeamInterface.cpp" t="Include" />
             <e p="GetPlayerTeamInterface.h" t="Include" />
-            <e p="PlayerControllerInterface.cpp" t="Include" />
             <e p="PlayerControllerInterface.h" t="Include" />
-            <e p="UpdateSpecialPointsInterface.cpp" t="Include" />
             <e p="UpdateSpecialPointsInterface.h" t="Include" />
           </e>
           <e p="Objects" t="Include">
