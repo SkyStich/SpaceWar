@@ -18,7 +18,6 @@ void ACaptureFlagGameMode::CharDead(AController* InstigatorController, AControll
 void ACaptureFlagGameMode::UpdateTeamPoints(const int32 Value, ETeam Team)
 {
 	Super::UpdateTeamPoints(Value, Team);
-	
 }
 
 void ACaptureFlagGameMode::RoundStarted()

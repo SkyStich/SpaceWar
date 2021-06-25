@@ -48877,8 +48877,6 @@
             </e>
           </e>
           <e p="BPFLibrary" t="Include">
-            <e p="AsyncSpawnLibrary.cpp" t="Include" />
-            <e p="AsyncSpawnLibrary.h" t="Include" />
             <e p="TimeWorkLibrary.cpp" t="Include" />
             <e p="TimeWorkLibrary.h" t="Include" />
           </e>
@@ -48953,6 +48951,8 @@
             <e p="Match" t="Include">
               <e p="BaseMatchHUD.cpp" t="Include" />
               <e p="BaseMatchHUD.h" t="Include" />
+              <e p="HoldOfFlagHUD.cpp" t="Include" />
+              <e p="HoldOfFlagHUD.h" t="Include" />
             </e>
           </e>
           <e p="Interfaces" t="Include">

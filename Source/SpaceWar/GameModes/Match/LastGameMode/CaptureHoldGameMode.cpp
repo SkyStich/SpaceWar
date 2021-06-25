@@ -10,6 +10,13 @@ ACaptureHoldGameMode::ACaptureHoldGameMode()
 	PointForWin = 1000;
 }
 
+void ACaptureHoldGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	LaunchGameTimer();
+}
+
 void ACaptureHoldGameMode::CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)
 {
 	Super::CharDead(InstigatorController, LoserController, DamageCauser);

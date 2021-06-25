@@ -23,4 +23,5 @@ protected:
 	virtual void RespawnPlayer(AController* LoserController, float const Time) override;
 	virtual void MatchEnded(const FString& Reason) override;
 	virtual void TickTime(AGameStateMatchGame* MatchGameState) override;
+	virtual void BeginPlay() override;
 };

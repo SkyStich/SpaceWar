@@ -4,6 +4,7 @@
 #include "BaseMatchHUD.h"
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "UObject/ConstructorHelpers.h"
 
 ABaseMatchHUD::ABaseMatchHUD()
@@ -31,7 +32,6 @@ void ABaseMatchHUD::NewOwningPlayerPawn(APawn* NewPawn)
 	if(GetOwningPlayerController()->GetCharacter())
 	{
 		//Character
-		RemoveSpectatorWidgets();
 		CreateCharacterWidgets();
 		CreateSpecialWidget();
 	}
@@ -40,7 +40,6 @@ void ABaseMatchHUD::NewOwningPlayerPawn(APawn* NewPawn)
 		//Spectator
 		RemoveCharacterWidgets();
 		RemoveSpecialWidget();
-		CreateSpectatorWidgets();
 	}
 }
 
@@ -53,7 +52,6 @@ void ABaseMatchHUD::CreateTabMenu()
 
 void ABaseMatchHUD::CreateCharacterWidgets()
 {
-	if(!MatchWidgetData) return;
 	MainHudWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->HUD, GetOwningPlayerController());
 	MainHudWidget->AddToViewport();
 }
@@ -103,10 +101,11 @@ void ABaseMatchHUD::CreateSpecialWidget()
 
 void ABaseMatchHUD::RemoveSpecialWidget()
 {
-	if(!SpecialShopWidget) return;
-	
-	SpecialShopWidget->RemoveFromParent();
-	SpecialShopWidget = nullptr;
+	if(SpecialShopWidget)
+	{
+		SpecialShopWidget->RemoveFromParent();
+		SpecialShopWidget = nullptr;
+	}
 }
 
 void ABaseMatchHUD::ShowSpecialWidget()
@@ -115,5 +114,23 @@ void ABaseMatchHUD::ShowSpecialWidget()
 	{
 		GetOwningPlayerController()->bShowMouseCursor = true;
 		SpecialShopWidget->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void ABaseMatchHUD::CreatePreparationWidget()
+{
+	PreparationWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->PreparationMatch, GetOwningPlayerController());
+	PreparationWidget->AddToViewport();
+}
+
+void ABaseMatchHUD::RemovePreparationWidget()
+{
+	if(PreparationWidget)
+	{
+		PreparationWidget->RemoveFromParent();
+		PreparationWidget = nullptr;
+		FInputModeGameOnly const InputMode;
+		GetOwningPlayerController()->SetInputMode(InputMode);
+		GetOwningPlayerController()->bShowMouseCursor = false;
 	}
 }

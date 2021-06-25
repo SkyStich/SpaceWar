@@ -21,6 +21,8 @@ protected:
 	virtual void RemoveCharacterWidgets();
 	virtual void CreateSpectatorWidgets();
 	virtual void RemoveSpectatorWidgets();
+	virtual void CreatePreparationWidget();
+	virtual void RemovePreparationWidget();
 	void CreateSpecialWidget();
 	void RemoveSpecialWidget();
 	
@@ -56,4 +58,7 @@ protected:
 
 	UPROPERTY()
 	UUserWidget* SpecialShopWidget;
+
+	UPROPERTY()
+	UUserWidget* PreparationWidget;
 };

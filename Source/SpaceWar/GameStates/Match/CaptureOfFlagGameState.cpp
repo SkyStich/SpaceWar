@@ -7,7 +7,7 @@
 
 ACaptureOfFlagGameState::ACaptureOfFlagGameState()
 {
-	CurrentPreparationTime = 5;
+	CurrentPreparationTime = 15;
 	SecurityTeam = ETeam::TeamA;
 }
 
@@ -26,15 +26,15 @@ void ACaptureOfFlagGameState::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ACaptureOfFlagGameState, SecurityTeam);
+	DOREPLIFETIME(ACaptureOfFlagGameState, CurrentPreparationTime);
 }
 
 void ACaptureOfFlagGameState::RefreshRound()
 {
-	NetMulticast_RoundPreparation();
-	
 	CurrentPreparationTime = 5;
 	SecurityTeam = (GetTeamPointsA() + GetTeamPointsB()) % 2 == 0 ? ETeam::TeamA : ETeam::TeamB;
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("SecurityTeam: %hhd"), SecurityTeam));
+	NetMulticast_RoundPreparation();
 	
 	GetWorld()->GetTimerManager().ClearTimer(RefreshRoundHandle);
 	GetWorld()->GetTimerManager().SetTimer(RefreshRoundHandle, this, &ACaptureOfFlagGameState::ReductionPreparationTime, 1.f, true);
@@ -59,10 +59,13 @@ void ACaptureOfFlagGameState::MatchFinish_Implementation(const FString& Reason)
 
 void ACaptureOfFlagGameState::NetMulticast_RoundEnded_Implementation()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("End round"));
-	FTimerHandle RefreshHandle;
-	GetWorld()->GetTimerManager().SetTimer(RefreshHandle, this, &ACaptureOfFlagGameState::RefreshRound, 5.f, false);
-	
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(RefreshRoundHandle);
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("End round"));
+		GetWorld()->GetTimerManager().SetTimer(RefreshRoundHandle, this, &ACaptureOfFlagGameState::RefreshRound, 5.f, false);
+	}
+
 	OnRoundEnded.Broadcast();
 }
 

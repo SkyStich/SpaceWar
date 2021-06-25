@@ -66,6 +66,7 @@ private:
 
 protected:
 
+	UPROPERTY(Replicated)
 	int32 CurrentPreparationTime;
 
 	UPROPERTY(Replicated)
