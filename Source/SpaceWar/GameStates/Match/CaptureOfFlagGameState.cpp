@@ -3,7 +3,6 @@
 
 #include "CaptureOfFlagGameState.h"
 #include "Net/UnrealNetwork.h"
-#include "SpaceWar/Interfaces/PlayerControllerInterface.h"
 
 ACaptureOfFlagGameState::ACaptureOfFlagGameState()
 {

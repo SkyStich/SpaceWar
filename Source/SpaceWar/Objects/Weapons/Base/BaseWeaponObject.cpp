@@ -70,7 +70,6 @@ void UBaseWeaponObject::OnRep_CharOwner()
 
 bool UBaseWeaponObject::IsAbleToUseWeapon()
 {
-	// 
 	return !GetWorld()->GetTimerManager().IsTimerActive(UseWeaponHandle) && !CharacterOwner->GetWeaponManager()->GetWeaponSelect() && !CharacterOwner->GetWeaponManager()->GetThrowUsed();
 }
 
@@ -88,16 +87,23 @@ void UBaseWeaponObject::StopUseWeapon()
 {
 	OnWeaponUsed.Broadcast(false);
 	bWeaponUsed = false;
+	if(CharacterOwner->Controller)
+	{
+		CharacterOwner->SetCanWeaponManipulation(true);
+	}
 }
 
 void UBaseWeaponObject::Server_StartUseWeapon_Implementation()
 {
-	UseWeapon();
-	NetMulticast_StartUseWeapon();
-
-	if(CharacterOwner->GetNetMode() != ENetMode::NM_DedicatedServer)
+	if(IsAbleToUseWeapon() && CharacterOwner->IsCanWeaponManipulation())
 	{
-		OnWeaponUsed.Broadcast(true);
+		UseWeapon();
+		NetMulticast_StartUseWeapon();
+
+		if(CharacterOwner->GetNetMode() != ENetMode::NM_DedicatedServer)
+		{
+			OnWeaponUsed.Broadcast(true);
+		}
 	}
 }
 
@@ -109,7 +115,7 @@ void UBaseWeaponObject::Server_StopUseWeapon_Implementation()
 
 void UBaseWeaponObject::OwnerStartUseWeapon()
 {
-	if(IsAbleToUseWeapon())
+	if(IsAbleToUseWeapon() && CharacterOwner->IsCanWeaponManipulation())
 	{
 		UseWeapon();
 		Server_StartUseWeapon();

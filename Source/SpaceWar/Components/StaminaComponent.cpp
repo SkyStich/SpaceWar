@@ -37,8 +37,6 @@ void UStaminaComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 
 void UStaminaComponent::StartUseStamina()
 {
-	if(CurrentStaminaValue <= 0) return;
-	
 	GetWorld()->GetTimerManager().ClearTimer(StaminaHandle);
 
 	bStaminaUse = true;
@@ -98,5 +96,3 @@ void UStaminaComponent::Server_StopUseStamina_Implementation()
 
 	StopUseStamina();
 }
-
-

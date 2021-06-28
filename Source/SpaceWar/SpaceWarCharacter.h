@@ -47,6 +47,9 @@ public:
 
 	virtual void GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo) override;
 
+	UFUNCTION()
+	void SetCanWeaponManipulation(bool NewState) { bCanWeaponManipulation = NewState; }
+
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
@@ -61,6 +64,9 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = "Character|Getting")
 	FORCEINLINE UHealthComponent* GetHealthComponent() const { return HealthComponent; }
+	
+	UFUNCTION(BlueprintPure, Category = "Character|Getting")
+	FORCEINLINE UStaminaComponent* GetStaminaComponent() const { return StaminaComponent; }
 
 	UFUNCTION(BlueprintCallable, Category = "Character|Keyboard")
 	void OwnerStartUseStamina();
@@ -74,6 +80,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Character|Keyboard")
 	void OwnerStopAdditionalUse();
 
+	UFUNCTION(BlueprintPure, Category = "Player|Weapon")
+	bool IsCanWeaponManipulation() const { return bCanWeaponManipulation; }
+	
 	FVector GetCurrentFireTrace() const;
 	
 	UFUNCTION()
@@ -156,6 +165,9 @@ private:
 
 	UPROPERTY(Replicated)
 	float LookUpPitch;
+	
+	UPROPERTY(Replicated)
+	bool bCanWeaponManipulation;
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float StaminaSpeed;

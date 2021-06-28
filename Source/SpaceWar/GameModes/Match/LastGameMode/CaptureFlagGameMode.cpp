@@ -3,7 +3,6 @@
 
 #include "CaptureFlagGameMode.h"
 #include "SpaceWar/GameStates/Match/CaptureOfFlagGameState.h"
-#include "SpaceWar/PlayerControllers/Match/Last/CaptureFlagController.h"
 
 ACaptureFlagGameMode::ACaptureFlagGameMode()
 {

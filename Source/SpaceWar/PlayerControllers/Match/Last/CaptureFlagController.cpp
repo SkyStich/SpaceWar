@@ -5,9 +5,10 @@
 #include "SpaceWar/GameStates/Match/CaptureOfFlagGameState.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/PlayerStart.h"
+#include "EngineUtils.h"
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/GameModes/Match/LastGameMode/CaptureHoldGameMode.h"
+#include "SpaceWar/PlayerStart/MatchPlayerStartBase.h"
 
 void ACaptureFlagController::BeginPlay()
 {
@@ -44,12 +45,19 @@ void ACaptureFlagController::RoundEnded()
 
 void ACaptureFlagController::RoundStarted()
 {
-	/** Test */
 	if(GetLocalRole() == ROLE_Authority)
 	{
-		TArray<AActor*> Test;
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), Test);
-		SpawnPlayer(Test[0]->GetActorLocation());
+		/** Get All Player Start in current world */
+		for(TActorIterator<AMatchPlayerStartBase> It(GetWorld(), AMatchPlayerStartBase::StaticClass()); It; ++It)
+		{
+			AMatchPlayerStartBase* Temp = *It;
+			/** Find Free points */
+			if(Temp->CheckOnFreePoints() && IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) == Temp->GetSpawnTeam())
+			{
+				SpawnPlayer(Temp->GetActorLocation());
+				return;
+			}
+		}
 	}
 }
 

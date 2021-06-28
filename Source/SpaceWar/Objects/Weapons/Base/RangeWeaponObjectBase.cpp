@@ -67,6 +67,7 @@ bool URangeWeaponObjectBase::UseWeapon()
 	if(CharacterOwner->Controller)
 	{
 		bWeaponUsed = true;
+		CharacterOwner->SetCanWeaponManipulation(false);
 		CurrentAmmoInWeapon--;
 	}
 
@@ -157,7 +158,7 @@ void URangeWeaponObjectBase::ApplyPointDamage(const FHitResult& Hit)
 
 bool URangeWeaponObjectBase::IsAbleToReload()
 {
-	return CurrentAmmoInWeapon < WeaponData.MaxAmmoInWeapon && CurrentAmmoInStorage > 0 && !bReloading;
+	return CurrentAmmoInWeapon < WeaponData.MaxAmmoInWeapon && CurrentAmmoInStorage > 0 && CharacterOwner->IsCanWeaponManipulation();
 }
 
 void URangeWeaponObjectBase::OnRep_Reload()
@@ -170,6 +171,7 @@ void URangeWeaponObjectBase::ReloadStart()
 {
 	if(IsAbleToReload())
 	{
+		CharacterOwner->SetCanWeaponManipulation(false);
 		bReloading = true;
 		OnRep_Reload();
 		GetWorld()->GetTimerManager().SetTimer(ReloadHandle, this, &URangeWeaponObjectBase::ReloadStop, WeaponData.ReloadTime, false);
@@ -181,22 +183,22 @@ void URangeWeaponObjectBase::ReloadStop()
 	GetWorld()->GetTimerManager().ClearTimer(ReloadHandle);
 	bReloading = false;
 	OnRep_Reload();
+	CharacterOwner->SetCanWeaponManipulation(true);
 
-	if(CharacterOwner->Controller)
-	{
-		int32 const NeedToMaxAmmo = WeaponData.MaxAmmoInWeapon - CurrentAmmoInWeapon;
+	/** calculate need ammo */
+	int32 const NeedToMaxAmmo = WeaponData.MaxAmmoInWeapon - CurrentAmmoInWeapon;
 		
-		if(CurrentAmmoInStorage >= NeedToMaxAmmo)
-		{
-			CurrentAmmoInWeapon += NeedToMaxAmmo;
-			CurrentAmmoInStorage -= NeedToMaxAmmo;
-		}
-		else
-		{
-			CurrentAmmoInWeapon += CurrentAmmoInStorage;
-			CurrentAmmoInStorage = 0;
-		}
+	if(CurrentAmmoInStorage >= NeedToMaxAmmo)
+	{
+		CurrentAmmoInWeapon += NeedToMaxAmmo;
+		CurrentAmmoInStorage -= NeedToMaxAmmo;
 	}
+	else
+	{
+		CurrentAmmoInWeapon += CurrentAmmoInStorage;
+		CurrentAmmoInStorage = 0;
+	}
+	
 }
 
 void URangeWeaponObjectBase::Server_ReloadStart_Implementation()

@@ -28,6 +28,7 @@ void AHoldOfFlagHUD::PreparationRound()
 {
 	CreatePreparationWidget();
 	RemoveSpectatorWidgets();
+	RemoveCharacterWidgets();
 }
 
 void AHoldOfFlagHUD::StartRound()
@@ -37,5 +38,5 @@ void AHoldOfFlagHUD::StartRound()
 
 void AHoldOfFlagHUD::StopRound()
 {
-	
+
 }

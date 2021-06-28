@@ -12,3 +12,11 @@ enum class ETeam : uint8
     TeamA,
     TeamB
 };
+
+UENUM(BlueprintType)
+enum class EPointNumber : uint8
+{
+	PointA,
+	PointB,
+	PointC
+};

@@ -56,6 +56,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Health|Getting")
 	float GetMaxArmor() const { return MaxArmor; }
+	
+	UFUNCTION(BlueprintPure, Category = "Health|Getting")
+	bool IsOwnerDeath() const { return bOwnerDead; } 
 
 	/** Call on take damage or pick up regeneration object */
 	UFUNCTION(BlueprintCallable, Category = "HealthComponent")

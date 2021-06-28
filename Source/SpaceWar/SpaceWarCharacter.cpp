@@ -19,6 +19,8 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
 	bReplicates = true;
+	bCanWeaponManipulation = true;
+	NetUpdateFrequency = 25.f;
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -67,6 +69,9 @@ void ASpaceWarCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 	
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	PlayerInputComponent->BindAction("Stamina", IE_Pressed, this, &ASpaceWarCharacter::OwnerStartUseStamina);
+	PlayerInputComponent->BindAction("Stamina", IE_Released, this, &ASpaceWarCharacter::OwnerStopUseStamina);
 	
 	PlayerInputComponent->BindAction("AdditionWeapon", IE_Pressed, this, &ASpaceWarCharacter::OwnerStartAdditionalUse);
 	PlayerInputComponent->BindAction("AdditionWeapon", IE_Released, this, &ASpaceWarCharacter::OwnerStopAdditionalUse);
@@ -114,11 +119,29 @@ void ASpaceWarCharacter::OnStaminaUsedEvent(bool bState)
 {
 	if(bState)
 	{
-		GetCharacterMovement()->MaxWalkSpeed = StaminaSpeed;
+		/** return if this not server or owner clinet */
+		if(!Controller) return;
+
+		if(GetLocalRole() == ROLE_Authority)
+		{
+			GetCharacterMovement()->MaxWalkSpeed = StaminaSpeed;
+			if(!bCanWeaponManipulation)
+			{
+				StaminaComponent->Server_StopUseStamina();
+				return;
+			}
+		}
+		bCanWeaponManipulation = false;
 	}
 	else
 	{
-		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+		if(!Controller) return;
+		bCanWeaponManipulation = true;
+		
+		if(GetLocalRole() == ROLE_Authority)
+		{
+			GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+		}
 	}
 }
 
@@ -143,6 +166,7 @@ void ASpaceWarCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ASpaceWarCharacter, LookUpPitch);
+	DOREPLIFETIME(ASpaceWarCharacter, bCanWeaponManipulation);
 }
 
 void ASpaceWarCharacter::CharDead()
@@ -151,13 +175,16 @@ void ASpaceWarCharacter::CharDead()
     GetMesh()->SetVisibility(true);
     WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-    		
+
+	/** Change fisics if this not dedicated server */
 	if(GetNetMode() != NM_DedicatedServer)
 	{
 		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 		GetMesh()->SetSimulatePhysics(true);
 	}
+
+	/** Set timer for destroy with out controller */
 	FTimerHandle DestroyTimerHandle;
 	FTimerDelegate TimerDel;
 	TimerDel.BindLambda([&]() -> void
@@ -245,10 +272,10 @@ void ASpaceWarCharacter::Server_UseJetpack_Implementation()
 
 void ASpaceWarCharacter::OwnerStartUseStamina()
 {
-	if(StaminaComponent->GetCurrentStaminaValue() > 0 && !WeaponManager->GetCurrentWeapon()->GetAdditionalUse())
-	{
-		StaminaComponent->Server_StartUseStamina();
-	}
+	if(StaminaComponent->GetCurrentStaminaValue() <= 0 || WeaponManager->GetCurrentWeapon()->GetAdditionalUse() || !bCanWeaponManipulation) return;
+	
+	StaminaComponent->Server_StartUseStamina();
+	
 }
 
 void ASpaceWarCharacter::OwnerStopUseStamina()
@@ -258,7 +285,7 @@ void ASpaceWarCharacter::OwnerStopUseStamina()
 
 void ASpaceWarCharacter::Server_StartUseAccessionWeapon_Implementation()
 {
-	if(WeaponManager->GetWeaponSelect() && WeaponManager->GetCurrentWeapon()->GetAdditionalUse()) return;
+	if(WeaponManager->GetWeaponSelect() && WeaponManager->GetCurrentWeapon()->GetAdditionalUse() && !bCanWeaponManipulation) return;
 	
 	StaminaComponent->StopUseStamina();
 	WeaponManager->GetCurrentWeapon()->StartAdditionalUsed();
@@ -275,7 +302,7 @@ void ASpaceWarCharacter::Server_StopUseAccessionWeapon_Implementation()
 
 void ASpaceWarCharacter::OwnerStartAdditionalUse()
 {
-	if(WeaponManager->GetWeaponSelect()) return;
+	if(WeaponManager->GetWeaponSelect() && !bCanWeaponManipulation) return;
 	
 	if(WeaponManager->GetCurrentWeapon()->OwnerStartAdditionalUsed())
 	{
@@ -318,7 +345,8 @@ void ASpaceWarCharacter::StopPlayerFirstAid_Implementation()
 
 void ASpaceWarCharacter::StartUseWeapon()
 {
-	WeaponManager->GetCurrentWeapon()->OwnerStartUseWeapon();
+	if(bCanWeaponManipulation)
+		WeaponManager->GetCurrentWeapon()->OwnerStartUseWeapon();
 }
 
 void ASpaceWarCharacter::StopUseWeapon()

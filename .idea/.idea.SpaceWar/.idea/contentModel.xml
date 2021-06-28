@@ -48961,6 +48961,8 @@
             <e p="FirstAidInterface.h" t="Include" />
             <e p="GetDamageCauserInfo.h" t="Include" />
             <e p="GetPlayerTeamInterface.h" t="Include" />
+            <e p="MatchPlayerCharacterInterface.cpp" t="Include" />
+            <e p="MatchPlayerCharacterInterface.h" t="Include" />
             <e p="PlayerControllerInterface.h" t="Include" />
             <e p="UpdateSpecialPointsInterface.h" t="Include" />
           </e>
@@ -49007,6 +49009,12 @@
                 <e p="CaptureHoldController.h" t="Include" />
               </e>
             </e>
+          </e>
+          <e p="PlayerStart" t="Include">
+            <e p="MatchPlayerStartBase.cpp" t="Include" />
+            <e p="MatchPlayerStartBase.h" t="Include" />
+            <e p="PointCapturePlayerStart.cpp" t="Include" />
+            <e p="PointCapturePlayerStart.h" t="Include" />
           </e>
           <e p="PlayerStates" t="Include">
             <e p="Match" t="Include">
