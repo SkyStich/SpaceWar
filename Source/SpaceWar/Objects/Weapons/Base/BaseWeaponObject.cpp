@@ -85,6 +85,7 @@ bool UBaseWeaponObject::UseWeapon()
 
 void UBaseWeaponObject::StopUseWeapon()
 {
+	if(!bWeaponUsed) return;
 	OnWeaponUsed.Broadcast(false);
 	bWeaponUsed = false;
 	if(CharacterOwner->Controller)

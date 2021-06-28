@@ -163,7 +163,6 @@ bool URangeWeaponObjectBase::IsAbleToReload()
 
 void URangeWeaponObjectBase::OnRep_Reload()
 {
-	StopUseWeapon();
 	OnReload.Broadcast(bReloading);
 }
 
@@ -171,9 +170,9 @@ void URangeWeaponObjectBase::ReloadStart()
 {
 	if(IsAbleToReload())
 	{
-		CharacterOwner->SetCanWeaponManipulation(false);
 		bReloading = true;
 		OnRep_Reload();
+		CharacterOwner->SetCanWeaponManipulation(false);
 		GetWorld()->GetTimerManager().SetTimer(ReloadHandle, this, &URangeWeaponObjectBase::ReloadStop, WeaponData.ReloadTime, false);
 	}
 }
