@@ -3,7 +3,6 @@
 
 #include "HoldOfFlagHUD.h"
 #include "Kismet/GameplayStatics.h"
-#include "SpaceWar/GameStates/Match/CaptureOfFlagGameState.h"
 
 void AHoldOfFlagHUD::BeginPlay()
 {
@@ -17,6 +16,7 @@ void AHoldOfFlagHUD::BeginPlay()
 		GameState->OnRoundPreparation.AddDynamic(this, &AHoldOfFlagHUD::PreparationRound);
 		GameState->OnRoundStarted.AddDynamic(this, &AHoldOfFlagHUD::StartRound);
 		GameState->OnRoundEnded.AddDynamic(this, &AHoldOfFlagHUD::StopRound);
+		GameState->OnMatchEnd.AddDynamic(this, &AHoldOfFlagHUD::MatchEnd);
 	}
 	else
 	{
@@ -26,9 +26,11 @@ void AHoldOfFlagHUD::BeginPlay()
 
 void AHoldOfFlagHUD::PreparationRound()
 {
+	RemovePreMatchEnd();
 	CreatePreparationWidget();
 	RemoveSpectatorWidgets();
 	RemoveCharacterWidgets();
+	RemoveSpecialWidget();
 }
 
 void AHoldOfFlagHUD::StartRound()
@@ -36,7 +38,12 @@ void AHoldOfFlagHUD::StartRound()
 	RemovePreparationWidget();
 }
 
-void AHoldOfFlagHUD::StopRound()
+void AHoldOfFlagHUD::StopRound(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound)
+{
+	CreatePreMatchEnd(Reason, WinnerTeam);
+}
+
+void AHoldOfFlagHUD::MatchEnd(const FString& Reason, ETeam WinnerTeam)
 {
 
 }

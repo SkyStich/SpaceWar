@@ -6,7 +6,16 @@
 #include "OnlinetMatchGameStateBase.h"
 #include "CaptureOfFlagGameState.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FRoundEnded);
+/** need for sound */
+UENUM(BlueprintType)
+enum class EReasonForEndOfRound : uint8
+{
+	AllEnemyDeath,
+    FlagBeCapture,
+	FlagBeSaved
+};
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FRoundEnded, const FString&, Reason, ETeam, WinnerTeam, EReasonForEndOfRound, ReasonEndOfRound);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FRoundStarted);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FRoundPreparation);
 
@@ -19,19 +28,19 @@ public:
 
 	ACaptureOfFlagGameState();
 	virtual void IncrementTime() override;
+	virtual int32 UpdateTeamPoints(ETeam Team, int32 Value) override { return Super::UpdateTeamPoints(Team, Value); }
+	int32 UpdateTeamPoints(ETeam Team, int32 Value, EReasonForEndOfRound ReasonEndOfRound);
 
 protected:
 
-	virtual int32 UpdateTeamPoints(ETeam Team, int32 Value) override;
-
 	virtual void RefreshRound();
-	virtual void MatchFinish_Implementation(const FString& Reason) override;
+	virtual void MatchFinish_Implementation(const FString& Reason, ETeam WinnerTeam) override;
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PlayerDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) override;
 
 	UFUNCTION(NetMulticast, Reliable)
-    void NetMulticast_RoundEnded();
+    void NetMulticast_RoundEnded(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound);
 
 	UFUNCTION(NetMulticast, Reliable)
     void NetMulticast_RoundStarted();

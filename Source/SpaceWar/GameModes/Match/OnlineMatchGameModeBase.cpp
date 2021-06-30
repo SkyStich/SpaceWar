@@ -14,8 +14,15 @@ void AOnlineMatchGameModeBase::UpdateTeamPoints(const int32 Value, ETeam Team)
 	if(GetGameState<AOnlinetMatchGameStateBase>()->UpdateTeamPoints(Team, Value) >= PointForWin)
 	{
 		FString const ReasonMessage = FString::Printf(TEXT("Max amount points. %d - winner"), Team); 
-		MatchEnded(ReasonMessage);
+		MatchEnded(ReasonMessage, Team);
 	}
+}
+
+void AOnlineMatchGameModeBase::LaunchGameTimer()
+{
+	FTimerDelegate TimerDel;
+	TimerDel.BindUObject(this, &AOnlineMatchGameModeBase::TickTime, GetGameState<AOnlinetMatchGameStateBase>());
+	GetWorld()->GetTimerManager().SetTimer(TimeMatchHandle, TimerDel, 1.f, true);
 }
 
 void AOnlineMatchGameModeBase::CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)
@@ -23,6 +30,11 @@ void AOnlineMatchGameModeBase::CharDead(AController* InstigatorController, ACont
 	Super::CharDead(InstigatorController, LoserController, DamageCauser);
 
 	UpdatePlayerStatistics(InstigatorController, LoserController);
+}
+
+void AOnlineMatchGameModeBase::TickTime(AOnlinetMatchGameStateBase* MatchGameState)
+{
+	MatchGameState->IncrementTime();
 }
 
 void AOnlineMatchGameModeBase::UpdatePlayerStatistics(AController* InstigatorController, AController* LoserController)

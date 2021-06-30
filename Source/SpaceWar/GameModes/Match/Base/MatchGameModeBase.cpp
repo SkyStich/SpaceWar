@@ -96,23 +96,17 @@ void AMatchGameModeBase::AsyncSpawnPlayerCharacterComplete(FSoftObjectPath Refer
 	}
 }
 
-void AMatchGameModeBase::LaunchGameTimer()
-{
-	FTimerDelegate TimerDel;
-	TimerDel.BindUObject(this, &AMatchGameModeBase::TickTime, GetGameState<AGameStateMatchGame>());
-	GetWorld()->GetTimerManager().SetTimer(TimeMatchHandle, TimerDel, 1.f, true);
-}
-
-void AMatchGameModeBase::TickTime(AGameStateMatchGame* MatchGameState)
-{
-	MatchGameState->IncrementTime();
-}
-
-void AMatchGameModeBase::MatchEnded(const FString& Reason)
+void AMatchGameModeBase::MatchEnded(const FString& Reason, ETeam WinnerTeam)
 {
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(GameState);
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
-	OnMatchEnded.Broadcast(Reason);
+	OnPreMatchEnded.Broadcast(Reason, WinnerTeam);
+	
+	auto const f = [&]() -> void { OnMatchEnded.Broadcast(Reason, WinnerTeam); };
+	FTimerDelegate TimerDel;
+	TimerDel.BindLambda(f);
+	FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, false);
 }
 
 void AMatchGameModeBase::PostLogin(APlayerController* NewPlayer)

@@ -10,7 +10,7 @@ ACaptureHoldGamestate::ACaptureHoldGamestate()
 {
 }
 
-void ACaptureHoldGamestate::MatchFinish_Implementation(const FString& Reason)
+void ACaptureHoldGamestate::MatchFinish_Implementation(const FString& Reason, ETeam WinnerTeam)
 {
-	Super::MatchFinish_Implementation(Reason);
+	Super::MatchFinish_Implementation(Reason, WinnerTeam);
 }

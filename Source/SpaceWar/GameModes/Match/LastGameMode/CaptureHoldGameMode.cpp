@@ -33,9 +33,9 @@ void ACaptureHoldGameMode::RespawnPlayer(AController* LoserController, float con
 	}
 }
 
-void ACaptureHoldGameMode::MatchEnded(const FString& Reason)
+void ACaptureHoldGameMode::MatchEnded(const FString& Reason, ETeam WinnerTeam)
 {
-	Super::MatchEnded(Reason);
+	Super::MatchEnded(Reason, WinnerTeam);
 
 	for(auto& ByArray : GameState->PlayerArray)
 	{
@@ -43,12 +43,14 @@ void ACaptureHoldGameMode::MatchEnded(const FString& Reason)
 	}
 }
 
-void ACaptureHoldGameMode::TickTime(AGameStateMatchGame* MatchGameState)
+void ACaptureHoldGameMode::TickTime(AOnlinetMatchGameStateBase* MatchGameState)
 {
 	Super::TickTime(MatchGameState);
 	if(MatchGameState->GetCurrentMatchTime() <= 0)
 	{
-		MatchEnded("Time leave");
+		ETeam const Winner = MatchGameState->GetTeamPointsA()  > MatchGameState->GetTeamPointsB() ? ETeam::TeamA : MatchGameState->GetTeamPointsA() < MatchGameState->GetTeamPointsB() ? ETeam::TeamB : ETeam::NoneTeam;
+		FString const TeamReason = Winner == ETeam::NoneTeam ? "No winners" : "";
+		MatchEnded("Time leave" + TeamReason, Winner);
 		GetWorld()->GetTimerManager().ClearTimer(TimeMatchHandle);
 	}
 }

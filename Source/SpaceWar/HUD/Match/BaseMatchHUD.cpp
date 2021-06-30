@@ -40,41 +40,46 @@ void ABaseMatchHUD::NewOwningPlayerPawn(APawn* NewPawn)
 		//Spectator
 		RemoveCharacterWidgets();
 		RemoveSpecialWidget();
+		CreateSpectatorWidgets();
 	}
 }
 
 void ABaseMatchHUD::CreateTabMenu()
 {
-	TabMenuWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->StatisticMatchGrid, GetOwningPlayerController());
+	TabMenuWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), MatchWidgetData->StatisticMatchGrid, GetOwningPlayerController());
 	TabMenuWidget->AddToViewport();
 	TabMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 void ABaseMatchHUD::CreateCharacterWidgets()
 {
-	MainHudWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->HUD, GetOwningPlayerController());
-	MainHudWidget->AddToViewport();
+	if(!CharacterHUD)
+	{
+		CharacterHUD = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), MatchWidgetData->HUD, GetOwningPlayerController());
+		CharacterHUD->AddToViewport();	
+	}
 }
 
 void ABaseMatchHUD::RemoveCharacterWidgets()
 {
-	if(MainHudWidget)
+	if(CharacterHUD)
 	{
-		MainHudWidget->RemoveFromParent();
-		MainHudWidget = nullptr;
+		CharacterHUD->RemoveFromParent();
+		CharacterHUD = nullptr;
 	}
 }
 
 void ABaseMatchHUD::CreateSpectatorWidgets()
-{
+{	
+
 }
 
 void ABaseMatchHUD::RemoveSpectatorWidgets()
 {
-	if(MainHudWidget)
+	if(SpectatorHUD)
 	{
-		MainHudWidget->RemoveFromParent();
-		MainHudWidget = nullptr;
+		SpectatorHUD->RemoveFromParent();
+		SpectatorHUD = nullptr;
 	}
 }
 
@@ -93,7 +98,7 @@ void ABaseMatchHUD::CreateSpecialWidget()
 {
 	if(MatchWidgetData->SpecialShop)
 	{
-		SpecialShopWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->SpecialShop, GetOwningPlayerController());
+		SpecialShopWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), MatchWidgetData->SpecialShop, GetOwningPlayerController());
 		SpecialShopWidget->AddToViewport();
 		SpecialShopWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
@@ -119,7 +124,7 @@ void ABaseMatchHUD::ShowSpecialWidget()
 
 void ABaseMatchHUD::CreatePreparationWidget()
 {
-	PreparationWidget = AssetData->SyncCreateWidget(GetWorld(), MatchWidgetData->PreparationMatch, GetOwningPlayerController());
+	PreparationWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), MatchWidgetData->PreparationMatch, GetOwningPlayerController());
 	PreparationWidget->AddToViewport();
 }
 
@@ -134,3 +139,20 @@ void ABaseMatchHUD::RemovePreparationWidget()
 		GetOwningPlayerController()->bShowMouseCursor = false;
 	}
 }
+
+void ABaseMatchHUD::CreatePreMatchEnd(const FString& Reason, ETeam WinnerTeam)
+{
+	PreEndMatchWidget = AssetData->SyncCreateWidget<UEndGameWidgetBase>(GetWorld(), MatchWidgetData->PreEndMatch, GetOwningPlayerController());
+	PreEndMatchWidget->Init(Reason, WinnerTeam);
+	PreEndMatchWidget->AddToViewport();
+}
+
+void ABaseMatchHUD::RemovePreMatchEnd()
+{
+	if(PreEndMatchWidget)
+	{
+		PreEndMatchWidget->RemoveFromParent();
+		PreEndMatchWidget = nullptr;
+	}
+}
+

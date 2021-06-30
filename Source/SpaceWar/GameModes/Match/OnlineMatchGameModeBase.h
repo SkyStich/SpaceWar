@@ -16,10 +16,15 @@ class SPACEWAR_API AOnlineMatchGameModeBase : public AMatchGameModeBase
 
 	void UpdatePlayerStatistics(AController* InstigatorController, AController* LoserController);
 
+protected:
+
+	virtual void TickTime(AOnlinetMatchGameStateBase* MatchPlayerState);
+
 public:
 
 	AOnlineMatchGameModeBase();
 
+	virtual void LaunchGameTimer();
 	virtual void UpdateTeamPoints(const int32 Value, ETeam Team);
 	virtual void CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) override;
 };

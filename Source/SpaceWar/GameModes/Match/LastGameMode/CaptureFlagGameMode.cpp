@@ -2,7 +2,6 @@
 
 
 #include "CaptureFlagGameMode.h"
-#include "SpaceWar/GameStates/Match/CaptureOfFlagGameState.h"
 
 ACaptureFlagGameMode::ACaptureFlagGameMode()
 {
@@ -19,12 +18,21 @@ void ACaptureFlagGameMode::UpdateTeamPoints(const int32 Value, ETeam Team)
 	Super::UpdateTeamPoints(Value, Team);
 }
 
+void ACaptureFlagGameMode::UpdateTeamPoints(const int32 Value, ETeam Team,EReasonForEndOfRound ReasonEndOfRound)
+{
+	if(GetGameState<ACaptureOfFlagGameState>()->UpdateTeamPoints(Team, Value, ReasonEndOfRound) >= PointForWin)
+	{
+		FString const ReasonMessage = FString::Printf(TEXT("Max amount points. %d - winner"), Team); 
+		MatchEnded(ReasonMessage, Team);
+	}
+}
+
 void ACaptureFlagGameMode::RoundStarted()
 {
 	LaunchGameTimer();
 }
 
-void ACaptureFlagGameMode::RoundEnded()
+void ACaptureFlagGameMode::RoundEnded(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound)
 {
 	GetWorld()->GetTimerManager().ClearTimer(TimeMatchHandle);
 }
@@ -49,7 +57,7 @@ void ACaptureFlagGameMode::RespawnPlayer(AController* RespawnController)
 	
 }
 
-void ACaptureFlagGameMode::TickTime(AGameStateMatchGame* MatchPlayerState)
+void ACaptureFlagGameMode::TickTime(AOnlinetMatchGameStateBase* MatchPlayerState)
 {
 	Super::TickTime(MatchPlayerState);
 

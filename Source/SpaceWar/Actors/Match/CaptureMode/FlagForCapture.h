@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "SpaceWaR/GameStates/Match/CaptureOfFlagGameState.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "SpaceWar/Enums/PlayerTeamEnum.h"
@@ -22,7 +23,7 @@ class SPACEWAR_API AFlagForCapture : public AActor, public ICurrentCharacterObje
 	void OnRep_CharOwner();
 
 	UFUNCTION()
-	void RoundEnded();
+	void RoundEnded(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound);
 	
 public:	
 	// Sets default values for this actor's properties

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "SpaceWar/Enums/PlayerTeamEnum.h"
 #include "MatchGameModeBase.generated.h"
 
 class ASpaceWarCharacter;
@@ -11,8 +12,9 @@ class AMatchPlayerControllerBase;
 class AGameStateMatchGame;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FPlayerDead, AController*, InstegatedBy, AController*, LoserController, AActor*, DamageCauser);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchEnded, const FString&, Reason);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FMatchEnded, const FString&, Reason, ETeam, TeamWinner);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerPostLogin, APlayerController*, PlayerConttroller);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FPreMatchEnded, const FString&, Reason, ETeam, TeamWinner);
 
 UCLASS(Abstract)
 class SPACEWAR_API AMatchGameModeBase : public AGameModeBase
@@ -38,11 +40,9 @@ public:
 
 protected:
 
-	virtual void LaunchGameTimer();
-	virtual void MatchEnded(const FString& Reason);
+	virtual void MatchEnded(const FString& Reason, ETeam WinnerTeam);
 	virtual void RespawnPlayer(AController* RespawnController, float const Time) {}
 	virtual void RespawnPlayer(AController* RespawnController) {}
-	virtual void TickTime(AGameStateMatchGame* MatchPlayerState);
 	virtual void BeginPlay() override;
 	
 public:
@@ -51,6 +51,9 @@ public:
 
 	UPROPERTY()
 	FMatchEnded OnMatchEnded;
+
+	UPROPERTY()
+	FPreMatchEnded OnPreMatchEnded;
 
 	UPROPERTY()
 	FPlayerPostLogin OnPlayerPostLogin;

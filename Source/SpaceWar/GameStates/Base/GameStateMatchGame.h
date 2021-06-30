@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
+#include "SpaceWar/Enums/PlayerTeamEnum.h"
 #include "GameStateMatchGame.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FMatchEnd, const FString&, Reason, ETeam, WinnerTeam);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FEndPreMatch, const FString&, Reason, ETeam, TeamWinner);
+
 UCLASS()
 class SPACEWAR_API AGameStateMatchGame : public AGameStateBase
 {
@@ -35,7 +36,10 @@ protected:
 	virtual void PlayerDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) {}
 		
 	UFUNCTION(NetMulticast, Reliable)
-    void MatchFinish(const FString& Reason);
+    void MatchFinish(const FString& Reason, ETeam WinnerTeam);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void PreMatchFinish(const FString& Reason, ETeam WinnerTeam);
 
 protected:
 
@@ -44,4 +48,12 @@ protected:
     	
 	UPROPERTY(Replicated)
 	int32 CurrentMatchTime;
+
+public:
+
+	UPROPERTY(BlueprintAssignable, Category = "GameState|Delegate")
+	FMatchEnd OnMatchEnd;
+
+	UPROPERTY(BlueprintAssignable, Category = "GameState|Delegate")
+	FEndPreMatch OnPreMatchEnd;
 };

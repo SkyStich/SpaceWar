@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "SpaceWar/UserWidget/Match/EndGameWidgetBase.h"
 #include "SpaceWar/DataAssets/MatchWidgetDataAsset.h"
 #include "BaseMatchHUD.generated.h"
 
@@ -16,15 +17,21 @@ protected:
 
 	virtual void BeginPlay() override;
 	virtual void NewOwningPlayerPawn(APawn* NewPawn);
-
+	
 	virtual void CreateCharacterWidgets();
 	virtual void RemoveCharacterWidgets();
+	
 	virtual void CreateSpectatorWidgets();
 	virtual void RemoveSpectatorWidgets();
+	
 	virtual void CreatePreparationWidget();
 	virtual void RemovePreparationWidget();
-	void CreateSpecialWidget();
-	void RemoveSpecialWidget();
+	
+	virtual void CreateSpecialWidget();
+	virtual void RemoveSpecialWidget();
+	
+	virtual void CreatePreMatchEnd(const FString& Reason, ETeam WinnerTeam);
+	virtual void RemovePreMatchEnd();
 	
 	virtual void CreateTabMenu();
 
@@ -33,7 +40,7 @@ public:
 	ABaseMatchHUD();
 	
 	UFUNCTION(BlueprintPure)
-	UUserWidget* GetMainWidget() const { return MainHudWidget; }
+	UUserWidget* GetMainWidget() const { return CharacterHUD; }
 	 
 	void ShowTabMenu();
 	void HiddenTabMenu();
@@ -51,7 +58,10 @@ protected:
 	UMatchWidgetDataAsset* AssetData;
 
 	UPROPERTY()
-	UUserWidget* MainHudWidget;
+	UUserWidget* CharacterHUD;
+	
+	UPROPERTY()
+	UUserWidget* SpectatorHUD;
 
 	UPROPERTY()
 	UUserWidget* TabMenuWidget;
@@ -61,4 +71,10 @@ protected:
 
 	UPROPERTY()
 	UUserWidget* PreparationWidget;
+
+	UPROPERTY()
+	UEndGameWidgetBase* EndGameMatchWidget;
+	
+	UPROPERTY()
+	UEndGameWidgetBase* PreEndMatchWidget;
 };

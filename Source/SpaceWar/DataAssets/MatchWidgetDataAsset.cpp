@@ -2,10 +2,9 @@
 
 
 #include "MatchWidgetDataAsset.h"
-#include "SpaceWar/Singleton/BaseSingleton.h"
-#include "Blueprint/UserWidget.h"
 
-UUserWidget* UMatchWidgetDataAsset::SyncCreateWidget(UObject* WorldContext, TSoftClassPtr<UUserWidget> WidgetClass, APlayerController* OwningPlayer)
+/*template<class T>
+T* UMatchWidgetDataAsset::SyncCreateWidget(UObject* WorldContext, TSoftClassPtr<UUserWidget> WidgetClass, APlayerController* OwningPlayer) const
 {
 	if(WidgetClass.IsNull())
 	{
@@ -19,21 +18,21 @@ UUserWidget* UMatchWidgetDataAsset::SyncCreateWidget(UObject* WorldContext, TSof
 	StreamableManager.LoadSynchronous(WidgetClass);
 	
 	UClass* WidgetType = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), nullptr, *Ref.ToString()));
-
+	
 	if(WidgetType == nullptr)
 	{
 		return nullptr;
 	}
 
-	UUserWidget* Widget = nullptr;
+	T* Widget = nullptr;
 	if(OwningPlayer == nullptr)
 	{
 		UWorld* World = GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::LogAndReturnNull);
-		Widget = CreateWidget<UUserWidget>(World, WidgetType);
+		Widget = CreateWidget<T>(World, WidgetType);
 	}
 	else
 	{
-		Widget = CreateWidget<UUserWidget>(OwningPlayer, WidgetType);
+		Widget = CreateWidget<T>(OwningPlayer, WidgetType);
 	}
 	
 	if(Widget)
@@ -42,4 +41,4 @@ UUserWidget* UMatchWidgetDataAsset::SyncCreateWidget(UObject* WorldContext, TSof
 	}
 	
 	return Widget;
-}
+}*/

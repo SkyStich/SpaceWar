@@ -49,14 +49,14 @@ void ACaptureOfFlagGameState::ReductionPreparationTime()
 	}
 }
 
-void ACaptureOfFlagGameState::MatchFinish_Implementation(const FString& Reason)
+void ACaptureOfFlagGameState::MatchFinish_Implementation(const FString& Reason, ETeam WinnerTeam)
 {
-	Super::MatchFinish_Implementation(Reason);
+	Super::MatchFinish_Implementation(Reason, WinnerTeam);
 
 	GetWorld()->GetTimerManager().ClearTimer(RefreshRoundHandle);
 }
 
-void ACaptureOfFlagGameState::NetMulticast_RoundEnded_Implementation()
+void ACaptureOfFlagGameState::NetMulticast_RoundEnded_Implementation(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound)
 {
 	if(GetLocalRole() == ROLE_Authority)
 	{
@@ -65,7 +65,7 @@ void ACaptureOfFlagGameState::NetMulticast_RoundEnded_Implementation()
 		GetWorld()->GetTimerManager().SetTimer(RefreshRoundHandle, this, &ACaptureOfFlagGameState::RefreshRound, 5.f, false);
 	}
 
-	OnRoundEnded.Broadcast();
+	OnRoundEnded.Broadcast(Reason, WinnerTeam, ReasonEndOfRound);
 }
 
 void ACaptureOfFlagGameState::NetMulticast_RoundStarted_Implementation()
@@ -84,9 +84,9 @@ void ACaptureOfFlagGameState::NetMulticast_RoundPreparation_Implementation()
 	OnRoundPreparation.Broadcast();
 }
 
-int32 ACaptureOfFlagGameState::UpdateTeamPoints(ETeam Team, int32 Value)
+int32 ACaptureOfFlagGameState::UpdateTeamPoints(ETeam Team, int32 Value, EReasonForEndOfRound ReasonEndOfRound)
 {
-	NetMulticast_RoundEnded();
+	NetMulticast_RoundEnded("MaxPoints", Team, ReasonEndOfRound);
 	return Super::UpdateTeamPoints(Team, Value);
 }
 
@@ -96,7 +96,7 @@ void ACaptureOfFlagGameState::IncrementTime()
 
 	if(GetCurrentMatchTime() <= 0)
 	{
-		UpdateTeamPoints(SecurityTeam, 1);
+		UpdateTeamPoints(SecurityTeam, 1, EReasonForEndOfRound::FlagBeSaved);
 	}
 }
 
@@ -110,5 +110,5 @@ void ACaptureOfFlagGameState::PlayerDead(AController* InstigatorController, ACon
 		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(ByArray) != IGetPlayerTeamInterface::Execute_FindPlayerTeam(LoserController->PlayerState)) continue;
 		if(ByArray->GetPawn()->GetController()->GetCharacter()) return;
 	}
-	UpdateTeamPoints(LoserTeam == ETeam::TeamA ? ETeam::TeamB : ETeam::TeamA, 1);
+	UpdateTeamPoints(LoserTeam == ETeam::TeamA ? ETeam::TeamB : ETeam::TeamA, 1, EReasonForEndOfRound::AllEnemyDeath);
 }

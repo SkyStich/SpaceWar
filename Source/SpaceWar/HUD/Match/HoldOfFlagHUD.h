@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BaseMatchHUD.h"
+#include "SpaceWar/GameStates/Match/CaptureOfFlagGameState.h"
 #include "HoldOfFlagHUD.generated.h"
 
 UCLASS()
@@ -22,5 +23,8 @@ protected:
 	void StartRound();
 
 	UFUNCTION()
-	void StopRound();
+	void StopRound(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound);
+
+	UFUNCTION()
+	void MatchEnd(const FString& Reason, ETeam WinnerTeam);
 };

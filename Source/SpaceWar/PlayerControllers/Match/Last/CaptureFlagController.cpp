@@ -2,7 +2,6 @@
 
 
 #include "CaptureFlagController.h"
-#include "SpaceWar/GameStates/Match/CaptureOfFlagGameState.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EngineUtils.h"
@@ -31,7 +30,7 @@ void ACaptureFlagController::BeginPlay()
 	}
 }
 
-void ACaptureFlagController::RoundEnded()
+void ACaptureFlagController::RoundEnded(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound)
 {
 	if(GetCharacter())
 	{

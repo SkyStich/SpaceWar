@@ -1,11 +1,10 @@
 #include "FlagForCapture.h"
-
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "SpaceWar/Components/HealthComponent.h"
 #include "SpaceWar/GameModes/Match/LastGameMode/CaptureFlagGameMode.h"
-#include "SpaceWaR/GameStates/Match/CaptureOfFlagGameState.h"
+#include "SpaceWar/GameStates/Match/CaptureOfFlagGameState.h"
 #include "SpaceWar/Interfaces/GetPlayerTeamInterface.h"
 
 AFlagForCapture::AFlagForCapture()
@@ -44,7 +43,7 @@ void AFlagForCapture::BeginPlay()
 	}
 }
 
-void AFlagForCapture::RoundEnded()
+void AFlagForCapture::RoundEnded(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound)
 {
 	Destroy();
 }
@@ -103,6 +102,6 @@ void AFlagForCapture::OnPointCaptureCollisionBeginOverlap(UPrimitiveComponent* O
 		auto const GM = Cast<ACaptureFlagGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 		if(!GM) return;
      
-		GM->UpdateTeamPoints(1, TempTeam);
+		GM->UpdateTeamPoints(1, TempTeam, EReasonForEndOfRound::FlagBeCapture);
 	}
 }

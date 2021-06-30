@@ -19,5 +19,5 @@ public:
 
 protected:
 
-	virtual void MatchFinish_Implementation(const FString& Reason) override;
+	virtual void MatchFinish_Implementation(const FString& Reason, ETeam WinnerTeam) override;
 };

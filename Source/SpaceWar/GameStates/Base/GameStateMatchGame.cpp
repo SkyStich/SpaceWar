@@ -41,7 +41,12 @@ void AGameStateMatchGame::IncrementTime()
 	CurrentMatchTime--;
 }
 
-void AGameStateMatchGame::MatchFinish_Implementation(const FString& Reason)
+void AGameStateMatchGame::MatchFinish_Implementation(const FString& Reason, ETeam WinnerTeam)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Blue, Reason);
+	OnMatchEnd.Broadcast(Reason, WinnerTeam);
+}
+
+void AGameStateMatchGame::PreMatchFinish_Implementation(const FString& Reason, ETeam WinnerTeam)
+{
+	OnPreMatchEnd.Broadcast(Reason, WinnerTeam);
 }
