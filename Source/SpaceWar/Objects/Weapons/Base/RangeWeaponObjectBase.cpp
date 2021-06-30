@@ -233,7 +233,7 @@ void URangeWeaponObjectBase::UnUseCurrentPlayerObject_Implementation()
 
 void URangeWeaponObjectBase::StartAdditionalUsed()
 {
-	if(bReloading) return;
+	if(bReloading || CharacterOwner->GetStaminaComponent()->IsStaminaUse()) return;
 	bAccessoryUsed = true;
 	OnRep_AccessoryUse();
 }

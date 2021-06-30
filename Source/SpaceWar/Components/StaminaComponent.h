@@ -36,6 +36,9 @@ public:
 	
 	UFUNCTION(BlueprintPure)
 	float GetCurrentStaminaValue() const { return CurrentStaminaValue; }
+	
+	UFUNCTION(BlueprintPure)
+	bool IsStaminaUse() const { return bStaminaUse; }
 
 protected:
 	// Called when the game starts

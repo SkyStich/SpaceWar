@@ -125,7 +125,7 @@ void ASpaceWarCharacter::OnStaminaUsedEvent(bool bState)
 		if(GetLocalRole() == ROLE_Authority)
 		{
 			GetCharacterMovement()->MaxWalkSpeed = StaminaSpeed;
-			if(!bCanWeaponManipulation)
+			if(!bCanWeaponManipulation || WeaponManager->GetCurrentWeapon()->GetAdditionalUse())
 			{
 				StaminaComponent->Server_StopUseStamina();
 				return;
@@ -272,7 +272,7 @@ void ASpaceWarCharacter::Server_UseJetpack_Implementation()
 
 void ASpaceWarCharacter::OwnerStartUseStamina()
 {
-	if(!bCanWeaponManipulation) return;
+	if(!bCanWeaponManipulation || WeaponManager->GetCurrentWeapon()->GetAdditionalUse()) return;
 	if(StaminaComponent->GetCurrentStaminaValue() <= 0 || WeaponManager->GetCurrentWeapon()->GetAdditionalUse()) return;
 	
 	StaminaComponent->Server_StartUseStamina();
@@ -302,7 +302,7 @@ void ASpaceWarCharacter::Server_StopUseAccessionWeapon_Implementation()
 
 void ASpaceWarCharacter::OwnerStartAdditionalUse()
 {
-	if(WeaponManager->GetWeaponSelect() && !bCanWeaponManipulation) return;
+	if(WeaponManager->GetWeaponSelect() && !bCanWeaponManipulation || StaminaComponent->IsStaminaUse()) return;
 	
 	if(WeaponManager->GetCurrentWeapon()->OwnerStartAdditionalUsed())
 	{
