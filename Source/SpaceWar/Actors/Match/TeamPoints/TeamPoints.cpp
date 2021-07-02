@@ -10,6 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
+#include "SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h"
 #include "SpaceWar/Interfaces/UpdateSpecialPointsInterface.h"
 
 // Sets default values
@@ -211,16 +212,15 @@ void ATeamPoints::StartAddPoint()
 {
 	if(GetWorld()->GetTimerManager().IsTimerActive(AddPointHandle)) return;
 	
-	auto const GameMode = Cast<AOnlineMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	
+	auto const GS = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	FTimerDelegate TimerDel;
-	TimerDel.BindUObject(this, &ATeamPoints::UpdateTeamPoints, GameMode);
+	TimerDel.BindUObject(this, &ATeamPoints::UpdateTeamPoints, GS);
 	GetWorld()->GetTimerManager().SetTimer(AddPointHandle, TimerDel, 1.f, true);
 }
 
-void ATeamPoints::UpdateTeamPoints(AOnlineMatchGameModeBase* OnlineGameMode)
+void ATeamPoints::UpdateTeamPoints(AOnlinetMatchGameStateBase* OnlineGameState)
 {
-	OnlineGameMode->UpdateTeamPoints(1, OwnerTeam);
+	OnlineGameState->UpdateTeamPoints(OwnerTeam, 1);
 }
 
 void ATeamPoints::UpdateSpecialPoints()

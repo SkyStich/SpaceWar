@@ -23,7 +23,7 @@ class SPACEWAR_API ATeamPoints : public AActor
 	void DecreaseCurrentValueCapture();
 
 	void StartAddPoint();
-	void UpdateTeamPoints(class AOnlineMatchGameModeBase* OnlineGameMode);
+	void UpdateTeamPoints(class AOnlinetMatchGameStateBase* OnlineGameState);
 	void UpdateSpecialPoints();
 	
 public:	

@@ -28,8 +28,8 @@ public:
 
 	ACaptureOfFlagGameState();
 	virtual void IncrementTime() override;
-	virtual int32 UpdateTeamPoints(ETeam Team, int32 Value) override { return Super::UpdateTeamPoints(Team, Value); }
-	int32 UpdateTeamPoints(ETeam Team, int32 Value, EReasonForEndOfRound ReasonEndOfRound);
+	virtual void UpdateTeamPoints(ETeam Team, int32 Value) override { Super::UpdateTeamPoints(Team, Value); }
+	void UpdateTeamPoints(ETeam Team, int32 Value, EReasonForEndOfRound ReasonEndOfRound);
 
 protected:
 

@@ -48,15 +48,18 @@ void AOnlinetMatchGameStateBase::AutoBalanceTeam()
 	
 }
 
-int32 AOnlinetMatchGameStateBase::UpdateTeamPoints(ETeam Team, int32 Value)
+void AOnlinetMatchGameStateBase::UpdateTeamPoints(ETeam Team, int32 Value)
 {
+	if(GetLocalRole() != ROLE_Authority) return;
+	
 	if(Team == ETeam::TeamA)
 	{
 		TeamPointsA += Value;
-		return TeamPointsA;
+		OnTeamPointUpdate.Broadcast(TeamPointsA, Team);
+		return;
 	}
 	TeamPointsB += Value;
-	return TeamPointsB;
+	OnTeamPointUpdate.Broadcast(TeamPointsB, Team);
 }
 
 void AOnlinetMatchGameStateBase::NetMulticast_NewPlayerPostLogin_Implementation(APlayerState* PlayerState)

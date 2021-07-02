@@ -8,6 +8,7 @@
 #include "OnlinetMatchGameStateBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNewPlayerPostLogin, APlayerState*, PlayerState);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTeamPointUpdate, int32, NewValue, ETeam, TeamUpdate);
 
 UCLASS()
 class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame
@@ -28,6 +29,8 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	int32 GetTeamPointsB() const { return TeamPointsB; }
+	
+	virtual void UpdateTeamPoints(ETeam Team, int32 Value);
 
 protected:
 
@@ -37,15 +40,15 @@ protected:
 	/** Call if player log out */
 	virtual void AutoBalanceTeam();
 
-	/** Call on game mode */
-	virtual int32 UpdateTeamPoints(ETeam Team, int32 Value);
-
 public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Delegates")
 	FNewPlayerPostLogin OnNewPlayerPostLogin;
 
-private:
+	UPROPERTY(BlueprintAssignable, Category = "Delegates")
+	FTeamPointUpdate OnTeamPointUpdate;
+
+protected:
 
 	UPROPERTY(Replicated)
 	int32 TeamPointsA;

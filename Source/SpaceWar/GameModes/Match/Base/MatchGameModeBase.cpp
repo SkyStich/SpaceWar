@@ -28,13 +28,19 @@ void AMatchGameModeBase::CharDead(AController* InstigatorController, AController
 
 void AMatchGameModeBase::SpawnSpectator(AController* PossessController, const FVector& Location)
 {
-	TAssetSubclassOf<ABaseMatchSpectator> const Ptr = ABaseMatchSpectator::StaticClass();
-	FTransform const Transform(FRotator::ZeroRotator, Location, FVector(1.f));
-	FStreamableManager& StreamableManager = UBaseSingleton::Get().AssetLoader;
-	FSoftObjectPath const Ref = Ptr.ToSoftObjectPath();
-	StreamableManager.RequestAsyncLoad(Ref, FStreamableDelegate::CreateUObject(this, &AMatchGameModeBase::AsyncSpawnSpectatorComplete, Ref, Transform, PossessController));
+	FActorSpawnParameters Param;
+	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	Param.Owner = PossessController;
+	Param.Instigator = PossessController->GetPawn();
+	auto Spectator = GetWorld()->SpawnActor<ABaseMatchSpectator>(ABaseMatchSpectator::StaticClass(), Location, FRotator::ZeroRotator, Param);
+	if(!Spectator) return;
+		
+	Spectator->SetOwner(Spectator);
+	Spectator->SetInstigator(Spectator);
+	PossessController->Possess(Spectator);
 }
 
+/** dont call */
 void AMatchGameModeBase::AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, FTransform SpawnTransform, AController* Controller)
 {
 	ABaseMatchSpectator* Spectator = nullptr;

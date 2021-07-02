@@ -9,9 +9,16 @@ AOnlineMatchGameModeBase::AOnlineMatchGameModeBase()
 {
 }
 
-void AOnlineMatchGameModeBase::UpdateTeamPoints(const int32 Value, ETeam Team)
+void AOnlineMatchGameModeBase::BeginPlay()
 {
-	if(GetGameState<AOnlinetMatchGameStateBase>()->UpdateTeamPoints(Team, Value) >= PointForWin)
+	Super::BeginPlay();
+
+	GetGameState<AOnlinetMatchGameStateBase>()->OnTeamPointUpdate.AddDynamic(this, &AOnlineMatchGameModeBase::UpdateTeamPoints);
+}
+
+void AOnlineMatchGameModeBase::UpdateTeamPoints(int32 NewValue, ETeam Team)
+{
+	if(NewValue >= PointForWin)
 	{
 		FString const ReasonMessage = FString::Printf(TEXT("Max amount points. %d - winner"), Team); 
 		MatchEnded(ReasonMessage, Team);

@@ -19,12 +19,15 @@ class SPACEWAR_API AOnlineMatchGameModeBase : public AMatchGameModeBase
 protected:
 
 	virtual void TickTime(AOnlinetMatchGameStateBase* MatchPlayerState);
+	virtual void BeginPlay() override;
+	
+	UFUNCTION()
+    virtual void UpdateTeamPoints(int32 NewValue, ETeam Team);
 
 public:
 
 	AOnlineMatchGameModeBase();
 
 	virtual void LaunchGameTimer();
-	virtual void UpdateTeamPoints(const int32 Value, ETeam Team);
 	virtual void CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) override;
 };

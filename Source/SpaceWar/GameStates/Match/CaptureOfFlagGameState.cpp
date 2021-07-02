@@ -84,10 +84,19 @@ void ACaptureOfFlagGameState::NetMulticast_RoundPreparation_Implementation()
 	OnRoundPreparation.Broadcast();
 }
 
-int32 ACaptureOfFlagGameState::UpdateTeamPoints(ETeam Team, int32 Value, EReasonForEndOfRound ReasonEndOfRound)
+void ACaptureOfFlagGameState::UpdateTeamPoints(ETeam Team, int32 Value, EReasonForEndOfRound ReasonEndOfRound)
 {
-	NetMulticast_RoundEnded("MaxPoints", Team, ReasonEndOfRound);
-	return Super::UpdateTeamPoints(Team, Value);
+	if(Team == ETeam::TeamA)
+	{
+		TeamPointsA += Value;
+		OnTeamPointUpdate.Broadcast(TeamPointsA, Team);
+	}
+	else
+	{
+		TeamPointsB += Value;
+	}
+	NetMulticast_RoundEnded(UEnum::GetValueAsString(ReasonEndOfRound), Team, ReasonEndOfRound);
+	OnTeamPointUpdate.Broadcast(GetTeamPointsB(), Team);
 }
 
 void ACaptureOfFlagGameState::IncrementTime()
@@ -103,12 +112,12 @@ void ACaptureOfFlagGameState::IncrementTime()
 void ACaptureOfFlagGameState::PlayerDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)
 {
 	Super::PlayerDead(InstigatorController, LoserController, DamageCauser);
-	
+
 	ETeam const LoserTeam = IGetPlayerTeamInterface::Execute_FindPlayerTeam(LoserController->PlayerState);
 	for(auto& ByArray : PlayerArray)
 	{
-		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(ByArray) != IGetPlayerTeamInterface::Execute_FindPlayerTeam(LoserController->PlayerState)) continue;
-		if(ByArray->GetPawn()->GetController()->GetCharacter()) return;
+		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(ByArray) != LoserTeam) continue;
+		if(ByArray->GetPawn()->Controller->GetCharacter() != nullptr) return;
 	}
 	UpdateTeamPoints(LoserTeam == ETeam::TeamA ? ETeam::TeamB : ETeam::TeamA, 1, EReasonForEndOfRound::AllEnemyDeath);
 }

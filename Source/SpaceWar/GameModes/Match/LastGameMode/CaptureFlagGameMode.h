@@ -19,7 +19,6 @@ public:
 	ACaptureFlagGameMode();
 	
 	virtual void UpdateTeamPoints(const int32 Value, ETeam Team) override;
-	virtual void UpdateTeamPoints(const int32 Value, ETeam Team, EReasonForEndOfRound ReasonEndOfRound);
 
 protected:
 

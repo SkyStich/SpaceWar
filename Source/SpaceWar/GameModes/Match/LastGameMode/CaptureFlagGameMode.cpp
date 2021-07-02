@@ -18,15 +18,6 @@ void ACaptureFlagGameMode::UpdateTeamPoints(const int32 Value, ETeam Team)
 	Super::UpdateTeamPoints(Value, Team);
 }
 
-void ACaptureFlagGameMode::UpdateTeamPoints(const int32 Value, ETeam Team,EReasonForEndOfRound ReasonEndOfRound)
-{
-	if(GetGameState<ACaptureOfFlagGameState>()->UpdateTeamPoints(Team, Value, ReasonEndOfRound) >= PointForWin)
-	{
-		FString const ReasonMessage = FString::Printf(TEXT("Max amount points. %d - winner"), Team); 
-		MatchEnded(ReasonMessage, Team);
-	}
-}
-
 void ACaptureFlagGameMode::RoundStarted()
 {
 	LaunchGameTimer();

@@ -99,9 +99,9 @@ void AFlagForCapture::OnPointCaptureCollisionBeginOverlap(UPrimitiveComponent* O
      
 	if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(OtherActor) == TempTeam)
 	{
-		auto const GM = Cast<ACaptureFlagGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-		if(!GM) return;
+		auto const GS = Cast<ACaptureOfFlagGameState>(UGameplayStatics::GetGameState(GetWorld()));
+		if(!GS) return;
      
-		GM->UpdateTeamPoints(1, TempTeam, EReasonForEndOfRound::FlagBeCapture);
+		GS->UpdateTeamPoints(TempTeam, 1, EReasonForEndOfRound::FlagBeCapture);
 	}
 }
