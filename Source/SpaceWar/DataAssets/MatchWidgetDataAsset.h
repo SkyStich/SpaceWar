@@ -12,6 +12,7 @@
 UENUM(BlueprintType)
 enum class EMatchData : uint8
 {
+	Unknown,
 	CaptureOfFlag,
 	CaptureAndHold
 };

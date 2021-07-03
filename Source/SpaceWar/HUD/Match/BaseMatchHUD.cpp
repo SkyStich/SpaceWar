@@ -10,11 +10,12 @@
 ABaseMatchHUD::ABaseMatchHUD()
 {
 	MatchType = EMatchData::CaptureOfFlag;
+	
 	ConstructorHelpers::FObjectFinder<UMatchWidgetDataAsset>WidgetData(TEXT("/Game/ThirdPersonCPP/DataAssets/WidgetDataAsset"));
-	if(WidgetData.Succeeded())
-	{
-		AssetData = WidgetData.Object;
-	}
+	if(WidgetData.Succeeded()) AssetData = WidgetData.Object;
+	
+	ConstructorHelpers::FClassFinder<UErrorMessageWidget>ErrorMessageFinder(TEXT("/Game/ThirdPersonCPP/UI/ErrorMessage/W_ErrorMessage"));
+	if(ErrorMessageFinder.Succeeded()) ErrorWidgetClass = ErrorMessageFinder.Class;
 }
 
 void ABaseMatchHUD::BeginPlay()
@@ -25,6 +26,29 @@ void ABaseMatchHUD::BeginPlay()
 	
 	CreateTabMenu();
 	GetOwningPlayerController()->GetOnNewPawnNotifier().AddUObject(this, &ABaseMatchHUD::NewOwningPlayerPawn);
+}
+
+void ABaseMatchHUD::ClientErrorMessage_Implementation(const FString& Message)
+{
+	CreateErrorWidget(Message);
+}
+
+void ABaseMatchHUD::CreateErrorWidget(const FString& Message)
+{
+	auto const Widget = AssetData->SyncCreateWidget<UErrorMessageWidget>(GetWorld(), ErrorWidgetClass, GetOwningPlayerController());
+	if(Widget)
+	{
+		Widget->Init(Message);
+		Widget->AddToViewport();
+		auto AutoDestroy = [&]() -> void
+		{
+			Widget->RemoveFromParent();
+		};
+		FTimerHandle TimerHandle;
+		FTimerDelegate TimerDel;
+		TimerDel.BindLambda(AutoDestroy);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 2.f, false);
+	}
 }
 
 void ABaseMatchHUD::NewOwningPlayerPawn(APawn* NewPawn)

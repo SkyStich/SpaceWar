@@ -48916,7 +48916,6 @@
           </e>
           <e p="Enums" t="Include">
             <e p="PlayerTeamEnum.h" t="Include" />
-            <e p="ReasonEndOfMatch.cpp" t="Include" />
             <e p="ReasonEndOfMatch.h" t="Include" />
           </e>
           <e p="GameModes" t="Include">
@@ -48953,19 +48952,25 @@
             <e p="Match" t="Include">
               <e p="BaseMatchHUD.cpp" t="Include" />
               <e p="BaseMatchHUD.h" t="Include" />
+              <e p="CaptureAndHoldHUD.cpp" t="Include" />
+              <e p="CaptureAndHoldHUD.h" t="Include" />
               <e p="HoldOfFlagHUD.cpp" t="Include" />
               <e p="HoldOfFlagHUD.h" t="Include" />
             </e>
           </e>
           <e p="Interfaces" t="Include">
             <e p="CurrentCharacterObjectInterface.h" t="Include" />
+            <e p="CustomInputInterface.h" t="Include" />
             <e p="DropHelperTraceInterface.h" t="Include" />
+            <e p="ErrorMessageInterface.cpp" t="Include" />
+            <e p="ErrorMessageInterface.h" t="Include" />
             <e p="FirstAidInterface.h" t="Include" />
             <e p="GameMatchStateInterface.cpp" t="Include" />
             <e p="GameMatchStateInterface.h" t="Include" />
             <e p="GetDamageCauserInfo.h" t="Include" />
             <e p="GetPlayerTeamInterface.h" t="Include" />
             <e p="PlayerControllerInterface.h" t="Include" />
+            <e p="PreparationWidgetInterface.h" t="Include" />
             <e p="UpdateSpecialPointsInterface.h" t="Include" />
           </e>
           <e p="Objects" t="Include">
@@ -49042,6 +49047,9 @@
             </e>
           </e>
           <e p="UserWidget" t="Include">
+            <e p="ErrorWidget" t="Include">
+              <e p="ErrorMessageWidget.h" t="Include" />
+            </e>
             <e p="Match" t="Include">
               <e p="EndGameWidgetBase.cpp" t="Include" />
               <e p="EndGameWidgetBase.h" t="Include" />

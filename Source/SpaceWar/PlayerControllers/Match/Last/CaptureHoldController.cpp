@@ -1,26 +1,28 @@
 #include "CaptureHoldController.h"
 #include "Kismet/GameplayStatics.h"
-#include "GameFramework/PlayerStart.h"
+#include "GameFramework/HUD.h"
+#include "EngineUtils.h"
+#include "SpaceWar/Actors/Match/TeamPoints/TeamPoints.h"
+#include "SpaceWar/Interfaces/ErrorMessageInterface.h"
+#include "SpaceWar/PlayerStart/PointCapturePlayerStart.h"
 
 ACaptureHoldController::ACaptureHoldController()
 {
 	bCanSpawn = true;
 }
 
-void ACaptureHoldController::Server_SpawnPlayer_Implementation()
-{
-	if(!bCanSpawn) return;
-	
-	TArray<AActor*> Test;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), Test);
-	SpawnPlayer(Test[0]->GetActorLocation());
-}
-
 void ACaptureHoldController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	InputComponent->BindAction("SpawnPlayer", IE_Released, this, &ACaptureHoldController::Server_SpawnPlayer);
+	InputComponent->BindAction("SpawnPlayer", IE_Released, this, &ACaptureHoldController::SpawnPlayerPressed);
+}
+
+void ACaptureHoldController::SpawnPlayerPressed()
+{
+	if(GetCharacter()) return;
+	
+	OnPreparationSpawnPlayer.Broadcast();
 }
 
 void ACaptureHoldController::LaunchRespawnTimer(float const Time)
@@ -41,3 +43,42 @@ bool ACaptureHoldController::SpawnPlayer(const FVector& Location)
 	bCanSpawn = false;
 	return true;
 }
+
+void ACaptureHoldController::SpawnPlayerByPoint(EPointNumber Point)
+{
+	if(!bCanSpawn) return;
+	
+	TArray<APointCapturePlayerStart*>PointArray;
+	for(TActorIterator<APointCapturePlayerStart> It(GetWorld(), APointCapturePlayerStart::StaticClass()); It; ++It)
+	{
+		auto Temp = *It;
+		if(Temp->GetPointNumber() == Point && IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) == Temp->GetSpawnTeam())
+		{
+			PointArray.Add(Temp);
+		}
+	}
+	Server_SpawnPlayerByPoint(PointArray);
+}
+
+void ACaptureHoldController::Server_SpawnPlayerByPoint_Implementation(const TArray<APointCapturePlayerStart*>&PointArray)
+{
+	if(!bCanSpawn) return;
+	
+	for(auto& ByArray : PointArray)
+	{
+		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) != ByArray->GetSpawnTeam()) return;
+
+		if(ByArray->CheckOnFreePoints())
+		{
+			SpawnPlayer(ByArray->GetActorLocation());
+			return;
+		}
+	}
+	Client_ErrorMessage(TEXT("No free drop - of points"));
+}
+
+void ACaptureHoldController::Client_ErrorMessage_Implementation(const FString& Message)
+{
+	IErrorMessageInterface::Execute_ClientErrorMessage(MyHUD, Message);
+}
+

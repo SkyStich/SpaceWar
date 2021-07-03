@@ -133,5 +133,11 @@ void AMatchPlayerControllerBase::PressSpecialShop()
 	GetHUD<ABaseMatchHUD>()->ShowSpecialWidget();
 }
 
-
-
+bool AMatchPlayerControllerBase::CheckKeyByName_Implementation(const FName Name)
+{
+	for(auto& ByArray : InputComponent->KeyBindings)
+	{
+		if(ByArray.Chord.Key.GetFName() == Name) return true;
+	}
+	return false;
+}

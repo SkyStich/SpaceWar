@@ -13,6 +13,8 @@ UCLASS()
 class SPACEWAR_API APointCapturePlayerStart : public AMatchPlayerStartBase
 {
 	GENERATED_BODY()
+	
+public:
 
 	UFUNCTION(BlueprintPure)
 	EPointNumber GetPointNumber() const { return PointNumber; }

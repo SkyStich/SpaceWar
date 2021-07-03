@@ -4,14 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "SpaceWar/UserWidget/ErrorWidget/ErrorMessageWidget.h"
+#include "SpaceWar/Interfaces/ErrorMessageInterface.h"
 #include "SpaceWar/UserWidget/Match/EndGameWidgetBase.h"
 #include "SpaceWar/DataAssets/MatchWidgetDataAsset.h"
 #include "BaseMatchHUD.generated.h"
 
 UCLASS(BlueprintType)
-class SPACEWAR_API ABaseMatchHUD : public AHUD
+class SPACEWAR_API ABaseMatchHUD : public AHUD, public IErrorMessageInterface
 {
 	GENERATED_BODY()
+
+	UFUNCTION()
+	void CreateErrorWidget(const FString& Message);
 
 protected:
 
@@ -35,6 +40,8 @@ protected:
 	
 	virtual void CreateTabMenu();
 
+	virtual void ClientErrorMessage_Implementation(const FString& Message) override;
+
 public:
 
 	ABaseMatchHUD();
@@ -53,6 +60,9 @@ protected:
 	
 	FMatchWidgetData* MatchWidgetData;
 	EMatchData MatchType;
+
+	UPROPERTY()
+	TAssetSubclassOf<UErrorMessageWidget> ErrorWidgetClass;
 
 	UPROPERTY()
 	UMatchWidgetDataAsset* AssetData;

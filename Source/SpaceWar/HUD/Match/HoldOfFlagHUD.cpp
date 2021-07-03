@@ -8,6 +8,7 @@ void AHoldOfFlagHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
+	/** for test */
 	PreparationRound();
 
 	auto const GameState = Cast<ACaptureOfFlagGameState>(UGameplayStatics::GetGameState(GetWorld()));

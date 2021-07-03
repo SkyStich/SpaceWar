@@ -4,28 +4,41 @@
 
 #include "CoreMinimal.h"
 #include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
+#include "SpaceWar/PlayerStart/PointCapturePlayerStart.h"
 #include "CaptureHoldController.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPreparationSpawnPlayer);
+
 UCLASS()
 class SPACEWAR_API ACaptureHoldController : public AMatchPlayerControllerBase
 {
 	GENERATED_BODY()
 
+	UFUNCTION()
+	void SpawnPlayerPressed();
+
+	UFUNCTION(Server, Unreliable)
+	void Server_SpawnPlayerByPoint(const TArray<APointCapturePlayerStart*>&PointArray);
+
+	UFUNCTION(Client, Unreliable)
+	void Client_ErrorMessage(const FString& Message);
+	
 public:
 
 	ACaptureHoldController();
 	virtual bool SpawnPlayer(const FVector& Location) override;
 	virtual void LaunchRespawnTimer(float const Time);
 
+	UFUNCTION(BlueprintCallable)
+	void SpawnPlayerByPoint(EPointNumber Point);
+
 protected:
 
-	UFUNCTION(Server, Unreliable)
-	void Server_SpawnPlayer();
-
 	virtual void SetupInputComponent() override;
+
+public:
+
+	FPreparationSpawnPlayer OnPreparationSpawnPlayer;
 
 protected:
 
