@@ -213,7 +213,22 @@ void ASpaceWarCharacter::MoveForward(float Value)
 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
+
+		if(Value > 0)
+		{
+			bMoveForward = true;
+		}
+		else
+		{
+			bMoveForward = false;
+			if(StaminaComponent->IsStaminaUse())
+				OwnerStopUseStamina();
+		}
+		return;
 	}
+	bMoveForward = false;
+	if(StaminaComponent->IsStaminaUse())
+    	OwnerStopUseStamina();
 }
 
 void ASpaceWarCharacter::MoveRight(float Value)
@@ -225,6 +240,9 @@ void ASpaceWarCharacter::MoveRight(float Value)
 	
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Direction, Value);
+		bMoveForward = false;
+		if(StaminaComponent->IsStaminaUse())
+			OwnerStopUseStamina();
 	}
 }
 
@@ -272,7 +290,7 @@ void ASpaceWarCharacter::Server_UseJetpack_Implementation()
 
 void ASpaceWarCharacter::OwnerStartUseStamina()
 {
-	if(!bCanWeaponManipulation || WeaponManager->GetCurrentWeapon()->GetAdditionalUse()) return;
+	if(!bCanWeaponManipulation || WeaponManager->GetCurrentWeapon()->GetAdditionalUse() || !bMoveForward) return;
 	if(StaminaComponent->GetCurrentStaminaValue() <= 0 || WeaponManager->GetCurrentWeapon()->GetAdditionalUse()) return;
 	
 	StaminaComponent->Server_StartUseStamina();

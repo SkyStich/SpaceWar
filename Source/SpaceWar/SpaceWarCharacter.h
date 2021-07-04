@@ -174,6 +174,8 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float RunSpeed;
+	
+	bool bMoveForward;
 
 	FTimerHandle FirstAidHandle;
 };
