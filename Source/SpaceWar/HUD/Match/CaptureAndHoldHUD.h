@@ -17,6 +17,9 @@ class SPACEWAR_API ACaptureAndHoldHUD : public ABaseMatchHUD
 	UFUNCTION()
 	void PreparationSpawnCharacter();
 
+	UFUNCTION()
+	void PreMatchEnd(const FString& Reason, ETeam WinnerTeam);
+
 protected:
 
 	virtual void CreateSpectatorWidgets() override;

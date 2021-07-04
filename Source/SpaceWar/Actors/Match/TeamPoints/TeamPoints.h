@@ -14,6 +14,9 @@ class SPACEWAR_API ATeamPoints : public AActor
 
 	UFUNCTION()
 	void OnRep_TeamPoints();
+
+	UFUNCTION()
+	void MatchEnd(const FString& Reason, ETeam WinnerTeam);
 	
 	void LaunchPointCapture(ETeam CaptureTeam);
 	void StopPointCapture();

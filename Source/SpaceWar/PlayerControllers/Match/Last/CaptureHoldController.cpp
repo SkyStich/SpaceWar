@@ -2,13 +2,22 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/HUD.h"
 #include "EngineUtils.h"
-#include "SpaceWar/Actors/Match/TeamPoints/TeamPoints.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "SpaceWar/GameStates/Match/CaptureHoldGamestate.h"
 #include "SpaceWar/Interfaces/ErrorMessageInterface.h"
 #include "SpaceWar/PlayerStart/PointCapturePlayerStart.h"
 
 ACaptureHoldController::ACaptureHoldController()
 {
 	bCanSpawn = true;
+}
+
+void ACaptureHoldController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Cast<ACaptureHoldGamestate>(UGameplayStatics::GetGameState(GetWorld()))->OnPreMatchEnd.AddDynamic(this, &ACaptureHoldController::MatchEnded);
 }
 
 void ACaptureHoldController::SetupInputComponent()
@@ -23,6 +32,18 @@ void ACaptureHoldController::SpawnPlayerPressed()
 	if(GetCharacter()) return;
 	
 	OnPreparationSpawnPlayer.Broadcast();
+}
+
+void ACaptureHoldController::MatchEnded(const FString& Reason, ETeam WinnerTeam)
+{
+	if(GetCharacter())
+	{
+		GetCharacter()->GetCharacterMovement()->StopMovementImmediately();
+		GetCharacter()->GetCharacterMovement()->DisableMovement();
+		
+		if(GetLocalRole() != ROLE_Authority)
+			GetCharacter()->InputComponent->ClearActionBindings();
+	}
 }
 
 void ACaptureHoldController::LaunchRespawnTimer(float const Time)

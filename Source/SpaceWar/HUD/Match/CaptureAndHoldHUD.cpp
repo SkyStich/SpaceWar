@@ -3,7 +3,8 @@
 
 #include "CaptureAndHoldHUD.h"
 
-
+#include "Kismet/GameplayStatics.h"
+#include "SpaceWaR/GameStates/Match/OnlinetMatchGameStateBase.h"
 #include "SpaceWar/Interfaces/PreparationWidgetInterface.h"
 #include "SpaceWar/PlayerControllers/Match/Last/CaptureHoldController.h"
 
@@ -16,11 +17,15 @@ void ACaptureAndHoldHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto const PS = Cast<ACaptureHoldController>(GetOwningPlayerController());
-	if(PS)
-	{
-		PS->OnPreparationSpawnPlayer.AddDynamic(this, &ACaptureAndHoldHUD::PreparationSpawnCharacter);
-	}
+	auto const GS = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
+	GS->OnPreMatchEnd.AddDynamic(this, &ACaptureAndHoldHUD::PreMatchEnd);
+	
+	Cast<ACaptureHoldController>(GetOwningPlayerController())->OnPreparationSpawnPlayer.AddDynamic(this, &ACaptureAndHoldHUD::PreparationSpawnCharacter);
+}
+
+void ACaptureAndHoldHUD::PreMatchEnd(const FString& Reason, ETeam WinnerTeam)
+{
+	CreatePreMatchEnd(Reason, WinnerTeam);
 }
 
 void ACaptureAndHoldHUD::PreparationSpawnCharacter()
@@ -29,7 +34,7 @@ void ACaptureAndHoldHUD::PreparationSpawnCharacter()
 	{
 		RemoveSpectatorWidgets();
 		CreatePreparationWidget();
-		auto f = [&]()
+		auto f = [&]() -> void
 		{
 			auto const PC = Cast<ACaptureHoldController>(GetOwningPlayerController());
 			PC->SpawnPlayerByPoint(IPreparationWidgetInterface::Execute_FindSpawnPointNumber(PreparationWidget));

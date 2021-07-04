@@ -10,6 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
+#include "SpaceWar/GameStates/Match/CaptureHoldGamestate.h"
 #include "SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h"
 #include "SpaceWar/Interfaces/UpdateSpecialPointsInterface.h"
 
@@ -37,12 +38,19 @@ ATeamPoints::ATeamPoints()
 void ATeamPoints::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	Cast<ACaptureHoldGamestate>(UGameplayStatics::GetGameState(GetWorld()))->OnPreMatchEnd.AddDynamic(this, &ATeamPoints::MatchEnd);
 
 	if(GetLocalRole() == ROLE_Authority)
 	{
 		PointCaptureCollision->OnComponentBeginOverlap.AddDynamic(this, &ATeamPoints::OnPointCaptureCollisionBeginOverlap);
 		PointCaptureCollision->OnComponentEndOverlap.AddDynamic(this, &ATeamPoints::OnPointCaptureCollisionEndOverlap);
 	}
+}
+
+void ATeamPoints::MatchEnd(const FString& Reason, ETeam WinnerTeam)
+{
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 }
 
 void ATeamPoints::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -57,19 +65,23 @@ void ATeamPoints::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 
 void ATeamPoints::OnPointCaptureCollisionBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool FromSweep, const FHitResult& SweepResult)
 {
+	/** if other actor is character */
 	ACharacter* OtherCharacter = Cast<ACharacter>(OtherActor);
 	if(!OtherCharacter) return;
 
+	/** find Other actor team */
 	auto const TempState = OtherCharacter->GetController()->PlayerState;
 	if(!TempState->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass())) return;
 	ETeam const TempTeam = IGetPlayerTeamInterface::Execute_FindPlayerTeam(TempState);
-	
+
+	/** if other actor team == owner team */
 	if(TempTeam == OwnerTeam)
 	{
 		CurrentAmountOwnerInPoint++;
 		OwnersController.Add(OtherCharacter->Controller);
 
-		if(CurrentAmountOwnerInPoint > 1 && CurrentValueCapture >= 100) return;
+		/** continue logic if point capture not full */
+		if(CurrentValueCapture >= 100) return;
 		
 		if(CurrentAmountEnemyAtPoint <= 0)
 		{

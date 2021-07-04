@@ -22,6 +22,9 @@ class SPACEWAR_API ACaptureHoldController : public AMatchPlayerControllerBase
 
 	UFUNCTION(Client, Unreliable)
 	void Client_ErrorMessage(const FString& Message);
+
+	UFUNCTION()
+	void MatchEnded(const FString& Reason, ETeam WinnerTeam);
 	
 public:
 
@@ -35,6 +38,7 @@ public:
 protected:
 
 	virtual void SetupInputComponent() override;
+	virtual void BeginPlay() override;
 
 public:
 
