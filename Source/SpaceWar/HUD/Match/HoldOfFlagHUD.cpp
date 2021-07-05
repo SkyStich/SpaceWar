@@ -17,7 +17,7 @@ void AHoldOfFlagHUD::BeginPlay()
 		GameState->OnRoundPreparation.AddDynamic(this, &AHoldOfFlagHUD::PreparationRound);
 		GameState->OnRoundStarted.AddDynamic(this, &AHoldOfFlagHUD::StartRound);
 		GameState->OnRoundEnded.AddDynamic(this, &AHoldOfFlagHUD::StopRound);
-		GameState->OnMatchEnd.AddDynamic(this, &AHoldOfFlagHUD::MatchEnd);
+		GameState->OnMatchEnd.AddDynamic(this, &AHoldOfFlagHUD::CreateMatchEndWidget);
 	}
 	else
 	{
@@ -42,9 +42,4 @@ void AHoldOfFlagHUD::StartRound()
 void AHoldOfFlagHUD::StopRound(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound)
 {
 	CreatePreMatchEnd(Reason, WinnerTeam);
-}
-
-void AHoldOfFlagHUD::MatchEnd(const FString& Reason, ETeam WinnerTeam)
-{
-
 }

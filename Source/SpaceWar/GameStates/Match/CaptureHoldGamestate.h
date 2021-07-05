@@ -20,9 +20,6 @@ public:
 	virtual void IncrementTime() override;
 
 protected:
-
-	UFUNCTION(NetMulticast, Reliable)
-	void PreparationEndMatch(const FString& Reason, ETeam WinnerTeam);
 	
 	virtual void MatchFinish_Implementation(const FString& Reason, ETeam WinnerTeam) override;
 	virtual void BeginPlay() override;

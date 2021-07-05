@@ -18,7 +18,7 @@ void ACaptureHoldGamestate::BeginPlay()
 
 	if(GetLocalRole() == ROLE_Authority)
 	{
-		Cast<ACaptureHoldGameMode>(AuthorityGameMode)->OnPreMatchEnded.AddDynamic(this, &ACaptureHoldGamestate::PreparationEndMatch);
+		Cast<ACaptureHoldGameMode>(AuthorityGameMode)->OnPreMatchEnded.AddDynamic(this, &ACaptureHoldGamestate::PreMatchFinish);
 	}
 }
 
@@ -32,10 +32,3 @@ void ACaptureHoldGamestate::IncrementTime()
 {
 	Super::IncrementTime();
 }
-
-void ACaptureHoldGamestate::PreparationEndMatch_Implementation(const FString& Reason, ETeam WinnerTeam)
-{
-	OnPreMatchEnd.Broadcast(Reason, WinnerTeam);
-}
-
-

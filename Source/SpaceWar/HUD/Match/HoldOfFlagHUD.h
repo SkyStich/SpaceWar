@@ -24,7 +24,4 @@ protected:
 
 	UFUNCTION()
 	void StopRound(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound);
-
-	UFUNCTION()
-	void MatchEnd(const FString& Reason, ETeam WinnerTeam);
 };

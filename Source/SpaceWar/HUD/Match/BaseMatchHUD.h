@@ -41,6 +41,12 @@ protected:
 	virtual void CreateTabMenu();
 
 	virtual void ClientErrorMessage_Implementation(const FString& Message) override;
+	
+	UFUNCTION()
+	virtual void CreateMatchEndWidget(const FString& Reason, ETeam WinnerTeam);
+
+	UFUNCTION()
+    virtual void RemoveMatchEndWidget();
 
 public:
 

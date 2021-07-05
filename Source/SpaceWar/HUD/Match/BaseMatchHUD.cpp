@@ -180,3 +180,22 @@ void ABaseMatchHUD::RemovePreMatchEnd()
 	}
 }
 
+void ABaseMatchHUD::CreateMatchEndWidget(const FString& Reason, ETeam WinnerTeam)
+{
+	if(!EndGameMatchWidget)
+	{
+		EndGameMatchWidget = AssetData->SyncCreateWidget<UEndGameWidgetBase>(GetWorld(), MatchWidgetData->EndMatch, GetOwningPlayerController());
+		EndGameMatchWidget->Init(Reason, WinnerTeam);
+		EndGameMatchWidget->AddToViewport();
+		RemovePreMatchEnd();
+	}
+}
+
+void ABaseMatchHUD::RemoveMatchEndWidget()
+{
+	if(EndGameMatchWidget)
+	{
+		EndGameMatchWidget->RemoveFromParent();
+		EndGameMatchWidget = nullptr;
+	}
+}
