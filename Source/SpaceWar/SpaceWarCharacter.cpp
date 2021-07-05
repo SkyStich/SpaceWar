@@ -248,7 +248,7 @@ void ASpaceWarCharacter::MoveRight(float Value)
 
 USkeletalMeshComponent* ASpaceWarCharacter::GetLocalMesh() const
 {
-	return IsLocallyControlled() || NM_DedicatedServer ? SkeletalArm : GetMesh();
+	return (IsLocallyControlled() || GetNetMode() == NM_DedicatedServer) ? SkeletalArm : GetMesh();
 }
 
 void ASpaceWarCharacter::SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr)
