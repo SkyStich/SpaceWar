@@ -48845,6 +48845,7 @@
         <e p="UE4.vcxproj" t="IncludeRecursive" />
       </e>
       <e p="packages" t="ExcludeRecursive" />
+      <e p="PolarFacility.png" t="Include" />
       <e p="README.md" t="Include" />
       <e p="Source" t="Include">
         <e p="SpaceWar" t="Include">
@@ -48864,6 +48865,8 @@
                   </e>
                   <e p="BaseGrenadeProjectile.cpp" t="Include" />
                   <e p="BaseGrenadeProjectile.h" t="Include" />
+                  <e p="BaseMineProjectile.cpp" t="Include" />
+                  <e p="BaseMineProjectile.h" t="Include" />
                 </e>
               </e>
               <e p="SpecialWeapon" t="Include">
@@ -48962,10 +48965,8 @@
             <e p="CurrentCharacterObjectInterface.h" t="Include" />
             <e p="CustomInputInterface.h" t="Include" />
             <e p="DropHelperTraceInterface.h" t="Include" />
-            <e p="ErrorMessageInterface.cpp" t="Include" />
             <e p="ErrorMessageInterface.h" t="Include" />
             <e p="FirstAidInterface.h" t="Include" />
-            <e p="GameMatchStateInterface.cpp" t="Include" />
             <e p="GameMatchStateInterface.h" t="Include" />
             <e p="GetDamageCauserInfo.h" t="Include" />
             <e p="GetPlayerTeamInterface.h" t="Include" />
@@ -48985,6 +48986,8 @@
             <e p="WeaponsThrow" t="Include">
               <e p="BaseGrenadeObject.cpp" t="Include" />
               <e p="BaseGrenadeObject.h" t="Include" />
+              <e p="BaseMineObject.cpp" t="Include" />
+              <e p="BaseMineObject.h" t="Include" />
               <e p="ThrowWeaponBase.cpp" t="Include" />
               <e p="ThrowWeaponBase.h" t="Include" />
             </e>

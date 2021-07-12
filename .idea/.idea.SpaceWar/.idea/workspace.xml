@@ -6,10 +6,73 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameState/BP_CaptureOfFlagGameState.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/BaseMineProjectile.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/BaseMineProjectile.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/BaseMineObject.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/BaseMineObject.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/HeroTPP/HeroTPP_AnimBlueprint.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/HeroTPP/HeroTPP_AnimBlueprint.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Polar/Maps/NewSky_PolarFacilityMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Polar/Maps/NewSky_PolarFacilityMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Polar/Maps/NewSky_PolarFacilityMap_BuiltData.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Polar/Maps/NewSky_PolarFacilityMap_BuiltData.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Polar/Meshes/Vista/SM_Mountain_01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Polar/Meshes/Vista/SM_Mountain_01.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Polar/Meshes/Vista/SM_Mountain_02.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Polar/Meshes/Vista/SM_Mountain_02.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSciFiMats/Materials/Instances/MI_Trims_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSciFiMats/Materials/Instances/MI_Trims_A.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSciFiMats/Materials/M_Base_3C.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSciFiMats/Materials/M_Base_3C.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSciFiMats/Materials/M_Base_4C_Scr.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSciFiMats/Materials/M_Base_4C_Scr.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSciFiMats/Materials/M_Base_Tile_Scr.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSciFiMats/Materials/M_Base_Tile_Scr.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Materials/M_Base_Trim.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Materials/M_Base_Trim.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Materials/M_SolidColor_Base.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Materials/M_SolidColor_Base.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_Det_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_Det_A.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_Det_B.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_Det_B.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_Main_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_Main_A.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_Main_B.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_Main_B.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_OuterRing_C.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_OuterRing_C.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_OuterRing_D.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Ceiling_OuterRing_D.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Center_B.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Center_B.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Center_Pipes_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Center_Pipes_A.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Panel_A1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Panel_A1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Panel_A2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Panel_A2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Panel_A3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Panel_A3.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Panel_A4.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Panel_A4.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Sides_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Floor_Sides_A.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Wall_Corner_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Wall_Corner_A.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Wall_D.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Wall_D.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Wall_Det_DoorBig_B.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Wall_Det_DoorBig_B.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Windows_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Comm/Meshes/SM_Windows_A.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/MI_FloorPanel_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/MI_FloorPanel_A.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/MI_FloorPanel_A_2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/MI_FloorPanel_A_2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/MI_Trims_B.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/MI_Trims_B.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/MI_Trims_B_2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/MI_Trims_B_2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/MI_Wall_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/MI_Wall_A.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/M_Base_2C.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Materials/M_Base_2C.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Meshes/SM_Wall_B_2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularSci_Int/Meshes/SM_Wall_B_2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiHallways/Materials/M_Base_2C.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiHallways/Materials/M_Base_2C.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiHallways/Materials/M_Base_3C.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiHallways/Materials/M_Base_3C.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiHallways/Materials/M_Base_Wires.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiHallways/Materials/M_Base_Wires.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiHallways/Materials/M_Base_Wires_B.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiHallways/Materials/M_Base_Wires_B.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiHallways/Materials/M_CustomerMessage.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiHallways/Materials/M_CustomerMessage.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_AccessCard.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_AccessCard.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Base_Dark.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Base_Dark.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Base_Gray.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Base_Gray.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Base_Light.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Base_Light.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Base_Light2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Base_Light2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Coaster_Holder.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Coaster_Holder.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Keypad.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Keypad.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Shelf_A.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Shelf_A.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Shelf_A2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_Shelf_A2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_TableLamp.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_TableLamp.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_TableLamp2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_TableLamp2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_TempControl.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_TempControl.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_TempControl2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_TempControl2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_WallCabinet.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/MI_WallCabinet.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/M_Base_3C.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/M_Base_3C.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/M_Glass_Base.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/M_Glass_Base.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/M_Screen_Parent.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/ModularScifiProps/Materials/M_Screen_Parent.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/BP_CaptureFlagGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/BP_CaptureFlagGameMode.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataAssets/EquipWeaponDataAsset.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataAssets/EquipWeaponDataAsset.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,12 +116,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Interfaces/MatchPlayerCharacterInterface.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/StaminaComponent.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Interfaces/GameMatchStateInterface.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/LastGameMode/CaptureHoldGameMode.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/EndGameWidgetBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/EndGameWidgetBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Enums/ReasonEndOfMatch.h" />
@@ -104,6 +161,12 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/BaseMineObject.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/BaseMineProjectile.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/BaseMineObject.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/Base/BaseThrowProjectile.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Projectile/Throw/BaseMineProjectile.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -571,6 +634,11 @@
       <workItem from="1625482708476" duration="4059000" />
       <workItem from="1625493804054" duration="1950000" />
       <workItem from="1625503853649" duration="1459000" />
+      <workItem from="1626003573365" duration="8953000" />
+      <workItem from="1626017389857" duration="2487000" />
+      <workItem from="1626036760068" duration="1506000" />
+      <workItem from="1626040474970" duration="3865000" />
+      <workItem from="1626111515953" duration="1093000" />
     </task>
     <servers />
   </component>

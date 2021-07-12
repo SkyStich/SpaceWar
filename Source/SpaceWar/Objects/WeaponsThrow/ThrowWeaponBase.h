@@ -38,9 +38,7 @@ protected:
 
 	UPROPERTY()
 	FTimerHandle PreparationForUseHandle;
-
-private:
-
+	
 	UPROPERTY(Replicated)
 	int32 CurrentAmountThrow;
 

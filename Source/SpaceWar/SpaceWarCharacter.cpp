@@ -187,10 +187,7 @@ void ASpaceWarCharacter::CharDead()
 	/** Set timer for destroy with out controller */
 	FTimerHandle DestroyTimerHandle;
 	FTimerDelegate TimerDel;
-	TimerDel.BindLambda([&]() -> void
-	{
-		Destroy();
-	});
+	TimerDel.BindLambda([&]() -> void { Destroy(); });
 	GetWorld()->GetTimerManager().SetTimer(DestroyTimerHandle, TimerDel, 5.f, false);
 }
 
