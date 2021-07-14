@@ -48991,6 +48991,16 @@
               <e p="ThrowWeaponBase.cpp" t="Include" />
               <e p="ThrowWeaponBase.h" t="Include" />
             </e>
+            <e p="Web" t="Include">
+              <e p="WebRequest" t="Include">
+                <e p="base" t="Include">
+                  <e p="WebRequestBase.cpp" t="Include" />
+                  <e p="WebRequestBase.h" t="Include" />
+                </e>
+                <e p="WebRequestBP.cpp" t="Include" />
+                <e p="WebRequestBP.h" t="Include" />
+              </e>
+            </e>
           </e>
           <e p="Pawns" t="Include">
             <e p="Match" t="Include">
@@ -49048,6 +49058,9 @@
               <e p="BaseMatchSpectator.cpp" t="Include" />
               <e p="BaseMatchSpectator.h" t="Include" />
             </e>
+          </e>
+          <e p="Structs" t="Include">
+            <e p="PlayerInfo.h" t="Include" />
           </e>
           <e p="UserWidget" t="Include">
             <e p="ErrorWidget" t="Include">
