@@ -40,18 +40,20 @@ void UBaseMineObject::FindPositionForSettingsMine(AController* OwnerController)
 
 	if(bVerticalTraceSucceeded)
 	{
-		//SettingsMine
+		SettingsMine(OwnerController, VerticalHit.ImpactPoint);
 	}
 	StopUseWeapon();
 }
 
 ABaseMineProjectile* UBaseMineObject::SettingsMine(AController* OwnerController, const FVector& SpawnLocation)
 {
+	/** Init spawn param */
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = OwnerController;
 	SpawnParams.Instigator = CharacterOwner;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
+	/** Find spawn rotation */
 	FRotator const Rotation = CharacterOwner->GetCapsuleComponent()->GetComponentRotation();
 
 	auto const SpawnMime = GetWorld()->SpawnActor<ABaseMineProjectile>(ThrowData.ProjectileClass, SpawnLocation, Rotation, SpawnParams);
