@@ -9,8 +9,11 @@ public class SpaceWar : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
-			"Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "UMG", "AIModule", "NavigationSystem", "GameplayTasks"
-			
+			"Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "UMG", "AIModule", "NavigationSystem", "GameplayTags"
+		});
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			"Http", "Json", "JsonUtilities"
 		});
 	}
 }
