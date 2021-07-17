@@ -31,6 +31,24 @@ AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 void AMatchPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		CreateChatComponent();
+	}
+}
+
+void AMatchPlayerControllerBase::CreateChatComponent()
+{
+	/** Create chat component */
+	if(GetWorld()->bIsTearingDown)
+	{
+		UE_LOG(LogActor, Warning, TEXT("AddComponent failed because we are in the process of tearing down the world"));
+		return;
+	}
+
+	ChatComponent = NewObject<UChatMatchComponent>(this);
+	PostCreateBlueprintComponent(ChatComponent);
 }
 
 void AMatchPlayerControllerBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -77,7 +95,19 @@ void AMatchPlayerControllerBase::SetupInputComponent()
 	InputComponent->BindAction("TabMenu", IE_Released, this, &AMatchPlayerControllerBase::ReleasedTabMenu);
 
 	InputComponent->BindAction("SpecialShop", IE_Pressed, this, &AMatchPlayerControllerBase::PressSpecialShop);
+
+	InputComponent->BindAction("ToggleHUD", IE_Released, this, &AMatchPlayerControllerBase::ToggleMainCharacterHUD);
+	InputComponent->BindAction("Pause", IE_Released, this, &AMatchPlayerControllerBase::PausePressed);
+
+	/** test */
+	InputComponent->BindAction("WorldChat", IE_Pressed, this, &AMatchPlayerControllerBase::CreateChat);
 }
+
+void AMatchPlayerControllerBase::CreateChat()
+{
+	GetHUD<ABaseMatchHUD>()->ShowChatForAllPlayers();
+}
+
 
 void AMatchPlayerControllerBase::OnRep_Pawn()
 {
@@ -140,4 +170,36 @@ bool AMatchPlayerControllerBase::CheckKeyByName_Implementation(const FName Name)
 		if(ByArray.Chord.Key.GetFName() == Name) return true;
 	}
 	return false;
+}
+
+void AMatchPlayerControllerBase::Server_SendMessageFromAllPlayers_Implementation(const FString& Message)
+{
+	ChatComponent->SendMessageAllPlayer(Message, this);
+}
+
+void AMatchPlayerControllerBase::GetMessage_Implementation(const FString& Message, bool const IsOnlyAlly)
+{
+	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("Message!!!"));
+	Client_GetMessage(Message, IsOnlyAlly);
+}
+
+void AMatchPlayerControllerBase::Client_GetMessage_Implementation(const FString& Message, bool const IsOnlyAlly)
+{
+	OnGetMessage.Broadcast(Message, IsOnlyAlly);
+}
+
+void AMatchPlayerControllerBase::ToggleMainCharacterHUD()
+{
+	if(!GetCharacter()) return;
+
+	auto const HUD = GetHUD<ABaseMatchHUD>();
+
+	if(!HUD || !HUD->GetMainWidget()) return;
+
+	HUD->GetMainWidget()->SetVisibility(HUD->GetMainWidget()->IsVisible() ? ESlateVisibility::Hidden : ESlateVisibility::Visible);
+}
+
+void AMatchPlayerControllerBase::PausePressed()
+{
+	OnPausePressed.Broadcast();
 }

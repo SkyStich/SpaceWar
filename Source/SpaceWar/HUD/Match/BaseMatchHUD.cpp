@@ -1,10 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "BaseMatchHUD.h"
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
+#include "SpaceWar/PlayerStart/MatchPlayerStartBase.h"
 #include "UObject/ConstructorHelpers.h"
 
 ABaseMatchHUD::ABaseMatchHUD()
@@ -16,16 +17,25 @@ ABaseMatchHUD::ABaseMatchHUD()
 	
 	ConstructorHelpers::FClassFinder<UErrorMessageWidget>ErrorMessageFinder(TEXT("/Game/ThirdPersonCPP/UI/ErrorMessage/W_ErrorMessage"));
 	if(ErrorMessageFinder.Succeeded()) ErrorWidgetClass = ErrorMessageFinder.Class;
+
+	ConstructorHelpers::FClassFinder<UMatchChatWidgetBase>ChatWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/Chat/W_MatchChat"));
+	if(ChatWidgetFinder.Succeeded()) ChatWidgetClass = ChatWidgetFinder.Class;
 }
 
 void ABaseMatchHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
+	/** set widget struct */
 	MatchWidgetData = AssetData->GetWidgetData(MatchType);
-	
+
+	/** create dynamic widget */
 	CreateTabMenu();
+	CreateChatWidget();
+
+	/** bind on new player connected */
 	GetOwningPlayerController()->GetOnNewPawnNotifier().AddUObject(this, &ABaseMatchHUD::NewOwningPlayerPawn);
+	Cast<AMatchPlayerControllerBase>(GetOwningPlayerController())->OnPausePressed.AddDynamic(this, &ABaseMatchHUD::PausePressed);
 }
 
 void ABaseMatchHUD::ClientErrorMessage_Implementation(const FString& Message)
@@ -40,10 +50,9 @@ void ABaseMatchHUD::CreateErrorWidget(const FString& Message)
 	{
 		Widget->Init(Message);
 		Widget->AddToViewport();
-		auto AutoDestroy = [&]() -> void
-		{
-			Widget->RemoveFromParent();
-		};
+		
+		auto AutoDestroy = [&]() -> void { Widget->RemoveFromParent(); };
+		
 		FTimerHandle TimerHandle;
 		FTimerDelegate TimerDel;
 		TimerDel.BindLambda(AutoDestroy);
@@ -198,4 +207,63 @@ void ABaseMatchHUD::RemoveMatchEndWidget()
 		EndGameMatchWidget->RemoveFromParent();
 		EndGameMatchWidget = nullptr;
 	}
+}
+
+void ABaseMatchHUD::CreateChatWidget()
+{
+	if(!ChatWidget)
+	{
+		ChatWidget = AssetData->SyncCreateWidget<UMatchChatWidgetBase>(GetWorld(), ChatWidgetClass, GetOwningPlayerController());
+		ChatWidget->AddToViewport();
+	}
+}
+
+void ABaseMatchHUD::ShowChatForAllPlayers()
+{
+	if(ChatWidget)
+	{
+		ChatWidget->ShowChat(false);
+	}
+}
+
+void ABaseMatchHUD::ShowChatForAnAlly()
+{
+	if(ChatWidget)
+	{
+		ChatWidget->ShowChat(true);
+	}
+}
+
+void ABaseMatchHUD::HiddenChat()
+{
+	if(ChatWidget)
+	{
+		ChatWidget->HiddenChat();
+	}
+}
+
+void ABaseMatchHUD::HiddenMainCharacterWidget()
+{
+	if(CharacterHUD)
+	{
+		CharacterHUD->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+void ABaseMatchHUD::ShowMainCharacterWidget()
+{
+	if(CharacterHUD)
+	{
+		CharacterHUD->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void ABaseMatchHUD::PausePressed()
+{
+	if(!ChatWidget->IsHidden())
+	{
+		ChatWidget->HiddenChat();
+		return;
+	}
+	/** show pause */
 }

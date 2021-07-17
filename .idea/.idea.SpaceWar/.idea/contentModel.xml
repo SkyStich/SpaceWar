@@ -48884,6 +48884,8 @@
             <e p="TimeWorkLibrary.h" t="Include" />
           </e>
           <e p="Components" t="Include">
+            <e p="ChatMatchComponent.cpp" t="Include" />
+            <e p="ChatMatchComponent.h" t="Include" />
             <e p="EquipableWeaponManager.cpp" t="Include" />
             <e p="EquipableWeaponManager.h" t="Include" />
             <e p="HealthComponent.cpp" t="Include" />
@@ -48970,6 +48972,7 @@
             <e p="GameMatchStateInterface.h" t="Include" />
             <e p="GetDamageCauserInfo.h" t="Include" />
             <e p="GetPlayerTeamInterface.h" t="Include" />
+            <e p="MatchChatInterface.h" t="Include" />
             <e p="PlayerControllerInterface.h" t="Include" />
             <e p="PreparationWidgetInterface.h" t="Include" />
             <e p="UpdateSpecialPointsInterface.h" t="Include" />
@@ -49067,8 +49070,12 @@
               <e p="ErrorMessageWidget.h" t="Include" />
             </e>
             <e p="Match" t="Include">
+              <e p="CharacterMainWidget.cpp" t="Include" />
+              <e p="CharacterMainWidget.h" t="Include" />
               <e p="EndGameWidgetBase.cpp" t="Include" />
               <e p="EndGameWidgetBase.h" t="Include" />
+              <e p="MatchChatWidgetBase.cpp" t="Include" />
+              <e p="MatchChatWidgetBase.h" t="Include" />
             </e>
           </e>
         </e>

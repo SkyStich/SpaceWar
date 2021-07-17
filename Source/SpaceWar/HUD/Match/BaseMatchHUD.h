@@ -8,6 +8,7 @@
 #include "SpaceWar/Interfaces/ErrorMessageInterface.h"
 #include "SpaceWar/UserWidget/Match/EndGameWidgetBase.h"
 #include "SpaceWar/DataAssets/MatchWidgetDataAsset.h"
+#include "SpaceWar/UserWidget/Match/MatchChatWidgetBase.h"
 #include "BaseMatchHUD.generated.h"
 
 UCLASS(BlueprintType)
@@ -37,6 +38,8 @@ protected:
 	
 	virtual void CreatePreMatchEnd(const FString& Reason, ETeam WinnerTeam);
 	virtual void RemovePreMatchEnd();
+
+	virtual void CreateChatWidget();
 	
 	virtual void CreateTabMenu();
 
@@ -48,12 +51,27 @@ protected:
 	UFUNCTION()
     virtual void RemoveMatchEndWidget();
 
+	UFUNCTION()
+	virtual void PausePressed();
+
 public:
 
 	ABaseMatchHUD();
 	
 	UFUNCTION(BlueprintPure)
 	UUserWidget* GetMainWidget() const { return CharacterHUD; }
+
+	UFUNCTION()
+	void ShowMainCharacterWidget();
+
+	UFUNCTION()
+	void HiddenMainCharacterWidget();
+	
+	UFUNCTION()
+	void ShowChatForAllPlayers();
+	
+	void ShowChatForAnAlly();
+	void HiddenChat();
 	 
 	void ShowTabMenu();
 	void HiddenTabMenu();
@@ -69,6 +87,9 @@ protected:
 
 	UPROPERTY()
 	TAssetSubclassOf<UErrorMessageWidget> ErrorWidgetClass;
+
+	UPROPERTY()
+	TAssetSubclassOf<UMatchChatWidgetBase> ChatWidgetClass;
 
 	UPROPERTY()
 	UMatchWidgetDataAsset* AssetData;
@@ -93,4 +114,7 @@ protected:
 	
 	UPROPERTY()
 	UEndGameWidgetBase* PreEndMatchWidget;
+
+	UPROPERTY()
+	UMatchChatWidgetBase* ChatWidget;
 };
