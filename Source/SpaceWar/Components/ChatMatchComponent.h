@@ -20,5 +20,5 @@ public:
 	UChatMatchComponent();
 
 	void SendMessageAllPlayer(const FString& Message, AMatchPlayerControllerBase* Owner);
-	void SentMessageFromAnAlly(const FString& Message, AMatchPlayerControllerBase* Owner);
+	void SendMessageFromAnAlly(const FString& Message, AMatchPlayerControllerBase* Owner);
 };

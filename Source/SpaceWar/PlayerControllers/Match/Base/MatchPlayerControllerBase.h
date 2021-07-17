@@ -36,7 +36,10 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public
 	void Client_GetMessage(const FString& Message, bool const IsOnlyAlly);
 
 	UFUNCTION()
-	void CreateChat();
+	void CreateChatForAllPlayer();
+
+	UFUNCTION()
+	void CreateChatForAnAlly();
 
 	UFUNCTION()
 	void ToggleMainCharacterHUD();
@@ -75,6 +78,9 @@ public:
 
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "PlayerController|Chat")
 	void Server_SendMessageFromAllPlayers(const FString& Message);
+	
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "PlayerController|Chat")
+	void Server_SendMessageFromAnAlly(const FString& Message);
 
 protected:
 

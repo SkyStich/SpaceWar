@@ -32,7 +32,7 @@ void UChatMatchComponent::SendMessageAllPlayer(const FString& Message, AMatchPla
 	}
 }
 
-void UChatMatchComponent::SentMessageFromAnAlly(const FString& Message, AMatchPlayerControllerBase* Owner)
+void UChatMatchComponent::SendMessageFromAnAlly(const FString& Message, AMatchPlayerControllerBase* Owner)
 {
 	if(!Owner) return;
 	

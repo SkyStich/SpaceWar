@@ -99,15 +99,19 @@ void AMatchPlayerControllerBase::SetupInputComponent()
 	InputComponent->BindAction("ToggleHUD", IE_Released, this, &AMatchPlayerControllerBase::ToggleMainCharacterHUD);
 	InputComponent->BindAction("Pause", IE_Released, this, &AMatchPlayerControllerBase::PausePressed);
 
-	/** test */
-	InputComponent->BindAction("WorldChat", IE_Pressed, this, &AMatchPlayerControllerBase::CreateChat);
+	InputComponent->BindAction("WorldChat", IE_Pressed, this, &AMatchPlayerControllerBase::CreateChatForAllPlayer);
+	InputComponent->BindAction("TeamChat", IE_Pressed, this, &AMatchPlayerControllerBase::CreateChatForAnAlly);
 }
 
-void AMatchPlayerControllerBase::CreateChat()
+void AMatchPlayerControllerBase::CreateChatForAllPlayer()
 {
 	GetHUD<ABaseMatchHUD>()->ShowChatForAllPlayers();
 }
 
+void AMatchPlayerControllerBase::CreateChatForAnAlly()
+{
+	GetHUD<ABaseMatchHUD>()->ShowChatForAnAlly();
+}
 
 void AMatchPlayerControllerBase::OnRep_Pawn()
 {
@@ -177,9 +181,13 @@ void AMatchPlayerControllerBase::Server_SendMessageFromAllPlayers_Implementation
 	ChatComponent->SendMessageAllPlayer(Message, this);
 }
 
+void AMatchPlayerControllerBase::Server_SendMessageFromAnAlly_Implementation(const FString& Message)
+{
+	ChatComponent->SendMessageFromAnAlly(Message, this);
+}
+
 void AMatchPlayerControllerBase::GetMessage_Implementation(const FString& Message, bool const IsOnlyAlly)
 {
-	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("Message!!!"));
 	Client_GetMessage(Message, IsOnlyAlly);
 }
 
