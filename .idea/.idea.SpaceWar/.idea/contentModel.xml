@@ -48912,6 +48912,8 @@
             </e>
           </e>
           <e p="DataAssets" t="Include">
+            <e p="ArmorDataAsset.cpp" t="Include" />
+            <e p="ArmorDataAsset.h" t="Include" />
             <e p="MatchWidgetDataAsset.cpp" t="Include" />
             <e p="MatchWidgetDataAsset.h" t="Include" />
             <e p="SpecialObjectDataAsset.cpp" t="Include" />
@@ -48922,6 +48924,10 @@
           <e p="Enums" t="Include">
             <e p="PlayerTeamEnum.h" t="Include" />
             <e p="ReasonEndOfMatch.h" t="Include" />
+          </e>
+          <e p="GameInstances" t="Include">
+            <e p="BaseGameInstance.cpp" t="Include" />
+            <e p="BaseGameInstance.h" t="Include" />
           </e>
           <e p="GameModes" t="Include">
             <e p="Match" t="Include">
@@ -48978,6 +48984,12 @@
             <e p="UpdateSpecialPointsInterface.h" t="Include" />
           </e>
           <e p="Objects" t="Include">
+            <e p="Armor" t="Include">
+              <e p="base" t="Include">
+                <e p="BaseArmorObject.cpp" t="Include" />
+                <e p="BaseArmorObject.h" t="Include" />
+              </e>
+            </e>
             <e p="Weapons" t="Include">
               <e p="base" t="Include">
                 <e p="BaseWeaponObject.cpp" t="Include" />
