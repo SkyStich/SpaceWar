@@ -70,6 +70,8 @@ public:
 
 	void FirstAid(float const Value);
 
+	void SetMaxArmor(const int32 NewMaxArmor);
+
 protected:
 	
 	UFUNCTION()

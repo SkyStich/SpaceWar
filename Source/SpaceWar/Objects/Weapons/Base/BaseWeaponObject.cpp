@@ -30,7 +30,7 @@ bool UBaseWeaponObject::CallRemoteFunction(UFunction* Function, void* Parms, FOu
 void UBaseWeaponObject::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
+  
 	DOREPLIFETIME(UBaseWeaponObject, CharacterOwner);
 	DOREPLIFETIME(UBaseWeaponObject, WeaponName);
 	DOREPLIFETIME_CONDITION(UBaseWeaponObject, bWeaponUsed, COND_SkipOwner);

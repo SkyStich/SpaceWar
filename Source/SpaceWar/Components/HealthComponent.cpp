@@ -204,3 +204,9 @@ bool UHealthComponent::CheckForFriendlyFire(AController* DamageReceiver, AContro
 
 	return true;
 }
+
+void UHealthComponent::SetMaxArmor(const int32 NewMaxArmor)
+{
+	MaxArmor = NewMaxArmor;
+	CurrentArmor = MaxArmor;
+}

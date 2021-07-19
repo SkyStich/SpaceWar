@@ -8,6 +8,7 @@
 #include "Components/StaminaComponent.h"
 #include "Interfaces/GetDamageCauserInfo.h"
 #include "Components/JetpackComponent.h"
+#include "Objects/Armor/Base/BaseArmorObject.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "SpaceWar/Interfaces/FirstAidInterface.h"
 #include "SpaceWarCharacter.generated.h"
@@ -41,6 +42,9 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 
 	UFUNCTION(Server, Unreliable)
 	void Server_StopUseAccessionWeapon();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+	void InitArmor(const FName& ArmorName);
 
 public:
 	ASpaceWarCharacter();
@@ -101,16 +105,19 @@ protected:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual bool ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
 
 	virtual void StartPlayerFirstAid_Implementation(ETeam Team, float const Value) override;
 	virtual void StopPlayerFirstAid_Implementation() override;
 
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
+	virtual void Tick(float DeltaTime) override;	
 	
 	UFUNCTION(BlueprintCallable)
 	void UseJetpackPressed();
+	
+	UFUNCTION(BlueprintPure)
+	UBaseArmorObject* GetArmorObject() const { return ArmorObject; }
 
 	UFUNCTION(BlueprintImplementableEvent)
     void StartAiming();
@@ -169,11 +176,11 @@ private:
 	UPROPERTY(Replicated)
 	bool bCanWeaponManipulation;
 
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	float StaminaSpeed;
-	
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	float RunSpeed;
+	UPROPERTY(Replicated)
+	UBaseArmorObject* ArmorObject;;
+
+	UPROPERTY(EditAnywhere)
+	UArmorDataAsset* ArmorDataAsset;
 	
 	bool bMoveForward;
 

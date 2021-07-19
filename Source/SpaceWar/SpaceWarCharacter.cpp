@@ -9,6 +9,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/ActorChannel.h"
 #include "GameFramework/Controller.h"
+#include "GameInstances/BaseGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Net/UnrealNetwork.h" 
 #include "Perception/AISense_Sight.h"
@@ -20,7 +22,7 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 
 	bReplicates = true;
 	bCanWeaponManipulation = true;
-	NetUpdateFrequency = 25.f;
+	NetUpdateFrequency = 40.f;
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -36,9 +38,6 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
-
-	RunSpeed = GetCharacterMovement()->MaxWalkSpeed;
-	StaminaSpeed = RunSpeed * 1.6f;
 
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
@@ -107,6 +106,35 @@ void ASpaceWarCharacter::BeginPlay()
 		FTimerHandle TimerHand;
 		GetWorld()->GetTimerManager().SetTimer(TimerHand, this, &ASpaceWarCharacter::ReplicateUpPitch, 0.05f, true);
 	}
+
+	if(IsLocallyControlled())
+	{
+		auto const GI = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		if(!GI) return;
+		
+		InitArmor(GI->GetCurrentArmorId());
+	}
+}
+
+bool ASpaceWarCharacter::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags)
+{
+	bool ParentReturn = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);
+
+	if(ArmorObject) Channel->ReplicateSubobject(ArmorObject, *Bunch, *RepFlags);
+	
+	return ParentReturn;
+}
+
+void ASpaceWarCharacter::InitArmor_Implementation(const FName& ArmorName)
+{
+	ArmorObject = ArmorDataAsset->SyncCreateArmorObject(GetWorld(), ArmorDataAsset->FindData(ArmorName), this);
+	GetCharacterMovement()->JumpOffJumpZFactor = ArmorObject->GetData().JumpLenght;
+	HealthComponent->SetMaxArmor(ArmorObject->GetData().MaxArmor);
+}
+
+bool ASpaceWarCharacter::InitArmor_Validate(const FName& ArmorName)
+{
+	return ArmorDataAsset->CheckId(ArmorName);
 }
 
 void ASpaceWarCharacter::ReplicateUpPitch()
@@ -124,7 +152,7 @@ void ASpaceWarCharacter::OnStaminaUsedEvent(bool bState)
 
 		if(GetLocalRole() == ROLE_Authority)
 		{
-			GetCharacterMovement()->MaxWalkSpeed = StaminaSpeed;
+			GetCharacterMovement()->MaxWalkSpeed = ArmorObject->GetData().MaxStaminaSpeed;
 			if(!bCanWeaponManipulation || WeaponManager->GetCurrentWeapon()->GetAdditionalUse())
 			{
 				StaminaComponent->Server_StopUseStamina();
@@ -140,7 +168,7 @@ void ASpaceWarCharacter::OnStaminaUsedEvent(bool bState)
 		
 		if(GetLocalRole() == ROLE_Authority)
 		{
-			GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+			GetCharacterMovement()->MaxWalkSpeed = ArmorObject->GetData().MaxBaseSpeed;
 		}
 	}
 }
@@ -167,6 +195,7 @@ void ASpaceWarCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 
 	DOREPLIFETIME(ASpaceWarCharacter, LookUpPitch);
 	DOREPLIFETIME(ASpaceWarCharacter, bCanWeaponManipulation);
+	DOREPLIFETIME_CONDITION(ASpaceWarCharacter, ArmorObject, COND_OwnerOnly);
 }
 
 void ASpaceWarCharacter::CharDead()
@@ -272,7 +301,7 @@ void ASpaceWarCharacter::GetCauserInfo_Implementation(FDamageCauserInfo& DamageC
 
 void ASpaceWarCharacter::UseJetpackPressed()
 {
-	if(JetpackComponent->IsAbleToUseJetpack())
+	if(JetpackComponent->IsAbleToUseJetpack() && ArmorObject->GetData().bCanUseJetPack)
 	{
 		Server_UseJetpack();
 	}
@@ -280,6 +309,8 @@ void ASpaceWarCharacter::UseJetpackPressed()
 
 void ASpaceWarCharacter::Server_UseJetpack_Implementation()
 {
+	if(!ArmorObject->GetData().bCanUseJetPack) return;
+	
 	FVector Location;
 	JetpackComponent->StartUseJetpack(Controller->GetControlRotation().Vector(), Location);
 	LaunchCharacter(Location, true, false);
@@ -360,7 +391,7 @@ void ASpaceWarCharacter::StopPlayerFirstAid_Implementation()
 
 void ASpaceWarCharacter::StartUseWeapon()
 {
-	if(bCanWeaponManipulation)
+	if(bCanWeaponManipulation && WeaponManager->GetCurrentWeapon())
 		WeaponManager->GetCurrentWeapon()->OwnerStartUseWeapon();
 }
 
