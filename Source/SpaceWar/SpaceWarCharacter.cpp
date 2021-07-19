@@ -128,7 +128,7 @@ bool ASpaceWarCharacter::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* 
 void ASpaceWarCharacter::InitArmor_Implementation(const FName& ArmorName)
 {
 	ArmorObject = ArmorDataAsset->SyncCreateArmorObject(GetWorld(), ArmorDataAsset->FindData(ArmorName), this);
-	GetCharacterMovement()->JumpOffJumpZFactor = ArmorObject->GetData().JumpLenght;
+	GetCharacterMovement()->JumpZVelocity = ArmorObject->GetData().JumpLenght;
 	HealthComponent->SetMaxArmor(ArmorObject->GetData().MaxArmor);
 }
 
