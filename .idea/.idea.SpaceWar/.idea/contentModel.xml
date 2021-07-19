@@ -49024,6 +49024,8 @@
                 <e p="PlayerDumpCapsule.h" t="Include" />
               </e>
               <e p="SpecialWeapon" t="Include">
+                <e p="AmmunitionSpecialBase.cpp" t="Include" />
+                <e p="AmmunitionSpecialBase.h" t="Include" />
                 <e p="BaseTurelPawn.cpp" t="Include" />
                 <e p="BaseTurelPawn.h" t="Include" />
                 <e p="SpecialFirstAidStation.cpp" t="Include" />
