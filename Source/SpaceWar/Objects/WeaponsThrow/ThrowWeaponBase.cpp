@@ -49,6 +49,14 @@ void UThrowWeaponBase::StopUseWeapon()
 	Super::StopUseWeapon();
 }
 
+void UThrowWeaponBase::IncrementCurrentAmount()
+{
+	if(CurrentAmountThrow >= ThrowData.MaxAmount) return;
+
+	CurrentAmountThrow++;
+}
+
+
 
 
 

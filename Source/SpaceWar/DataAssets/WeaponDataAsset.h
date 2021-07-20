@@ -28,10 +28,13 @@ struct FBaseWeaponData
 	FName WeaponName;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	float BaseDamage;
+	float DelayBeforeUse;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	float DelayBeforeUse;
+	float SelectWeaponTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponCategory")
+	EWeaponCategory Category;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Base")
 	TAssetPtr<USkeletalMesh> ItemMesh;
@@ -44,6 +47,9 @@ struct FBaseThrowData : public FBaseWeaponData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	float ExpRange;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	float BaseDamage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	float TimeBeforeExp;
@@ -70,7 +76,7 @@ struct FEquipWeaponData : public FBaseWeaponData
 	int32 MaxAmmoInWeapon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	float SelectWeaponTime;
+	float BaseDamage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	float ReloadTime;
@@ -95,9 +101,6 @@ struct FEquipWeaponData : public FBaseWeaponData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponClass")
 	TSoftClassPtr<URangeWeaponObjectBase>WeaponObject;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponCategory")
-	EWeaponCategory Category;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|ClientEffects")
 	UParticleSystem* MuzzleParticle;

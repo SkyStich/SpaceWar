@@ -287,7 +287,7 @@ void ASpaceWarCharacter::SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr)
 	WeaponMesh->SetSkeletalMesh(MeshPtr.Get());
 }
 
-void ASpaceWarCharacter::UpdateWeaponMesh(URangeWeaponObjectBase* Weapon)
+void ASpaceWarCharacter::UpdateWeaponMesh(UBaseWeaponObject* Weapon)
 {
 	if(!Weapon) return;
 	SyncLoadMesh(Weapon->GetWeaponMesh());
@@ -296,7 +296,9 @@ void ASpaceWarCharacter::UpdateWeaponMesh(URangeWeaponObjectBase* Weapon)
 
 void ASpaceWarCharacter::GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo)
 {
-	DamageCauserInfo.CauserName = WeaponManager->GetCurrentWeapon()->GetWeaponData().WeaponName;
+	auto const RangeWeapon = Cast<URangeWeaponObjectBase>(WeaponManager->GetCurrentWeapon());
+	if(!RangeWeapon) return;
+	DamageCauserInfo.CauserName = RangeWeapon->GetWeaponData().WeaponName;
 }
 
 void ASpaceWarCharacter::UseJetpackPressed()
@@ -399,3 +401,27 @@ void ASpaceWarCharacter::StopUseWeapon()
 {
 	WeaponManager->GetCurrentWeapon()->OwnerStopUseWeapon();
 }
+
+void ASpaceWarCharacter::RefreshAmmo_Implementation()
+{
+	UpdateAmmo();
+}
+
+void ASpaceWarCharacter::UpdateAmmo_Implementation()
+{
+	auto const Throw = WeaponManager->GetThrow();
+	if(Throw)
+	{
+		Throw->IncrementCurrentAmount();
+	}
+
+	for(const auto& ByArray : WeaponManager->GetWeapons())
+	{
+		auto const RangeWeapon = Cast<URangeWeaponObjectBase>(ByArray.Value);
+		if(RangeWeapon)
+		{
+			RangeWeapon->AddAmmo(RangeWeapon->GetWeaponData().MaxAmmoInStorage / 2);
+		}
+	}
+}
+

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
 #include "SpaceWar/UserWidget/ErrorWidget/ErrorMessageWidget.h"
+#include "SpaceWar/UserWidget/Match/AmmunitionWidgetBase.h"
 #include "SpaceWar/Interfaces/ErrorMessageInterface.h"
 #include "SpaceWar/UserWidget/Match/EndGameWidgetBase.h"
 #include "SpaceWar/DataAssets/MatchWidgetDataAsset.h"
@@ -66,6 +67,12 @@ public:
 
 	UFUNCTION()
 	void HiddenMainCharacterWidget();
+
+	UFUNCTION()
+	void CreateAmmunitionWidget();
+
+	UFUNCTION()
+	void RemoveAmmunitionWidget();
 	
 	UFUNCTION()
 	void ShowChatForAllPlayers();
@@ -90,6 +97,9 @@ protected:
 
 	UPROPERTY()
 	TAssetSubclassOf<UMatchChatWidgetBase> ChatWidgetClass;
+
+	UPROPERTY()
+	TAssetSubclassOf<UAmmunitionWidgetBase> AmmunitionWidgetClass;
 
 	UPROPERTY()
 	UMatchWidgetDataAsset* AssetData;
@@ -117,4 +127,7 @@ protected:
 
 	UPROPERTY()
 	UMatchChatWidgetBase* ChatWidget;
+
+	UPROPERTY()
+	UAmmunitionWidgetBase* AmmunitionWidget;
 };

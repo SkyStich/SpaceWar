@@ -263,3 +263,15 @@ bool URangeWeaponObjectBase::OwnerStopAdditionalUsed()
 	StopAdditionalUsed();
 	return true;
 }
+
+void URangeWeaponObjectBase::AddAmmo(int32 const Amount)
+{
+	if(CurrentAmmoInStorage >= WeaponData.MaxAmmoInStorage) return;
+	
+	CurrentAmmoInStorage = FMath::Min(WeaponData.MaxAmmoInStorage, CurrentAmmoInStorage + Amount);
+}
+
+FString URangeWeaponObjectBase::GetAmmoStatus() const
+{
+	return FString::FromInt(CurrentAmmoInWeapon) + " | " + FString::FromInt(CurrentAmmoInStorage);
+}

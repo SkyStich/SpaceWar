@@ -214,7 +214,7 @@ void ABaseMatchHUD::CreateChatWidget()
 	if(!ChatWidget)
 	{
 		ChatWidget = AssetData->SyncCreateWidget<UMatchChatWidgetBase>(GetWorld(), ChatWidgetClass, GetOwningPlayerController());
-		ChatWidget->AddToViewport();
+		ChatWidget->AddToViewport(1);
 	}
 }
 
@@ -266,4 +266,27 @@ void ABaseMatchHUD::PausePressed()
 		return;
 	}
 	/** show pause */
+}
+
+void ABaseMatchHUD::CreateAmmunitionWidget()
+{
+	if(AmmunitionWidgetClass && !AmmunitionWidget)
+	{
+		AmmunitionWidget = AssetData->SyncCreateWidget<UAmmunitionWidgetBase>(GetWorld(), AmmunitionWidgetClass, GetOwningPlayerController());
+		if(AmmunitionWidget)
+		{
+			AmmunitionWidget->AddToViewport();
+			return;
+		}
+		UE_LOG(LogViewport, Error, TEXT("ABaseMatchHUD::CreateAmmunitionWidget -- Can not crete ammunition widget: %s"), *GetFullName());
+	}
+}
+
+void ABaseMatchHUD::RemoveAmmunitionWidget()
+{
+	if(AmmunitionWidget)
+	{
+		AmmunitionWidget->RemoveFromParent();
+		AmmunitionWidget = nullptr;
+	}
 }

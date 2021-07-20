@@ -140,7 +140,7 @@ void AMatchPlayerControllerBase::Client_SpecialObjectErrorSpawned_Implementation
 
 void AMatchPlayerControllerBase::Server_CreateSpecialObject_Implementation(const FName& ObjectId, const FTransform& Transform)
 {
-	if(!SpecialObjectManager->CreateSpecialObject(ObjectId, Transform, GetPawn()))
+	if(!SpecialObjectManager->CreateSpecialObject(ObjectId, Transform, this))
 	{
 		Client_SpecialObjectErrorSpawned();
 	}
@@ -210,4 +210,9 @@ void AMatchPlayerControllerBase::ToggleMainCharacterHUD()
 void AMatchPlayerControllerBase::PausePressed()
 {
 	OnPausePressed.Broadcast();
+}
+
+void AMatchPlayerControllerBase::UseAmmunitionState_Implementation()
+{
+	
 }

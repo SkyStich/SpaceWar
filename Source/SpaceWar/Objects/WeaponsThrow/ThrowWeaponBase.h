@@ -30,6 +30,10 @@ public:
 
 	UThrowWeaponBase();
 	void Init(const FBaseThrowData& NewData);
+	void IncrementCurrentAmount();
+
+	FBaseThrowData GetThrowData() const { return ThrowData; }
+	int32 GetCurrentAmount() const { return CurrentAmountThrow; }
 
 protected:
 

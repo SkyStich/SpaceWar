@@ -13,7 +13,7 @@ class ASpaceWarCharacter;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOwnerChanged);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWeaponUsed, bool, bIsUsed);
 
-UCLASS(Abstract)
+UCLASS(Abstract, BlueprintType)
 class SPACEWAR_API UBaseWeaponObject : public UObject
 {
 	GENERATED_BODY()
@@ -37,8 +37,32 @@ public:
 	void SetWeaponName(const FName& Name) { WeaponName = Name; } 
 	
 	virtual TAssetPtr<USkeletalMesh> GetWeaponMesh() { return nullptr; }
-	
 	virtual void StopUseWeapon();
+	
+	virtual bool GetAdditionalUse() const { return false; }
+	virtual void StartAdditionalUsed() {}
+	virtual void StopAdditionalUsed() {}
+	virtual bool OwnerStartAdditionalUsed() { return false; }
+	virtual bool OwnerStopAdditionalUsed() { return false; }
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	virtual float GetSelectTime() const { return 0.f; }
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	virtual float GetDelayBeforeUsed() const { return 0.f; }
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	virtual float GetReloadTime() const { return 0.f; }
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	virtual bool IsCanAutoFire() const { return false; }
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	virtual EWeaponCategory GetWeaponCategory() const { return EWeaponCategory::Special; }
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	virtual FString GetAmmoStatus() const { return "";}
+	
 	
 protected:
 

@@ -9,6 +9,8 @@
 #include "SpaceWar/Interfaces/GetDamageCauserInfo.h"
 #include "SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h"
 #include "SpaceWar/Components/SpecialObject/SpecialObjectHealthComponent.h"
+#include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
+
 #include "SpecialWeaponObjectBase.generated.h"
 
 class ASpaceWarCharacter;
@@ -39,6 +41,8 @@ public:
 	UFUNCTION(BlueprintPure)
 	ETeam GetTeam() const { return Team; }
 
+	void SetOwnerController(AMatchPlayerControllerBase* NewOwnerController) { OwnerController = NewOwnerController; }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -58,7 +62,7 @@ public:
 protected:
 
 	UPROPERTY()
-	AController* OwnerController;
+	AMatchPlayerControllerBase* OwnerController;
 
 	UPROPERTY(Replicated)
 	ETeam Team;

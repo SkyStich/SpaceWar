@@ -82,6 +82,9 @@ public:
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "PlayerController|Chat")
 	void Server_SendMessageFromAnAlly(const FString& Message);
 
+	UFUNCTION(Client, Unreliable)
+	void UseAmmunitionState();
+
 protected:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;

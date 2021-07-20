@@ -48981,6 +48981,8 @@
             <e p="MatchChatInterface.h" t="Include" />
             <e p="PlayerControllerInterface.h" t="Include" />
             <e p="PreparationWidgetInterface.h" t="Include" />
+            <e p="UpdateAmmoInterface.cpp" t="Include" />
+            <e p="UpdateAmmoInterface.h" t="Include" />
             <e p="UpdateSpecialPointsInterface.h" t="Include" />
           </e>
           <e p="Objects" t="Include">
@@ -49084,6 +49086,8 @@
               <e p="ErrorMessageWidget.h" t="Include" />
             </e>
             <e p="Match" t="Include">
+              <e p="AmmunitionWidgetBase.cpp" t="Include" />
+              <e p="AmmunitionWidgetBase.h" t="Include" />
               <e p="CharacterMainWidget.cpp" t="Include" />
               <e p="CharacterMainWidget.h" t="Include" />
               <e p="EndGameWidgetBase.cpp" t="Include" />

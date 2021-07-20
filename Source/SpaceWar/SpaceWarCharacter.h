@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Components/EquipableWeaponManager.h"
 #include "Components/StaminaComponent.h"
+#include "SpaceWar/Interfaces/UpdateAmmoInterface.h"
 #include "Interfaces/GetDamageCauserInfo.h"
 #include "Components/JetpackComponent.h"
 #include "Objects/Armor/Base/BaseArmorObject.h"
@@ -16,12 +17,12 @@
 class UHealthComponent;
 
 UCLASS(config=Game)
-class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, public IFirstAidInterface
+class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, public IFirstAidInterface, public IUpdateAmmoInterface
 {
 	GENERATED_BODY()
 
 	UFUNCTION()
-	void UpdateWeaponMesh(URangeWeaponObjectBase* Weapon);
+	void UpdateWeaponMesh(UBaseWeaponObject* Weapon);
 
 	UFUNCTION()
 	void OnStaminaUsedEvent(bool bState);
@@ -32,6 +33,7 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	UFUNCTION(Server, Unreliable)
 	void Server_UseJetpack();
 
+	UFUNCTION()
 	void SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr);
 
 	UFUNCTION(Server, Unreliable)
@@ -46,13 +48,19 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	UFUNCTION(Server, Reliable, WithValidation)
 	void InitArmor(const FName& ArmorName);
 
+/** call on client interface IUpdateAmmoInterface::RefreshAmmo */
+	UFUNCTION(Server, Unreliable)
+	void UpdateAmmo();
+
 public:
 	ASpaceWarCharacter();
+	
+	FVector GetCurrentFireTrace() const;
 
 	virtual void GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo) override;
-
-	UFUNCTION()
-	void SetCanWeaponManipulation(bool NewState) { bCanWeaponManipulation = NewState; }
+	virtual void RefreshAmmo_Implementation() override;
+	
+	virtual void OnConstruction(const FTransform& Transform) override;
 
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
@@ -60,8 +68,6 @@ public:
 	FORCEINLINE USkeletalMeshComponent* GetLocalMesh() const;
 	FORCEINLINE float GetLookUpPitch() const { return LookUpPitch; }
 	FORCEINLINE UEquipableWeaponManager* GetWeaponManager() const { return WeaponManager; }
-
-	virtual void OnConstruction(const FTransform& Transform) override;
 	
 	UFUNCTION(BlueprintCallable, Category = "Character|Getting")
 	USkeletalMeshComponent* GetWeaponMesh() const { return WeaponMesh; }
@@ -87,7 +93,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Player|Weapon")
 	bool IsCanWeaponManipulation() const { return bCanWeaponManipulation; }
 	
-	FVector GetCurrentFireTrace() const;
+	UFUNCTION()
+	void SetCanWeaponManipulation(bool NewState) { bCanWeaponManipulation = NewState; }
 	
 	UFUNCTION()
 	void StartUseWeapon();
@@ -124,9 +131,6 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent)
     void StopAiming();
-
-	/*UFUNCTION(Server, Unreliable, BlueprintCallable)
-	void Server_InteractionObject();*/
 
 public:
 

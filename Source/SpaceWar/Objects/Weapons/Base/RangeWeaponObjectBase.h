@@ -38,16 +38,23 @@ public:
 	URangeWeaponObjectBase();
 
 	virtual void Init(const FEquipWeaponData& NewData);
+	void AddAmmo(int32 const Amount);
 
 	virtual TAssetPtr<USkeletalMesh> GetWeaponMesh() override { return WeaponData.ItemMesh; }
 
 	virtual bool UseCurrentPlayerObject_Implementation() override;
 	virtual void UnUseCurrentPlayerObject_Implementation() override;
+	virtual void StartAdditionalUsed() override;
+	virtual void StopAdditionalUsed() override;
+	virtual bool OwnerStartAdditionalUsed() override;
+	virtual bool OwnerStopAdditionalUsed() override;
 
-	virtual void StartAdditionalUsed();
-	virtual void StopAdditionalUsed();
-	bool OwnerStartAdditionalUsed();
-	bool OwnerStopAdditionalUsed();
+	virtual float GetSelectTime() const override { return WeaponData.SelectWeaponTime; }
+	virtual float GetReloadTime() const override { return WeaponData.ReloadTime; }
+	virtual float GetDelayBeforeUsed() const override { return WeaponData.DelayBeforeUse; }
+	virtual bool IsCanAutoFire() const override { return WeaponData.bCanAutoFire; }
+	virtual EWeaponCategory GetWeaponCategory() const override { return WeaponData.Category; }
+	virtual FString GetAmmoStatus() const override;
 	
 	UFUNCTION(BlueprintPure)
 	int32 GetCurrentAmmo() const { return CurrentAmmoInWeapon; }
@@ -56,7 +63,7 @@ public:
 	int32 GetCurrentAmmoInStorage() const { return CurrentAmmoInStorage; }
 	
 	UFUNCTION(BlueprintPure)
-	float GetAdditionalUse() const { return bAccessoryUsed; } 
+	virtual bool GetAdditionalUse() const override { return bAccessoryUsed; } 
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon|Button")
 	void OwnerReload();

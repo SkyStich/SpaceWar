@@ -10,6 +10,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "SpaceWar/DataAssets/SpecialObjectDataAsset.h"
 #include "Net/UnrealNetwork.h"
+#include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
 
 USpecialObjectManagerComponent::USpecialObjectManagerComponent()
 {
@@ -52,14 +53,14 @@ void USpecialObjectManagerComponent::IncreasePoints(int32 const Value)
 	CurrentSpecialPoints += Value;
 }
 
-bool USpecialObjectManagerComponent::CreateSpecialObject(const FName& ObjectId, const FTransform& Transform, APawn* CharOwner)
+bool USpecialObjectManagerComponent::CreateSpecialObject(const FName& ObjectId, const FTransform& Transform, AMatchPlayerControllerBase* OwnerController)
 {
 	static const FString ContextString("DT_SpecialWeaponObject");
 	auto const SpecialRow = SpecialDataTable->FindRow<FSpecialObject>(ObjectId, *ContextString);
 
 	if(CurrentSpecialPoints >= SpecialRow->Price)
 	{
-		if(USpecialObjectDataAsset::AsyncSpawnActor(GetWorld(), SpecialRow->SpecialActor, Transform, CharOwner, SpecialActorDelegate))
+		if(USpecialObjectDataAsset::AsyncSpawnActor(GetWorld(), SpecialRow->SpecialActor, Transform, OwnerController, SpecialActorDelegate))
 		{
 			DecreasePoints(SpecialRow->Price);
 		}

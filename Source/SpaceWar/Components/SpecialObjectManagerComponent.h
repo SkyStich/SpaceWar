@@ -32,7 +32,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "SpecialObject|Getting") 
 	int32 GetCurrentSpecialPoints() const { return CurrentSpecialPoints; }
 
-	bool CreateSpecialObject(const FName& ObjectId, const FTransform& Transform, APawn* CharOwner);
+	bool CreateSpecialObject(const FName& ObjectId, const FTransform& Transform, class AMatchPlayerControllerBase* OwnerController);
 
 public:
 

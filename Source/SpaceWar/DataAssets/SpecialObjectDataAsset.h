@@ -43,10 +43,10 @@ class SPACEWAR_API USpecialObjectDataAsset : public UDataAsset
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "MyProject|MyAssetLibrary", meta = (WorldContext = "WorldContextObject", DisplayName = "Spawn Special object (Async)"))
-	static bool AsyncSpawnActor(UObject* WorldContextObject, TAssetSubclassOf<ASpecialWeaponObjectBase> AssetPtr, FTransform SpawnTransform, APawn* Owner, const FAsyncSpecialSpawnActor& Callback);
+	static bool AsyncSpawnActor(UObject* WorldContextObject, TAssetSubclassOf<ASpecialWeaponObjectBase> AssetPtr, FTransform SpawnTransform, class AMatchPlayerControllerBase* OwnerController, const FAsyncSpecialSpawnActor& Callback);
 
 private:
 
 	/** Called when asset loading for actor spawn is finished */
-	static void OnAsyncSpawnActorComplete(UObject* WorldContextObject, FStringAssetReference Reference, FTransform SpawnTransform, APawn* Owner, FAsyncSpecialSpawnActor Callback);
+	static void OnAsyncSpawnActorComplete(UObject* WorldContextObject, FStringAssetReference Reference, FTransform SpawnTransform, class AMatchPlayerControllerBase* OwnerController, FAsyncSpecialSpawnActor Callback);
 };
