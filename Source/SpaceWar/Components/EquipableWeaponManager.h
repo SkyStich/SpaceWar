@@ -10,14 +10,15 @@
 
 #include "EquipableWeaponManager.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCurrentWeaponChanged, URangeWeaponObjectBase*, NewCurrentWeapon);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCurrentWeaponChanged, UBaseWeaponObject*, NewCurrentWeapon);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWeaponSelect, bool, NewState);
 
 UENUM(BlueprintType)
 enum class EWeaponType : uint8
 {
 	FirstWeapon,
-	SecondWeapon
+	SecondWeapon,
+	SpecialWeapon
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -31,7 +32,7 @@ class SPACEWAR_API UEquipableWeaponManager : public UActorComponent
 	UFUNCTION()
 	void OnRep_WeaponSelect();
 	
-	void AddWeaponToStorage(EWeaponType Key, URangeWeaponObjectBase* Value);
+	void AddWeaponToStorage(EWeaponType Key, UBaseWeaponObject* Value);
 
 	void SelectWeapon(EWeaponType NewType);
 	void FinishWeaponSelect();
@@ -46,14 +47,14 @@ class SPACEWAR_API UEquipableWeaponManager : public UActorComponent
 	void OnThrowUsed(bool bUsed);
 	
 	UFUNCTION()
-	void CurrentWeaponUnEquip(URangeWeaponObjectBase* NewWeapon);
+	void CurrentWeaponUnEquip(UBaseWeaponObject* NewWeapon);
 	
 public:	
 
 	UEquipableWeaponManager();
 
 	UFUNCTION(BlueprintPure, Category = "Weapons")
-	TMap<EWeaponType, URangeWeaponObjectBase*> GetWeapons() const { return Weapons; }
+	TMap<EWeaponType, UBaseWeaponObject*> GetWeapons() const { return Weapons; }
 
 	UFUNCTION(BlueprintAuthorityOnly, BlueprintCallable)
 	bool CreateThrow(const FName Name);
@@ -62,13 +63,13 @@ public:
 	URangeWeaponObjectBase* CreateWeaponByName(const FName& Name, EWeaponType Type);
 
 	UFUNCTION(BlueprintCallable, Category = "WeaponManager|Server")
-	void SetCurrentWeapon(URangeWeaponObjectBase* NewWeapon);
+	void SetCurrentWeapon(UBaseWeaponObject* NewWeapon);
 
 	UFUNCTION(BlueprintCallable, Category = "WeaponManager|Button")
 	void OwnerWeaponSelect(EWeaponType NewType);
 
 	UFUNCTION(BlueprintPure, Category = "Weapons|Getting")
-	URangeWeaponObjectBase* GetCurrentWeapon() const { return CurrentWeapon; } 
+	UBaseWeaponObject* GetCurrentWeapon() const { return CurrentWeapon; } 
 	
 	UFUNCTION(BlueprintPure, Category = "Weapons|Getting")
 	UThrowWeaponBase* GetThrow() const { return ThrowWeaponBase; }
@@ -92,13 +93,13 @@ private:
 	UWeaponDataAsset* WeaponDataAsset;
 
 	UPROPERTY(Replicated)
-	TMap<EWeaponType, URangeWeaponObjectBase*> Weapons;
+	TMap<EWeaponType, UBaseWeaponObject*> Weapons;
 
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentWeapon)
-	URangeWeaponObjectBase* CurrentWeapon;
+	UBaseWeaponObject* CurrentWeapon;
 
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentWeapon)
-	URangeWeaponObjectBase* OldWeapon;
+	UBaseWeaponObject* OldWeapon;
 	
 	UPROPERTY(ReplicatedUsing = OnRep_ThrowWeapon)
 	class UThrowWeaponBase* ThrowWeaponBase;

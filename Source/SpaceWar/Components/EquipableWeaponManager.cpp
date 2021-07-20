@@ -58,12 +58,12 @@ URangeWeaponObjectBase* UEquipableWeaponManager::CreateWeaponByName(const FName&
 	return TempWeapon;
 }
 
-void UEquipableWeaponManager::AddWeaponToStorage(EWeaponType Key, URangeWeaponObjectBase* Value)
+void UEquipableWeaponManager::AddWeaponToStorage(EWeaponType Key, UBaseWeaponObject* Value)
 {
 	Weapons.Add(Key, Value);
 }
 
-void UEquipableWeaponManager::SetCurrentWeapon(URangeWeaponObjectBase* NewWeapon)
+void UEquipableWeaponManager::SetCurrentWeapon(UBaseWeaponObject* NewWeapon)
 {
 	CurrentWeapon = NewWeapon;
 	OnRep_CurrentWeapon();
@@ -91,15 +91,15 @@ void UEquipableWeaponManager::SelectWeapon(EWeaponType NewType)
 		OnRep_WeaponSelect();
 		FTimerDelegate TimerDel;
 		TimerDel.BindUObject(this, &UEquipableWeaponManager::CurrentWeaponUnEquip, NewWeapon);
-		GetWorld()->GetTimerManager().SetTimer(SelectWeaponHandle, TimerDel, CurrentWeapon->GetWeaponData().SelectWeaponTime, false);
+		GetWorld()->GetTimerManager().SetTimer(SelectWeaponHandle, TimerDel, CurrentWeapon->GetSelectTime(), false);
 	}
 }
 
-void UEquipableWeaponManager::CurrentWeaponUnEquip(URangeWeaponObjectBase* NewWeapon)
+void UEquipableWeaponManager::CurrentWeaponUnEquip(UBaseWeaponObject* NewWeapon)
 {
 	GetWorld()->GetTimerManager().ClearTimer(SelectWeaponHandle);
 	SetCurrentWeapon(NewWeapon);
-	GetWorld()->GetTimerManager().SetTimer(SelectWeaponHandle, this, &UEquipableWeaponManager::FinishWeaponSelect, NewWeapon->GetWeaponData().SelectWeaponTime, false);
+	GetWorld()->GetTimerManager().SetTimer(SelectWeaponHandle, this, &UEquipableWeaponManager::FinishWeaponSelect, NewWeapon->GetSelectTime(), false);
 }
 
 void UEquipableWeaponManager::FinishWeaponSelect()
@@ -137,7 +137,7 @@ bool UEquipableWeaponManager::CreateThrow(const FName Name)
 
 void UEquipableWeaponManager::OnThrowUsed(bool bUsed)
 {
-	CurrentWeapon->ClearReload();
+	
 }
 
 void UEquipableWeaponManager::OnRep_ThrowWeapon()

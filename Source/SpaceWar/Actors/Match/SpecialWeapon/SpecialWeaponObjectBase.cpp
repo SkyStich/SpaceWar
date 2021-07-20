@@ -62,13 +62,12 @@ void ASpecialWeaponObjectBase::BeginPlay()
 
 	if(GetLocalRole() == ROLE_Authority)
 	{
-		OwnerController = GetInstigator()->GetController();
 		bObjectConstruct = true;
 		
 		if(!GetInstigator()->IsLocallyControlled())
 		{
 			FTimerHandle TimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ASpecialWeaponObjectBase::UpdateLocation, 0.2f, true);;
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ASpecialWeaponObjectBase::UpdateLocation, 0.2f, true);
 		}
 	}
 }
@@ -76,8 +75,6 @@ void ASpecialWeaponObjectBase::BeginPlay()
 void ASpecialWeaponObjectBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("Tick"), true, true, FColor::Blue, 0.f);
 
 	if(bObjectConstruct)
 	{
