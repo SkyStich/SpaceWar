@@ -65,6 +65,8 @@ void UEquipableWeaponManager::AddWeaponToStorage(EWeaponType Key, UBaseWeaponObj
 
 void UEquipableWeaponManager::SetCurrentWeapon(UBaseWeaponObject* NewWeapon)
 {
+	if(!NewWeapon) return;
+	
 	CurrentWeapon = NewWeapon;
 	OnRep_CurrentWeapon();
 }
@@ -77,7 +79,6 @@ void UEquipableWeaponManager::OnRep_CurrentWeapon()
 void UEquipableWeaponManager::OnRep_WeaponSelect()
 {
 	OnWeaponSelect.Broadcast(bWeaponSelect);
-	//CurrentWeapon->OnWeaponUsed.AddDynamic(this, &UEquipableWeaponManager::Test);
 }
 
 void UEquipableWeaponManager::SelectWeapon(EWeaponType NewType)
@@ -148,3 +149,20 @@ void UEquipableWeaponManager::OnRep_ThrowWeapon()
 	}
 }
 
+void UEquipableWeaponManager::WeaponReplacement(EWeaponType NewType, const FName& Id)
+{
+	auto const OldPlayerWeapon = Weapons.FindRef(NewType);
+
+	for(const auto& ByArray : Weapons)
+	{
+		if(ByArray.Value->GetWeaponName() == Id) return;
+	}
+
+	auto const TempWeapon = WeaponDataAsset->CreateWeaponObject(Id, GetWorld(), GetOwner());
+
+	if(!TempWeapon || !OldPlayerWeapon) return;
+	
+	if(OldPlayerWeapon == CurrentWeapon) CurrentWeapon = TempWeapon;
+	Weapons.Remove(NewType);
+	OldPlayerWeapon->BeginDestroy();
+}

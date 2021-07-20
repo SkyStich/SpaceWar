@@ -8,7 +8,7 @@
 
 UBaseArmorObject* UArmorDataAsset::SyncCreateArmorObject(UObject* WorldContext, FArmorData Data, ASpaceWarCharacter* Outer)
 {
-	if(!Data.ArmorClass.IsValid())
+	if(Data.ArmorClass.IsNull())
 	{
 		FString const InstigatorName = WorldContext ? WorldContext->GetFullName() : TEXT("Uncknown");
 		UE_LOG(LogAssetData, Error, TEXT("UArmorDataAsset::SyncCreateArmorObject -- Asset ptr is null: %s"), *InstigatorName);

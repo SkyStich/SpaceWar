@@ -20,6 +20,9 @@ ABaseMatchHUD::ABaseMatchHUD()
 
 	ConstructorHelpers::FClassFinder<UMatchChatWidgetBase>ChatWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/Chat/W_MatchChat"));
 	if(ChatWidgetFinder.Succeeded()) ChatWidgetClass = ChatWidgetFinder.Class;
+
+	ConstructorHelpers::FClassFinder<UAmmunitionWidgetBase>AmmunitionWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/AmmunitionState/W_AmmuniitonGrid"));
+	if(AmmunitionWidgetFinder.Succeeded()) AmmunitionWidgetClass = AmmunitionWidgetFinder.Class;
 }
 
 void ABaseMatchHUD::BeginPlay()
@@ -125,7 +128,6 @@ void ABaseMatchHUD::HiddenTabMenu()
 {
 	TabMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 }
-
 
 void ABaseMatchHUD::CreateSpecialWidget()
 {

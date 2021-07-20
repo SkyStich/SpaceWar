@@ -70,7 +70,7 @@ public:
 	FORCEINLINE UEquipableWeaponManager* GetWeaponManager() const { return WeaponManager; }
 	
 	UFUNCTION(BlueprintCallable, Category = "Character|Getting")
-	USkeletalMeshComponent* GetWeaponMesh() const { return WeaponMesh; }
+	USkeletalMeshComponent* GetWeaponMesh() const { return WeaponMesh; } 
 	
 	UFUNCTION(BlueprintPure, Category = "Character|Getting")
 	FORCEINLINE UHealthComponent* GetHealthComponent() const { return HealthComponent; }
@@ -181,8 +181,8 @@ private:
 	bool bCanWeaponManipulation;
 
 	UPROPERTY(Replicated)
-	UBaseArmorObject* ArmorObject;;
-
+	UBaseArmorObject* ArmorObject;
+	
 	UPROPERTY(EditAnywhere)
 	UArmorDataAsset* ArmorDataAsset;
 	

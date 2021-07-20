@@ -70,7 +70,7 @@ void UBaseWeaponObject::OnRep_CharOwner()
 
 bool UBaseWeaponObject::IsAbleToUseWeapon()
 {
-	return !GetWorld()->GetTimerManager().IsTimerActive(UseWeaponHandle) && CharacterOwner->IsCanWeaponManipulation();
+	return !GetWorld()->GetTimerManager().IsTimerActive(UseWeaponHandle);
 }
 
 bool UBaseWeaponObject::UseWeapon()

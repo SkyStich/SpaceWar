@@ -67,6 +67,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "WeaponManager|Button")
 	void OwnerWeaponSelect(EWeaponType NewType);
+	
+	UFUNCTION(BlueprintCallable, Category = "WeaponManager|Weapon")
+	void WeaponReplacement(EWeaponType NewType, const FName& Id);
 
 	UFUNCTION(BlueprintPure, Category = "Weapons|Getting")
 	UBaseWeaponObject* GetCurrentWeapon() const { return CurrentWeapon; } 

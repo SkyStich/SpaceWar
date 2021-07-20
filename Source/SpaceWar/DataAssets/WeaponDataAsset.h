@@ -36,6 +36,9 @@ struct FBaseWeaponData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponCategory")
 	EWeaponCategory Category;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Description")
+	TAssetPtr<UTexture2D> Icon;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Base")
 	TAssetPtr<USkeletalMesh> ItemMesh;
 };
@@ -110,7 +113,7 @@ struct FEquipWeaponData : public FBaseWeaponData
 };
 
 
-UCLASS()
+UCLASS(BlueprintType)
 class SPACEWAR_API UWeaponDataAsset : public UDataAsset
 {
 	GENERATED_BODY()
@@ -123,6 +126,9 @@ public:
 	
 	URangeWeaponObjectBase* CreateWeaponObject(const FName& WeaponName, UObject* WorldContext, UObject* Outer);
 	UThrowWeaponBase* CreateThrowWeaponObject(const FName& WeaponName, UObject* WorldContext, UObject* Outer);
+
+	UFUNCTION(BlueprintCallable)
+	UTexture2D* GetIcon(TAssetPtr<UTexture2D> IconPtr);
 
 private:
 

@@ -93,7 +93,6 @@ void ASpaceWarCharacter::BeginPlay()
 
 	WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "WeaponPoint");
 	IsLocallyControlled() || GetNetMode() == NM_DedicatedServer ? GetMesh()->SetVisibility(false) : SkeletalArm->DestroyComponent();
-	UKismetSystemLibrary::PrintString(GetWorld(), FString::Printf(TEXT("Locally: %d"), IsLocallyControlled()));
 
 	HealthComponent->OnOwnerDead.AddDynamic(this, &ASpaceWarCharacter::CharDead);
 	StaminaComponent->OnStaminaUsed.AddDynamic(this, &ASpaceWarCharacter::OnStaminaUsedEvent);
@@ -424,4 +423,3 @@ void ASpaceWarCharacter::UpdateAmmo_Implementation()
 		}
 	}
 }
-
