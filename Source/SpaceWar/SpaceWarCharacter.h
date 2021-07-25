@@ -67,7 +67,9 @@ public:
 
 	FORCEINLINE USkeletalMeshComponent* GetLocalMesh() const;
 	FORCEINLINE float GetLookUpPitch() const { return LookUpPitch; }
-	FORCEINLINE UEquipableWeaponManager* GetWeaponManager() const { return WeaponManager; }
+
+	UFUNCTION(BlueprintPure)
+	UEquipableWeaponManager* GetWeaponManager() const { return WeaponManager; }
 	
 	UFUNCTION(BlueprintCallable, Category = "Character|Getting")
 	USkeletalMeshComponent* GetWeaponMesh() const { return WeaponMesh; } 

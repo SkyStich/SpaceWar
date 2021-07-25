@@ -7,7 +7,6 @@
 #include "../DataAssets/WeaponDataAsset.h"
 #include "SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.h"
 #include "SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.h"
-
 #include "EquipableWeaponManager.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCurrentWeaponChanged, UBaseWeaponObject*, NewCurrentWeapon);
@@ -16,9 +15,25 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWeaponSelect, bool, NewState);
 UENUM(BlueprintType)
 enum class EWeaponType : uint8
 {
+	Unknown,
 	FirstWeapon,
 	SecondWeapon,
 	SpecialWeapon
+};
+
+USTRUCT(BlueprintType)
+struct FWeapons
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly)
+	EWeaponType Key;
+
+	UPROPERTY(BlueprintReadOnly)
+	UBaseWeaponObject* Value;
+
+	FWeapons() : Key(EWeaponType::FirstWeapon), Value(nullptr) {}
+	FWeapons(EWeaponType NewKey, UBaseWeaponObject* NewValue) : Key(NewKey), Value(NewValue) {}
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -48,13 +63,17 @@ class SPACEWAR_API UEquipableWeaponManager : public UActorComponent
 	
 	UFUNCTION()
 	void CurrentWeaponUnEquip(UBaseWeaponObject* NewWeapon);
+
+	void AddToWeapons(EWeaponType Type, UBaseWeaponObject* Value);
+	void RemoveFromWeapons(EWeaponType Type);
+	UBaseWeaponObject* FindFromWeapon(EWeaponType Type);
 	
 public:	
 
 	UEquipableWeaponManager();
 
 	UFUNCTION(BlueprintPure, Category = "Weapons")
-	TMap<EWeaponType, UBaseWeaponObject*> GetWeapons() const { return Weapons; }
+	TArray<FWeapons> GetWeapons() const { return Weapons; }
 
 	UFUNCTION(BlueprintAuthorityOnly, BlueprintCallable)
 	bool CreateThrow(const FName Name);
@@ -82,6 +101,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Weapons|Getting")
 	bool GetThrowUsed() const { return ThrowWeaponBase->GetWeaponUsed(); }
+
+	UFUNCTION(BlueprintCallable, Server, Unreliable, Category = "WeaponManager|Weapon")
+	void Server_ReplacementWeapon(EWeaponType Key, const FName& Id);
 	
 protected:
 
@@ -96,7 +118,7 @@ private:
 	UWeaponDataAsset* WeaponDataAsset;
 
 	UPROPERTY(Replicated)
-	TMap<EWeaponType, UBaseWeaponObject*> Weapons;
+	TArray<FWeapons> Weapons;
 
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentWeapon)
 	UBaseWeaponObject* CurrentWeapon;

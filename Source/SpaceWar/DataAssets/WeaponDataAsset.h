@@ -129,6 +129,13 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	UTexture2D* GetIcon(TAssetPtr<UTexture2D> IconPtr);
+	
+	UFUNCTION(BlueprintPure, Category = "DataAsset")
+	TMap<FName, FEquipWeaponData> GetWeaponData() const { return EquipWeaponData; }
+	
+	UFUNCTION(BlueprintPure, Category = "DataAsset")
+	TMap<FName, FBaseThrowData> GetThrowData() const { return ThrowWeaponData; }
+	
 
 private:
 

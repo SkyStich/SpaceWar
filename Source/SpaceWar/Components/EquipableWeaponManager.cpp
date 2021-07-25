@@ -15,7 +15,6 @@ UEquipableWeaponManager::UEquipableWeaponManager()
 	SetIsReplicated(true);
 }
 
-
 // Called when the game starts
 void UEquipableWeaponManager::BeginPlay()
 {
@@ -31,6 +30,7 @@ bool UEquipableWeaponManager::ReplicateSubobjects(UActorChannel* Channel, FOutBu
 	TArray<UObject*> ReplicationArray;
 	if(CurrentWeapon) ReplicationArray.Add(CurrentWeapon);
 	if(ThrowWeaponBase) ReplicationArray.Add(ThrowWeaponBase);
+	for(const auto& ByArray : Weapons) if(ByArray.Value) ReplicationArray.Add(ByArray.Value);
 
 	ParentReturn = Channel->ReplicateSubobjectList(ReplicationArray, *Bunch, *RepFlags);
 	return ParentReturn;
@@ -54,13 +54,31 @@ URangeWeaponObjectBase* UEquipableWeaponManager::CreateWeaponByName(const FName&
 		return nullptr;
 	}
 	auto const TempWeapon = WeaponDataAsset->CreateWeaponObject(Name, GetWorld(), GetOwner());
+	if(!TempWeapon) return nullptr;
+	
 	AddWeaponToStorage(Type, TempWeapon);
 	return TempWeapon;
 }
 
+UBaseWeaponObject* UEquipableWeaponManager::FindFromWeapon(EWeaponType Type)
+{
+	auto const Finder = Weapons.FindByPredicate([&](FWeapons Param) -> bool { return Type == Param.Key; });
+	return Finder ? Finder->Value : nullptr; ;
+}
+
+void UEquipableWeaponManager::AddToWeapons(EWeaponType Type, UBaseWeaponObject* Value)
+{
+	Weapons.Add(FWeapons(Type, Value));
+}
+
+void UEquipableWeaponManager::RemoveFromWeapons(EWeaponType Type)
+{
+	Weapons.RemoveAll([&](FWeapons& Weapon) -> bool { return Weapon.Key == Type; });
+}
+
 void UEquipableWeaponManager::AddWeaponToStorage(EWeaponType Key, UBaseWeaponObject* Value)
 {
-	Weapons.Add(Key, Value);
+	AddToWeapons(Key, Value);
 }
 
 void UEquipableWeaponManager::SetCurrentWeapon(UBaseWeaponObject* NewWeapon)
@@ -80,10 +98,10 @@ void UEquipableWeaponManager::OnRep_WeaponSelect()
 {
 	OnWeaponSelect.Broadcast(bWeaponSelect);
 }
-
+ 
 void UEquipableWeaponManager::SelectWeapon(EWeaponType NewType)
 {
-	auto const NewWeapon = Weapons.FindRef(NewType);
+	auto const NewWeapon = FindFromWeapon(NewType);
 	if(!NewWeapon) return;
 
 	if(NewWeapon != CurrentWeapon)
@@ -149,9 +167,15 @@ void UEquipableWeaponManager::OnRep_ThrowWeapon()
 	}
 }
 
+void UEquipableWeaponManager::Server_ReplacementWeapon_Implementation(EWeaponType Key, const FName& Id)
+{
+	WeaponReplacement(Key, Id);
+}
+
 void UEquipableWeaponManager::WeaponReplacement(EWeaponType NewType, const FName& Id)
 {
-	auto const OldPlayerWeapon = Weapons.FindRef(NewType);
+	/** current weapon for replacement */
+	auto const OldPlayerWeapon = FindFromWeapon(NewType);
 
 	for(const auto& ByArray : Weapons)
 	{
@@ -161,8 +185,9 @@ void UEquipableWeaponManager::WeaponReplacement(EWeaponType NewType, const FName
 	auto const TempWeapon = WeaponDataAsset->CreateWeaponObject(Id, GetWorld(), GetOwner());
 
 	if(!TempWeapon || !OldPlayerWeapon) return;
-	
-	if(OldPlayerWeapon == CurrentWeapon) CurrentWeapon = TempWeapon;
-	Weapons.Remove(NewType);
-	OldPlayerWeapon->BeginDestroy();
+
+	RemoveFromWeapons(NewType);
+	AddToWeapons(NewType, TempWeapon);
+	if(OldPlayerWeapon == CurrentWeapon) SetCurrentWeapon(TempWeapon);
+	OldPlayerWeapon->ConditionalBeginDestroy();
 }

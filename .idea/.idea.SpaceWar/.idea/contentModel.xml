@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\Smurf\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Smurf\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_SpaceWar.-950981679.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Smurf\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_SpaceWar.412763367.00" t="ExcludeRecursive" />
     <e p="D:\Epic Games\UE_4.26\Engine\Config" t="Include">
       <e p="Android" t="Include">
         <e p="AndroidEngine.ini" t="Include" />
@@ -48828,7 +48828,7 @@
       <e p="UE4Editor.Target.cs" t="Include" />
       <e p="UE4Game.Target.cs" t="Include" />
     </e>
-    <e p="D:\Unreal\SpaceWar" t="IncludeFlat">
+    <e p="F:\UnrealEngineSSD\Projects\SpaceWar" t="IncludeFlat">
       <e p=".gitignore" t="Include" />
       <e p="Config" t="Include">
         <e p="DefaultEditor.ini" t="Include" />
@@ -48924,6 +48924,7 @@
           <e p="Enums" t="Include">
             <e p="PlayerTeamEnum.h" t="Include" />
             <e p="ReasonEndOfMatch.h" t="Include" />
+            <e p="SolderClassCategory.h" t="Include" />
           </e>
           <e p="GameInstances" t="Include">
             <e p="BaseGameInstance.cpp" t="Include" />
@@ -48981,7 +48982,6 @@
             <e p="MatchChatInterface.h" t="Include" />
             <e p="PlayerControllerInterface.h" t="Include" />
             <e p="PreparationWidgetInterface.h" t="Include" />
-            <e p="UpdateAmmoInterface.cpp" t="Include" />
             <e p="UpdateAmmoInterface.h" t="Include" />
             <e p="UpdateSpecialPointsInterface.h" t="Include" />
           </e>
@@ -49086,6 +49086,8 @@
               <e p="ErrorMessageWidget.h" t="Include" />
             </e>
             <e p="Match" t="Include">
+              <e p="AmmunitionRangeWeaponSlotBase.cpp" t="Include" />
+              <e p="AmmunitionRangeWeaponSlotBase.h" t="Include" />
               <e p="AmmunitionWidgetBase.cpp" t="Include" />
               <e p="AmmunitionWidgetBase.h" t="Include" />
               <e p="CharacterMainWidget.cpp" t="Include" />
@@ -49094,6 +49096,8 @@
               <e p="EndGameWidgetBase.h" t="Include" />
               <e p="MatchChatWidgetBase.cpp" t="Include" />
               <e p="MatchChatWidgetBase.h" t="Include" />
+              <e p="RangeWeaponFinderBase.cpp" t="Include" />
+              <e p="RangeWeaponFinderBase.h" t="Include" />
             </e>
           </e>
         </e>

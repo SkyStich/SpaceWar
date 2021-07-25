@@ -155,6 +155,7 @@ bool ASpecialWeaponObjectBase::InteractionObject_Implementation(ASpaceWarCharact
 		OnRep_ObjectConstruct();
 		
 		PlaceSucceeded();
+		return false;
 	}
 	return true;
 }

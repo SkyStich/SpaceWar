@@ -24,7 +24,7 @@ USpecialObjectManagerComponent::USpecialObjectManagerComponent()
 		SpecialDataTable = SpecialTable.Object;
 	}
 
-	CurrentSpecialPoints = 5000;
+	CurrentSpecialPoints = 50000;
 }
 
 

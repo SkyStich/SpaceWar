@@ -133,6 +133,7 @@ void ABaseMatchHUD::CreateSpecialWidget()
 {
 	if(MatchWidgetData->SpecialShop)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Create!!!!!!!!"));
 		SpecialShopWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), MatchWidgetData->SpecialShop, GetOwningPlayerController());
 		SpecialShopWidget->AddToViewport();
 		SpecialShopWidget->SetVisibility(ESlateVisibility::Collapsed);

@@ -25,7 +25,7 @@ bool USpecialObjectDataAsset::AsyncSpawnActor(UObject* WorldContextObject, TAsse
 void USpecialObjectDataAsset::OnAsyncSpawnActorComplete(UObject* WorldContextObject, FStringAssetReference Reference, FTransform SpawnTransform, AMatchPlayerControllerBase* OwnerController, FAsyncSpecialSpawnActor Callback)
 {
 	ASpecialWeaponObjectBase* SpawnActor = nullptr;
-	if(!OwnerController || OwnerController->GetCharacter()) return;
+	if(!OwnerController || !OwnerController->GetCharacter()) return;
 
 	UClass* ActorClass = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), OwnerController->GetPawn(), *Reference.ToString()));
 	if(ActorClass == nullptr)

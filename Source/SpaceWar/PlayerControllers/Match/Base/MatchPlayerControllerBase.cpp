@@ -214,5 +214,10 @@ void AMatchPlayerControllerBase::PausePressed()
 
 void AMatchPlayerControllerBase::UseAmmunitionState_Implementation()
 {
-	
+	GetHUD<ABaseMatchHUD>()->CreateAmmunitionWidget();
+}
+
+void AMatchPlayerControllerBase::StopUseAmmunitionState()
+{
+	GetHUD<ABaseMatchHUD>()->RemoveAmmunitionWidget();
 }

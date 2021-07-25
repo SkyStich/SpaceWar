@@ -34,7 +34,11 @@ FBaseThrowData UWeaponDataAsset::GetThrowData(const FName& WeaponName) const
 
 FEquipWeaponData UWeaponDataAsset::GetEquipWeaponData(const FName& WeaponName) const
 {
-	return EquipWeaponData.FindRef(WeaponName);
+	for(const auto& ByArray : EquipWeaponData)
+	{
+		if(ByArray.Key == WeaponName) return ByArray.Value;
+	}
+	return FEquipWeaponData();
 }
 
 UThrowWeaponBase* UWeaponDataAsset::CreateThrowWeaponObject(const FName& WeaponName, UObject* WorldContext, UObject* Outer)
@@ -68,6 +72,8 @@ UThrowWeaponBase* UWeaponDataAsset::CreateThrowWeaponObject(const FName& WeaponN
 URangeWeaponObjectBase* UWeaponDataAsset::CreateWeaponObject(const FName& WeaponName, UObject* WorldContext, UObject* Outer)
 {
 	auto const TempData = GetEquipWeaponData(WeaponName);
+	if(!TempData.WeaponObject) return nullptr;
+	
 	auto const TempMesh = TempData.WeaponObject;
 	if(TempMesh.IsNull())
 	{

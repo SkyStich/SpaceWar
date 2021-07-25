@@ -85,6 +85,9 @@ public:
 	UFUNCTION(Client, Unreliable)
 	void UseAmmunitionState();
 
+	UFUNCTION(BlueprintCallable, Category = "HUD")
+	void StopUseAmmunitionState();
+
 protected:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;

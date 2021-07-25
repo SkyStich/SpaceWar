@@ -8,9 +8,7 @@
 
 bool AAmmunitionSpecialBase::InteractionObject_Implementation(ASpaceWarCharacter* Player)
 {
-	Super::InteractionObject_Implementation(Player);
-
-	if(bObjectConstruct) return false;
+	if(!Super::InteractionObject_Implementation(Player)) return false;
 	
 	auto const PS = Player->Controller->PlayerState;
 	if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(PS) != Team) return false;
