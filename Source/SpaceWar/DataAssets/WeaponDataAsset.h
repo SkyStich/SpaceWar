@@ -102,6 +102,10 @@ struct FEquipWeaponData : public FBaseWeaponData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	float MaxSpread;
 
+	/** with 0 to 10 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	int32 AccuracyInSight;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponClass")
 	TSoftClassPtr<URangeWeaponObjectBase>WeaponObject;
 

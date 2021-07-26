@@ -73,13 +73,7 @@ bool URangeWeaponObjectBase::UseWeapon()
 
 	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &URangeWeaponObjectBase::StopRateDelay, WeaponData.DelayBeforeUse, false);
 
-	FHitResult OutHit;
-	DropLineTrace(OutHit);
-
-	if(IsAuthority())
-	{
-		ApplyPointDamage(OutHit);
-	}
+	DropLineTrace();
 
 	PlayUseWeaponEffects();
 	
@@ -119,7 +113,7 @@ FVector URangeWeaponObjectBase::GetShootDirection()
 {
 	FVector const RotateAroundVector = FindRotateAround();
 	CurrentSpread += WeaponData.MaxSpread / WeaponData.MaxAmmoInWeapon;
-	float const TempSpread = bAccessoryUsed ? 0.f : CurrentSpread;
+	float const TempSpread = bAccessoryUsed ? ((10.f / FMath::Max(1, WeaponData.AccuracyInSight) - 1) * 0.5f) : CurrentSpread;
 	
 	/** Rotate trace with horizontal */
 	FVector const HorizontalRotate = FindRotateAround().RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Y));
@@ -130,11 +124,12 @@ FVector URangeWeaponObjectBase::GetShootDirection()
 	return VerticalRotate;
 }
 
-void URangeWeaponObjectBase::DropLineTrace(FHitResult& Hit)
+void URangeWeaponObjectBase::DropLineTrace()
 {
 	FVector const TraceStart = CharacterOwner->GetCurrentFireTrace();
 	FVector const TraceEnd = WeaponData.RangeOfUse * GetShootDirection() + TraceStart;
-	
+
+	FHitResult Hit;
                                                                                                   
 	FCollisionQueryParams QueryParams;                                                                
 	QueryParams.AddIgnoredActor(CharacterOwner);                                                      
@@ -142,7 +137,12 @@ void URangeWeaponObjectBase::DropLineTrace(FHitResult& Hit)
 	GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECC_GameTraceChannel4, QueryParams);
                                                                                                   
 	DrawDebugLine(GetWorld(), Hit.TraceStart, Hit.TraceEnd, IsAuthority() ? FColor::Purple : FColor::Green, false, 0.5f);
-	DrawDebugSphere(GetWorld(), Hit.ImpactPoint, 14.f, 6,FColor::Yellow, false, 0.5f);                                                      	   
+	DrawDebugSphere(GetWorld(), Hit.ImpactPoint, 14.f, 6,FColor::Yellow, false, 0.5f);
+
+	if(IsAuthority())
+	{
+		ApplyPointDamage(Hit);
+	}
 }
 
 void URangeWeaponObjectBase::ApplyPointDamage(const FHitResult& Hit)

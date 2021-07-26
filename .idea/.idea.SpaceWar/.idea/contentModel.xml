@@ -48998,6 +48998,8 @@
                 <e p="BaseWeaponObject.h" t="Include" />
                 <e p="RangeWeaponObjectBase.cpp" t="Include" />
                 <e p="RangeWeaponObjectBase.h" t="Include" />
+                <e p="ShotgunWeaponObjectBase.cpp" t="Include" />
+                <e p="ShotgunWeaponObjectBase.h" t="Include" />
               </e>
             </e>
             <e p="WeaponsThrow" t="Include">

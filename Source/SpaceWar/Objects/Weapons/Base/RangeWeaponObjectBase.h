@@ -14,8 +14,7 @@ UCLASS(Blueprintable)
 class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject, public ICurrentCharacterObjectInterface
 {
 	GENERATED_BODY()
-
-	void DropLineTrace(FHitResult& OutHit);
+	
 	void ApplyPointDamage(const FHitResult& Hit);
 	FVector GetShootDirection();
 
@@ -82,6 +81,7 @@ protected:
 	virtual bool UseWeapon() override;
 	virtual bool IsAbleToUseWeapon() override;
 	virtual bool IsAbleToReload();
+	virtual void DropLineTrace();
 
 	virtual void OnWeaponSelectingEvent(bool NewState) override;
 
