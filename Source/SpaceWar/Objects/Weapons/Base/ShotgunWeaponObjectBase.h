@@ -17,5 +17,4 @@ class SPACEWAR_API UShotgunWeaponObjectBase : public URangeWeaponObjectBase
 protected:
 
 	virtual void DropLineTrace() override;
-	
 };

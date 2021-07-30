@@ -24,12 +24,15 @@ struct FBaseWeaponData
 {
 	GENERATED_BODY()
 
+	/** display weapon name. Not Id */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Description")
 	FName WeaponName;
-	
+
+	/** delay before weapon use */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	float DelayBeforeUse;
-	
+
+	/** time for select weapon */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	float SelectWeaponTime;
 	
@@ -48,6 +51,7 @@ struct FBaseThrowData : public FBaseWeaponData
 {
 	GENERATED_BODY()
 
+	/** Exp range  */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	float ExpRange;
 
