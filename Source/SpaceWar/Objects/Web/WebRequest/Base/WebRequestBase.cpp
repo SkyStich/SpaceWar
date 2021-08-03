@@ -37,28 +37,33 @@ bool UWebRequestBase::CallWebScript(const FString& ScriptURL, TSharedPtr<FJsonOb
 
 void UWebRequestBase::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessFull)
 {
-	if(WasSuccessFull)
+	if(!WasSuccessFull)
 	{
-		TSharedPtr<FJsonObject>JsonObject;
-		TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
-
-		UE_LOG(LogWebRequest, Warning, TEXT("--OnResponseReceived Respose json: \t%s"), *Response->GetContentAsString());
-
-		if(FJsonSerializer::Deserialize(Reader, JsonObject))
-		{
-			CallJsonResponse(JsonObject);
-		}
-		else
-		{
-			UE_LOG(LogWebRequest, Error, TEXT("Deserialize complete with fail --OnResponseReceived"));
-			CallJsonFail();
-		}
+		CallJsonFail();
 		return;
 	}
-	CallJsonFail();
+
+	TSharedPtr<FJsonObject>JsonObject;
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
+
+	UE_LOG(LogWebRequest, Warning, TEXT("--OnResponseReceived Respose json: \t%s"), *Response->GetContentAsString());
+
+	if(FJsonSerializer::Deserialize(Reader, JsonObject))
+	{
+		UE_LOG(LogWebRequest, Warning, TEXT("------------------------------------------------------"));
+		UE_LOG(LogWebRequest, Warning, TEXT("Deserialize complete  --OnResponseReceived"));
+		UE_LOG(LogWebRequest, Warning, TEXT("------------------------------------------------------"));
+		
+		CallJsonResponse(JsonObject);
+	}
+	else
+	{
+		UE_LOG(LogWebRequest, Error, TEXT("Deserialize complete with fail --OnResponseReceived"));
+		CallJsonFail();
+	}
 }
 
-void UWebRequestBase::InitRequest(TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request, EWebRequestType WebRequestType, const FString& ScriptURL)
+void UWebRequestBase::InitRequest(TSharedRef<IHttpRequest, ESPMode::ThreadSafe>& Request, EWebRequestType WebRequestType, const FString& ScriptURL)
 {
 	/** Bind on request complete */
 	Request->OnProcessRequestComplete().BindUObject(this, &UWebRequestBase::OnResponseReceived);
@@ -66,7 +71,7 @@ void UWebRequestBase::InitRequest(TSharedRef<IHttpRequest, ESPMode::ThreadSafe> 
 	/** set address url */
 	Request->SetURL(ScriptURL);
 	
-	Request->SetVerb(WebRequestType == EWebRequestType::Post ? "Post" : "Get");
+	Request->SetVerb(WebRequestType == EWebRequestType::Post ? "post" : "get");
 	Request->SetHeader(TEXT("User-Agent"), "X-UnrealEngine-Agent");
 	Request->SetHeader("Content-Type", TEXT("application/Json"));
 }

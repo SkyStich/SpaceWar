@@ -18,14 +18,18 @@ enum class EWebRequestType : uint8
 	Get
 };
 
-UCLASS()
+UCLASS(BlueprintType)
 class SPACEWAR_API UWebRequestBase : public UObject
 {
 	GENERATED_BODY()
 
 private:
 
-	void InitRequest(TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request, EWebRequestType WebRequestType, const FString& ScriptURL);
+	void InitRequest(TSharedRef<IHttpRequest, ESPMode::ThreadSafe>& Request, EWebRequestType WebRequestType, const FString& ScriptURL);
+
+public:
+
+	virtual void CollectRequest(const FString& ScriptURL) {}
 
 protected:
 
