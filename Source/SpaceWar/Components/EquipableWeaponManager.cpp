@@ -63,7 +63,7 @@ URangeWeaponObjectBase* UEquipableWeaponManager::CreateWeaponByName(const FName&
 UBaseWeaponObject* UEquipableWeaponManager::FindFromWeapon(EWeaponType Type)
 {
 	auto const Finder = Weapons.FindByPredicate([&](FWeapons Param) -> bool { return Type == Param.Key; });
-	return Finder ? Finder->Value : nullptr; ;
+	return Finder ? Finder->Value : nullptr;
 }
 
 void UEquipableWeaponManager::AddToWeapons(EWeaponType Type, UBaseWeaponObject* Value)
