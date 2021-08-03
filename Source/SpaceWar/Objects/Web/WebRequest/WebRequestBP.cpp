@@ -3,18 +3,21 @@
 
 #include "WebRequestBP.h"
 
+DEFINE_LOG_CATEGORY(LogWebRequestBP);
+
 void UWebRequestBP::CallJsonResponse(const TSharedPtr<FJsonObject>& JsonResponse)
 {
 	FString ResultString = "";
 	double ResultFloat = 0.f;
 
 	/** обработка входящего ответа */
-	if(!JsonResponse->HasField("ResultText")) return;
-
+	if(!JsonResponse->HasField("ResultString")) return;
 	ResultFloat = JsonResponse->GetNumberField("ResultFloat");
 	ResultString = JsonResponse->GetStringField("ResultString");
 
-	UE_LOG(LogTemp, Warning, TEXT("Web response: string = '%s', number = '%f'"), *ResultString, ResultFloat);
+	UE_LOG(LogWebRequestBP, Warning, TEXT("---------------------------------------------------------------------------"));
+	UE_LOG(LogWebRequestBP, Warning, TEXT("Web response: string = '%s', number = '%f'"), *ResultString, ResultFloat);
+	UE_LOG(LogWebRequestBP, Warning, TEXT("---------------------------------------------------------------------------"));
 
 	OnResultTest.Broadcast(ResultString, ResultFloat);
 }

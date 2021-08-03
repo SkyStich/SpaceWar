@@ -8,6 +8,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FResultTest, const FString&, StringValue, float, FloatValue);
 
+DECLARE_LOG_CATEGORY_EXTERN(LogWebRequestBP, Log, All);
+
 /** struct json of requests with float(int) value */
 USTRUCT()
 struct FKeyNumber
@@ -34,7 +36,7 @@ struct FKeyString
 	FKeyString(const FString& NewKey, const FString& NewValue) : Key(NewKey), Value(NewValue) {}
 };
 
-UCLASS(Blueprintable)
+UCLASS(BlueprintType)
 class SPACEWAR_API UWebRequestBP : public UWebRequestBase
 {
 	GENERATED_BODY()
@@ -52,7 +54,9 @@ public:
 
 protected:
 
+	/** describes the creation of a request to the server */
 	virtual void CallJsonResponse(const TSharedPtr<FJsonObject>& JsonResponse) override;
+	
 	virtual void CallJsonFail() override;
 
 public:
