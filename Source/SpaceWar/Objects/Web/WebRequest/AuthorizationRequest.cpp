@@ -31,6 +31,7 @@ void UAuthorizationRequest::CollectRequest(const FString& ScriptURL)
 		return;
 	}
 	TSharedPtr<FJsonObject> JsonObject = CreateJsonRequest();
-	JsonObject->SetStringField(AuthorizationKey.GetFieldName(), AuthorizationKey.GetValue());
+	JsonObject->SetStringField("Login", AuthorizationKey.GetLogin());
+	JsonObject->SetStringField("Password", AuthorizationKey.GetPass());
 	CallWebScript(ScriptURL, JsonObject);
 }

@@ -4,30 +4,29 @@
 
 #include "CoreMinimal.h"
 #include "MainMenuPlayerControllerBase.h"
+#include "SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h"
+#include "SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h"
 #include "AuthorizationPlayerController.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAuthorizationAttempt, bool, bResult);
-
-UCLASS()
+UCLASS(Blueprintable)
 class SPACEWAR_API AAuthorizationPlayerController : public AMainMenuPlayerControllerBase
 {
 	GENERATED_BODY()
+
+public:
+
+	AAuthorizationPlayerController();
 	
-	void OnAuthorizationEvent(bool IsSucceeded);
+	FORCEINLINE UClientServerTransfer* GetClientServerTransfer() const { return ClientServerTransfer; }
+	FORCEINLINE UDataBaseTransfer* GetDataBaseTransfer() const { return DataBaseTransfer; }
 
-	UFUNCTION(Client, Reliable)
-	void Client_AuthorizationAttempt(bool bResult);
+	virtual void BeginPlay() override;
 
-public:
+private:
 
-	UFUNCTION(BlueprintCallable, Category = "Authorization")
-    void AuthorizationPlayer(const FString& Log, const FString& Pass);
+	UPROPERTY()
+	UClientServerTransfer* ClientServerTransfer;
 
-	UFUNCTION(BlueprintCallable, Category = "Authorization")
-    void Register(const FString& Log, const FString& Pass, const FString RepeatPass);
-
-public:
-
-	UPROPERTY(BlueprintAssignable)
-	FAuthorizationAttempt OnAuthorizationAttempt;
+	UPROPERTY()
+	UDataBaseTransfer* DataBaseTransfer; 
 };

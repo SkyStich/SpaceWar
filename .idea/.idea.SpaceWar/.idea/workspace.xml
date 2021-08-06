@@ -60,30 +60,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Authorization/AuthorizationMap.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Login.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Policy.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Register.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainMenuPlayerControllerBase.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainMenuPlayerControllerBase.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Structs/UserInfo.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Authorization/AuthorizationWidgetBase.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Authorization/AuthorizationWidgetBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/contentModel.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/indexLayout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/riderModule.iml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/MainMenu/Authorization/AuthorizationGMTest.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/Match/BP_CaptureFlagGameMode.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/Match/BP_CaptureGameHoldMode.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Menu/MainMenuGameMode.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Menu/MainMenuGameMode.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Structs/RegisterUsersCallBack.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Structs/ServerInfo.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/Base/WebRequestBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/Base/WebRequestBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/Base/WebRequestBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/Base/WebRequestBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestBP.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestBP.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestBP.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestBP.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/BP_CaptureFlagGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/BP_CaptureFlagGameMode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/BP_CaptureGameHoldMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/BP_CaptureGameHoldMode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Authorization/AuthorizationMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Authorization/AuthorizationMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Login.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Login.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Policy.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Policy.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Register.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Register.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainMenuPlayerControllerBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainMenuPlayerControllerBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainMenuPlayerControllerBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainMenuPlayerControllerBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Structs/UserInfo.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Structs/UserInfo.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,16 +110,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/SpecialObjectManagerComponent.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/SpecialObjectDataAsset.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Pawns/Match/SpecialWeapon/AmmunitionSpecialBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Interfaces/UpdateAmmoInterface.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/ArmorDataAsset.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.cpp" />
@@ -147,17 +140,27 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Authorization/AuthorizationWidgetBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Authorization/AuthorizationWidgetBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/UserInfo.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestBP.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestBP.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/Base/WebRequestBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainMenuPlayerControllerBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/Base/WebRequestBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Menu/MainMenuGameMode.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/RegisterInfo.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/ServerInfo.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainMenuPlayerControllerBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainMenuPlayerControllerBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/UserInfo.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/RegisterUsersCallBack.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34291,6 +34294,14 @@
       <workItem from="1628001322433" duration="2553000" />
       <workItem from="1628007743041" duration="1629000" />
       <workItem from="1628010257572" duration="7168000" />
+      <workItem from="1628031400450" duration="2742000" />
+      <workItem from="1628084245809" duration="14675000" />
+      <workItem from="1628114378565" duration="1467000" />
+      <workItem from="1628120226668" duration="1109000" />
+      <workItem from="1628157155195" duration="6928000" />
+      <workItem from="1628177381779" duration="7126000" />
+      <workItem from="1628194570276" duration="6301000" />
+      <workItem from="1628245735102" duration="3767000" />
     </task>
     <servers />
   </component>

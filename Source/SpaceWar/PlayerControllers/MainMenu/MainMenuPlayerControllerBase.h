@@ -12,4 +12,6 @@ class SPACEWAR_API AMainMenuPlayerControllerBase : public APlayerController
 {
 	GENERATED_BODY()
 
+public:
+	AMainMenuPlayerControllerBase();
 };

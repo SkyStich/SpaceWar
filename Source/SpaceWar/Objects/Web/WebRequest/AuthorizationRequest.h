@@ -16,17 +16,17 @@ struct FKeyAuthorization
 {
 	GENERATED_BODY()
 
-	bool IsEmpty() const { return FieldName.IsEmpty() || Value.IsEmpty(); }
-	FKeyAuthorization() : FieldName(""), Value("") {}
-	FKeyAuthorization(const FString& NewKey, const FString& NewValue) : FieldName(NewKey), Value(NewValue) {}
+	bool IsEmpty() const { return Login.IsEmpty() || Pass.IsEmpty(); }
+	FKeyAuthorization() : Login(""), Pass("") {}
+	FKeyAuthorization(const FString& NewKey, const FString& NewValue) : Login(NewKey), Pass(NewValue) {}
 
-	FString GetFieldName() const { return FieldName; }
-	FString GetValue() const { return Value; }
+	FString GetLogin() const { return Login; }
+	FString GetPass() const { return Pass; }
 
 private:
 
-	FString FieldName; //Login
-	FString Value; //Pass
+	FString Login; //Login
+	FString Pass; //Pass
 };
 
 UCLASS()

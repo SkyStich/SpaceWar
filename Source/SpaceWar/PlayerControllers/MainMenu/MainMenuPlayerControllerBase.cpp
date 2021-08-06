@@ -3,3 +3,10 @@
 
 #include "MainMenuPlayerControllerBase.h"
 
+AMainMenuPlayerControllerBase::AMainMenuPlayerControllerBase()
+{
+	PrimaryActorTick.bCanEverTick = false;
+
+	bReplicates = true;
+	NetUpdateFrequency = 1.f;
+}

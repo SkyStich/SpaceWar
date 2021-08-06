@@ -21,3 +21,25 @@ private:
 	FString Login;
 	FString Password;
 };
+
+USTRUCT(BlueprintType)
+struct FRegisterInfo
+{
+	GENERATED_BODY()
+
+	FRegisterInfo() : Login(""), PlayerEmail(""), Password(""), RepeatPass("") {}
+	FRegisterInfo(const FString& Log, const FString& Email, const FString& Pass, const FString& RepeatPass) : Login(Log), PlayerEmail(Email), Password(Pass), RepeatPass(RepeatPass) {}
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Login;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString PlayerEmail;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Password;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString RepeatPass;
+};
+
