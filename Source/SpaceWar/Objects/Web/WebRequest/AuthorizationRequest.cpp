@@ -26,7 +26,7 @@ void UAuthorizationRequest::CallJsonResponse(const TSharedPtr<FJsonObject>& Json
 
 void UAuthorizationRequest::CallJsonFail()
 {
-	
+	AuthorizationUserCallBack.ExecuteIfBound(false, "Authorization failed");
 }
 
 void UAuthorizationRequest::CollectRequest(const FString& ScriptURL)
