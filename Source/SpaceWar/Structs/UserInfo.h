@@ -5,20 +5,15 @@
 #include "CoreMinimal.h"
 #include "UserInfo.generated.h"
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FUserInfo
 {
 	GENERATED_BODY()
 
-	FUserInfo() : Login(""), Password("") {}
-	FUserInfo(const FString& Log, const FString& Pass) : Login(Log), Password(Pass) {}
-
-	FString GetPass() const { return Password; }
-	FString GetLogin() const { return Login; }
-
-private:
-
+	UPROPERTY(BlueprintReadWrite)
 	FString Login;
+
+	UPROPERTY(BlueprintReadWrite)
 	FString Password;
 };
 

@@ -19,3 +19,5 @@ struct FCallBackRequestRegisterUser
 	FDelegateRequestRegisterUserCallBack OnRequestRegisterUserCallBack;
 };
 
+
+

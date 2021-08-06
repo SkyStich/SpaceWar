@@ -17,8 +17,14 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 	UFUNCTION(Server, Reliable)
 	void Server_SendRegisterInfo(const FRegisterInfo& RegisterInfo);
 
+	UFUNCTION(Server, Reliable)
+	void Server_SendAuthorizationInfo(const FUserInfo& Data);
+
 	UFUNCTION()
 	void ResponseRegisterUserFromDataBase(bool bResult, const FString& ErrorMessage);
+
+	UFUNCTION()
+	void OnResponseAuthorizationUser(bool bResult, const FString& ErrorMessage);
 
 public:	
 
@@ -27,9 +33,16 @@ public:
 	/** send request on server */
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
 	void RequestRegisterUser(const FRegisterInfo& RegisterInfo, const FDelegateRequestRegisterUserCallBack& CallBack);
+
+	/** send request on server */
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
+	void RequestAuthorizationUser(const FUserInfo& Info, const FDelegateRequestRegisterUserCallBack& CallBack);
 	
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseRegisterUser(bool bResult, const FString& ErrorMessage);
+
+	UFUNCTION(Client, Reliable)
+	void Client_ResponseAuthorizationUser(bool bResult, const FString& ErrorMessage);
 
 protected:
 

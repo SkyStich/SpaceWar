@@ -5,6 +5,12 @@
 
 DEFINE_LOG_CATEGORY(LogWebAuthorizationRequest);
 
+void UAuthorizationRequest::AddAuthorizationValue(const FUserInfo& UserInfo, FDelegateRequestRegisterUserCallBack CallBack)
+{
+	AuthorizationKey = UserInfo;
+	AuthorizationUserCallBack = CallBack;
+}
+
 void UAuthorizationRequest::CallJsonResponse(const TSharedPtr<FJsonObject>& JsonResponse)
 {
 	bool Result = false;
@@ -15,7 +21,7 @@ void UAuthorizationRequest::CallJsonResponse(const TSharedPtr<FJsonObject>& Json
 		return;
 	}
 	Result = JsonResponse->GetBoolField("AuthorizationResult");
-	OnAuthorizationDelegate.Execute(Result);
+	AuthorizationUserCallBack.ExecuteIfBound(Result, JsonResponse->HasField("Error") ? JsonResponse->GetStringField("Error") : "");
 }
 
 void UAuthorizationRequest::CallJsonFail()
@@ -25,13 +31,8 @@ void UAuthorizationRequest::CallJsonFail()
 
 void UAuthorizationRequest::CollectRequest(const FString& ScriptURL)
 {
-	if(AuthorizationKey.IsEmpty())
-	{
-		UE_LOG(LogWebAuthorizationRequest, Error, TEXT("UAuthorizationRequest::CollectRequest --AuthorizationKey is empty."));
-		return;
-	}
 	TSharedPtr<FJsonObject> JsonObject = CreateJsonRequest();
-	JsonObject->SetStringField("Login", AuthorizationKey.GetLogin());
-	JsonObject->SetStringField("Password", AuthorizationKey.GetPass());
+	JsonObject->SetStringField("Login", AuthorizationKey.Login);
+	JsonObject->SetStringField("Password", AuthorizationKey.Password);
 	CallWebScript(ScriptURL, JsonObject);
 }

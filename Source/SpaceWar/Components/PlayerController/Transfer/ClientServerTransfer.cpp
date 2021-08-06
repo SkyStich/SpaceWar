@@ -48,7 +48,7 @@ void UClientServerTransfer::RequestRegisterUser(const FRegisterInfo& RegisterInf
 {
 	if(RegisterInfo.Password != RegisterInfo.RepeatPass)
 	{
-		CallBack.Execute(false, "Passwords don't match");
+		CallBack.ExecuteIfBound(false, "Passwords don't match");
 		return;
 	}
 
@@ -64,6 +64,39 @@ void UClientServerTransfer::RequestRegisterUser(const FRegisterInfo& RegisterInf
 
 void UClientServerTransfer::Client_ResponseRegisterUser_Implementation(bool bResult, const FString& ErrorMessage)
 {
+	CallBackRequestRegisterUser.OnRequestRegisterUserCallBack.Execute(bResult, ErrorMessage);
+}
+
+void UClientServerTransfer::Client_ResponseAuthorizationUser_Implementation(bool bResult, const FString& ErrorMessage)
+{
 	CallBackRequestRegisterUser.OnRequestRegisterUserCallBack.ExecuteIfBound(bResult, ErrorMessage);
+}
+
+void UClientServerTransfer::RequestAuthorizationUser(const FUserInfo& Info, const FDelegateRequestRegisterUserCallBack& CallBack)
+{
+	CallBackRequestRegisterUser.OnRequestRegisterUserCallBack = CallBack;
+	FUserInfo Data;
+	Data.Login = Info.Login;
+	Data.Password = FMD5::HashAnsiString(*Info.Password);
+	Server_SendAuthorizationInfo(Data);
+}
+
+void UClientServerTransfer::OnResponseAuthorizationUser(bool bResult, const FString& ErrorMessage)
+{
+	Client_ResponseAuthorizationUser(bResult, ErrorMessage);
+}
+
+void UClientServerTransfer::Server_SendAuthorizationInfo_Implementation(const FUserInfo& Data)
+{
+	FDelegateRequestRegisterUserCallBack AuthorizationCallBack;
+	AuthorizationCallBack.BindUFunction(this, "OnResponseAuthorizationUser");
+
+	UDataBaseTransfer* Transfer = GetOwner()->FindComponentByClass<UDataBaseTransfer>();
+	if(Transfer)
+	{
+		Transfer->AuthorizationUser(Data, AuthorizationCallBack);
+		return;
+	}
+	UE_LOG(LogTemp, Error, TEXT("UClientServerTransfer::Server_SendRegisterInfo_Implementation --Player controller not have component UDataBaseTransfer"))
 }
 

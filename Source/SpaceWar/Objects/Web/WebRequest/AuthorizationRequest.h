@@ -4,30 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Base/WebRequestBase.h"
+#include "SpaceWar/Structs/RegisterUsersCallBack.h"
+#include "SpaceWar/Structs/UserInfo.h"
+
 #include "AuthorizationRequest.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogWebAuthorizationRequest, Log, All);
-
-DECLARE_DELEGATE_OneParam(FAuthorizationDelegate, bool /** result authorization */);
-
-/** struct json of request on authorization */
-USTRUCT()
-struct FKeyAuthorization
-{
-	GENERATED_BODY()
-
-	bool IsEmpty() const { return Login.IsEmpty() || Pass.IsEmpty(); }
-	FKeyAuthorization() : Login(""), Pass("") {}
-	FKeyAuthorization(const FString& NewKey, const FString& NewValue) : Login(NewKey), Pass(NewValue) {}
-
-	FString GetLogin() const { return Login; }
-	FString GetPass() const { return Pass; }
-
-private:
-
-	FString Login; //Login
-	FString Pass; //Pass
-};
 
 UCLASS()
 class SPACEWAR_API UAuthorizationRequest : public UWebRequestBase
@@ -36,7 +18,7 @@ class SPACEWAR_API UAuthorizationRequest : public UWebRequestBase
 
 public:
 
-	void AddAuthorizationValue(const FString& Key, const FString& Value) { AuthorizationKey = FKeyAuthorization(Key, Value); }
+	void AddAuthorizationValue(const FUserInfo& UserInfo, FDelegateRequestRegisterUserCallBack CallBack);
 	virtual void CollectRequest(const FString& ScriptURL) override;
 
 protected:
@@ -46,9 +28,6 @@ protected:
 
 private:
 
-	FKeyAuthorization AuthorizationKey;
-
-public:
-
-	FAuthorizationDelegate OnAuthorizationDelegate;
+	FUserInfo AuthorizationKey;
+	FDelegateRequestRegisterUserCallBack AuthorizationUserCallBack;
 };

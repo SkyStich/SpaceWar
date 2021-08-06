@@ -22,4 +22,7 @@ public:
 
 	UFUNCTION()
 	void RegisterUser(const FRegisterInfo& Info, const FDelegateRequestRegisterUserCallBack& CallBack);
+
+	UFUNCTION()
+	void AuthorizationUser(const FUserInfo& Info, const FDelegateRequestRegisterUserCallBack& CallBack);
 };
