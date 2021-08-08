@@ -398,7 +398,8 @@ void ASpaceWarCharacter::StartUseWeapon()
 
 void ASpaceWarCharacter::StopUseWeapon()
 {
-	WeaponManager->GetCurrentWeapon()->OwnerStopUseWeapon();
+	if(WeaponManager->GetCurrentWeapon())
+		WeaponManager->GetCurrentWeapon()->OwnerStopUseWeapon();
 }
 
 void ASpaceWarCharacter::RefreshAmmo_Implementation()
@@ -419,7 +420,7 @@ void ASpaceWarCharacter::UpdateAmmo_Implementation()
 		auto const RangeWeapon = Cast<URangeWeaponObjectBase>(ByArray.Value);
 		if(RangeWeapon)
 		{
-			RangeWeapon->AddAmmo(RangeWeapon->GetWeaponData().MaxAmmoInStorage / 2);
+			RangeWeapon->AddAmmo(RangeWeapon->GetWeaponData().AmmoStatistics.MaxAmmoInStorage / 2);
 		}
 	}
 }
