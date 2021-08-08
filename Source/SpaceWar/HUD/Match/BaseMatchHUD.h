@@ -102,6 +102,9 @@ protected:
 	TAssetSubclassOf<UAmmunitionWidgetBase> AmmunitionWidgetClass;
 
 	UPROPERTY()
+	TAssetSubclassOf<UUserWidget> SpecialShopWidgetClass;
+
+	UPROPERTY()
 	UMatchWidgetDataAsset* AssetData;
 
 	UPROPERTY()

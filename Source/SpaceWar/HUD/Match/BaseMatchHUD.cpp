@@ -23,6 +23,9 @@ ABaseMatchHUD::ABaseMatchHUD()
 
 	ConstructorHelpers::FClassFinder<UAmmunitionWidgetBase>AmmunitionWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/AmmunitionState/W_AmmuniitonGrid"));
 	if(AmmunitionWidgetFinder.Succeeded()) AmmunitionWidgetClass = AmmunitionWidgetFinder.Class;
+
+	ConstructorHelpers::FClassFinder<UUserWidget>SpecialShopWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/W_ShopSpecialWeapon"));
+	if(SpecialShopWidgetFinder.Succeeded()) SpecialShopWidgetClass = SpecialShopWidgetFinder.Class;
 }
 
 void ABaseMatchHUD::BeginPlay()
@@ -131,10 +134,9 @@ void ABaseMatchHUD::HiddenTabMenu()
 
 void ABaseMatchHUD::CreateSpecialWidget()
 {
-	if(MatchWidgetData->SpecialShop)
+	if(SpecialShopWidgetClass)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Create!!!!!!!!"));
-		SpecialShopWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), MatchWidgetData->SpecialShop, GetOwningPlayerController());
+		SpecialShopWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), SpecialShopWidgetClass, GetOwningPlayerController());
 		SpecialShopWidget->AddToViewport();
 		SpecialShopWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}

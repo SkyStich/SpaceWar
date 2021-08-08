@@ -32,9 +32,6 @@ struct FMatchWidgetData
 	TSoftClassPtr<UUserWidget> StatisticMatchGrid;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TSoftClassPtr<UUserWidget> SpecialShop;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSoftClassPtr<UEndGameWidgetBase> EndMatch;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
