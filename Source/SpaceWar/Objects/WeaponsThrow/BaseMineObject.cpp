@@ -10,6 +10,7 @@
 
 void UBaseMineObject::FindPositionForSettingsMine(AController* OwnerController)
 {
+	GetWorld()->GetTimerManager().ClearTimer(PreparationForUseHandle);
 	if(!IsAuthority())
 	{
 		StopUseWeapon();

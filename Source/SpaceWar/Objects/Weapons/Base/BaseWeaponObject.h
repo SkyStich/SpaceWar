@@ -62,7 +62,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
 	virtual FString GetAmmoStatus() const { return "";}
-	
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	virtual UAnimSequenceBase* GetReloadAnim() const { return nullptr; }	
 	
 protected:
 

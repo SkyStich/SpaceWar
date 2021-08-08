@@ -24,9 +24,9 @@ void URangeWeaponObjectBase::Init(const FEquipWeaponData& NewData)
 	if(IsAuthority())
     {
 		WeaponData = NewData;
-    	CurrentAmmoInWeapon = WeaponData.MaxAmmoInWeapon;
-    	CurrentAmmoInStorage = WeaponData.MaxAmmoInStorage;
-		CurrentSpread = WeaponData.MinSpread;
+    	CurrentAmmoInWeapon = WeaponData.AmmoStatistics.MaxAmmoInWeapon;
+    	CurrentAmmoInStorage = WeaponData.AmmoStatistics.MaxAmmoInStorage;
+		CurrentSpread = WeaponData.Spreads.MinSpread;
     }
 }
 
@@ -55,8 +55,8 @@ void URangeWeaponObjectBase::PlayUseWeaponEffects()
 		FVector Location;
 		FRotator Rotation;
 		CharacterOwner->GetWeaponMesh()->GetSocketWorldLocationAndRotation("Muzzle", Location, Rotation);
-		UGameplayStatics::SpawnEmitterAttached(WeaponData.MuzzleParticle, CharacterOwner->GetWeaponMesh(), "Muzzle", Location, Rotation, FVector(1.f), EAttachLocation::KeepWorldPosition);
-		UGameplayStatics::SpawnSoundAttached(WeaponData.MuzzleSound, CharacterOwner->GetWeaponMesh(), "Muzzle", Location, Rotation, EAttachLocation::SnapToTarget, false);
+		UGameplayStatics::SpawnEmitterAttached(WeaponData.Particles.MuzzleParticle, CharacterOwner->GetWeaponMesh(), "Muzzle", Location, Rotation, FVector(0.6f), EAttachLocation::KeepWorldPosition);
+		UGameplayStatics::SpawnSoundAttached(WeaponData.Particles.MuzzleSound, CharacterOwner->GetWeaponMesh(), "Muzzle", Location, Rotation, EAttachLocation::SnapToTarget, false);
 	}
 }
 
@@ -66,12 +66,10 @@ bool URangeWeaponObjectBase::UseWeapon()
 	
 	if(CharacterOwner->Controller)
 	{
-		bWeaponUsed = true;
-		CharacterOwner->SetCanWeaponManipulation(false);
 		CurrentAmmoInWeapon--;
 	}
 
-	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &URangeWeaponObjectBase::StopRateDelay, WeaponData.DelayBeforeUse, false);
+	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &URangeWeaponObjectBase::StopRateDelay, WeaponData.WeaponCharacteristicsBase.DelayBeforeUse, false);
 
 	DropLineTrace();
 
@@ -84,7 +82,7 @@ void URangeWeaponObjectBase::StopRateDelay()
 {
 	GetWorld()->GetTimerManager().ClearTimer(UseWeaponHandle);
 
-	if(WeaponData.bCanAutoFire && bWeaponUsed)
+	if(WeaponData.RangeWeaponCharacteristics.bCanAutoFire && bWeaponUsed)
 	{
 		UseWeapon();
 	}
@@ -94,7 +92,7 @@ void URangeWeaponObjectBase::StopUseWeapon()
 {
 	Super::StopUseWeapon();
 
-	CurrentSpread = GetWeaponData().MinSpread;
+	CurrentSpread = GetWeaponData().Spreads.MinSpread;
 }
 
 bool URangeWeaponObjectBase::IsAbleToUseWeapon()
@@ -112,14 +110,14 @@ FVector URangeWeaponObjectBase::FindRotateAround()
 FVector URangeWeaponObjectBase::GetShootDirection()
 {
 	FVector const RotateAroundVector = FindRotateAround();
-	CurrentSpread += WeaponData.MaxSpread / WeaponData.MaxAmmoInWeapon;
-	float const TempSpread = bAccessoryUsed ? ((10.f / FMath::Max(1, WeaponData.AccuracyInSight) - 1) * 0.5f) : CurrentSpread;
+	CurrentSpread += WeaponData.Spreads.MaxSpread / WeaponData.AmmoStatistics.MaxAmmoInWeapon;
+	float const TempSpread = bAccessoryUsed ? ((10.f / FMath::Max(1, WeaponData.Spreads.AccuracyInSight) - 1) * 0.5f) : CurrentSpread;
 	
 	/** Rotate trace with horizontal */
-	FVector const HorizontalRotate = FindRotateAround().RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Y));
+	FVector const HorizontalRotate = FindRotateAround().RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.Spreads.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Y));
 
 	/** reottae trace with use up vector */
-	FVector const VerticalRotate = HorizontalRotate.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Z));
+	FVector const VerticalRotate = HorizontalRotate.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.Spreads.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Z));
 
 	return VerticalRotate;
 }
@@ -127,7 +125,7 @@ FVector URangeWeaponObjectBase::GetShootDirection()
 void URangeWeaponObjectBase::DropLineTrace()
 {
 	FVector const TraceStart = CharacterOwner->GetCurrentFireTrace();
-	FVector const TraceEnd = WeaponData.RangeOfUse * GetShootDirection() + TraceStart;
+	FVector const TraceEnd = WeaponData.RangeWeaponCharacteristics.RangeOfUse * GetShootDirection() + TraceStart;
 
 	FHitResult Hit;
                                                                                                   
@@ -150,15 +148,15 @@ void URangeWeaponObjectBase::ApplyPointDamage(const FHitResult& Hit)
 	if(Hit.GetActor())
 	{
 		FVector const HitFromDirection = UKismetMathLibrary::GetDirectionUnitVector(Hit.TraceEnd, Hit.TraceStart);
-		int32 const TempDistance = FVector::Distance(CharacterOwner->GetActorLocation(), Hit.Actor->GetActorLocation()) - WeaponData.MaxDamageDistance;
-		float const TempDamage = TempDistance > 0 ? FMath::Min(WeaponData.BaseDamage - TempDistance / 100, WeaponData.BaseDamage / 1.8f) : WeaponData.BaseDamage;
+		int32 const TempDistance = FVector::Distance(CharacterOwner->GetActorLocation(), Hit.Actor->GetActorLocation()) - WeaponData.RangeWeaponCharacteristics.MaxDamageDistance;
+		float const TempDamage = TempDistance > 0 ? FMath::Min(WeaponData.RangeWeaponCharacteristics.BaseDamage - TempDistance / 100, WeaponData.RangeWeaponCharacteristics.BaseDamage / 1.8f) : WeaponData.RangeWeaponCharacteristics.BaseDamage;
 		UGameplayStatics::ApplyPointDamage(Hit.GetActor(), TempDamage, HitFromDirection, Hit, CharacterOwner->Controller, CharacterOwner, UDamageType::StaticClass());
 	}
 }
 
 bool URangeWeaponObjectBase::IsAbleToReload()
 {
-	return CurrentAmmoInWeapon < WeaponData.MaxAmmoInWeapon && CurrentAmmoInStorage > 0 && CharacterOwner->IsCanWeaponManipulation();
+	return CurrentAmmoInWeapon < WeaponData.AmmoStatistics.MaxAmmoInWeapon && CurrentAmmoInStorage > 0 && CharacterOwner->IsCanWeaponManipulation();
 }
 
 void URangeWeaponObjectBase::OnRep_Reload()
@@ -173,7 +171,7 @@ void URangeWeaponObjectBase::ReloadStart()
 		bReloading = true;
 		OnRep_Reload();
 		CharacterOwner->SetCanWeaponManipulation(false);
-		GetWorld()->GetTimerManager().SetTimer(ReloadHandle, this, &URangeWeaponObjectBase::ReloadStop, WeaponData.ReloadTime, false);
+		GetWorld()->GetTimerManager().SetTimer(ReloadHandle, this, &URangeWeaponObjectBase::ReloadStop, WeaponData.RangeWeaponCharacteristics.ReloadTime, false);
 	}
 }
 
@@ -185,7 +183,7 @@ void URangeWeaponObjectBase::ReloadStop()
 	CharacterOwner->SetCanWeaponManipulation(true);
 
 	/** calculate need ammo */
-	int32 const NeedToMaxAmmo = WeaponData.MaxAmmoInWeapon - CurrentAmmoInWeapon;
+	int32 const NeedToMaxAmmo = WeaponData.AmmoStatistics.MaxAmmoInWeapon - CurrentAmmoInWeapon;
 		
 	if(CurrentAmmoInStorage >= NeedToMaxAmmo)
 	{
@@ -266,9 +264,9 @@ bool URangeWeaponObjectBase::OwnerStopAdditionalUsed()
 
 void URangeWeaponObjectBase::AddAmmo(int32 const Amount)
 {
-	if(CurrentAmmoInStorage >= WeaponData.MaxAmmoInStorage) return;
+	if(CurrentAmmoInStorage >= WeaponData.AmmoStatistics.MaxAmmoInStorage) return;
 	
-	CurrentAmmoInStorage = FMath::Min(WeaponData.MaxAmmoInStorage, CurrentAmmoInStorage + Amount);
+	CurrentAmmoInStorage = FMath::Min(WeaponData.AmmoStatistics.MaxAmmoInStorage, CurrentAmmoInStorage + Amount);
 }
 
 FString URangeWeaponObjectBase::GetAmmoStatus() const

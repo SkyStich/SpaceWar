@@ -35,7 +35,6 @@ bool UThrowWeaponBase::UseWeapon()
 	if(CharacterOwner->Controller)
 	{
 		CurrentAmountThrow--;
-		bWeaponUsed = true;
 		FTimerDelegate TimerDel;
 		TimerDel.BindUObject(this, &UThrowWeaponBase::PreparationForUse);
 		GetWorld()->GetTimerManager().SetTimer(PreparationForUseHandle, TimerDel, 1.f, false);

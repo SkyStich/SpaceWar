@@ -48,11 +48,12 @@ public:
 	virtual bool OwnerStartAdditionalUsed() override;
 	virtual bool OwnerStopAdditionalUsed() override;
 
-	virtual float GetSelectTime() const override { return WeaponData.SelectWeaponTime; }
-	virtual float GetReloadTime() const override { return WeaponData.ReloadTime; }
-	virtual float GetDelayBeforeUsed() const override { return WeaponData.DelayBeforeUse; }
-	virtual bool IsCanAutoFire() const override { return WeaponData.bCanAutoFire; }
-	virtual EWeaponCategory GetWeaponCategory() const override { return WeaponData.Category; }
+	virtual float GetSelectTime() const override { return WeaponData.WeaponCharacteristicsBase.SelectWeaponTime; }
+	virtual float GetReloadTime() const override { return WeaponData.RangeWeaponCharacteristics.ReloadTime; }
+	virtual float GetDelayBeforeUsed() const override { return WeaponData.WeaponCharacteristicsBase.DelayBeforeUse; }
+	virtual bool IsCanAutoFire() const override { return WeaponData.RangeWeaponCharacteristics.bCanAutoFire; }
+	virtual EWeaponCategory GetWeaponCategory() const override { return WeaponData.WeaponCharacteristicsBase.Category; }
+	virtual UAnimSequenceBase* GetReloadAnim() const override { return WeaponData.Animations.ReloadAnim; }
 	virtual FString GetAmmoStatus() const override;
 	
 	UFUNCTION(BlueprintPure)

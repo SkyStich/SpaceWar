@@ -77,6 +77,11 @@ bool UBaseWeaponObject::UseWeapon()
 {
 	if(IsAbleToUseWeapon())
 	{
+		if(CharacterOwner->Controller)
+		{
+			bWeaponUsed = true;
+			CharacterOwner->SetCanWeaponManipulation(false);
+		}
 		return true;
 	}
 	StopUseWeapon();
