@@ -168,7 +168,3 @@ void ASpecialWeaponObjectBase::PlaceSucceeded()
 	}
 	OnPlaceSucceeded.Broadcast(this);
 }
-
-
-
-
