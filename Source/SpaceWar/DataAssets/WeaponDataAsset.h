@@ -20,13 +20,54 @@ enum class EWeaponCategory : uint8
 };
 
 USTRUCT(BlueprintType)
-struct FBaseWeaponData
+struct FRangeWeaponCharacteristics
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	float BaseDamage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	float ReloadTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	int32 MaxDamageDistance;  // Write in cm 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	bool bCanAutoFire;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	float RangeOfUse;
+};
+
+USTRUCT(BlueprintType)
+struct FRangeWeaponParticles
 {
 	GENERATED_BODY()
 
-	/** display weapon name. Not Id */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Description")
-	FName WeaponName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|ClientEffects")
+	UParticleSystem* MuzzleParticle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	USoundBase* MuzzleSound;
+};
+
+USTRUCT(BlueprintType)
+struct FRangeAmmoStatistics
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	int32 MaxAmmoInStorage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	int32 MaxAmmoInWeapon;
+};
+
+USTRUCT(BlueprintType)
+struct FWeaponCharacteristicsBase
+{
+	GENERATED_BODY()
 
 	/** delay before weapon use */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
@@ -38,6 +79,47 @@ struct FBaseWeaponData
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponCategory")
 	EWeaponCategory Category;
+};
+
+USTRUCT(BlueprintType)
+struct FSpreads
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	FRandomStream FireRandomStream;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	float MinSpread;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	float MaxSpread;
+
+	/** with 0 to 10 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	int32 AccuracyInSight;
+};
+
+USTRUCT(BlueprintType)
+struct FRangeWeaponAnim
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Description")
+	UAnimSequenceBase* ReloadAnim;
+};
+
+USTRUCT(BlueprintType)
+struct FBaseWeaponData
+{
+	GENERATED_BODY()
+
+	/** display weapon name. Not Id */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Description")
+	FName WeaponName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Description")
+	FWeaponCharacteristicsBase WeaponCharacteristicsBase;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|Description")
 	TAssetPtr<UTexture2D> Icon;
@@ -77,47 +159,22 @@ struct FEquipWeaponData : public FBaseWeaponData
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	int32 MaxAmmoInStorage;
+	FRangeAmmoStatistics AmmoStatistics;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	int32 MaxAmmoInWeapon;
+	FRangeWeaponCharacteristics RangeWeaponCharacteristics;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	float BaseDamage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	float ReloadTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	int32 MaxDamageDistance;  // Write in cm 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	bool bCanAutoFire;
+	FSpreads Spreads;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	float RangeOfUse;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	FRandomStream FireRandomStream;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	float MinSpread;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	float MaxSpread;
-
-	/** with 0 to 10 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	int32 AccuracyInSight;
+	FRangeWeaponAnim Animations;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponClass")
 	TSoftClassPtr<URangeWeaponObjectBase>WeaponObject;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|ClientEffects")
-	UParticleSystem* MuzzleParticle;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	USoundBase* MuzzleSound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponClass")
+	FRangeWeaponParticles Particles;
 };
 
 
