@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "CreateServerCallBack.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FCreateServerDelegate, bool, bResult);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FGameServerAddress, const FString&, Address);
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FCreateServerDelegate, bool, bResult, const FString&, ErrorMessage);
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FGameServerAddress, const FString&, Address, const FString&, ErrorMessage);
 
 USTRUCT(BlueprintType)
 struct FCreateServerCallBackInDataBase
