@@ -2,20 +2,17 @@
 
 
 #include "GameServerDataBaseComponent.h"
-
-
-
 #include "GameFramework/GameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h"
+#include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerAddress.h"
 #include "SpaceWar/Structs/CreateServerCallBack.h"
 
 // Sets default values for this component's properties
 UGameServerDataBaseComponent::UGameServerDataBaseComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
-
 
 void UGameServerDataBaseComponent::BeginPlay()
 {
@@ -45,7 +42,8 @@ void UGameServerDataBaseComponent::OnResponseCreateServer(bool bResult)
 
 void UGameServerDataBaseComponent::OnResponseServerAddress(const FString& Address)
 {
-	CreateServerInDataBase(Address);
+	UE_LOG(LogTemp, Warning, TEXT("OnResponseServerAddress --Server address: %s"), *Address);
+	//CreateServerInDataBase(Address);
 }
 
 void UGameServerDataBaseComponent::CreateServerInDataBase(const FString& Address)
@@ -54,8 +52,9 @@ void UGameServerDataBaseComponent::CreateServerInDataBase(const FString& Address
 	CallBack.BindUFunction(this, "OnResponseCreateServer");
 
 	auto const Response = NewObject<UWebRequestCreateGameServer>(GetOwner());
-	Response->AddCreateServerKeys(FCreateServerData("Name",ServerName, Address), CallBack);
+	Response->AddCreateServerKeys(LevelName, Address, CallBack);
 	Response->CollectRequest("127.0.0.1/CreateGameServer.php");
+	UE_LOG(LogTemp, Warning, TEXT("CreateServerInDataBase"));
 }
 
 void UGameServerDataBaseComponent::RemoveServerFromDataBase()
@@ -63,10 +62,11 @@ void UGameServerDataBaseComponent::RemoveServerFromDataBase()
 	
 }
 
-
 void UGameServerDataBaseComponent::CallGameServer(const FGameAddressCallBack& CallBack)
 {
-	GameAddressCallBack = CallBack;
+	auto const Request = NewObject<UWebRequestGetServerAddress>(GetOwner());
+	Request->AddServerAddressKey(CallBack.OnGameServerAddress);
+	Request->CollectRequest("127.0.0.1/SpaceWar/GetServerAddress.php");
 }
 
 void UGameServerDataBaseComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)

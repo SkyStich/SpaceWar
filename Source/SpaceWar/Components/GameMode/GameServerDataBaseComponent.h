@@ -39,8 +39,8 @@ protected:
 
 private:
 
-	UPROPERTY()
-	FGameAddressCallBack GameAddressCallBack;
+//	UPROPERTY()
+//	FGameAddressCallBack GameAddressCallBack;
 	
 	FString LevelName;
 	FString ServerName;
