@@ -60,10 +60,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/Blueprints/TestGM.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/MainMenu/MainHUB/MeinHUBLevel.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Structs/CreateServerCallBack.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/MatchWidgetDataAsset.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/MatchWidgetDataAsset.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestBP.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestBP.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,19 +94,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Enums/SolderClassCategory.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionRangeWeaponSlotBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionRangeWeaponSlotBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionWidgetBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionWidgetBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/ShotgunWeaponObjectBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/ShotgunWeaponObjectBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.cpp" />
@@ -138,6 +132,19 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/MatchWidgetDataAsset.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Transport/Top/Base/BaseTransporTopPart.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Transport/Top/Base/BaseTransporTopPart.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Transport/Top/Base/BaseTransportTopPart.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Transport/Top/Base/BaseTransportTopPart.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Transport/Bottom/Base/BaseTransportBottomPart.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/Transport/Bottom/Base/BaseTransportBottomPart.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameServers/GameServerDataBaseComponent.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameServers/GameServerDataBaseComponent.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/CreateServerCallBack.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34287,6 +34294,10 @@
       <workItem from="1628355420257" duration="367000" />
       <workItem from="1628374314424" duration="6955000" />
       <workItem from="1628387320835" duration="3748000" />
+      <workItem from="1628433028244" duration="1754000" />
+      <workItem from="1628439699327" duration="2170000" />
+      <workItem from="1628460885171" duration="2158000" />
+      <workItem from="1628482036431" duration="7740000" />
     </task>
     <servers />
   </component>
