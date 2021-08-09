@@ -54,5 +54,7 @@ private:
 
 	FString JSonStream = "JsonStream";
 
+protected:
+
 	bool bSSLUsed = false;
 };
