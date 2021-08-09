@@ -38,7 +38,7 @@ void UGameServerDataBaseComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-void UGameServerDataBaseComponent::OnResponseCreateServer()
+void UGameServerDataBaseComponent::OnResponseCreateServer(bool bResult)
 {
 	
 }

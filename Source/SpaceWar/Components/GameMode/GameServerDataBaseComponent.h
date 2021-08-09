@@ -15,7 +15,7 @@ class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
 	GENERATED_BODY()
 
 	UFUNCTION()
-	void OnResponseCreateServer();
+	void OnResponseCreateServer(bool bResult);
 
 	UFUNCTION()
 	void  OnResponseServerAddress(const FString& Address);
