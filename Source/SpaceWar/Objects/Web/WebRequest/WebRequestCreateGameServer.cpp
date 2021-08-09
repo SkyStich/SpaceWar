@@ -3,11 +3,10 @@
 
 #include "WebRequestCreateGameServer.h"
 
-void UWebRequestCreateGameServer::AddCreateServerKeys(FCreateServerData CreateServerData, const FCreateServerDelegate& CallBack)
+void UWebRequestCreateGameServer::AddCreateServerKeys(const FString& MapName, const FString& MapAddress, const FCreateServerDelegate& CallBack)
 {
-	ServerData.Address = CreateServerData.Address;
-	ServerData.DisplayName = CreateServerData.DisplayName;
-	ServerData.MapName = CreateServerData.MapName;
+	Address = MapName;
+	LevelName = MapAddress;
 	OnCreateServerDelegate = CallBack;
 }
 
@@ -20,7 +19,7 @@ void UWebRequestCreateGameServer::CallJsonResponse(const TSharedPtr<FJsonObject>
 {
 	if(JsonResponse->HasField("Error"))
 	{
-		OnCreateServerDelegate.ExecuteIfBound(false);
+		OnCreateServerDelegate.Execute(false, JsonResponse->GetStringField("Error"));
 		return;
 	}
 }

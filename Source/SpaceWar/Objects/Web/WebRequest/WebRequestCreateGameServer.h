@@ -7,20 +7,6 @@
 #include "SpaceWar/Structs/CreateServerCallBack.h"
 #include "WebRequestCreateGameServer.generated.h"
 
-USTRUCT()
-struct FCreateServerData
-{
-	GENERATED_BODY()
-
-	FCreateServerData() {}
-	FCreateServerData(const FString& NewDisplayName, const FString& NewMapName, const FString& NewAddress)
-	: DisplayName(NewDisplayName), MapName(NewMapName), Address(NewAddress) {}
-	
-	FString DisplayName;
-	FString MapName;
-	FString Address;
-};
-
 UCLASS()
 class SPACEWAR_API UWebRequestCreateGameServer : public UWebRequestBase
 {
@@ -29,7 +15,7 @@ class SPACEWAR_API UWebRequestCreateGameServer : public UWebRequestBase
 public:
 
 	virtual void CollectRequest(const FString& ScriptURL) override;
-	void AddCreateServerKeys(FCreateServerData CreateServerData, const FCreateServerDelegate& CallBack);
+	void AddCreateServerKeys(const FString& MapName, const FString& MapAddress, const FCreateServerDelegate& CallBack);
 	
 protected:
 
@@ -39,5 +25,7 @@ protected:
 private:
 
 	FCreateServerDelegate OnCreateServerDelegate;
-	FCreateServerData ServerData;
+	
+	FString LevelName;
+	FString Address;
 };
