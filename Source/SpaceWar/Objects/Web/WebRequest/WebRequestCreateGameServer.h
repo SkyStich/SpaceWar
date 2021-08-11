@@ -15,7 +15,7 @@ class SPACEWAR_API UWebRequestCreateGameServer : public UWebRequestBase
 public:
 
 	virtual void CollectRequest(const FString& ScriptURL) override;
-	void AddCreateServerKeys(const FString& MapName, const FString& MapAddress, const FCreateServerDelegate& CallBack);
+	void AddCreateServerKeys(const FString& Name, const FString& MapAddress, const FCreateServerDelegate& CallBack);
 	
 protected:
 
@@ -26,6 +26,6 @@ private:
 
 	FCreateServerDelegate OnCreateServerDelegate;
 	
-	FString LevelName;
+	FString ServerName;
 	FString Address;
 };
