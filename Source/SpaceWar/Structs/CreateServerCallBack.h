@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "CreateServerCallBack.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_TwoParams(FCreateServerDelegate, bool, bResult, const FString&, ErrorMessage);
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FCreateServerDelegate, int32, Id, const FString&, ErrorMessage);
 DECLARE_DYNAMIC_DELEGATE_TwoParams(FGameServerAddress, const FString&, Address, const FString&, ErrorMessage);
 
 USTRUCT(BlueprintType)
