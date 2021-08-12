@@ -7,7 +7,9 @@
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerAddress.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerInfo.h"
+#include "SpaceWar/Objects/Web/WebRequest/WebRequestRemoveServer.h"
 #include "SpaceWar/Structs/CreateServerCallBack.h"
+#include "SpaceWar/Structs/RemoveServerCallBack.h"
 
 // Sets default values for this component's properties
 UGameServerDataBaseComponent::UGameServerDataBaseComponent()
@@ -34,6 +36,20 @@ void UGameServerDataBaseComponent::BeginPlay()
 	FGameAddressCallBack CallBack;
 	CallBack.OnGameServerAddress.BindUFunction(this, "OnResponseServerAddress");
 	CallGameServer(CallBack);
+
+	/** test */
+	FTimerDelegate TimerDel;
+	FTimerHandle TimerHandle;
+	auto f = [&]() -> void
+	{
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+		RemoveServerFromDataBase();
+		UE_LOG(LogTemp, Warning, TEXT("------------------------------------------"));
+		UE_LOG(LogTemp, Warning, TEXT("Remove server from database"));
+		UE_LOG(LogTemp, Warning, TEXT("------------------------------------------"));
+	};
+	TimerDel.BindLambda(f);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 10.f, false);
 }
 
 void UGameServerDataBaseComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -45,29 +61,6 @@ void UGameServerDataBaseComponent::TickComponent(float DeltaTime, ELevelTick Tic
 
 void UGameServerDataBaseComponent::UpdateServerData()
 {
-	GetServerInfo(ServerData.Id);
-}
-
-void UGameServerDataBaseComponent::OnResponseServerAddress(const FString& Address, const FString& ErrorMessage)
-{
-	UE_LOG(LogTemp, Warning, TEXT("OnResponseServerAddress --Server address: %s"), *Address);
-	CreateServerInDataBase(Address);
-}
-
-void UGameServerDataBaseComponent::CreateServerInDataBase(const FString& Address)
-{
-	FCreateServerDelegate CallBack;
-	CallBack.BindUFunction(this, "OnResponseCreateServer");
-
-	auto const Request = NewObject<UWebRequestCreateGameServer>(GetOwner());
-	ServerData.Address = Address;
-	Request->AddCreateServerKeys(ServerData.Name, ServerData.Address, CallBack);
-	Request->CollectRequest("127.0.0.1/SpaceWar/CreateGameServer.php");
-	UE_LOG(LogTemp, Warning, TEXT("CreateServerInDataBase"));
-}
-
-void UGameServerDataBaseComponent::GetServerInfo(int32 Id)
-{
 	if(!bServerActive || bRequestForUpdateSent) return;
 
 	bRequestForUpdateSent = true;
@@ -76,8 +69,37 @@ void UGameServerDataBaseComponent::GetServerInfo(int32 Id)
 	CallBack.BindUFunction(this, "OnResponseGetServerInfo");
 
 	auto const Request = NewObject<UWebRequestGetServerInfo>(GetOwner());
-	Request->AddServerInfoKey(Id, CallBack);
+	Request->AddServerInfoKey(ServerData.Id, CallBack);
 	Request->CollectRequest("127.0.0.1/SpaceWar/GetServerInfo.php");
+}
+
+void UGameServerDataBaseComponent::OnResponseServerAddress(const FString& Address, const FString& ErrorMessage)
+{
+	UE_LOG(LogTemp, Warning, TEXT("OnResponseServerAddress --Server address: %s"), *Address);
+	ServerData.Address = Address;
+	CreateServerInDataBase();
+}
+
+/** Create Server */
+void UGameServerDataBaseComponent::CreateServerInDataBase()
+{
+	FCreateServerDelegate CallBack;
+	CallBack.BindUFunction(this, "OnResponseCreateServer");
+
+	auto const Request = NewObject<UWebRequestCreateGameServer>(GetOwner());
+	Request->AddCreateServerKeys(ServerData.Name, ServerData.Address, CallBack);
+	Request->CollectRequest("127.0.0.1/SpaceWar/CreateGameServer.php");
+}
+
+void UGameServerDataBaseComponent::OnResponseCreateServer(const int32 ServerID)
+{
+	if(ServerID < 0)
+	{
+		ShutDownServer();
+		return;
+	}
+	ServerData.Id = ServerID;
+	bServerActive = true;
 }
 
 void UGameServerDataBaseComponent::OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data)
@@ -86,12 +108,27 @@ void UGameServerDataBaseComponent::OnResponseGetServerInfo(bool bResult, const F
 	if(!bResult) return;
 	
 	bRequestForUpdateSent = false;
-	ServerData = Data;
+	ServerData.Address = Data.Address;
+	ServerData.Name = Data.Name;
 }
 
+/** Remove server */
 void UGameServerDataBaseComponent::RemoveServerFromDataBase()
 {
+	FRemoveServerDelegate CallBack;
+	CallBack.BindUFunction(this, "OnResponseRemoveServerFromDataBase");
+
+	bServerActive = false;
+	SetTickableWhenPaused(true);
 	
+	auto const Request = NewObject<UWebRequestRemoveServer>(GetOwner());
+	Request->AddRemoveServerKey(ServerData.Id, CallBack);
+	Request->CollectRequest("127.0.0.1/SpaceWar/RemoveServerFromDataBase.php");
+}
+
+void UGameServerDataBaseComponent::OnResponseRemoveServerFromDataBase(bool bResult, const FString& ErrorMessage)
+{
+	UE_LOG(LogTemp, Warning, TEXT("OnResponseRemoveServerFromDataBase"));
 }
 
 void UGameServerDataBaseComponent::CallGameServer(const FGameAddressCallBack& CallBack)
@@ -106,17 +143,6 @@ void UGameServerDataBaseComponent::EndPlay(const EEndPlayReason::Type EndPlayRea
 	RemoveServerFromDataBase();
 	
 	Super::EndPlay(EndPlayReason);
-}
-
-void UGameServerDataBaseComponent::OnResponseCreateServer(const int32 ServerID)
-{
-	if(ServerID < 0)
-	{
-		ShutDownServer();
-		return;
-	}
-	ServerData.Id = ServerID;
-	bServerActive = true;
 }
 
 void UGameServerDataBaseComponent::ShutDownServer()

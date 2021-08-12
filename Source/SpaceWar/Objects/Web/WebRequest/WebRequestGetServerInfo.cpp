@@ -14,7 +14,7 @@ void UWebRequestGetServerInfo::AddServerInfoKey(int32 Id, const FGetServerInfoDe
 void UWebRequestGetServerInfo::CollectRequest(const FString& ScriptURL)
 {
 	TSharedPtr<FJsonObject> JsonObject = CreateJsonRequest();
-	JsonObject->SetStringField("id", FString::FromInt(ServerID));
+	JsonObject->SetNumberField("id", ServerID);
 	CallWebScript(ScriptURL, JsonObject);
 }
 

@@ -17,13 +17,16 @@ class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
 	GENERATED_BODY()
 
 	UFUNCTION()
-	void  OnResponseServerAddress(const FString& Address, const FString& ErrorMessage);
+	void OnResponseServerAddress(const FString& Address, const FString& ErrorMessage);
 
 	UFUNCTION()
 	void OnResponseCreateServer(const int32 ServerID);
 
 	UFUNCTION()
 	void OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data);
+
+	UFUNCTION()
+	void OnResponseRemoveServerFromDataBase(bool bResult, const FString& ErrorMessage);
 
 	void UpdateServerData();
 	void ShutDownServer();
@@ -36,8 +39,7 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	void CallGameServer(const FGameAddressCallBack& CallBack);
-	void CreateServerInDataBase(const FString& Address);
-	void GetServerInfo(int32 Id);
+	void CreateServerInDataBase();
 	
 	/** removes the server from the database when it is turned off */
 	void RemoveServerFromDataBase();
@@ -48,6 +50,7 @@ protected:
 
 private:
 
+	/** Save data about server */
 	FServersData ServerData;
 
 	/** true if server created in data base in activated */
