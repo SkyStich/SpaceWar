@@ -3,11 +3,12 @@
 
 #include "SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h"
 #include "SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.h"
+#include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h"
 
 // Sets default values for this component's properties
 UDataBaseTransfer::UDataBaseTransfer()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 }
 
@@ -23,4 +24,11 @@ void UDataBaseTransfer::AuthorizationUser(const FUserInfo& Info, const FDelegate
 	auto const Request = NewObject<UAuthorizationRequest>(GetOwner());
 	Request->AddAuthorizationValue(Info, CallBack);
 	Request->CollectRequest("127.0.0.1/SpaceWar/AuthorizationUser.php");
+}
+
+void UDataBaseTransfer::ReceivingServerList(const FGetServerListDelegate& CallBack)
+{
+	auto const Request = NewObject<UWebRequestGetServerList>(GetOwner());
+	Request->AddServerListKey(CallBack);
+	Request->CollectRequest("127.0.0.1/SpaceWar/ReceivingServerList.php");
 }

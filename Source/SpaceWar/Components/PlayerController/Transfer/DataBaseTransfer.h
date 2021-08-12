@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "SpaceWar/Structs/GetServerListCallBack.h"
 #include "SpaceWar/Structs/RegisterUsersCallBack.h"
 #include "SpaceWar/Structs/UserInfo.h"
 
@@ -25,4 +26,7 @@ public:
 
 	UFUNCTION()
 	void AuthorizationUser(const FUserInfo& Info, const FDelegateRequestRegisterUserCallBack& CallBack);
+
+	UFUNCTION()
+	void ReceivingServerList(const FGetServerListDelegate& CallBack);
 };

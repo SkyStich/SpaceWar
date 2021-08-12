@@ -100,3 +100,34 @@ void UClientServerTransfer::Server_SendAuthorizationInfo_Implementation(const FU
 	UE_LOG(LogTemp, Error, TEXT("UClientServerTransfer::Server_SendRegisterInfo_Implementation --Player controller not have component UDataBaseTransfer"))
 }
 
+void UClientServerTransfer::RequestReceivingServerList(const FGetServerListDelegate& CallBack)
+{
+	ServerListCallBack.OnGetServerListDelegate = CallBack;
+
+	Server_SendReceivingServerList();
+}
+
+void UClientServerTransfer::Server_SendReceivingServerList_Implementation()
+{
+	FGetServerListDelegate CallBack;
+	CallBack.BindUFunction(this, "OnResponseReceivingServerList");
+
+	UDataBaseTransfer* DataBaseTransfer = GetOwner()->FindComponentByClass<UDataBaseTransfer>();
+	if(DataBaseTransfer)
+	{
+		DataBaseTransfer->ReceivingServerList(CallBack);
+		return;
+	}
+	UE_LOG(LogTemp, Error, TEXT("UClientServerTransfer::Server_SendRegisterInfo_Implementation --Player controller not have component UDataBaseTransfer"));
+}
+
+void UClientServerTransfer::OnResponseReceivingServerList(const TArray<FClientServerInfo>& ClientServersInfo)
+{
+	Client_ResponseReceivingServerList(ClientServersInfo);
+}
+
+void UClientServerTransfer::Client_ResponseReceivingServerList_Implementation(const TArray<FClientServerInfo>& ClientServersInfo)
+{
+	bool bResult = ServerListCallBack.OnGetServerListDelegate.ExecuteIfBound(ClientServersInfo);
+}
+

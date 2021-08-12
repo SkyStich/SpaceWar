@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "ServerInfo.generated.h"
 
+/** use for server */
 USTRUCT(BlueprintType)
 struct FServersData
 {
