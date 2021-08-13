@@ -28,27 +28,22 @@ void UGameServerDataBaseComponent::BeginPlay()
 	if(!GM) return;
 	
 	ServerData.Name = UGameplayStatics::ParseOption(GM->OptionsString, "ServerName");
-
+	
+	if(UGameplayStatics::HasOption(GM->OptionsString, "ip"))
+	{
+		ServerData.Address = UGameplayStatics::ParseOption(GM->OptionsString, "ip");
+		ServerData.Address += ":" + FString::FromInt(GetWorld()->URL.Port);
+		CreateServerInDataBase();
+	}
+	else
+	{
+		FGameAddressCallBack CallBack;
+		CallBack.OnGameServerAddress.BindUFunction(this, "OnResponseServerAddress");
+		CallGameServer(CallBack);
+	}
+	
 	/*LevelName = GetWorld()->GetMapName();
 	LevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);*/
-	
-	FGameAddressCallBack CallBack;
-	CallBack.OnGameServerAddress.BindUFunction(this, "OnResponseServerAddress");
-	CallGameServer(CallBack);
-
-	/** test */
-	FTimerDelegate TimerDel;
-	FTimerHandle TimerHandle;
-	auto f = [&]() -> void
-	{
-		GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
-		RemoveServerFromDataBase();
-		UE_LOG(LogTemp, Warning, TEXT("------------------------------------------"));
-		UE_LOG(LogTemp, Warning, TEXT("Remove server from database"));
-		UE_LOG(LogTemp, Warning, TEXT("------------------------------------------"));
-	};
-	TimerDel.BindLambda(f);
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 10.f, false);
 }
 
 void UGameServerDataBaseComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -76,6 +71,7 @@ void UGameServerDataBaseComponent::OnResponseServerAddress(const FString& Addres
 {
 	UE_LOG(LogTemp, Warning, TEXT("OnResponseServerAddress --Server address: %s"), *Address);
 	ServerData.Address = Address;
+	ServerData.Address += ":" + FString::FromInt(GetWorld()->URL.Port);
 	CreateServerInDataBase();
 }
 

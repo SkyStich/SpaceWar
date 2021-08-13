@@ -60,17 +60,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Structs/GetServerListCallBack.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Login.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Login.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Register.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Register.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Structs/ServerInfo.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Structs/ServerInfo.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +81,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../../../VisualStudio/Studio/VC/Tools/MSVC/14.29.30037/include/xstring" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SpaceWarServer.Target.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://D:/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Public/Blueprint/UserWidget.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -133,10 +125,8 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestRemoveServer.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerAddress.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerInfo.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestRemoveServer.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/ServerInfo.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/GetServerListCallBack.h" />
@@ -145,6 +135,8 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34314,7 +34306,11 @@
       <workItem from="1628714492755" duration="3006000" />
       <workItem from="1628724568910" duration="10344000" />
       <workItem from="1628769810998" duration="1671000" />
-      <workItem from="1628777487648" duration="5355000" />
+      <workItem from="1628777487648" duration="7306000" />
+      <workItem from="1628790861701" duration="1009000" />
+      <workItem from="1628792297760" duration="6293000" />
+      <workItem from="1628845466261" duration="381000" />
+      <workItem from="1628848661668" duration="5939000" />
     </task>
     <servers />
   </component>
