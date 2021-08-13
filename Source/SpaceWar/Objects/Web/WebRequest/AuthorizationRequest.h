@@ -28,6 +28,7 @@ protected:
 
 private:
 
+	FString NewSessionKey;
 	FUserInfo AuthorizationKey;
 	FDelegateRequestRegisterUserCallBack AuthorizationUserCallBack;
 };

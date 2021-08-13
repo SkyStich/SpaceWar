@@ -27,19 +27,19 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 	void Server_SendReceivingServerList();
 
 	UFUNCTION()
-	void ResponseRegisterUserFromDataBase(bool bResult, const FString& ErrorMessage);
+	void ResponseRegisterUserFromDataBase(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
 
 	UFUNCTION()
-	void OnResponseAuthorizationUser(bool bResult, const FString& ErrorMessage);
+	void OnResponseAuthorizationUser(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
 
 	UFUNCTION()
 	void OnResponseReceivingServerList(const TArray<FClientServerInfo>& ClientServersInfo);
 	
 	UFUNCTION(Client, Reliable)
-	void Client_ResponseRegisterUser(bool bResult, const FString& ErrorMessage);
+	void Client_ResponseRegisterUser(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
 
 	UFUNCTION(Client, Reliable)
-    void Client_ResponseAuthorizationUser(bool bResult, const FString& ErrorMessage);
+    void Client_ResponseAuthorizationUser(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
 
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseReceivingServerList(const TArray<FClientServerInfo>& ClientServersInfo);

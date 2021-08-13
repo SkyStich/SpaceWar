@@ -3,7 +3,9 @@
 
 #include "ClientServerTransfer.h"
 #include "DataBaseTransfer.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "SpaceWar/GameInstances/BaseGameInstance.h"
 
 UClientServerTransfer::UClientServerTransfer()
 {
@@ -23,7 +25,7 @@ void UClientServerTransfer::Server_SendRegisterInfo_Implementation(const FRegist
 {
 	if(RegisterInfo.Password != RegisterInfo.RepeatPass)
 	{
-		CallBackRequestRegisterUser.OnRequestRegisterUserCallBack.Execute(false, "Passwords don't match");
+		CallBackRequestRegisterUser.OnRequestRegisterUserCallBack.Execute(false, "", "Passwords don't match");
 		return;
 	}
 	
@@ -39,16 +41,16 @@ void UClientServerTransfer::Server_SendRegisterInfo_Implementation(const FRegist
 	UE_LOG(LogTemp, Error, TEXT("UClientServerTransfer::Server_SendRegisterInfo_Implementation --Player controller not have component UDataBaseTransfer"))
 }
 
-void UClientServerTransfer::ResponseRegisterUserFromDataBase(bool bResult, const FString& ErrorMessage)
+void UClientServerTransfer::ResponseRegisterUserFromDataBase(bool bResult, const FString& SessionKey, const FString& ErrorMessage)
 {
-	Client_ResponseRegisterUser(bResult, ErrorMessage);
+	Client_ResponseRegisterUser(bResult, SessionKey, ErrorMessage);
 }
 
 void UClientServerTransfer::RequestRegisterUser(const FRegisterInfo& RegisterInfo, const FDelegateRequestRegisterUserCallBack& CallBack)
 {
 	if(RegisterInfo.Password != RegisterInfo.RepeatPass)
 	{
-		CallBack.ExecuteIfBound(false, "Passwords don't match");
+		CallBack.Execute(false, "", "Passwords don't match");
 		return;
 	}
 
@@ -62,14 +64,34 @@ void UClientServerTransfer::RequestRegisterUser(const FRegisterInfo& RegisterInf
 	Server_SendRegisterInfo(Data);
 }
 
-void UClientServerTransfer::Client_ResponseRegisterUser_Implementation(bool bResult, const FString& ErrorMessage)
+void UClientServerTransfer::Client_ResponseRegisterUser_Implementation(bool bResult, const FString& SessionKey, const FString& ErrorMessage)
 {
-	CallBackRequestRegisterUser.OnRequestRegisterUserCallBack.Execute(bResult, ErrorMessage);
+	auto const GameInstance = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(GameInstance)
+	{
+		GameInstance->SetSessionID(SessionKey);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Client_ResponseRegisterUser --Cast to UBaseGameInstance Fail %s"), *GetName());
+	}
+	CallBackRequestRegisterUser.OnRequestRegisterUserCallBack.Execute(bResult, SessionKey, ErrorMessage);
 }
 
-void UClientServerTransfer::Client_ResponseAuthorizationUser_Implementation(bool bResult, const FString& ErrorMessage)
+void UClientServerTransfer::Client_ResponseAuthorizationUser_Implementation(bool bResult, const FString& SessionKey, const FString& ErrorMessage)
 {
-	CallBackRequestRegisterUser.OnRequestRegisterUserCallBack.ExecuteIfBound(bResult, ErrorMessage);
+	auto const GameInstance = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(GameInstance)
+	{
+		GameInstance->SetSessionID(SessionKey);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Client_ResponseAuthorizationUser --Cast to UBaseGameInstance Fail %s"), *GetName());
+	}
+	CallBackRequestRegisterUser.OnRequestRegisterUserCallBack.Execute(bResult, SessionKey, ErrorMessage);
 }
 
 void UClientServerTransfer::RequestAuthorizationUser(const FUserInfo& Info, const FDelegateRequestRegisterUserCallBack& CallBack)
@@ -81,9 +103,9 @@ void UClientServerTransfer::RequestAuthorizationUser(const FUserInfo& Info, cons
 	Server_SendAuthorizationInfo(Data);
 }
 
-void UClientServerTransfer::OnResponseAuthorizationUser(bool bResult, const FString& ErrorMessage)
+void UClientServerTransfer::OnResponseAuthorizationUser(bool bResult, const FString& SessionKey, const FString& ErrorMessage)
 {
-	Client_ResponseAuthorizationUser(bResult, ErrorMessage);
+	Client_ResponseAuthorizationUser(bResult, SessionKey, ErrorMessage);
 }
 
 void UClientServerTransfer::Server_SendAuthorizationInfo_Implementation(const FUserInfo& Data)

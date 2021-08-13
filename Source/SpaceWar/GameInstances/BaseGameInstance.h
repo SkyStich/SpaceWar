@@ -46,22 +46,30 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AmmunitionWidget")
 	void ReplacementWeapon(EWeaponType Key, const FName& NewId);
 
+	UFUNCTION(BlueprintPure, BlueprintCosmetic)
+	FString GetSessionKey() const { return SessionID; }
+	
+	void SetSessionID(const FString& SessionKey) { SessionID = SessionKey; }
+
 protected:
 
 	virtual void Init() override;
+	
+public:
+    	
+    UPROPERTY(BlueprintReadWrite)
+    TArray<FEquipmentSave> Equipment;
 
 private:
 
 	UPROPERTY()
 	FName CurrentArmor;
 
+	UPROPERTY()
+	FString SessionID;
+
 protected:
 	
 	UPROPERTY(BlueprintReadWrite)
 	ESolderCategory CurrentSolderCategory;
-
-public:
-	
-	UPROPERTY(BlueprintReadWrite)
-	TArray<FEquipmentSave> Equipment;
 };

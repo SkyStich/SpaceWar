@@ -28,6 +28,7 @@ protected:
 
 private:
 
+	FString NewSessionID;
 	FRegisterInfo RegisterInfoKey;
 	FCallBackRequestRegisterUser RegisterCallBack;
 };

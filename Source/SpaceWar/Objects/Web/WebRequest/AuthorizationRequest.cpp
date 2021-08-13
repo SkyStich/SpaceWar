@@ -21,18 +21,29 @@ void UAuthorizationRequest::CallJsonResponse(const TSharedPtr<FJsonObject>& Json
 		return;
 	}
 	Result = JsonResponse->GetBoolField("AuthorizationResult");
-	AuthorizationUserCallBack.ExecuteIfBound(Result, JsonResponse->HasField("Error") ? JsonResponse->GetStringField("Error") : "");
+	bool ExecuteResult = AuthorizationUserCallBack.ExecuteIfBound(Result, NewSessionKey, JsonResponse->HasField("Error") ? JsonResponse->GetStringField("Error") : "");
 }
 
 void UAuthorizationRequest::CallJsonFail()
 {
-	AuthorizationUserCallBack.ExecuteIfBound(false, "Authorization failed");
+	bool ResultExecute = AuthorizationUserCallBack.ExecuteIfBound(false, "", "Authorization failed");
 }
 
 void UAuthorizationRequest::CollectRequest(const FString& ScriptURL)
 {
 	TSharedPtr<FJsonObject> JsonObject = CreateJsonRequest();
+
+	/** Create session hash */
+	int64 const NowTime = FDateTime::Now().ToUnixTimestamp();
+	FString const TimeToString = FString::Printf(TEXT("%lld"), NowTime);
+	FString const LeftHash = FMD5::HashAnsiString(*(AuthorizationKey.Login + TimeToString));
+	FString const RightHash = FMD5::HashAnsiString(*TimeToString);
+	NewSessionKey = LeftHash + RightHash;
+	
 	JsonObject->SetStringField("Login", AuthorizationKey.Login);
 	JsonObject->SetStringField("Password", AuthorizationKey.Password);
+	JsonObject->SetNumberField("SessionTime", (double)NowTime);
+	JsonObject->SetStringField("SessionID", NewSessionKey);
+	
 	CallWebScript(ScriptURL, JsonObject);
 }

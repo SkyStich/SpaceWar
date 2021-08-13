@@ -14,15 +14,27 @@ void URegisterWebRequest::AddRegisterKey(const FRegisterInfo& Info, const FDeleg
 void URegisterWebRequest::CollectRequest(const FString& ScriptURL)
 {
 	TSharedPtr<FJsonObject> JsonObject = CreateJsonRequest();
+
+	/** Create session hash */
+	int64 const NowTime = FDateTime::Now().ToUnixTimestamp();
+	FString const TimeToString = FString::Printf(TEXT("%lld"), NowTime);
+	FString const LeftHash = FMD5::HashAnsiString(*(RegisterInfoKey.Login + TimeToString));
+	FString const RightHash = FMD5::HashAnsiString(*TimeToString);
+	NewSessionID = LeftHash + RightHash;
+
+	/** Set JsonObjectFields */
 	JsonObject->SetStringField("Login", RegisterInfoKey.Login);
 	JsonObject->SetStringField("Password", RegisterInfoKey.Password);
 	JsonObject->SetStringField("Email", RegisterInfoKey.PlayerEmail);
+	JsonObject->SetStringField("SessionID", NewSessionID);
+	JsonObject->SetNumberField("SessionTime", (double)NowTime);
+	
 	CallWebScript(ScriptURL, JsonObject);
 }
 
 void URegisterWebRequest::CallJsonFail()
 {
-	RegisterCallBack.OnRequestRegisterUserCallBack.ExecuteIfBound(false, "Error");
+	RegisterCallBack.OnRequestRegisterUserCallBack.Execute(false, "", "URegisterWebRequest::CallJsonFail");
 }
 
 void URegisterWebRequest::CallJsonResponse(const TSharedPtr<FJsonObject>& JsonResponse)
@@ -35,6 +47,6 @@ void URegisterWebRequest::CallJsonResponse(const TSharedPtr<FJsonObject>& JsonRe
 	}
 	bResult = JsonResponse->GetBoolField("RegisterResult");
 	FString const ErrorMessage = JsonResponse->HasField("Error") ? JsonResponse->GetStringField("Error") : "";
-	RegisterCallBack.OnRequestRegisterUserCallBack.ExecuteIfBound(bResult, ErrorMessage);
+	RegisterCallBack.OnRequestRegisterUserCallBack.Execute(bResult, NewSessionID, ErrorMessage);
 }
 
