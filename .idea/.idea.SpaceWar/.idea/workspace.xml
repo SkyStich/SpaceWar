@@ -60,21 +60,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/ClientInstanceSubsystemData.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/ClientInstanceSubsystemData.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/SessionSubsystem.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/SessionSubsystem.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/MainMenu/MainHUB/MeinHUBLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/MainMenu/MainHUB/MeinHUBLevel.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Login.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Login.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Register.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Register.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Structs/RegisterUsersCallBack.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Structs/RegisterUsersCallBack.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/W_MainMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/W_MainMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/ClientInstanceSubsystemData.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/ClientInstanceSubsystemData.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWar.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWar.Build.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,11 +92,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/AuthorizationPlayerController.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/UserInfo.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.h" />
@@ -150,6 +138,11 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/ClientInstanceSubsystemData.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Sessions/GameSessionBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Sessions/GameSessionBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWar.Build.cs" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/SessionSubsystem.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/SessionSubsystem.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34327,6 +34320,10 @@
       <workItem from="1628859552636" duration="643000" />
       <workItem from="1628864176345" duration="7134000" />
       <workItem from="1628883482419" duration="2304000" />
+      <workItem from="1628891100933" duration="690000" />
+      <workItem from="1628892223747" duration="2256000" />
+      <workItem from="1628899459642" duration="2213000" />
+      <workItem from="1628942182792" duration="4336000" />
     </task>
     <servers />
   </component>
