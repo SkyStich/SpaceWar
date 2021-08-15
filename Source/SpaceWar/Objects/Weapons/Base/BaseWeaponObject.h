@@ -49,6 +49,9 @@ public:
 	virtual float GetSelectTime() const { return 0.f; }
 
 	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+	virtual UCurveVector* GetRecoilCurveVector() const { return nullptr; }
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
 	virtual float GetDelayBeforeUsed() const { return 0.f; }
 
 	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")

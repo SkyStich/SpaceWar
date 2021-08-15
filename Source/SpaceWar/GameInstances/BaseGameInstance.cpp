@@ -5,8 +5,8 @@
 
 UBaseGameInstance::UBaseGameInstance()
 {
-	//Teat
 	CurrentArmor = "Base";
+	PlayerName = "PlayerBase";
 	CurrentSolderCategory = ESolderCategory::Solder;
 }
 

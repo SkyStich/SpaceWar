@@ -25,6 +25,9 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	void UpdateWeaponMesh(UBaseWeaponObject* Weapon);
 
 	UFUNCTION()
+	void OnUpdateWeaponRecoil(const FVector& Vector);
+
+	UFUNCTION()
 	void OnStaminaUsedEvent(bool bState);
 	
 	UFUNCTION()
@@ -175,6 +178,9 @@ private:
 
 	UPROPERTY()
 	UAIPerceptionStimuliSourceComponent* PerceptionStimuliSourceComponent;
+
+	UPROPERTY()
+	FTimeline RecoilTimeline;
 
 	UPROPERTY(Replicated)
 	float LookUpPitch;

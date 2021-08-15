@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "Curves/CurveVector.h"
 #include "Engine/DataAsset.h"
 #include "Sound/SoundCue.h"
 #include "SpaceWar/Actors/Match/Projectile/Throw/Base/BaseThrowProjectile.h"
@@ -98,6 +100,9 @@ struct FSpreads
 	/** with 0 to 10 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	int32 AccuracyInSight;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	UCurveVector* RecoilCurve;
 };
 
 USTRUCT(BlueprintType)

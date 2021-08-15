@@ -27,6 +27,9 @@ protected:
 	
 	virtual void CreateCharacterWidgets();
 	virtual void RemoveCharacterWidgets();
+
+	virtual void CreateKillMessage();
+	virtual void RemoveKillMessage();
 	
 	virtual void CreateSpectatorWidgets();
 	virtual void RemoveSpectatorWidgets();
@@ -105,6 +108,12 @@ protected:
 	TAssetSubclassOf<UUserWidget> SpecialShopWidgetClass;
 
 	UPROPERTY()
+	TAssetSubclassOf<UUserWidget> KillMessageClass;
+	
+	UPROPERTY()
+	TAssetSubclassOf<UUserWidget> SpectatorWidget;
+
+	UPROPERTY()
 	UMatchWidgetDataAsset* AssetData;
 
 	UPROPERTY()
@@ -121,6 +130,9 @@ protected:
 
 	UPROPERTY()
 	UUserWidget* PreparationWidget;
+
+	UPROPERTY()
+	UUserWidget* KillMessageWidget;
 
 	UPROPERTY()
 	UEndGameWidgetBase* EndGameMatchWidget;

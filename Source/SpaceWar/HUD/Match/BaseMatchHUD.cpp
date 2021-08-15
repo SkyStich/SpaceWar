@@ -26,6 +26,12 @@ ABaseMatchHUD::ABaseMatchHUD()
 
 	ConstructorHelpers::FClassFinder<UUserWidget>SpecialShopWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/W_ShopSpecialWeapon"));
 	if(SpecialShopWidgetFinder.Succeeded()) SpecialShopWidgetClass = SpecialShopWidgetFinder.Class;
+
+	ConstructorHelpers::FClassFinder<UUserWidget>SpectatorWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/Spectator/W_MainSpectator"));
+	if(SpectatorWidgetFinder.Succeeded()) SpectatorWidget = SpectatorWidgetFinder.Class;
+	
+	ConstructorHelpers::FClassFinder<UUserWidget>KillMessageFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/KillChat/W_KillChat"));
+	if(KillMessageFinder.Succeeded()) KillMessageClass = KillMessageFinder.Class;
 }
 
 void ABaseMatchHUD::BeginPlay()
@@ -38,6 +44,7 @@ void ABaseMatchHUD::BeginPlay()
 	/** create dynamic widget */
 	CreateTabMenu();
 	CreateChatWidget();
+	CreateKillMessage();
 
 	/** bind on new player connected */
 	GetOwningPlayerController()->GetOnNewPawnNotifier().AddUObject(this, &ABaseMatchHUD::NewOwningPlayerPawn);
@@ -109,8 +116,12 @@ void ABaseMatchHUD::RemoveCharacterWidgets()
 }
 
 void ABaseMatchHUD::CreateSpectatorWidgets()
-{	
-
+{
+	if(SpectatorWidget)
+	{
+		SpectatorHUD = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), SpectatorWidget, GetOwningPlayerController());
+		SpectatorHUD->AddToViewport();
+	}
 }
 
 void ABaseMatchHUD::RemoveSpectatorWidgets()
@@ -293,5 +304,23 @@ void ABaseMatchHUD::RemoveAmmunitionWidget()
 	{
 		AmmunitionWidget->RemoveFromParent();
 		AmmunitionWidget = nullptr;
+	}
+}
+
+void ABaseMatchHUD::CreateKillMessage()
+{
+	if(KillMessageClass)
+	{
+		KillMessageWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), KillMessageClass, GetOwningPlayerController());
+		KillMessageWidget->AddToViewport();
+	}
+}
+
+void ABaseMatchHUD::RemoveKillMessage()
+{
+	if(KillMessageWidget)
+	{
+		KillMessageWidget->RemoveFromParent();
+		KillMessageWidget = nullptr;
 	}
 }

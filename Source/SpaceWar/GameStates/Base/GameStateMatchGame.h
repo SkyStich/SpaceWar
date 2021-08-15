@@ -9,11 +9,17 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FMatchEnd, const FString&, Reason, ETeam, WinnerTeam);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FEndPreMatch, const FString&, Reason, ETeam, TeamWinner);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FPlayerDeath, const FString&, InstigatorName, const FString&, LoserName, AActor*, DamageCauser);
 
 UCLASS()
 class SPACEWAR_API AGameStateMatchGame : public AGameStateBase
 {
 	GENERATED_BODY()
+
+private:
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void NetMulticast_OnPlayerDead(const FString& InstigatorName, const FString& LoserName, AActor* DamageCauser);
 
 public:
     
@@ -33,7 +39,7 @@ protected:
 	virtual void NewPlayerLogin(APlayerController* PC);
 
 	UFUNCTION()
-	virtual void PlayerDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) {}
+	virtual void PlayerDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser);
 		
 	UFUNCTION(NetMulticast, Reliable)
     void MatchFinish(const FString& Reason, ETeam WinnerTeam);
@@ -56,4 +62,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "GameState|Delegate")
 	FEndPreMatch OnPreMatchEnd;
+	
+	UPROPERTY(BlueprintAssignable, Category = "GameState|Delegate")
+	FPlayerDeath OnPlayerDead;
 };

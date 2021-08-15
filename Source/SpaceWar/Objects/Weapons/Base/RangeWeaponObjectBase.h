@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BaseWeaponObject.h"
+#include "Components/TimelineComponent.h"
 #include "SpaceWar/Interfaces/CurrentCharacterObjectInterface.h"
 #include "RangeWeaponObjectBase.generated.h"
 
@@ -54,6 +55,7 @@ public:
 	virtual bool IsCanAutoFire() const override { return WeaponData.RangeWeaponCharacteristics.bCanAutoFire; }
 	virtual EWeaponCategory GetWeaponCategory() const override { return WeaponData.WeaponCharacteristicsBase.Category; }
 	virtual UAnimSequenceBase* GetReloadAnim() const override { return WeaponData.Animations.ReloadAnim; }
+	virtual UCurveVector* GetRecoilCurveVector() const override { return WeaponData.Spreads.RecoilCurve; }
 	virtual FString GetAmmoStatus() const override;
 	
 	UFUNCTION(BlueprintPure)
@@ -107,7 +109,6 @@ private:
 	bool bReloading;
 	
 	FTimerHandle ReloadHandle;
-
 protected:
 		
 	UPROPERTY(Replicated)
@@ -115,7 +116,6 @@ protected:
 
 	UPROPERTY()
 	float CurrentSpread;
-	
 public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Weapon|Delegate")

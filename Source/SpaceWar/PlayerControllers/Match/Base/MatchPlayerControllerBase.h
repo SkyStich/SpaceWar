@@ -8,6 +8,7 @@
 #include "SpaceWar/Interfaces/MatchChatInterface.h"
 #include "SpaceWar/Components/ChatMatchComponent.h"
 #include "SpaceWar/Interfaces/CustomInputInterface.h"
+#include "SpaceWar/Interfaces/GetPlayerLoginInterface.h"
 #include "SpaceWar/Interfaces/UpdateSpecialPointsInterface.h"
 #include "SpaceWar/Interfaces/PlayerControllerInterface.h"
 #include "MatchPlayerControllerBase.generated.h"
@@ -18,7 +19,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FGetMessage, const FString&, Messag
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPausePressed);
 
 UCLASS(Blueprintable)
-class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public IUpdateSpecialPointsInterface, public IPlayerControllerInterface, public ICustomInputInterface, public IMatchChatInterface
+class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public IUpdateSpecialPointsInterface,
+	public IPlayerControllerInterface, public ICustomInputInterface, public IMatchChatInterface, public IGetPlayerLoginInterface
 {
 	GENERATED_BODY()
 
@@ -55,6 +57,7 @@ public:
 
 	virtual void IncreaseSpecialPoint_Implementation(int32 const Value) override;
 	virtual void DecreaseSpecialPoint_Implementation(int32 const Value) override;
+	virtual FString PlayerLoginFromController_Implementation() override;
 	virtual bool SpawnPlayer(const FVector& Location);
 	virtual bool IsPLayerCharacterAlive_Implementation() override { return GetCharacter() != nullptr; }
 

@@ -4,6 +4,7 @@
 #include "GameStateMatchGame.h"
 #include "Net/UnrealNetwork.h"
 #include "SpaceWar/GameModes/Match/Base/MatchGameModeBase.h"
+#include "SpaceWar/Interfaces/GetPlayerLoginInterface.h"
 
 AGameStateMatchGame::AGameStateMatchGame()
 {
@@ -49,4 +50,17 @@ void AGameStateMatchGame::MatchFinish_Implementation(const FString& Reason, ETea
 void AGameStateMatchGame::PreMatchFinish_Implementation(const FString& Reason, ETeam WinnerTeam)
 {
 	OnPreMatchEnd.Broadcast(Reason, WinnerTeam);
+}
+
+void AGameStateMatchGame::PlayerDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)
+{
+	const FString InstigatorName = IGetPlayerLoginInterface::Execute_PlayerLoginFromController(InstigatorController);
+	const FString LoserName = IGetPlayerLoginInterface::Execute_PlayerLoginFromController(LoserController);
+	NetMulticast_OnPlayerDead(InstigatorName, LoserName, DamageCauser);
+}
+
+void AGameStateMatchGame::NetMulticast_OnPlayerDead_Implementation(const FString& InstigatorName, const FString& LoserName, AActor* DamageCauser)
+{
+	if(GetLocalRole() != ROLE_Authority)
+		OnPlayerDead.Broadcast(InstigatorName, LoserName, DamageCauser);
 }

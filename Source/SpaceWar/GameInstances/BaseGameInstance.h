@@ -35,6 +35,12 @@ public:
 	FName GetCurrentArmorId() const { return CurrentArmor; }
 	
 	UFUNCTION(BlueprintPure, Category = "GameInstance")
+	FString GetPlayerName() const { return PlayerName; }
+
+	UFUNCTION(BlueprintCallable, Category = "GameInstance")
+	void SetPlayerName(const FString& NewPlayerName) { PlayerName = NewPlayerName; }
+	
+	UFUNCTION(BlueprintPure, Category = "GameInstance")
 	bool GetWeapons(TMap<EWeaponType, FName>& ReturnMap);
 
 	UFUNCTION(BlueprintPure, Category = "AmmunitionWidget")
@@ -67,6 +73,9 @@ private:
 
 	UPROPERTY()
 	FString SessionID;
+	
+	UPROPERTY()
+	FString PlayerName;
 
 protected:
 	

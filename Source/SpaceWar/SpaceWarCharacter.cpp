@@ -179,6 +179,10 @@ void ASpaceWarCharacter::Tick(float DeltaTime)
 	if(Controller)
 	{
 		FollowCamera->SetWorldRotation(GetController()->GetControlRotation());
+		if(IsLocallyControlled())
+		{
+			RecoilTimeline.TickTimeline(DeltaTime);
+		}
 	}
 }
 
@@ -291,6 +295,15 @@ void ASpaceWarCharacter::UpdateWeaponMesh(UBaseWeaponObject* Weapon)
 	if(!Weapon) return;
 	SyncLoadMesh(Weapon->GetWeaponMesh());
 	AimCamera->AttachToComponent(GetWeaponMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "SKT_Aim");
+
+	if(Weapon->GetRecoilCurveVector())
+	{
+		RecoilTimeline.Stop();
+		FOnTimelineVector OnTimelineVector;
+		OnTimelineVector.BindUFunction(this, "OnUpdateWeaponRecoil");
+		RecoilTimeline.AddInterpVector(Weapon->GetRecoilCurveVector(), OnTimelineVector);
+		RecoilTimeline.SetLooping(true);
+	}
 }
 
 void ASpaceWarCharacter::GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo)
@@ -393,13 +406,19 @@ void ASpaceWarCharacter::StopPlayerFirstAid_Implementation()
 void ASpaceWarCharacter::StartUseWeapon()
 {
 	if(bCanWeaponManipulation && WeaponManager->GetCurrentWeapon())
+	{
+		RecoilTimeline.PlayFromStart();
 		WeaponManager->GetCurrentWeapon()->OwnerStartUseWeapon();
+	}
 }
 
 void ASpaceWarCharacter::StopUseWeapon()
 {
 	if(WeaponManager->GetCurrentWeapon())
+	{
+		RecoilTimeline.Stop();
 		WeaponManager->GetCurrentWeapon()->OwnerStopUseWeapon();
+	}
 }
 
 void ASpaceWarCharacter::RefreshAmmo_Implementation()
@@ -423,4 +442,10 @@ void ASpaceWarCharacter::UpdateAmmo_Implementation()
 			RangeWeapon->AddAmmo(RangeWeapon->GetWeaponData().AmmoStatistics.MaxAmmoInStorage / 2);
 		}
 	}
+}
+
+void ASpaceWarCharacter::OnUpdateWeaponRecoil(const FVector& Vector)
+{
+	AddControllerPitchInput(-Vector.Z);
+	AddControllerYawInput(-Vector.X);
 }
