@@ -416,7 +416,6 @@ void ASpaceWarCharacter::StopUseWeapon()
 {
 	if(WeaponManager->GetCurrentWeapon())
 	{
-		RecoilTimeline.Stop();
 		WeaponManager->GetCurrentWeapon()->OwnerStopUseWeapon();
 	}
 }

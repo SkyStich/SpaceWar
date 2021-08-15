@@ -59,7 +59,8 @@ public:
 	ASpaceWarCharacter();
 	
 	FVector GetCurrentFireTrace() const;
-
+	void StopRecoilTimeline() { RecoilTimeline.Stop(); }
+	
 	virtual void GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo) override;
 	virtual void RefreshAmmo_Implementation() override;
 	

@@ -96,6 +96,10 @@ void UBaseWeaponObject::StopUseWeapon()
 	if(CharacterOwner->Controller)
 	{
 		CharacterOwner->SetCanWeaponManipulation(true);
+		if(CharacterOwner->IsLocallyControlled())
+		{
+			CharacterOwner->StopRecoilTimeline();
+		}
 	}
 }
 
