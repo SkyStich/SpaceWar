@@ -40,6 +40,11 @@ bool UBaseGameInstance::GetWeapons(TMap<EWeaponType, FName>& ReturnMap)
 	return false;
 }
 
+FName UBaseGameInstance::FindWeaponByType(EWeaponType Type, const TMap<EWeaponType, FName>& Map)
+{
+	return Map.FindRef(Type);
+}
+
 void UBaseGameInstance::ReplacementWeapon(EWeaponType Key, const FName& NewId)
 {
 	auto const Finder = Equipment.FindByPredicate([&](FEquipmentSave& Value) -> bool

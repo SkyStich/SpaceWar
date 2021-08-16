@@ -16,6 +16,8 @@
 
 class UHealthComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPlayerInitializationComplete);
+
 UCLASS(config=Game)
 class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, public IFirstAidInterface, public IUpdateAmmoInterface
 {
@@ -147,6 +149,9 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+	UPROPERTY(BlueprintAssignable, Category = "Player")
+	FPlayerInitializationComplete OnPlayerInitializationComplete;
 
 protected:
 	

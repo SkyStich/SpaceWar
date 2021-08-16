@@ -42,6 +42,9 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = "GameInstance")
 	bool GetWeapons(TMap<EWeaponType, FName>& ReturnMap);
+	
+	UFUNCTION(BlueprintPure, Category = "GameInstance")
+	FName FindWeaponByType(EWeaponType Type, const TMap<EWeaponType, FName>& Map);
 
 	UFUNCTION(BlueprintPure, Category = "AmmunitionWidget")
 	ESolderCategory GetCurrentSolderCategory() const { return CurrentSolderCategory; }

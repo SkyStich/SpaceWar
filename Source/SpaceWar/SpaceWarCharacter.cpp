@@ -78,6 +78,8 @@ void ASpaceWarCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASpaceWarCharacter::StartUseWeapon);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ASpaceWarCharacter::StopUseWeapon);
 
+	PlayerInputComponent->BindAction("UseJetpack", IE_Released, this, &ASpaceWarCharacter::UseJetpackPressed);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASpaceWarCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASpaceWarCharacter::MoveRight);
 
@@ -104,6 +106,21 @@ void ASpaceWarCharacter::BeginPlay()
 		SetActorTickEnabled(false);
 		FTimerHandle TimerHand;
 		GetWorld()->GetTimerManager().SetTimer(TimerHand, this, &ASpaceWarCharacter::ReplicateUpPitch, 0.05f, true);
+
+		auto const GameInstance = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		if(GameInstance)
+		{
+			TMap<EWeaponType, FName> Weapons;
+			GameInstance->GetWeapons(Weapons);
+			auto const TempWeapon = WeaponManager->CreateWeaponByName(Weapons.FindRef(EWeaponType::FirstWeapon), EWeaponType::FirstWeapon);
+			WeaponManager->SetCurrentWeapon(TempWeapon);
+			WeaponManager->CreateWeaponByName(Weapons.FindRef(EWeaponType::SecondWeapon), EWeaponType::SecondWeapon);
+			WeaponManager->CreateThrow("Mine");
+		}
+		else
+		{
+			UE_LOG(LogActor, Error, TEXT("ASpaceWarCharacter::BeginPlay  -- Cast to UBase game instance finish with fail:   %s"), *GetName());
+		}
 	}
 
 	if(IsLocallyControlled())
@@ -113,6 +130,7 @@ void ASpaceWarCharacter::BeginPlay()
 		
 		InitArmor(GI->GetCurrentArmorId());
 	}
+	OnPlayerInitializationComplete.Broadcast();
 }
 
 bool ASpaceWarCharacter::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags)
