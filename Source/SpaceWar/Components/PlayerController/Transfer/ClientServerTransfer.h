@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "SpaceWar/Structs/GetServerListCallBack.h"
+#include "SpaceWar/Structs/ReceivingWeaponListCallBack.h"
 #include "SpaceWar/Structs/UserInfo.h"
 #include "SpaceWar/Structs/RegisterUsersCallBack.h"
 #include "SpaceWar/Structs/ServerInfo.h"
@@ -26,6 +27,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 	UFUNCTION(Server, Reliable)
 	void Server_SendReceivingServerList();
 
+	UFUNCTION(Server, Unreliable)
+	void Server_SendReceivingWeaponList();
+
 	UFUNCTION()
 	void ResponseRegisterUserFromDataBase(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
 
@@ -34,6 +38,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 
 	UFUNCTION()
 	void OnResponseReceivingServerList(const TArray<FClientServerInfo>& ClientServersInfo);
+
+	UFUNCTION()
+	void OnResponseReceivingWeaponList(const TArray<FString>& WeaponList);
 	
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseRegisterUser(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
@@ -43,6 +50,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseReceivingServerList(const TArray<FClientServerInfo>& ClientServersInfo);
+
+	UFUNCTION(Client, Reliable)
+	void Client_ResponseReceivingWeaponList(const TArray<FString>& WeaponList);
 
 public:	
 
@@ -59,6 +69,9 @@ public:
 	/** send request on server */
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
     void RequestReceivingServerList(const FGetServerListDelegate& CallBack);
+    
+    UFUNCTION(BlueprintCallable, BlueprintCosmetic)
+	void RequestReceivingWeaponList(const FReceivingWeaponListDelegate& CallBack);
 
 protected:
 
@@ -69,4 +82,5 @@ public:
 	/** on client */
 	FCallBackRequestRegisterUser CallBackRequestRegisterUser;
 	FGetServerListCallBack ServerListCallBack;
+	FReceivingWeaponListCallBack OnReceivingWeaponListCallBack;
 };

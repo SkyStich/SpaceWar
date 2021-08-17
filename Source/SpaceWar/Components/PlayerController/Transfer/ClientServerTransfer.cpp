@@ -153,3 +153,35 @@ void UClientServerTransfer::Client_ResponseReceivingServerList_Implementation(co
 	bool bResult = ServerListCallBack.OnGetServerListDelegate.ExecuteIfBound(ClientServersInfo);
 }
 
+void UClientServerTransfer::RequestReceivingWeaponList(const FReceivingWeaponListDelegate& CallBack)
+{
+	OnReceivingWeaponListCallBack.OnReceivingWeaponListDelegate = CallBack;
+
+	Server_SendReceivingWeaponList();
+}
+
+void UClientServerTransfer::Server_SendReceivingWeaponList_Implementation()
+{
+	FReceivingWeaponListDelegate CallBack;
+	CallBack.BindUFunction(this, "OnResponseReceivingWeaponList");
+
+	auto const DataBaseTransfer = GetOwner()->FindComponentByClass<UDataBaseTransfer>();
+	if(DataBaseTransfer)
+	{
+		DataBaseTransfer->ReceivingWeaponList(CallBack);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("UClientServerTransfer::Server_SendReceivingWeaponList --Player controller not have component UDataBaseTransfer   %s: "), *GetName());
+	}
+}
+
+void UClientServerTransfer::OnResponseReceivingWeaponList(const TArray<FString>& WeaponList)
+{
+	Client_ResponseReceivingWeaponList(WeaponList);
+}
+
+void UClientServerTransfer::Client_ResponseReceivingWeaponList_Implementation(const TArray<FString>& WeaponList)
+{
+	OnReceivingWeaponListCallBack.OnReceivingWeaponListDelegate.Execute(WeaponList);
+}
