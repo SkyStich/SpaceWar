@@ -60,12 +60,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/Health/ArmorBGWArpha.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/Health/HealthPBBase.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/Health/HealthPBarBase.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/Health/HealthPbar.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/Health/HealthPbarZaliv.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/Health/StaminaPBBase.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/Health/W_ArmorStates.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/Health/W_StaminaStates.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/Halth/W_StatisticHealthj.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Polar/Maps/NewSky_PolarFacilityMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Polar/Maps/NewSky_PolarFacilityMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataAssets/ArmorDataAsset.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataAssets/ArmorDataAsset.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/Health/W_HealthStates.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/Health/W_HealthStates.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_MatchHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_MatchHUD.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/ArmorDataAsset.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/ArmorDataAsset.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" afterDir="false" />
     </list>
@@ -92,9 +102,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameServers/GameServerDataBaseComponent.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/Base/WebRequestBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerAddress.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/CreateServerCallBack.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerInfo.h" />
@@ -141,8 +148,11 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/ArmorDataAsset.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34332,7 +34342,8 @@
       <workItem from="1628992780104" duration="716000" />
       <workItem from="1629046420711" duration="1003000" />
       <workItem from="1629050228403" duration="12164000" />
-      <workItem from="1629128674421" duration="5403000" />
+      <workItem from="1629128674421" duration="5876000" />
+      <workItem from="1629212209746" duration="3870000" />
     </task>
     <servers />
   </component>
@@ -34343,16 +34354,5 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Source/SpaceWar/DataAssets/ArmorDataAsset.h</url>
-          <line>10</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

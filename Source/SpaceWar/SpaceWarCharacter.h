@@ -51,7 +51,7 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	void Server_StopUseAccessionWeapon();
 
 	UFUNCTION(Server, Reliable, WithValidation)
-	void InitArmor(const FName& ArmorName);
+	void Server_InitArmor(const FName& ArmorName);
 
 /** call on client interface IUpdateAmmoInterface::RefreshAmmo */
 	UFUNCTION(Server, Unreliable)

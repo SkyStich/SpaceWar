@@ -45,6 +45,8 @@ public:
 	// Sets default values for this component's properties
 	UHealthComponent();
 
+	void Init(float const InitMaxArmor, float const InitArmorRegenerationPerSec);
+
 	UFUNCTION(BlueprintPure, Category = "Health|Getting")
 	float GetCurrentArmor() const { return CurrentArmor; }
 
@@ -93,7 +95,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Health")
 	float MaxHealth;
 
-	UPROPERTY(EditAnywhere, Category = "Health")
+	UPROPERTY(Replicated)
 	float MaxArmor;
 	
 	UPROPERTY(EditAnywhere, Category = "Health")

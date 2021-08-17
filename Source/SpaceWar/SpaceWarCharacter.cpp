@@ -128,7 +128,7 @@ void ASpaceWarCharacter::BeginPlay()
 		auto const GI = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 		if(!GI) return;
 		
-		InitArmor(GI->GetCurrentArmorId());
+		Server_InitArmor(GI->GetCurrentArmorId());
 	}
 	OnPlayerInitializationComplete.Broadcast();
 }
@@ -142,14 +142,15 @@ bool ASpaceWarCharacter::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* 
 	return ParentReturn;
 }
 
-void ASpaceWarCharacter::InitArmor_Implementation(const FName& ArmorName)
+void ASpaceWarCharacter::Server_InitArmor_Implementation(const FName& ArmorName)
 {
 	ArmorObject = ArmorDataAsset->SyncCreateArmorObject(GetWorld(), ArmorDataAsset->FindData(ArmorName), this);
 	GetCharacterMovement()->JumpZVelocity = ArmorObject->GetData().JumpLenght;
-	HealthComponent->SetMaxArmor(ArmorObject->GetData().MaxArmor);
+	HealthComponent->Init(ArmorObject->GetData().MaxArmor, ArmorObject->GetData().ArmorRegenerationPerSec);
+	GetCharacterMovement()->MaxWalkSpeed = ArmorObject->GetData().MaxBaseSpeed;
 }
 
-bool ASpaceWarCharacter::InitArmor_Validate(const FName& ArmorName)
+bool ASpaceWarCharacter::Server_InitArmor_Validate(const FName& ArmorName)
 {
 	return ArmorDataAsset->CheckId(ArmorName);
 }
@@ -170,6 +171,7 @@ void ASpaceWarCharacter::OnStaminaUsedEvent(bool bState)
 		if(GetLocalRole() == ROLE_Authority)
 		{
 			GetCharacterMovement()->MaxWalkSpeed = ArmorObject->GetData().MaxStaminaSpeed;
+
 			if(!bCanWeaponManipulation || WeaponManager->GetCurrentWeapon()->GetAdditionalUse())
 			{
 				StaminaComponent->Server_StopUseStamina();

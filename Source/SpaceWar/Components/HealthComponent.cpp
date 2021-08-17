@@ -12,14 +12,13 @@ UHealthComponent::UHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 
-	CurrentArmor = MaxArmor = 220.f;
+	//CurrentArmor = MaxArmor = 220.f;
 	CurrentHealth = MaxHealth = 160.f;
 	HealthRegenerationPerSec = 1.f;
 	ArmorRegenerationPerSec = 2.f;
 	
 	SetIsReplicated(true);
 }
-
 
 // Called when the game starts
 void UHealthComponent::BeginPlay()
@@ -40,7 +39,15 @@ void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 	DOREPLIFETIME_CONDITION(UHealthComponent, CurrentHealth, COND_OwnerOnly);
 	DOREPLIFETIME_CONDITION(UHealthComponent, CurrentArmor, COND_OwnerOnly);
+	DOREPLIFETIME_CONDITION(UHealthComponent, MaxArmor, COND_OwnerOnly);
 	DOREPLIFETIME(UHealthComponent, bOwnerDead);
+}
+
+void UHealthComponent::Init(float const InitMaxArmor, float const InitArmorRegenerationPerSec)
+{
+	MaxArmor = InitMaxArmor;
+	CurrentArmor = MaxArmor;
+	ArmorRegenerationPerSec = InitArmorRegenerationPerSec;
 }
 
 void UHealthComponent::FirstAid(float const Value)

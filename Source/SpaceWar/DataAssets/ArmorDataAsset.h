@@ -21,6 +21,9 @@ struct FArmorData
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
 	float MaxArmor;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
+	float ArmorRegenerationPerSec; 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
 	float MaxStaminaSpeed;
