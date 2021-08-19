@@ -9,6 +9,18 @@
 #include "BaseGameInstance.generated.h"
 
 USTRUCT(BlueprintType)
+struct FCurrentWeaponKey
+{
+	GENERATED_BODY()
+	
+	FCurrentWeaponKey() : Key(EWeaponType::Unknown), Value("") {}
+	FCurrentWeaponKey(EWeaponType NewType, const FName& NewName) : Key(NewType), Value(NewName) {}
+
+	EWeaponType Key;
+	FName Value;
+};
+
+USTRUCT(BlueprintType)
 struct FEquipmentSave
 {
 	GENERATED_BODY()
@@ -17,7 +29,7 @@ struct FEquipmentSave
 	ESolderCategory Key;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TMap<EWeaponType, FName> Value;
+	TArray<FCurrentWeaponKey> Value;
 };
 
 UCLASS()
@@ -41,7 +53,7 @@ public:
 	void SetPlayerName(const FString& NewPlayerName) { PlayerName = NewPlayerName; }
 	
 	UFUNCTION(BlueprintPure, Category = "GameInstance")
-	bool GetWeapons(TMap<EWeaponType, FName>& ReturnMap);
+	TArray<FCurrentWeaponKey> GetWeaponsByPlayerClass();
 	
 	UFUNCTION(BlueprintPure, Category = "GameInstance")
 	FName FindWeaponByType(EWeaponType Type, const TMap<EWeaponType, FName>& Map);

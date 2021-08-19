@@ -43,4 +43,6 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "DataAsset")
 	UWeaponDataAsset* WeaponDataAsset;
+
+	EWeaponType SlotForReplacement;
 };

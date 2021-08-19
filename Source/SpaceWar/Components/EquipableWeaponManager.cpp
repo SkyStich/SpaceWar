@@ -186,8 +186,10 @@ void UEquipableWeaponManager::WeaponReplacement(EWeaponType NewType, const FName
 
 	if(!TempWeapon || !OldPlayerWeapon) return;
 
+	bool const IsCurrent = OldWeapon->GetWeaponName() == TempWeapon->GetWeaponName();
+
 	RemoveFromWeapons(NewType);
 	AddToWeapons(NewType, TempWeapon);
-	if(OldPlayerWeapon == CurrentWeapon) SetCurrentWeapon(TempWeapon);
-	OldPlayerWeapon->ConditionalBeginDestroy();
+	if(IsCurrent) SetCurrentWeapon(TempWeapon);
+	//OldPlayerWeapon->ConditionalBeginDestroy();
 }

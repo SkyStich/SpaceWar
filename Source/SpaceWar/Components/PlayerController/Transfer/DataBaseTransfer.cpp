@@ -1,6 +1,5 @@
 
 #include "DataBaseTransfer.h"
-
 #include "SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h"
 #include "SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h"
@@ -34,9 +33,9 @@ void UDataBaseTransfer::ReceivingServerList(const FGetServerListDelegate& CallBa
 	Request->CollectRequest("127.0.0.1/SpaceWar/ReceivingServerList.php");
 }
 
-void UDataBaseTransfer::ReceivingWeaponList(const FReceivingWeaponListDelegate& CallBack)
+void UDataBaseTransfer::ReceivingWeaponList(const FString& Login, const FReceivingWeaponListDelegate& CallBack)
 {
 	auto const Request = NewObject<UWebRequestReceivingWeaponList>(GetOwner());
-	Request->AddReceivingWeaponListKey(CallBack);
+	Request->AddReceivingWeaponListKey(Login, CallBack);
 	Request->CollectRequest("127.0.0.1/SpaceWar/ReceivingWeaponList.php");
 }

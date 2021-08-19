@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Components/EquipableWeaponManager.h"
 #include "Components/StaminaComponent.h"
+#include "GameInstances/BaseGameInstance.h"
 #include "SpaceWar/Interfaces/UpdateAmmoInterface.h"
 #include "Interfaces/GetDamageCauserInfo.h"
 #include "Components/JetpackComponent.h"
@@ -37,6 +38,9 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 
 	UFUNCTION(Server, Unreliable)
 	void Server_UseJetpack();
+
+	UFUNCTION(Server, Reliable)
+	void Server_CreateWeapon(EWeaponType Type, const FName& Id);
 
 	UFUNCTION()
 	void SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr);

@@ -3,11 +3,18 @@
 
 #include "WebRequestReceivingWeaponList.h"
 
+void UWebRequestReceivingWeaponList::AddReceivingWeaponListKey(const FString& Login, const FReceivingWeaponListDelegate& CallBack)
+{
+	PlayerLogin = Login;
+	ReceivingWeaponListCallBack.OnReceivingWeaponListDelegate = CallBack;
+}
+
 void UWebRequestReceivingWeaponList::CollectRequest(const FString& ScriptURL)
 {
 	TSharedPtr<FJsonObject> JsonObject = CreateJsonRequest();
+	JsonObject->SetStringField("Login", PlayerLogin);
 
-	CallWebScript(ScriptURL, JsonObject, EWebRequestType::Get);
+	CallWebScript(ScriptURL, JsonObject, EWebRequestType::Post);
 }
 
 void UWebRequestReceivingWeaponList::CallJsonResponse(const TSharedPtr<FJsonObject>& JsonResponse)

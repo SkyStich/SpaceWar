@@ -9,7 +9,6 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/ActorChannel.h"
 #include "GameFramework/Controller.h"
-#include "GameInstances/BaseGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Net/UnrealNetwork.h" 
@@ -106,21 +105,7 @@ void ASpaceWarCharacter::BeginPlay()
 		SetActorTickEnabled(false);
 		FTimerHandle TimerHand;
 		GetWorld()->GetTimerManager().SetTimer(TimerHand, this, &ASpaceWarCharacter::ReplicateUpPitch, 0.05f, true);
-
-		auto const GameInstance = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-		if(GameInstance)
-		{
-			TMap<EWeaponType, FName> Weapons;
-			GameInstance->GetWeapons(Weapons);
-			auto const TempWeapon = WeaponManager->CreateWeaponByName(Weapons.FindRef(EWeaponType::FirstWeapon), EWeaponType::FirstWeapon);
-			WeaponManager->SetCurrentWeapon(TempWeapon);
-			WeaponManager->CreateWeaponByName(Weapons.FindRef(EWeaponType::SecondWeapon), EWeaponType::SecondWeapon);
-			WeaponManager->CreateThrow("Mine");
-		}
-		else
-		{
-			UE_LOG(LogActor, Error, TEXT("ASpaceWarCharacter::BeginPlay  -- Cast to UBase game instance finish with fail:   %s"), *GetName());
-		}
+		WeaponManager->CreateThrow("Mine");
 	}
 
 	if(IsLocallyControlled())
@@ -129,6 +114,11 @@ void ASpaceWarCharacter::BeginPlay()
 		if(!GI) return;
 		
 		Server_InitArmor(GI->GetCurrentArmorId());
+
+		for(auto& ByArray : GI->GetWeaponsByPlayerClass())
+		{
+			Server_CreateWeapon(ByArray.Key, ByArray.Value);
+		}
 	}
 	OnPlayerInitializationComplete.Broadcast();
 }
@@ -467,4 +457,12 @@ void ASpaceWarCharacter::OnUpdateWeaponRecoil(const FVector& Vector)
 {
 	AddControllerPitchInput(-Vector.Z);
 	AddControllerYawInput(-Vector.X);
+}
+
+void ASpaceWarCharacter::Server_CreateWeapon_Implementation(EWeaponType Type, const FName& Id)
+{
+	
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, FString::Printf(TEXT("%s"), *Id.ToString()));
+	auto const TempWeapon = WeaponManager->CreateWeaponByName(Id, Type);
+	if(Type == EWeaponType::FirstWeapon) WeaponManager->SetCurrentWeapon(TempWeapon);
 }

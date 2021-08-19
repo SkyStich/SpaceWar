@@ -24,48 +24,45 @@ void UAmmunitionWidgetBase::UpdateAmmo()
 void UAmmunitionWidgetBase::InitRangeWeapon(UVerticalBox* RangeWeaponBox, TSubclassOf<UAmmunitionRangeWeaponSlotBase> SlotClass, FVector2D SpacerSize)
 {
 	/** Get weapons id with game instance */
-	TMap<EWeaponType, FName> Weapons;
 	if(!GameInstanceBase) return;
-	if(GameInstanceBase->GetWeapons(Weapons))
+	auto const Weapons = GameInstanceBase->GetWeaponsByPlayerClass();
+	
+	for(const auto& ByArray : Weapons)
 	{
-		for(const auto& ByArray : Weapons)
-		{
-			if(ByArray.Key == EWeaponType::SpecialWeapon) continue;
+		if(ByArray.Key == EWeaponType::SpecialWeapon) continue;
 
-			/** Create slot widget */
-			auto const WidgetSlot = CreateWidget<UAmmunitionRangeWeaponSlotBase>(GetOwningPlayer(), SlotClass);
+		/** Create slot widget */
+		auto const WidgetSlot = CreateWidget<UAmmunitionRangeWeaponSlotBase>(GetOwningPlayer(), SlotClass);
 
-			/** Call fun for initializer */
-			WidgetSlot->Init(ByArray.Key, ByArray.Value);
-			WidgetSlot->InitDesigner(WeaponDataAsset);
-			WidgetSlot->IsInStock = false;
-			WidgetSlot->OnSlotClicked.AddDynamic(this, &UAmmunitionWidgetBase::SlotClicked);
+		/** Call fun for initializer */
+		WidgetSlot->Init(ByArray.Key, ByArray.Value);
+		WidgetSlot->InitDesigner(WeaponDataAsset);
+		WidgetSlot->IsInStock = false;
+		WidgetSlot->SetType(ByArray.Key);
+		WidgetSlot->OnSlotClicked.AddDynamic(this, &UAmmunitionWidgetBase::SlotClicked);
 
-			/** add slot to vertical box */
-			RangeWeaponBox->AddChildToVerticalBox(WidgetSlot);
+		/** add slot to vertical box */
+		RangeWeaponBox->AddChildToVerticalBox(WidgetSlot);
 
-			/** Create Spacer and add to vertical box */
-			auto const Spacer = NewObject<USpacer>(this);
-			Spacer->SetSize(SpacerSize);
-			RangeWeaponBox->AddChildToVerticalBox(Spacer);
-		}
+		/** Create Spacer and add to vertical box */
+		auto const Spacer = NewObject<USpacer>(this);
+		Spacer->SetSize(SpacerSize);
+		RangeWeaponBox->AddChildToVerticalBox(Spacer);
 	}
 }
 
 void UAmmunitionWidgetBase::SlotClicked_Implementation(UAmmunitionRangeWeaponSlotBase* ClickSlot)
 {
-	/** active slot type for replace */
-	static EWeaponType SlotForReplacement;
-	
 	if(ClickSlot->IsInStock)
 	{
 		if(SlotForReplacement == EWeaponType::Unknown || SlotForReplacement == EWeaponType::SpecialWeapon) return;
 
 		ASpaceWarCharacter* SpaceCharacter = Cast<ASpaceWarCharacter>(GetOwningPlayerPawn());
-		if(!SpaceCharacter) return;
-
 		GameInstanceBase->ReplacementWeapon(SlotForReplacement, ClickSlot->GetId());
-		SpaceCharacter->GetWeaponManager()->Server_ReplacementWeapon(SlotForReplacement, ClickSlot->GetId());
+		if(SpaceCharacter)
+		{
+			SpaceCharacter->GetWeaponManager()->Server_ReplacementWeapon(SlotForReplacement, ClickSlot->GetId());
+		}
 	}
 	else
 	{

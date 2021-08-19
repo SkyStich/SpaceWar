@@ -16,8 +16,8 @@ void UBaseGameInstance::Init()
 
 	FEquipmentSave SaveTest;
 	SaveTest.Key = ESolderCategory::Solder;
-	SaveTest.Value.Add(EWeaponType::FirstWeapon, "SilverDragon");
-	SaveTest.Value.Add(EWeaponType::SecondWeapon, "BlackJack");
+	SaveTest.Value.Add(FCurrentWeaponKey(EWeaponType::FirstWeapon, "SilverDragon"));
+	SaveTest.Value.Add(FCurrentWeaponKey(EWeaponType::SecondWeapon, "BlackJack"));
 	Equipment.Add(SaveTest);
 }
 
@@ -27,17 +27,10 @@ void UBaseGameInstance::SetCurrentArmor(const FName& Id)
 	CurrentArmor = Id;
 }
 
-bool UBaseGameInstance::GetWeapons(TMap<EWeaponType, FName>& ReturnMap)
+TArray<FCurrentWeaponKey> UBaseGameInstance::GetWeaponsByPlayerClass()
 {
-	auto const Finder = Equipment.FindByPredicate([&](FEquipmentSave Value) -> bool
-		{ return CurrentSolderCategory == Value.Key; });
-	
-	if(Finder)
-	{
-		ReturnMap = Finder->Value;
-		return true;
-	}
-	return false;
+	return Equipment.FindByPredicate([&](FEquipmentSave Value) -> bool
+		{ return CurrentSolderCategory == Value.Key; })->Value;
 }
 
 FName UBaseGameInstance::FindWeaponByType(EWeaponType Type, const TMap<EWeaponType, FName>& Map)
@@ -47,13 +40,14 @@ FName UBaseGameInstance::FindWeaponByType(EWeaponType Type, const TMap<EWeaponTy
 
 void UBaseGameInstance::ReplacementWeapon(EWeaponType Key, const FName& NewId)
 {
-	auto const Finder = Equipment.FindByPredicate([&](FEquipmentSave& Value) -> bool
-		{ return Value.Key == CurrentSolderCategory; });
+	 auto Finder = &Equipment.FindByPredicate([&](FEquipmentSave& Value) -> bool
+		{ return Value.Key == CurrentSolderCategory; })->Value;
 
-	if(!Finder) return;
-
-	for(auto& ByArray : Finder->Value)
+	for(auto& ByArray : *Finder)
 	{
-		if(ByArray.Key == Key) ByArray.Value = NewId;
+		if(ByArray.Key == Key)
+		{
+			ByArray.Value = NewId;
+		}
 	}
 }

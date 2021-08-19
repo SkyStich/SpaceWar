@@ -32,5 +32,5 @@ public:
 	void ReceivingServerList(const FGetServerListDelegate& CallBack);
 
 	UFUNCTION()
-	void ReceivingWeaponList(const FReceivingWeaponListDelegate& CallBack);
+	void ReceivingWeaponList(const FString& Login, const FReceivingWeaponListDelegate& CallBack);
 };

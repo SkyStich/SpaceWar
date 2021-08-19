@@ -157,10 +157,11 @@ void UClientServerTransfer::RequestReceivingWeaponList(const FReceivingWeaponLis
 {
 	OnReceivingWeaponListCallBack.OnReceivingWeaponListDelegate = CallBack;
 
-	Server_SendReceivingWeaponList();
+	auto const GameInstance = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	Server_SendReceivingWeaponList(GameInstance->GetPlayerName());
 }
 
-void UClientServerTransfer::Server_SendReceivingWeaponList_Implementation()
+void UClientServerTransfer::Server_SendReceivingWeaponList_Implementation(const FString& Login)
 {
 	FReceivingWeaponListDelegate CallBack;
 	CallBack.BindUFunction(this, "OnResponseReceivingWeaponList");
@@ -168,7 +169,7 @@ void UClientServerTransfer::Server_SendReceivingWeaponList_Implementation()
 	auto const DataBaseTransfer = GetOwner()->FindComponentByClass<UDataBaseTransfer>();
 	if(DataBaseTransfer)
 	{
-		DataBaseTransfer->ReceivingWeaponList(CallBack);
+		DataBaseTransfer->ReceivingWeaponList(Login, CallBack);
 	}
 	else
 	{

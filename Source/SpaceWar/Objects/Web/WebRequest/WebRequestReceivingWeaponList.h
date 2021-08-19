@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Base/WebRequestBase.h"
 #include "SpaceWar/Structs/ReceivingWeaponListCallBack.h"
-
 #include "WebRequestReceivingWeaponList.generated.h"
 
 UCLASS()
@@ -16,7 +15,7 @@ class SPACEWAR_API UWebRequestReceivingWeaponList : public UWebRequestBase
 public:
 
 	virtual void CollectRequest(const FString& ScriptURL) override;
-	void AddReceivingWeaponListKey(const FReceivingWeaponListDelegate& CallBack) { ReceivingWeaponListCallBack.OnReceivingWeaponListDelegate = CallBack; }
+	void AddReceivingWeaponListKey(const FString& Login, const FReceivingWeaponListDelegate& CallBack);
 
 protected:
 
@@ -25,5 +24,6 @@ protected:
 
 private:
 
+	FString PlayerLogin;
 	FReceivingWeaponListCallBack ReceivingWeaponListCallBack;
 };

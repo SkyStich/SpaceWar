@@ -15,14 +15,13 @@ void URangeWeaponFinderBase::CreateSlot(UScrollBox* ScrollBox, UAmmunitionWidget
 	/** return if tihs slot is active */
 	if(IsFinderActive) return;
 	
-	TMap<EWeaponType, FName> WeaponInInventory;
-	MainWidget->GameInstanceBase->GetWeapons(WeaponInInventory);
+	auto const WeaponInInventory = MainWidget->GameInstanceBase->GetWeaponsByPlayerClass();
 
 	IsFinderActive = true;
 	
 	for(const auto& ByArray :MainWidget->WeaponDataAsset->GetWeaponData())
 	{
-		if(WeaponInInventory.FindKey(ByArray.Key)) continue;
+		if(WeaponInInventory.FindByPredicate([&](FCurrentWeaponKey& Value) -> bool{ return Value.Value == ByArray.Key; })) continue;
 
 		auto const WidgetSlot = CreateWidget<UAmmunitionRangeWeaponSlotBase>(GetOwningPlayer(), SlotClass);
 

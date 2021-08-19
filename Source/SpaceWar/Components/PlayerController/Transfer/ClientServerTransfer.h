@@ -28,7 +28,7 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 	void Server_SendReceivingServerList();
 
 	UFUNCTION(Server, Unreliable)
-	void Server_SendReceivingWeaponList();
+	void Server_SendReceivingWeaponList(const FString& Login);
 
 	UFUNCTION()
 	void ResponseRegisterUserFromDataBase(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
