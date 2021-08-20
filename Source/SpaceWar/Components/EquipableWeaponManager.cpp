@@ -186,7 +186,7 @@ void UEquipableWeaponManager::WeaponReplacement(EWeaponType NewType, const FName
 
 	if(!TempWeapon || !OldPlayerWeapon) return;
 
-	bool const IsCurrent = OldWeapon->GetWeaponName() == TempWeapon->GetWeaponName();
+	bool const IsCurrent = OldPlayerWeapon->GetWeaponName() == TempWeapon->GetWeaponName();
 
 	RemoveFromWeapons(NewType);
 	AddToWeapons(NewType, TempWeapon);
