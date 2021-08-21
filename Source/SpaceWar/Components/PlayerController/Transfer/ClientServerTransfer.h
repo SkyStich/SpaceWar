@@ -25,7 +25,7 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 	void Server_SendAuthorizationInfo(const FUserInfo& Data);
 
 	UFUNCTION(Server, Reliable)
-	void Server_SendReceivingServerList();
+	void Server_SendReceivingServerList(const TArray<FString>& MapNames);
 
 	UFUNCTION(Server, Unreliable)
 	void Server_SendReceivingWeaponList(const FString& Login);
@@ -68,7 +68,7 @@ public:
 
 	/** send request on server */
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
-    void RequestReceivingServerList(const FGetServerListDelegate& CallBack);
+    void RequestReceivingServerList(const TArray<FString>& MapNames, const FGetServerListDelegate& CallBack);
     
     UFUNCTION(BlueprintCallable, BlueprintCosmetic)
 	void RequestReceivingWeaponList(const FReceivingWeaponListDelegate& CallBack);

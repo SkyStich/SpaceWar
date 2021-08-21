@@ -26,10 +26,10 @@ void UDataBaseTransfer::AuthorizationUser(const FUserInfo& Info, const FDelegate
 	Request->CollectRequest("127.0.0.1/SpaceWar/AuthorizationUser.php");
 }
 
-void UDataBaseTransfer::ReceivingServerList(const FGetServerListDelegate& CallBack)
+void UDataBaseTransfer::ReceivingServerList(const TArray<FString>& MapNames, const FGetServerListDelegate& CallBack)
 {
 	auto const Request = NewObject<UWebRequestGetServerList>(GetOwner());
-	Request->AddServerListKey(CallBack);
+	Request->AddServerListKey(MapNames, CallBack);
 	Request->CollectRequest("127.0.0.1/SpaceWar/ReceivingServerList.php");
 }
 

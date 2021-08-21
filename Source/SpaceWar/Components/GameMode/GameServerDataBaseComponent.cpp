@@ -42,8 +42,8 @@ void UGameServerDataBaseComponent::BeginPlay()
 		CallGameServer(CallBack);
 	}
 	
-	/*LevelName = GetWorld()->GetMapName();
-	LevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);*/
+	ServerData.MapName = GetWorld()->GetMapName();
+	ServerData.MapName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
 }
 
 void UGameServerDataBaseComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -82,7 +82,7 @@ void UGameServerDataBaseComponent::CreateServerInDataBase()
 	CallBack.BindUFunction(this, "OnResponseCreateServer");
 
 	auto const Request = NewObject<UWebRequestCreateGameServer>(GetOwner());
-	Request->AddCreateServerKeys(ServerData.Name, ServerData.Address, CallBack);
+	Request->AddCreateServerKeys(ServerData.Name, ServerData.Address, ServerData.MapName, CallBack);
 	Request->CollectRequest("127.0.0.1/SpaceWar/CreateGameServer.php");
 }
 

@@ -11,11 +11,14 @@ struct FClientServerInfo
 {
 	GENERATED_BODY();
 	
-	FClientServerInfo() : ServerName(""), Address("") {}
-	FClientServerInfo(const FString& Name, const FString& ServerAddress) : ServerName(Name), Address(ServerAddress) {}
+	FClientServerInfo() : ServerName(""), MapName(""), Address("") {}
+	FClientServerInfo(const FString& Name, const FString& NewMapName, const FString& ServerAddress) : ServerName(Name), MapName(NewMapName), Address(ServerAddress) {}
 
 	UPROPERTY(BlueprintReadOnly)
 	FString ServerName;
+	
+	UPROPERTY(BlueprintReadOnly)
+	FString MapName;
 	
 	UPROPERTY(BlueprintReadOnly)
 	FString Address;

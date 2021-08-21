@@ -27,6 +27,7 @@ void UWebRequestGetServerInfo::CallJsonResponse(const TSharedPtr<FJsonObject>& J
 	}
 	FServersData Data;
 	Data.Name = JsonResponse->GetStringField("ServerName");
+	Data.MapName = JsonResponse->GetStringField("MapName");
 	Data.Address = JsonResponse->GetStringField("Address");
 	UE_LOG(LogWebRequestServerInfo, Warning, TEXT("Server Info Name: %s     Address: %s"), *Data.Name, *Data.Address);
 	ServerInfoCallBack.OnGetServerInfoDelegate.Execute(true, "", Data);

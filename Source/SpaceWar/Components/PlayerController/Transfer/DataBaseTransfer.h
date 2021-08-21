@@ -29,7 +29,7 @@ public:
 	void AuthorizationUser(const FUserInfo& Info, const FDelegateRequestRegisterUserCallBack& CallBack);
 
 	UFUNCTION()
-	void ReceivingServerList(const FGetServerListDelegate& CallBack);
+	void ReceivingServerList(const TArray<FString>& MapNames, const FGetServerListDelegate& CallBack);
 
 	UFUNCTION()
 	void ReceivingWeaponList(const FString& Login, const FReceivingWeaponListDelegate& CallBack);

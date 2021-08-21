@@ -19,7 +19,7 @@ class SPACEWAR_API UWebRequestGetServerList : public UWebRequestBase
 public:
 
 	virtual void CollectRequest(const FString& ScriptURL) override;
-	void AddServerListKey(const FGetServerListDelegate& CallBack) { OnServerListDelegate = CallBack; }
+	void AddServerListKey(const TArray<FString>& MapNames, const FGetServerListDelegate& CallBack);
 
 protected:
 
@@ -28,5 +28,6 @@ protected:
 
 private:
 
+	TArray<FString> ServerNames;
 	FGetServerListDelegate OnServerListDelegate;
 };

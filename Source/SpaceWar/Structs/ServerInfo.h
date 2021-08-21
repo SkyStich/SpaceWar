@@ -11,13 +11,16 @@ struct FServersData
 {
 	GENERATED_BODY()
 
-	FServersData() : Id(-1), Name(""), Address("") {}
+	FServersData() : Id(-1), Name(""), MapName(""), Address("") {}
 	
 	UPROPERTY(BlueprintReadOnly)
 	int32 Id;
 	
 	UPROPERTY(BlueprintReadOnly)
 	FString Name;
+
+	UPROPERTY(BlueprintReadOnly)
+	FString MapName;
 
 	UPROPERTY(BlueprintReadOnly)
 	FString Address;
