@@ -60,34 +60,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataTables/DT_MapData.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/MainHUB/MainHUBLevel.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/MainHUB/MeinHUBLevel.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/MeinHUBLevel.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Structs/FMapData.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/MainHUBList/W_MainHUBFinder.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/MainHUBList/W_MainHUBFinderSlot.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/BPFLibrary/ServerManipulationLibrary.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/BPFLibrary/ServerManipulationLibrary.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/BackPlace.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Center.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/BackPlace.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/BackPlace_BuiltData.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/Center.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/Center_BuiltData.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/Example_Dynamic.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/Example_Dynamic_BuiltData.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/SpawnAttackTeam.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/SpawnAttackTeam_BuiltData.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Example_Dynamic.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/SpaceStation.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/SpaceStation_BuiltData.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/SpawnAttackTeam.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/MainMenu/MainHUB/MeinHUBLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/MainMenu/MainHUB/MeinHUBLevel.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_AmmuniitonGridInMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_AmmuniitonGridInMenu.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Login.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Login.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Register.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Authorisation/W_Register.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/SessionSubsystem.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/SessionSubsystem.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerInfo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerInfo.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/Match/BP_CaptureFlagGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/Match/BP_CaptureFlagGameMode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataTables/DT_MapData.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataTables/DT_MapData.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Authorization/AuthorizationMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Authorization/AuthorizationMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Test.umap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Test_BuiltData.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/W_HUBGameServerList/W_GameMapSlot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/W_HUBGameServerList/W_GameMapSlot.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/W_MainMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/W_MainMenu.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Structs/GetServerListCallBack.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Structs/GetServerListCallBack.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Structs/ServerInfo.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Structs/ServerInfo.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,12 +152,12 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/GetServerListCallBack.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/ServerInfo.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerInfo.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34365,6 +34360,7 @@
       <workItem from="1629482703537" duration="4787000" />
       <workItem from="1629493028403" duration="6485000" />
       <workItem from="1629537286875" duration="1102000" />
+      <workItem from="1630173147970" duration="1806000" />
     </task>
     <servers />
   </component>

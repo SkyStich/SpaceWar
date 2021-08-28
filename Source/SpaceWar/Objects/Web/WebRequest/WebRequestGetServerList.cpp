@@ -14,6 +14,7 @@ void UWebRequestGetServerList::CollectRequest(const FString& ScriptURL)
 
 	for(const auto& ByArray : ServerNames)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Blue, FString::Printf(TEXT("Name: %s"), *ByArray));
 		TSharedPtr<FJsonObject> Object = CreateJsonRequest();
 		Object->SetStringField("Map", ByArray);
 		TSharedRef<FJsonValueObject> JsonValueObject = MakeShareable(new FJsonValueObject(Object));
