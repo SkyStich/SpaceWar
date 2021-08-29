@@ -14,4 +14,7 @@ class SPACEWAR_API AMainMenuPlayerControllerBase : public APlayerController
 
 public:
 	AMainMenuPlayerControllerBase();
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void CreateServer(const FString& MapReference, const FString& MapName, const FString& ServerName);
 };
