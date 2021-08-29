@@ -6,9 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "SpaceWar/Structs/GetServerListCallBack.h"
 #include "SpaceWar/Structs/ReceivingWeaponListCallBack.h"
+#include "SpaceWar/Structs/CreateServerCallBack.h"
 #include "SpaceWar/Structs/RegisterUsersCallBack.h"
 #include "SpaceWar/Structs/UserInfo.h"
-
 #include "DataBaseTransfer.generated.h"
 
 /** only server */
@@ -33,4 +33,7 @@ public:
 
 	UFUNCTION()
 	void ReceivingWeaponList(const FString& Login, const FReceivingWeaponListDelegate& CallBack);
+
+	UFUNCTION()
+	void ReceivingCreateServerComplete(const FString& ServerName, const FCreateServerCompelete& CallBack);
 };

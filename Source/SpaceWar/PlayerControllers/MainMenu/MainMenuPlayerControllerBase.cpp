@@ -2,7 +2,6 @@
 
 
 #include "MainMenuPlayerControllerBase.h"
-#include "SpaceWar/BPFLibrary/ServerManipulationLibrary.h"
 
 AMainMenuPlayerControllerBase::AMainMenuPlayerControllerBase()
 {
@@ -10,9 +9,8 @@ AMainMenuPlayerControllerBase::AMainMenuPlayerControllerBase()
 
 	bReplicates = true;
 	NetUpdateFrequency = 1.f;
+
+	DataBaseTransfer = CreateDefaultSubobject<UDataBaseTransfer>(TEXT("DataBaseTransfer"));
+	ClientServerTransfer = CreateDefaultSubobject<UClientServerTransfer>(TEXT("ClientServerTransfer"));
 }
 
-void AMainMenuPlayerControllerBase::CreateServer_Implementation(const FString& MapReference, const FString& MapName, const FString& ServerName)
-{
-	UServerManipulationLibrary::LaunchServer(MapReference, "");
-}

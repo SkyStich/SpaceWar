@@ -186,3 +186,34 @@ void UClientServerTransfer::Client_ResponseReceivingWeaponList_Implementation(co
 {
 	OnReceivingWeaponListCallBack.OnReceivingWeaponListDelegate.Execute(WeaponList);
 }
+
+void UClientServerTransfer::RequestReceivingCreateServerResult(const FCreateServerCompelete& CallBack)
+{
+	OnCreateServerComplete = CallBack;
+}
+
+void UClientServerTransfer::Server_SendReceivingCreateServerComplete_Implementation(const FString& ServerName)
+{
+	FCreateServerCompelete CallBack;
+	CallBack.BindUFunction(this, "OnResponseCreateServerResult");
+
+	auto const Transfer = GetOwner()->FindComponentByClass<UDataBaseTransfer>();
+	if(Transfer)
+	{
+		Transfer->ReceivingCreateServerComplete(ServerName, CallBack);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("UClientServerTransfer::Server_SendReceivingCreateServerComplete --Player controller not have component UDataBaseTransfer   %s: "), *GetName());
+	}
+}
+
+void UClientServerTransfer::OnResponseCreateServerResult(bool bResult, const FString& Address)
+{
+	Client_CreateServerCompleteResult(bResult, Address);
+}
+
+void UClientServerTransfer::Client_CreateServerCompleteResult_Implementation(bool bResult, const FString& Address)
+{
+	OnCreateServerComplete.Execute(bResult, Address);
+}

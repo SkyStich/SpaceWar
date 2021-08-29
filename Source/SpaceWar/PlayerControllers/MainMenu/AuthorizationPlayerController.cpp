@@ -6,8 +6,7 @@
 
 AAuthorizationPlayerController::AAuthorizationPlayerController()
 {
-	ClientServerTransfer = CreateDefaultSubobject<UClientServerTransfer>(TEXT("ClientServerTransfer"));
-	DataBaseTransfer = CreateDefaultSubobject<UDataBaseTransfer>(TEXT("DataBaseTransfer"));
+
 }
 
 void AAuthorizationPlayerController::BeginPlay()

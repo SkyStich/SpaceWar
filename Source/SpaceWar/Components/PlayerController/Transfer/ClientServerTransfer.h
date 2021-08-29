@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "SpaceWar/Structs/CreateServerCallBack.h"
 #include "SpaceWar/Structs/GetServerListCallBack.h"
 #include "SpaceWar/Structs/ReceivingWeaponListCallBack.h"
 #include "SpaceWar/Structs/UserInfo.h"
@@ -27,8 +28,11 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 	UFUNCTION(Server, Reliable)
 	void Server_SendReceivingServerList(const TArray<FString>& MapNames);
 
-	UFUNCTION(Server, Unreliable)
+	UFUNCTION(Server, Reliable)
 	void Server_SendReceivingWeaponList(const FString& Login);
+
+	UFUNCTION(Server, Reliable)
+	void Server_SendReceivingCreateServerComplete(const FString& ServerName);
 
 	UFUNCTION()
 	void ResponseRegisterUserFromDataBase(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
@@ -41,6 +45,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 
 	UFUNCTION()
 	void OnResponseReceivingWeaponList(const TArray<FString>& WeaponList);
+
+	UFUNCTION()
+	void OnResponseCreateServerResult(bool bResult, const FString& Address);
 	
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseRegisterUser(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
@@ -53,6 +60,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseReceivingWeaponList(const TArray<FString>& WeaponList);
+
+	UFUNCTION(Client, Reliable)
+	void Client_CreateServerCompleteResult(bool bResult, const FString& Address);
 
 public:	
 
@@ -73,6 +83,9 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintCosmetic)
 	void RequestReceivingWeaponList(const FReceivingWeaponListDelegate& CallBack);
 
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
+	void RequestReceivingCreateServerResult(const FCreateServerCompelete& CallBack);
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -83,4 +96,5 @@ public:
 	FCallBackRequestRegisterUser CallBackRequestRegisterUser;
 	FGetServerListCallBack ServerListCallBack;
 	FReceivingWeaponListCallBack OnReceivingWeaponListCallBack;
+	FCreateServerCompelete OnCreateServerComplete;
 };

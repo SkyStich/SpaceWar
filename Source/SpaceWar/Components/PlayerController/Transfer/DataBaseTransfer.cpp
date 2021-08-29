@@ -2,6 +2,7 @@
 #include "DataBaseTransfer.h"
 #include "SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h"
 #include "SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.h"
+#include "SpaceWar/Objects/Web/WebRequest/WebRequestCheckServerCreation.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestReceivingWeaponList.h"
 
@@ -38,4 +39,11 @@ void UDataBaseTransfer::ReceivingWeaponList(const FString& Login, const FReceivi
 	auto const Request = NewObject<UWebRequestReceivingWeaponList>(GetOwner());
 	Request->AddReceivingWeaponListKey(Login, CallBack);
 	Request->CollectRequest("127.0.0.1/SpaceWar/ReceivingWeaponList.php");
+}
+
+void UDataBaseTransfer::ReceivingCreateServerComplete(const FString& ServerName, const FCreateServerCompelete& CallBack)
+{
+	auto const Request = NewObject<UWebRequestCheckServerCreation>(GetOwner());
+	Request->AddCheckingServerKey(ServerName, CallBack);
+	Request->CollectRequest("127.0.0.1/SpaceWar/ReceivingCheckingServerCreation.php");
 }
