@@ -63,3 +63,40 @@ void AOnlineMatchGameModeBase::UpdatePlayerStatistics(AController* InstigatorCon
 	IUpdateSpecialPointsInterface::Execute_DecreaseSpecialPoint(LoserController, 200);
 	IUpdateSpecialPointsInterface::Execute_IncreaseSpecialPoint(InstigatorController, 150);
 }
+
+void AOnlineMatchGameModeBase::PreparationForStartGame()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("PreparationForStartGame"));
+	if(GameState->PlayerArray.Num() >= 2 && !bGameInProgress && !GetWorld()->GetTimerManager().IsTimerActive(PreparationStartGameHandle))
+	{
+		auto f = [&]() -> void
+		{
+			GetWorld()->GetTimerManager().ClearTimer(PreparationStartGameHandle);
+			bGameInProgress = true;
+			OnFinishPreparationStartGame.Broadcast(true);
+		};
+		
+		OnStartTimerBeforeOfGame.Broadcast();
+		FTimerDelegate TimerDel;
+		TimerDel.BindLambda(f);
+		GetWorld()->GetTimerManager().SetTimer(PreparationStartGameHandle, TimerDel, 61.f, false);
+	}
+}
+
+void AOnlineMatchGameModeBase::PostLogin(APlayerController* NewPlayer)
+{
+	Super::PostLogin(NewPlayer);
+	
+	PreparationForStartGame();
+}
+
+void AOnlineMatchGameModeBase::Logout(AController* Exiting)
+{
+	Super::Logout(Exiting);
+
+	if(GameState->PlayerArray.Num() < 2 && !bGameInProgress)
+	{
+		OnFinishPreparationStartGame.Broadcast(false);
+		GetWorld()->GetTimerManager().ClearTimer(PreparationStartGameHandle);
+	}
+}

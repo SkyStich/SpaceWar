@@ -9,6 +9,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNewPlayerPostLogin, APlayerState*, PlayerState);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTeamPointUpdate, int32, NewValue, ETeam, TeamUpdate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLaunchTimerBeforeOfGame);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPreparationStartGameFinish, bool, bResult /** if true, game start else start wait new player*/);
 
 UCLASS()
 class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame
@@ -19,6 +21,12 @@ class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame
 
 	UFUNCTION(NetMulticast, Unreliable)
 	void NetMulticast_NewPlayerPostLogin(APlayerState* PlayerState);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void NetMulticast_FinishPreparationStartGame(bool bResult);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void NetMulticast_StartTimerBeforeOfGame();
 
 public:
 
@@ -35,10 +43,17 @@ public:
 protected:
 
 	virtual void NewPlayerLogin(APlayerController* PC) override;
+	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	/** Call if player log out */
 	virtual void AutoBalanceTeam();
+	
+	UFUNCTION()
+    virtual void FinishPreparationGame(bool bResult);
+    
+    UFUNCTION()
+    virtual void StartTimerBeforeGame();
 
 public:
 
@@ -47,6 +62,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Delegates")
 	FTeamPointUpdate OnTeamPointUpdate;
+
+	UPROPERTY(BlueprintAssignable, Category = "Delegates")
+	FLaunchTimerBeforeOfGame OnLaunchTimerBeforeOfGame;
+
+	UPROPERTY(BlueprintAssignable, Category = "Delegates")
+	FPreparationStartGameFinish OnPreparationStartGameFinish;
 
 protected:
 

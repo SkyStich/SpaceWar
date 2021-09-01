@@ -38,6 +38,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PlayerDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) override;
+	virtual void FinishPreparationGame(bool bResult) override;
 
 	UFUNCTION(NetMulticast, Reliable)
     void NetMulticast_RoundEnded(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound);

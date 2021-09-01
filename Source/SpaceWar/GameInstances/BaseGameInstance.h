@@ -51,6 +51,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "GameInstance")
 	void SetPlayerName(const FString& NewPlayerName) { PlayerName = NewPlayerName; }
+
+	UFUNCTION(BlueprintCallable, Category = "GameInstance")
+	void SetCurrentMainHUBServerName(const FString& NewName) { CurrentMainHUBServerName = NewName; }
 	
 	UFUNCTION(BlueprintPure, Category = "GameInstance")
 	TArray<FCurrentWeaponKey> GetWeaponsByPlayerClass();
@@ -60,6 +63,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "AmmunitionWidget")
 	ESolderCategory GetCurrentSolderCategory() const { return CurrentSolderCategory; }
+
+	UFUNCTION(BlueprintPure, Category = "GameInstance")
+	FString GetCurrentMainHUBServerName() const { return CurrentMainHUBServerName; }
 	
 	UFUNCTION(BlueprintCallable, Category = "AmmunitionWidget")
     void SetCurrentSolderCategory(ESolderCategory NewCategory) { CurrentSolderCategory = NewCategory; }
@@ -71,6 +77,7 @@ public:
 	FString GetSessionKey() const { return SessionID; }
 	
 	void SetSessionID(const FString& SessionKey) { SessionID = SessionKey; }
+	void SetPlayerId(int32 const Id) { PlayerId = Id; }
 
 protected:
 
@@ -91,6 +98,12 @@ private:
 	
 	UPROPERTY()
 	FString PlayerName;
+
+	UPROPERTY()
+	FString CurrentMainHUBServerName;
+	
+	UPROPERTY()
+	int32 PlayerId;
 
 protected:
 	

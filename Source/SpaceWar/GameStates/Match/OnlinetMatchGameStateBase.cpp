@@ -3,6 +3,7 @@
 
 #include "OnlinetMatchGameStateBase.h"
 #include "Net/UnrealNetwork.h"
+#include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
 
 AOnlinetMatchGameStateBase::AOnlinetMatchGameStateBase()
 {
@@ -27,6 +28,17 @@ void AOnlinetMatchGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProp
 	DOREPLIFETIME(AOnlinetMatchGameStateBase, TeamPointsB);
 }
 
+void AOnlinetMatchGameStateBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		auto GM = Cast<AOnlineMatchGameModeBase>(AuthorityGameMode);
+		GM->OnStartTimerBeforeOfGame.AddDynamic(this, &AOnlinetMatchGameStateBase::StartTimerBeforeGame);
+		GM->OnFinishPreparationStartGame.AddDynamic(this, &AOnlinetMatchGameStateBase::FinishPreparationGame);
+	}
+}
 
 void AOnlinetMatchGameStateBase::SetTeamForPlayer(APlayerController* PC)
 {
@@ -66,6 +78,27 @@ void AOnlinetMatchGameStateBase::NetMulticast_NewPlayerPostLogin_Implementation(
 {
 	OnNewPlayerPostLogin.Broadcast(PlayerState);
 }
+
+void AOnlinetMatchGameStateBase::FinishPreparationGame(bool bResult)
+{
+	NetMulticast_FinishPreparationStartGame(bResult);
+}
+
+void AOnlinetMatchGameStateBase::StartTimerBeforeGame()
+{
+	NetMulticast_StartTimerBeforeOfGame();	
+}
+
+void AOnlinetMatchGameStateBase::NetMulticast_FinishPreparationStartGame_Implementation(bool bResult)
+{
+	OnPreparationStartGameFinish.Broadcast(bResult);
+}
+
+void AOnlinetMatchGameStateBase::NetMulticast_StartTimerBeforeOfGame_Implementation()
+{
+	OnLaunchTimerBeforeOfGame.Broadcast();
+}
+
 
 
 

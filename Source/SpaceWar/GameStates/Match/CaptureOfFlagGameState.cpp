@@ -13,11 +13,6 @@ ACaptureOfFlagGameState::ACaptureOfFlagGameState()
 void ACaptureOfFlagGameState::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if(GetLocalRole() == ROLE_Authority)
-	{
-		RefreshRound();
-	}
 }
 
 void ACaptureOfFlagGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -28,11 +23,17 @@ void ACaptureOfFlagGameState::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 	DOREPLIFETIME(ACaptureOfFlagGameState, CurrentPreparationTime);
 }
 
+void ACaptureOfFlagGameState::FinishPreparationGame(bool bResult)
+{
+	Super::FinishPreparationGame(bResult);
+
+	RefreshRound();
+}
+
 void ACaptureOfFlagGameState::RefreshRound()
 {
-	CurrentPreparationTime = 5;
+	CurrentPreparationTime = 20;
 	SecurityTeam = (GetTeamPointsA() + GetTeamPointsB()) % 2 == 0 ? ETeam::TeamA : ETeam::TeamB;
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("SecurityTeam: %hhd"), SecurityTeam));
 	NetMulticast_RoundPreparation();
 	
 	GetWorld()->GetTimerManager().ClearTimer(RefreshRoundHandle);

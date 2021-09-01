@@ -19,7 +19,7 @@ void UWebRequestCheckServerCreation::CollectRequest(const FString& ScriptURL)
 
 void UWebRequestCheckServerCreation::CallJsonResponse(const TSharedPtr<FJsonObject>& JsonResponse)
 {
-	FString const Address =  JsonResponse->GetStringField("ip");
+	FString const Address = JsonResponse->HasField("ip") ? JsonResponse->GetStringField("ip") : "";
 	bool const bResult = JsonResponse->GetBoolField("Result");
 	OnCreateServerComplete.Execute(bResult, Address);
 }

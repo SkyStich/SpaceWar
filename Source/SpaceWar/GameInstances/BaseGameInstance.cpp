@@ -6,7 +6,7 @@
 UBaseGameInstance::UBaseGameInstance()
 {
 	CurrentArmor = "Base";
-	PlayerName = "PlayerBase";
+	PlayerName = "PlayerName";
 	CurrentSolderCategory = ESolderCategory::Solder;
 }
 
@@ -20,7 +20,6 @@ void UBaseGameInstance::Init()
 	SaveTest.Value.Add(FCurrentWeaponKey(EWeaponType::SecondWeapon, "BlackJack"));
 	Equipment.Add(SaveTest);
 }
-
 
 void UBaseGameInstance::SetCurrentArmor(const FName& Id)
 {
