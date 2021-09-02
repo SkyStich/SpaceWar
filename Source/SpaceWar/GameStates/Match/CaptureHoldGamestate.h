@@ -23,4 +23,5 @@ protected:
 	
 	virtual void MatchFinish_Implementation(const FString& Reason, ETeam WinnerTeam) override;
 	virtual void BeginPlay() override;
+	virtual void FinishPreparationGame(bool bResult) override;
 };

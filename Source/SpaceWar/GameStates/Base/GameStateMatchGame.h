@@ -51,6 +51,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Time")
 	int32 MaxMatchTime;
+	
+	UPROPERTY(EditAnywhere, Category = "Time")
+	int32 MaxGamePreparationTime;
     	
 	UPROPERTY(Replicated)
 	int32 CurrentMatchTime;

@@ -9,7 +9,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
 #include "SpaceWar/SpaceWarCharacter.h"
-#include "SpaceWar/GameModes/Match/Base/MatchGameModeBase.h"
+#include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
 
 AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 {
@@ -69,8 +69,9 @@ void AMatchPlayerControllerBase::SetPlayerClass(TSubclassOf<ASpaceWarCharacter> 
 
 bool AMatchPlayerControllerBase::SpawnPlayer(const FVector& Location)
 {
-	auto const GM = Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	if(GM)
+	auto const GM = Cast<AOnlineMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	bool const bInProgress = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()))->GameInProgress();
+	if(GM && bInProgress)
 	{
 		GM->SpawnCharacter(this, Location);
 		return true;

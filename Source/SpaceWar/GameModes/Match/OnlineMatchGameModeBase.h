@@ -7,8 +7,7 @@
 #include "SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h"
 #include "OnlineMatchGameModeBase.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStartTimerBeforeOfGame);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFinishPreparationStartGame, bool, bResult /** if true, game start else start wait new player*/);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerLogout, AController*, Exiting);
 
 /** Game mode with Team logic */
 UCLASS(Abstract)
@@ -17,7 +16,9 @@ class SPACEWAR_API AOnlineMatchGameModeBase : public AMatchGameModeBase
 	GENERATED_BODY()
 
 	void UpdatePlayerStatistics(AController* InstigatorController, AController* LoserController);
-	void PreparationForStartGame();
+
+	UFUNCTION()
+	void PreparationGameFinish(bool bResult);
 
 protected:
 
@@ -25,6 +26,9 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void Logout(AController* Exiting) override;
+
+	UFUNCTION()
+	virtual void MatchStarted() {}
 	
 	UFUNCTION()
     virtual void UpdateTeamPoints(int32 NewValue, ETeam Team);
@@ -39,13 +43,5 @@ public:
 public:
 
 	UPROPERTY()
-	FStartTimerBeforeOfGame OnStartTimerBeforeOfGame;
-
-	UPROPERTY()
-	FFinishPreparationStartGame OnFinishPreparationStartGame;
-
-private:
-
-	FTimerHandle PreparationStartGameHandle;
-	bool bGameInProgress;
+	FPlayerLogout OnPlayerLogout;
 };

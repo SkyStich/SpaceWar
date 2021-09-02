@@ -40,7 +40,6 @@ void AMatchGameModeBase::SpawnSpectator(AController* PossessController, const FV
 	PossessController->Possess(Spectator);
 }
 
-/** dont call */
 void AMatchGameModeBase::AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, FTransform SpawnTransform, AController* Controller)
 {
 	ABaseMatchSpectator* Spectator = nullptr;

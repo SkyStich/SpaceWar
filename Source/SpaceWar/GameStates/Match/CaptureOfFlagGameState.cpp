@@ -71,13 +71,11 @@ void ACaptureOfFlagGameState::NetMulticast_RoundEnded_Implementation(const FStri
 
 void ACaptureOfFlagGameState::NetMulticast_RoundStarted_Implementation()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Start round"));
 	OnRoundStarted.Broadcast();
 }
 
 void ACaptureOfFlagGameState::NetMulticast_RoundPreparation_Implementation()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("preparaction round"));
 	if(GetLocalRole() == ROLE_Authority)
 	{
 		CurrentMatchTime = MaxMatchTime;

@@ -35,16 +35,6 @@ void ACaptureAndHoldHUD::PreparationSpawnCharacter()
 	{
 		RemoveSpectatorWidgets();
 		CreatePreparationWidget();
-		auto f = [&]() -> void
-		{
-			auto const PC = Cast<ACaptureHoldController>(GetOwningPlayerController());
-			PC->SpawnPlayerByPoint(IPreparationWidgetInterface::Execute_FindSpawnPointNumber(PreparationWidget));
-			RemovePreparationWidget();
-		};
-		FTimerDelegate TimerDel;
-		FTimerHandle TimerHandle;
-		TimerDel.BindLambda(f);
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, false);
 	}
 }
 

@@ -13,8 +13,6 @@ ACaptureHoldGameMode::ACaptureHoldGameMode()
 void ACaptureHoldGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
-	LaunchGameTimer();
 }
 
 void ACaptureHoldGameMode::CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)
@@ -54,3 +52,10 @@ void ACaptureHoldGameMode::TickTime(AOnlinetMatchGameStateBase* MatchGameState)
 		GetWorld()->GetTimerManager().ClearTimer(TimeMatchHandle);
 	}
 }
+
+void ACaptureHoldGameMode::MatchStarted()
+{
+	Super::MatchStarted();
+	LaunchGameTimer();
+}
+

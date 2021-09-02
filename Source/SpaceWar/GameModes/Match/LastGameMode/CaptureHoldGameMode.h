@@ -24,4 +24,5 @@ protected:
 	virtual void MatchEnded(const FString& Reason, ETeam WinnerTeam) override;
 	virtual void TickTime(AOnlinetMatchGameStateBase* MatchGameState) override;
 	virtual void BeginPlay() override;
+	virtual void MatchStarted() override;
 };

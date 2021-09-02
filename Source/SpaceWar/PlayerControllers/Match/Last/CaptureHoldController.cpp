@@ -4,6 +4,7 @@
 #include "EngineUtils.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
 #include "SpaceWar/GameStates/Match/CaptureHoldGamestate.h"
 #include "SpaceWar/Interfaces/ErrorMessageInterface.h"
 #include "SpaceWar/PlayerStart/PointCapturePlayerStart.h"
@@ -83,6 +84,7 @@ void ACaptureHoldController::SpawnPlayerByPoint(EPointNumber Point)
 
 void ACaptureHoldController::Server_SpawnPlayerByPoint_Implementation(const TArray<APointCapturePlayerStart*>&PointArray)
 {
+	auto const GameState = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	if(!bCanSpawn) return;
 	
 	for(auto& ByArray : PointArray)

@@ -3,7 +3,9 @@
 #include "BaseMatchHUD.h"
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h"
 #include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
 #include "SpaceWar/PlayerStart/MatchPlayerStartBase.h"
 #include "UObject/ConstructorHelpers.h"
@@ -45,10 +47,11 @@ void ABaseMatchHUD::BeginPlay()
 	CreateTabMenu();
 	CreateChatWidget();
 	CreateKillMessage();
+	CreatePreparationWidget();
 
-	/** bind on new player connected */
-	GetOwningPlayerController()->GetOnNewPawnNotifier().AddUObject(this, &ABaseMatchHUD::NewOwningPlayerPawn);
-	Cast<AMatchPlayerControllerBase>(GetOwningPlayerController())->OnPausePressed.AddDynamic(this, &ABaseMatchHUD::PausePressed);
+	auto const GS = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
+	GS->OnPreparationStartGameFinish.AddDynamic(this, &ABaseMatchHUD::OnPreparationStartGameEvent);
+//	Cast<AMatchPlayerControllerBase>(GetOwningPlayerController())->OnPausePressed.AddDynamic(this, &ABaseMatchHUD::PausePressed);
 }
 
 void ABaseMatchHUD::ClientErrorMessage_Implementation(const FString& Message)
@@ -78,6 +81,7 @@ void ABaseMatchHUD::NewOwningPlayerPawn(APawn* NewPawn)
 	if(GetOwningPlayerController()->GetCharacter())
 	{
 		//Character
+		RemovePreparationWidget();
 		CreateCharacterWidgets();
 		CreateSpecialWidget();
 	}
@@ -323,4 +327,10 @@ void ABaseMatchHUD::RemoveKillMessage()
 		KillMessageWidget->RemoveFromParent();
 		KillMessageWidget = nullptr;
 	}
+}
+
+void ABaseMatchHUD::OnPreparationStartGameEvent(bool bResult)
+{
+	/** bind on new player connected */
+	GetOwningPlayerController()->GetOnNewPawnNotifier().AddUObject(this, &ABaseMatchHUD::NewOwningPlayerPawn);
 }

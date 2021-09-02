@@ -9,7 +9,6 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNewPlayerPostLogin, APlayerState*, PlayerState);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTeamPointUpdate, int32, NewValue, ETeam, TeamUpdate);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLaunchTimerBeforeOfGame);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPreparationStartGameFinish, bool, bResult /** if true, game start else start wait new player*/);
 
 UCLASS()
@@ -18,15 +17,17 @@ class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame
 	GENERATED_BODY()
 
 	void SetTeamForPlayer(APlayerController* PC);
+	void PreparationForStartGame();
+	void MatchStarted();
+
+	UFUNCTION()
+	void Logout(AController* Exiting);
 
 	UFUNCTION(NetMulticast, Unreliable)
 	void NetMulticast_NewPlayerPostLogin(APlayerState* PlayerState);
 
 	UFUNCTION(NetMulticast, Reliable)
 	void NetMulticast_FinishPreparationStartGame(bool bResult);
-
-	UFUNCTION(NetMulticast, Reliable)
-	void NetMulticast_StartTimerBeforeOfGame();
 
 public:
 
@@ -37,6 +38,12 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	int32 GetTeamPointsB() const { return TeamPointsB; }
+	
+	UFUNCTION(BlueprintPure)
+	FTimerHandle GetPreparationGameStartHandle() const { return PreparationGameStartHandle; }
+
+	UFUNCTION(BlueprintPure)
+	bool GameInProgress() const { return bGameInProgress; }
 	
 	virtual void UpdateTeamPoints(ETeam Team, int32 Value);
 
@@ -51,9 +58,6 @@ protected:
 	
 	UFUNCTION()
     virtual void FinishPreparationGame(bool bResult);
-    
-    UFUNCTION()
-    virtual void StartTimerBeforeGame();
 
 public:
 
@@ -62,9 +66,6 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Delegates")
 	FTeamPointUpdate OnTeamPointUpdate;
-
-	UPROPERTY(BlueprintAssignable, Category = "Delegates")
-	FLaunchTimerBeforeOfGame OnLaunchTimerBeforeOfGame;
 
 	UPROPERTY(BlueprintAssignable, Category = "Delegates")
 	FPreparationStartGameFinish OnPreparationStartGameFinish;
@@ -76,6 +77,14 @@ protected:
 
 	UPROPERTY(Replicated)
 	int32 TeamPointsB;
+	
+private:
+
+	UPROPERTY()
+	FTimerHandle PreparationGameStartHandle;
+
+	UPROPERTY(Replicated)
+	bool bGameInProgress;
 
 friend class AOnlineMatchGameModeBase;
 };
