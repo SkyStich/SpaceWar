@@ -22,7 +22,7 @@ AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 	SpecialObjectManager = CreateDefaultSubobject<USpecialObjectManagerComponent>(TEXT("SpecialObjectManager"));
 
 	static ConstructorHelpers::FClassFinder<ASpaceWarCharacter> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter"));
-	if(PlayerPawnBPClass.Class != nullptr)
+	if(PlayerPawnBPClass.Succeeded())
 	{
 		PlayerClass = PlayerPawnBPClass.Class;
 	}

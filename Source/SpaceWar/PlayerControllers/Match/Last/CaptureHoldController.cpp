@@ -50,10 +50,7 @@ void ACaptureHoldController::MatchEnded(const FString& Reason, ETeam WinnerTeam)
 void ACaptureHoldController::LaunchRespawnTimer(float const Time)
 {
 	FTimerDelegate TimerDel;
-	TimerDel.BindLambda([&]() -> void
-    {
-        bCanSpawn = true;
-    });
+	TimerDel.BindLambda([&]() -> void { bCanSpawn = true; });
 	GetWorld()->GetTimerManager().SetTimer(RespawnTimer, TimerDel, Time, false);
 }
 
@@ -85,7 +82,7 @@ void ACaptureHoldController::SpawnPlayerByPoint(EPointNumber Point)
 void ACaptureHoldController::Server_SpawnPlayerByPoint_Implementation(const TArray<APointCapturePlayerStart*>&PointArray)
 {
 	auto const GameState = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
-	if(!bCanSpawn) return;
+	if(!bCanSpawn || !GameState) return;
 	
 	for(auto& ByArray : PointArray)
 	{

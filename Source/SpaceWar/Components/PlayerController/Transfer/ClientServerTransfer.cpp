@@ -187,9 +187,10 @@ void UClientServerTransfer::Client_ResponseReceivingWeaponList_Implementation(co
 	OnReceivingWeaponListCallBack.OnReceivingWeaponListDelegate.Execute(WeaponList);
 }
 
-void UClientServerTransfer::RequestReceivingCreateServerResult(const FCreateServerCompelete& CallBack)
+void UClientServerTransfer::RequestReceivingCreateServerResult(const FString& ServerName, const FCreateServerCompelete& CallBack)
 {
 	OnCreateServerComplete = CallBack;
+	Server_SendReceivingCreateServerComplete(ServerName);
 }
 
 void UClientServerTransfer::Server_SendReceivingCreateServerComplete_Implementation(const FString& ServerName)

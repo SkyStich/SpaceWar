@@ -26,8 +26,9 @@ void AOnlineMatchGameModeBase::UpdateTeamPoints(int32 NewValue, ETeam Team)
 
 void AOnlineMatchGameModeBase::LaunchGameTimer()
 {
+	auto const GS = GetGameState<AOnlinetMatchGameStateBase>();
 	FTimerDelegate TimerDel;
-	TimerDel.BindUObject(this, &AOnlineMatchGameModeBase::TickTime, GetGameState<AOnlinetMatchGameStateBase>());
+	TimerDel.BindUObject(this, &AOnlineMatchGameModeBase::TickTime, GS);
 	GetWorld()->GetTimerManager().SetTimer(TimeMatchHandle, TimerDel, 1.f, true);
 }
 
@@ -40,6 +41,7 @@ void AOnlineMatchGameModeBase::CharDead(AController* InstigatorController, ACont
 
 void AOnlineMatchGameModeBase::TickTime(AOnlinetMatchGameStateBase* MatchGameState)
 {
+	if(!MatchGameState) return;
 	MatchGameState->IncrementTime();
 }
 

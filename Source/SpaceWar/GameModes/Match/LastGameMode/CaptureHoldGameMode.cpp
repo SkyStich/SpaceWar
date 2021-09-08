@@ -43,6 +43,8 @@ void ACaptureHoldGameMode::MatchEnded(const FString& Reason, ETeam WinnerTeam)
 
 void ACaptureHoldGameMode::TickTime(AOnlinetMatchGameStateBase* MatchGameState)
 {
+	if(!MatchGameState) return;
+	
 	Super::TickTime(MatchGameState);
 	if(MatchGameState->GetCurrentMatchTime() <= 0)
 	{

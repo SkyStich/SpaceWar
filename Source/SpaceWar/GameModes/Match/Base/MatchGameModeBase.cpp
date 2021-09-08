@@ -65,7 +65,7 @@ void AMatchGameModeBase::AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, 
 
 void AMatchGameModeBase::SpawnCharacter(AMatchPlayerControllerBase* Controller, const FVector& Location)
 {
-	if(Controller->GetPlayerClass() == nullptr)
+	if(Controller->GetPlayerClass().IsNull() || !Controller)
 	{
 		FString const InstigatorName = *GetWorld()->GetFullName();
 		UE_LOG(LogGameMode, Warning, TEXT("Player class is null -- AMatchPlayerControllerBase::PlayerClass"), *InstigatorName);

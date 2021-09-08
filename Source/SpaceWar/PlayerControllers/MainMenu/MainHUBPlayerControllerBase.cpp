@@ -5,34 +5,37 @@
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/BPFLibrary/ServerManipulationLibrary.h"
 
-void AMainHUBPlayerControllerBase::Server_CreateServer_Implementation(const FString& MapReference, const FString& MapName, const FString& ServerName)
+void AMainHUBPlayerControllerBase::Server_CreateServer_Implementation(const FString& MapReference, const FString& ServerName)
 {
-	UServerManipulationLibrary::LaunchServer(MapReference, FString::Printf(TEXT("ip=127.0.0.1 ServerName=%s"), *ServerName));
+	UE_LOG(LogTemp, Log, TEXT("Reference: %s"), *MapReference)
+	FString Param = TEXT("ServerName=") + ServerName;
+	UServerManipulationLibrary::LaunchServer(MapReference, Param);
 }
 
-void AMainHUBPlayerControllerBase::CreateServer(const FMapData& Data, const FString& ServerName)
+void AMainHUBPlayerControllerBase::CreateServer(const FMapData& Data, FString ServerName)
 {
-	Server_CreateServer(Data.MapReference, Data.MapName, ServerName);
+	Server_CreateServer(Data.MapReference, ServerName);
 
 	CreateData = Data;
 	
 	FTimerHandle SendRequestHandle;
 	FTimerDelegate TimerDel;
-	TimerDel.BindUObject(this, &AMainHUBPlayerControllerBase::CheckingForExistenceServer);
-	GetWorld()->GetTimerManager().SetTimer(SendRequestHandle, TimerDel, 1.f, true, 2.f);
+	TimerDel.BindUObject(this, &AMainHUBPlayerControllerBase::CheckingForExistenceServer, ServerName);
+	GetWorld()->GetTimerManager().SetTimer(SendRequestHandle, TimerDel, 2.f, true, 3.f);
 }
 
-void AMainHUBPlayerControllerBase::CheckingForExistenceServer()
+void AMainHUBPlayerControllerBase::CheckingForExistenceServer(FString ServerName)
 {
 	if(bRequestSent) return;
 
 	bRequestSent = true;
 	OnCreateServerComplete.BindUFunction(this, "OnCreteServerResult");
-	ClientServerTransfer->RequestReceivingCreateServerResult(OnCreateServerComplete);
+	ClientServerTransfer->RequestReceivingCreateServerResult(ServerName, OnCreateServerComplete);
 }
 
 void AMainHUBPlayerControllerBase::OnCreteServerResult(bool bResult, const FString& Address)
 {
+	UE_LOG(LogTemp, Error, TEXT("Result: "), bResult);
 	bRequestSent = false;
 	if(bResult)
 	{

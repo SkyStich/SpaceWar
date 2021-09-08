@@ -14,7 +14,7 @@ void UWebRequestCheckServerCreation::CollectRequest(const FString& ScriptURL)
 	TSharedPtr<FJsonObject> JsonObject = CreateJsonRequest();
 
 	JsonObject->SetStringField("ServerName", Name);
-	CallWebScript(ScriptURL, JsonObject, EWebRequestType::Get);
+	CallWebScript(ScriptURL, JsonObject);
 }
 
 void UWebRequestCheckServerCreation::CallJsonResponse(const TSharedPtr<FJsonObject>& JsonResponse)

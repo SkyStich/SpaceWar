@@ -84,7 +84,7 @@ public:
 	void RequestReceivingWeaponList(const FReceivingWeaponListDelegate& CallBack);
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
-	void RequestReceivingCreateServerResult(const FCreateServerCompelete& CallBack);
+	void RequestReceivingCreateServerResult(const FString& ServerName, const FCreateServerCompelete& CallBack);
 
 protected:
 

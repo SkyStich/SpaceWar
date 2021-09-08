@@ -43,6 +43,7 @@ public:
 	
 	/** removes the server from the database when it is turned off */
 	void RemoveServerFromDataBase();
+	
 
 protected:
 	// Called when the game starts
@@ -61,4 +62,6 @@ private:
 	 *	Prevents multiple sent requests that were not answered at the same time.
 	*/
 	bool bRequestForUpdateSent;
+
+	FGetServerInfoDelegate GetServerInfoCallBack;
 };

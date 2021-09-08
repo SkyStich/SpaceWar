@@ -14,7 +14,7 @@
 UGameServerDataBaseComponent::UGameServerDataBaseComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickInterval = 2.f; 
+	PrimaryComponentTick.TickInterval = 15.f; 
 	
 	bServerActive = false;
 	bRequestForUpdateSent = false;
@@ -23,11 +23,15 @@ UGameServerDataBaseComponent::UGameServerDataBaseComponent()
 void UGameServerDataBaseComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
+	GetServerInfoCallBack.BindUFunction(this, "OnResponseGetServerInfo");
+	
 	auto const GM = UGameplayStatics::GetGameMode(GetWorld());
 	if(!GM) return;
 	
 	ServerData.Name = UGameplayStatics::ParseOption(GM->OptionsString, "ServerName");
+	ServerData.MapName = GetWorld()->GetMapName();
+	ServerData.MapName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
 	
 	if(UGameplayStatics::HasOption(GM->OptionsString, "ip"))
 	{
@@ -41,15 +45,13 @@ void UGameServerDataBaseComponent::BeginPlay()
 		CallBack.OnGameServerAddress.BindUFunction(this, "OnResponseServerAddress");
 		CallGameServer(CallBack);
 	}
-	
-	ServerData.MapName = GetWorld()->GetMapName();
-	ServerData.MapName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
 }
 
 void UGameServerDataBaseComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	if(!GetOwner()) return;
 	UpdateServerData();
 }
 
@@ -58,12 +60,9 @@ void UGameServerDataBaseComponent::UpdateServerData()
 	if(!bServerActive || bRequestForUpdateSent) return;
 
 	bRequestForUpdateSent = true;
-	
-	FGetServerInfoDelegate CallBack;
-	CallBack.BindUFunction(this, "OnResponseGetServerInfo");
 
 	auto const Request = NewObject<UWebRequestGetServerInfo>(GetOwner());
-	Request->AddServerInfoKey(ServerData.Id, CallBack);
+	Request->AddServerInfoKey(ServerData.Id, GetServerInfoCallBack);
 	Request->CollectRequest("127.0.0.1/SpaceWar/GetServerInfo.php");
 }
 
@@ -99,12 +98,16 @@ void UGameServerDataBaseComponent::OnResponseCreateServer(const int32 ServerID)
 
 void UGameServerDataBaseComponent::OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data)
 {
-	UE_LOG(LogTemp, Warning, TEXT("OnResponseGetServerInfo. Name: %s     Address: %s"), *ServerData.Name, *ServerData.Address);
+	UE_LOG(LogTemp, Log, TEXT("OnResponseGetServerInfo. Name: %s     Address: %s"), *ServerData.Name, *ServerData.Address);
 	if(!bResult) return;
 	
 	bRequestForUpdateSent = false;
-	ServerData.Address = Data.Address;
+	//ServerData.Address = Data.Address;
 	ServerData.Name = Data.Name;
+	if(Data.Address != ServerData.Address)
+	{
+		//@ToDo добавить логику перенапралвения на другой аддресс если возможно
+	}
 }
 
 /** Remove server */
@@ -123,8 +126,11 @@ void UGameServerDataBaseComponent::RemoveServerFromDataBase()
 
 void UGameServerDataBaseComponent::OnResponseRemoveServerFromDataBase(bool bResult, const FString& ErrorMessage)
 {
-	ShutDownServer();
-	UE_LOG(LogTemp, Warning, TEXT("OnResponseRemoveServerFromDataBase"));
+	if(bResult)
+	{
+		ShutDownServer();
+		UE_LOG(LogTemp, Warning, TEXT("OnResponseRemoveServerFromDataBase"));
+	}
 }
 
 void UGameServerDataBaseComponent::CallGameServer(const FGameAddressCallBack& CallBack)
@@ -137,7 +143,6 @@ void UGameServerDataBaseComponent::CallGameServer(const FGameAddressCallBack& Ca
 void UGameServerDataBaseComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	RemoveServerFromDataBase();
-	
 	Super::EndPlay(EndPlayReason);
 }
 

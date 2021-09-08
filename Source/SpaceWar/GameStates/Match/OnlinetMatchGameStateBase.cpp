@@ -84,7 +84,6 @@ void AOnlinetMatchGameStateBase::PreparationForStartGame()
 			CurrentMatchTime--;
 			if(CurrentMatchTime <= 0)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("Lambda"));
 				MatchStarted();
 				GetWorld()->GetTimerManager().ClearTimer(PreparationGameStartHandle);
 			}
@@ -99,7 +98,6 @@ void AOnlinetMatchGameStateBase::PreparationForStartGame()
 
 void AOnlinetMatchGameStateBase::MatchStarted()
 {
-	GetWorld()->GetTimerManager().ClearTimer(PreparationGameStartHandle);
 	CurrentMatchTime = MaxMatchTime;
 	bGameInProgress = true;
 	FinishPreparationGame(true);

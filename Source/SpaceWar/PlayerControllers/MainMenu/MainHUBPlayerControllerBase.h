@@ -17,10 +17,10 @@ class SPACEWAR_API AMainHUBPlayerControllerBase : public AMainMenuPlayerControll
 	GENERATED_BODY()
 		
 	UFUNCTION(Server, Reliable)
-    void Server_CreateServer(const FString& MapReference, const FString& MapName, const FString& ServerName);
+    void Server_CreateServer(const FString& MapReference, const FString& ServerName);
 	
 	UFUNCTION()
-	void CheckingForExistenceServer();
+	void CheckingForExistenceServer(FString ServerName);
 
 	UFUNCTION()
 	void OnCreteServerResult(bool bResult, const FString& Address);
@@ -28,7 +28,7 @@ class SPACEWAR_API AMainHUBPlayerControllerBase : public AMainMenuPlayerControll
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "PlayerController")
-    void CreateServer(const FMapData& Data, const FString& ServerName);
+    void CreateServer(const FMapData& Data, FString ServerName);
 
 private:
 
