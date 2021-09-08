@@ -62,7 +62,6 @@ void ACaptureOfFlagGameState::NetMulticast_RoundEnded_Implementation(const FStri
 	if(GetLocalRole() == ROLE_Authority)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(RefreshRoundHandle);
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("End round"));
 		GetWorld()->GetTimerManager().SetTimer(RefreshRoundHandle, this, &ACaptureOfFlagGameState::RefreshRound, 5.f, false);
 	}
 
@@ -120,3 +119,13 @@ void ACaptureOfFlagGameState::PlayerDead(AController* InstigatorController, ACon
 	}
 	UpdateTeamPoints(LoserTeam == ETeam::TeamA ? ETeam::TeamB : ETeam::TeamA, 1, EReasonForEndOfRound::AllEnemyDeath);
 }
+
+void ACaptureOfFlagGameState::MatchStarted()
+{
+	if(GetLocalRole() != ROLE_Authority) return;
+	
+	Super::MatchStarted();
+
+	RefreshRound();
+}
+

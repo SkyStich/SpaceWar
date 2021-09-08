@@ -27,8 +27,10 @@ class SPACEWAR_API ACaptureOfFlagGameState : public AOnlinetMatchGameStateBase
 public:
 
 	ACaptureOfFlagGameState();
+	
 	virtual void IncrementTime() override;
 	virtual void UpdateTeamPoints(ETeam Team, int32 Value) override { Super::UpdateTeamPoints(Team, Value); }
+	virtual void MatchStarted() override;
 	void UpdateTeamPoints(ETeam Team, int32 Value, EReasonForEndOfRound ReasonEndOfRound);
 
 protected:

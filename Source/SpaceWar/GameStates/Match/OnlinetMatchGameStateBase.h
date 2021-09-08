@@ -18,7 +18,6 @@ class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame
 
 	void SetTeamForPlayer(APlayerController* PC);
 	void PreparationForStartGame();
-	void MatchStarted();
 
 	UFUNCTION()
 	void Logout(AController* Exiting);
@@ -55,6 +54,8 @@ protected:
 
 	/** Call if player log out */
 	virtual void AutoBalanceTeam();
+
+	virtual void MatchStarted();
 	
 	UFUNCTION()
     virtual void FinishPreparationGame(bool bResult);
