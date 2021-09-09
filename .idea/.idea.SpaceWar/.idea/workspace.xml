@@ -61,11 +61,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/SpaceStation.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/SpaceStation.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/PreparationMatch/W_PreparationCaptureFlag.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/PreparationMatch/W_PreparationCaptureFlag.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +114,6 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Base/GameStateMatchGame.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/PreparationMatchBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/PreparationMatchBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/PreparationCaptureHoldBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/PreparationCaptureHoldBase.cpp" />
@@ -142,6 +137,7 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34396,6 +34392,7 @@
       <workItem from="1631048987797" duration="5125000" />
       <workItem from="1631083074188" duration="3924000" />
       <workItem from="1631132961365" duration="5127000" />
+      <workItem from="1631184329547" duration="3564000" />
     </task>
     <servers />
   </component>
@@ -34421,16 +34418,6 @@
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp</url>
-          <line>73</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp</url>
-          <line>75</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureHoldController.cpp</url>
           <line>90</line>
           <option name="timeStamp" value="11" />
@@ -34439,11 +34426,6 @@
           <url>file://$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureHoldController.cpp</url>
           <line>92</line>
           <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.cpp</url>
-          <line>124</line>
-          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

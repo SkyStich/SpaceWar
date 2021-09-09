@@ -51,7 +51,6 @@ void ABaseMatchHUD::BeginPlay()
 
 	auto const GS = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	GS->OnPreparationStartGameFinish.AddDynamic(this, &ABaseMatchHUD::OnPreparationStartGameEvent);
-//	Cast<AMatchPlayerControllerBase>(GetOwningPlayerController())->OnPausePressed.AddDynamic(this, &ABaseMatchHUD::PausePressed);
 }
 
 void ABaseMatchHUD::ClientErrorMessage_Implementation(const FString& Message)
@@ -177,8 +176,11 @@ void ABaseMatchHUD::ShowSpecialWidget()
 
 void ABaseMatchHUD::CreatePreparationWidget()
 {
-	PreparationWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), MatchWidgetData->PreparationMatch, GetOwningPlayerController());
-	PreparationWidget->AddToViewport();
+	if(!PreparationWidget)
+	{
+		PreparationWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), MatchWidgetData->PreparationMatch, GetOwningPlayerController());
+		PreparationWidget->AddToViewport();
+	}
 }
 
 void ABaseMatchHUD::RemovePreparationWidget()
