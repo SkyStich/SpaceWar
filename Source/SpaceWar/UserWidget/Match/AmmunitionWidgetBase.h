@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/VerticalBox.h"
 #include "SpaceWar/DataAssets/WeaponDataAsset.h"
+#include "SpaceWar/UserWidget/Match/AmmunitionArmorSlotBase.h"
 #include "SpaceWar/GameInstances/BaseGameInstance.h"
 #include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
 #include "AmmunitionWidgetBase.generated.h"
@@ -23,6 +24,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SlotClicked(class UAmmunitionRangeWeaponSlotBase* ClickSlot);
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void ArmorSlotClicked(UAmmunitionArmorSlotBase* ClickSlot);
+
 protected:
 
 	virtual void NativeConstruct() override;
@@ -32,6 +36,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "AmmunitionWidget")
 	void UpdateAmmo();
+	
+	UFUNCTION(BlueprintCallable, Category = "UserWidget")
+	void InitArmor(UVerticalBox* ArmorBox, TSubclassOf<UAmmunitionArmorSlotBase> SlotClass, FVector2D SpacerSize = FVector2D(1, 100));
 
 	UFUNCTION(BlueprintCallable, Category = "UserWidget")
 	void InitRangeWeapon(UVerticalBox* RangeWeaponBox, TSubclassOf<class UAmmunitionRangeWeaponSlotBase> SlotClass, FVector2D SpacerSize = FVector2D(1, 100));
@@ -43,6 +50,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "DataAsset")
 	UWeaponDataAsset* WeaponDataAsset;
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "DataAsset")
+	UArmorDataAsset* ArmorDataAsset;
 
 	EWeaponType SlotForReplacement;
 };

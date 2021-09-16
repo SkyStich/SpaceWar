@@ -10,7 +10,6 @@
 #include "Engine/ActorChannel.h"
 #include "GameFramework/Controller.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetSystemLibrary.h"
 #include "Net/UnrealNetwork.h" 
 #include "Perception/AISense_Sight.h"
 
@@ -20,7 +19,7 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
 	bReplicates = true;
-	bCanWeaponManipulation = true;
+	bCanWeaponManipulation = true; 
 	NetUpdateFrequency = 40.f;
 
 	// set our turn rates for input
@@ -134,10 +133,7 @@ bool ASpaceWarCharacter::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* 
 
 void ASpaceWarCharacter::Server_InitArmor_Implementation(const FName& ArmorName)
 {
-	ArmorObject = ArmorDataAsset->SyncCreateArmorObject(GetWorld(), ArmorDataAsset->FindData(ArmorName), this);
-	GetCharacterMovement()->JumpZVelocity = ArmorObject->GetData().JumpLenght;
-	HealthComponent->Init(ArmorObject->GetData().MaxArmor, ArmorObject->GetData().ArmorRegenerationPerSec);
-	GetCharacterMovement()->MaxWalkSpeed = ArmorObject->GetData().MaxBaseSpeed;
+	CreateArmor(ArmorName);
 }
 
 bool ASpaceWarCharacter::Server_InitArmor_Validate(const FName& ArmorName)
@@ -279,6 +275,7 @@ void ASpaceWarCharacter::MoveRight(float Value)
 	
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Direction, Value);
+		
 		bMoveForward = false;
 		if(StaminaComponent->IsStaminaUse())
 			OwnerStopUseStamina();
@@ -365,6 +362,8 @@ void ASpaceWarCharacter::Server_StartUseAccessionWeapon_Implementation()
 
 void ASpaceWarCharacter::Server_StopUseAccessionWeapon_Implementation()
 {
+	if(!WeaponManager->GetCurrentWeapon()) return;
+	
 	WeaponManager->GetCurrentWeapon()->StopAdditionalUsed();
 	SetActorTickEnabled(false);
 	StopAiming();
@@ -384,6 +383,8 @@ void ASpaceWarCharacter::OwnerStartAdditionalUse()
 
 void ASpaceWarCharacter::OwnerStopAdditionalUse()
 {
+	if(!WeaponManager->GetCurrentWeapon()) return;
+	
 	if(WeaponManager->GetCurrentWeapon()->OwnerStopAdditionalUsed())
 	{
 		SetActorTickEnabled(false);
@@ -455,14 +456,35 @@ void ASpaceWarCharacter::UpdateAmmo_Implementation()
 
 void ASpaceWarCharacter::OnUpdateWeaponRecoil(const FVector& Vector)
 {
+	/** Add Vertical recoil */
 	AddControllerPitchInput(-Vector.Z);
+
+	/** Add Gorizontal recoil */
 	AddControllerYawInput(-Vector.X);
 }
 
 void ASpaceWarCharacter::Server_CreateWeapon_Implementation(EWeaponType Type, const FName& Id)
 {
-	
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, FString::Printf(TEXT("%s"), *Id.ToString()));
 	auto const TempWeapon = WeaponManager->CreateWeaponByName(Id, Type);
 	if(Type == EWeaponType::FirstWeapon) WeaponManager->SetCurrentWeapon(TempWeapon);
+}
+
+void ASpaceWarCharacter::CreateArmor(const FName& Id)
+{
+	if(GetLocalRole() != ROLE_Authority) return;
+	
+	ArmorObject = ArmorDataAsset->SyncCreateArmorObject(GetWorld(), ArmorDataAsset->FindData(Id), this);
+	GetCharacterMovement()->JumpZVelocity = ArmorObject->GetData().JumpLenght;
+	HealthComponent->Init(ArmorObject->GetData().MaxArmor, ArmorObject->GetData().ArmorRegenerationPerSec);
+	GetCharacterMovement()->MaxWalkSpeed = ArmorObject->GetData().MaxBaseSpeed;
+}
+
+void ASpaceWarCharacter::Server_ReplacementArmor_Implementation(const FName& Id)
+{
+	if(GetLocalRole() != ROLE_Authority) return;
+	
+	auto const TempArmor = ArmorObject;
+	CreateArmor(Id);
+	//TempArmor->ConditionalBeginDestroy();
 }

@@ -18,4 +18,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "BPFLibrary|ServerManipulation")
 	static void LaunchServer(const FString& MapAddress, const FString& Attributes);
+
+	UFUNCTION(BlueprintCallable, Category = "BPFLibrary|ServerManipulation")
+	static void ShutdownServer();
 };

@@ -14,3 +14,8 @@ void UServerManipulationLibrary::LaunchServer(const FString& MapAddress, const F
 	/** work on windows dedicated */
 	FPlatformProcess::CreateProc(*URL, *Result, true, false, false, nullptr, 0, nullptr, nullptr);
 }
+
+void UServerManipulationLibrary::ShutdownServer()
+{
+	RequestEngineExit("");
+}

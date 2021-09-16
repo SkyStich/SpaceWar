@@ -48,9 +48,10 @@ class SPACEWAR_API UEquipableWeaponManager : public UActorComponent
 	void OnRep_WeaponSelect();
 	
 	void AddWeaponToStorage(EWeaponType Key, UBaseWeaponObject* Value);
-
 	void SelectWeapon(EWeaponType NewType);
 	void FinishWeaponSelect();
+	void AddToWeapons(EWeaponType Type, UBaseWeaponObject* Value);
+	void RemoveFromWeapons(EWeaponType Type);
 
 	UFUNCTION(Server, Unreliable)
 	void Server_SelectWeapon(EWeaponType NewType);
@@ -64,8 +65,6 @@ class SPACEWAR_API UEquipableWeaponManager : public UActorComponent
 	UFUNCTION()
 	void CurrentWeaponUnEquip(UBaseWeaponObject* NewWeapon);
 
-	void AddToWeapons(EWeaponType Type, UBaseWeaponObject* Value);
-	void RemoveFromWeapons(EWeaponType Type);
 	UBaseWeaponObject* FindFromWeapon(EWeaponType Type);
 	
 public:	

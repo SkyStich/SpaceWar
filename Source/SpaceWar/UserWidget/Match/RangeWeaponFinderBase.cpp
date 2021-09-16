@@ -12,7 +12,7 @@
 
 void URangeWeaponFinderBase::CreateSlot(UScrollBox* ScrollBox, UAmmunitionWidgetBase* MainWidget, TSubclassOf<UAmmunitionRangeWeaponSlotBase> SlotClass)
 {
-	/** return if tihs slot is active */
+	/** ClearChild */
 	if(IsFinderActive) return;
 	
 	auto const WeaponInInventory = MainWidget->GameInstanceBase->GetWeaponsByPlayerClass();
@@ -33,6 +33,30 @@ void URangeWeaponFinderBase::CreateSlot(UScrollBox* ScrollBox, UAmmunitionWidget
 		ScrollBox->AddChild(WidgetSlot);
 	}
 }
+
+void URangeWeaponFinderBase::CreateArmorSlots(UScrollBox* ScrollBox, UAmmunitionWidgetBase* MainWidget, TSubclassOf<UAmmunitionArmorSlotBase> SlotClass)
+{
+	if(IsFinderActive) return;
+
+	auto const Armor = MainWidget->GameInstanceBase->GetCurrentArmorId();
+
+	IsFinderActive = true;
+
+	for(const auto& ByArray : MainWidget->ArmorDataAsset->GetArmorData())
+	{
+		if(Armor == ByArray.Key) continue;
+
+		auto const ArmorSlot = CreateWidget<UAmmunitionArmorSlotBase>(GetOwningPlayer(), SlotClass);
+
+		ArmorSlot->Init(ByArray.Key);
+		ArmorSlot->InitDesigner(MainWidget->ArmorDataAsset);
+		ArmorSlot->IsInStock = true;
+		ArmorSlot->OnArmorSlotClicked.AddDynamic(MainWidget, &UAmmunitionWidgetBase::ArmorSlotClicked);
+
+		ScrollBox->AddChild(ArmorSlot);
+	}
+}
+
 
 void URangeWeaponFinderBase::ClearChild(UScrollBox* ScrollBox)
 {

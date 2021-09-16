@@ -61,6 +61,8 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	UFUNCTION(Server, Unreliable)
 	void UpdateAmmo();
 
+	void CreateArmor(const FName& Id);
+
 public:
 	ASpaceWarCharacter();
 	
@@ -104,6 +106,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Player|Weapon")
 	bool IsCanWeaponManipulation() const { return bCanWeaponManipulation; }
+
+	UFUNCTION(Server, Reliable)
+	void Server_ReplacementArmor(const FName& Id);
 	
 	UFUNCTION()
 	void SetCanWeaponManipulation(bool NewState) { bCanWeaponManipulation = NewState; }

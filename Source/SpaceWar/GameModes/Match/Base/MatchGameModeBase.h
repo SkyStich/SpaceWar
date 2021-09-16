@@ -24,6 +24,9 @@ class SPACEWAR_API AMatchGameModeBase : public AGameModeBase
 private:
 
 	UFUNCTION()
+	void GameFinish(FString Reason, ETeam WinnerTeam);
+	
+	UFUNCTION()
 	void AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, FTransform SpawnTransform, AController* Controller);
 
 	UFUNCTION()

@@ -35,6 +35,8 @@ void AMatchPlayerControllerBase::BeginPlay()
 	if(GetLocalRole() == ROLE_Authority)
 	{
 		CreateChatComponent();
+
+		Cast<AGameStateMatchGame>(UGameplayStatics::GetGameState(GetWorld()))->OnMatchEnd.AddDynamic(this, &AMatchPlayerControllerBase::MatchFinish);
 	}
 }
 
@@ -227,4 +229,13 @@ FString AMatchPlayerControllerBase::PlayerLoginFromController_Implementation()
 {
 	auto const GameInstance = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	return GameInstance ? GameInstance->GetPlayerName() : "";
+}
+
+void AMatchPlayerControllerBase::MatchFinish(const FString& Reason, ETeam WinnerTeam)
+{
+	if(GetLocalRole() != ROLE_Authority)
+	{
+		FString const Address = GetGameInstance<UBaseGameInstance>()->GetCurrentMainHUBServerName();
+		UGameplayStatics::OpenLevel(GetWorld(), *Address);
+	}
 }

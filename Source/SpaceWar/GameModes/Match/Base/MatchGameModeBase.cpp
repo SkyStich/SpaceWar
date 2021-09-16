@@ -6,6 +6,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
 #include "SpaceWar/SpaceWarCharacter.h"
+#include "SpaceWar/BPFLibrary/ServerManipulationLibrary.h"
 #include "SpaceWar/GameStates/Base/GameStateMatchGame.h"
 #include "SpaceWar/Spectator/Base/BaseMatchSpectator.h"
 
@@ -101,17 +102,26 @@ void AMatchGameModeBase::AsyncSpawnPlayerCharacterComplete(FSoftObjectPath Refer
 	}
 }
 
+void AMatchGameModeBase::GameFinish(FString Reason, ETeam WinnerTeam)
+{
+	OnMatchEnded.Broadcast(Reason, WinnerTeam);
+
+	/*FTimerDelegate TimerDel;
+	TimerDel.BindLambda([&]() -> void { UServerManipulationLibrary::ShutdownServer(); });
+	FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, false);*/
+}
+
 void AMatchGameModeBase::MatchEnded(const FString& Reason, ETeam WinnerTeam)
 {
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(GameState);
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 	OnPreMatchEnded.Broadcast(Reason, WinnerTeam);
 	
-	auto const f = [&]() -> void { OnMatchEnded.Broadcast(Reason, WinnerTeam); };
 	FTimerDelegate TimerDel;
-	TimerDel.BindLambda(f);
+	TimerDel.BindUObject(this, &AMatchGameModeBase::GameFinish, Reason, WinnerTeam);
 	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, false);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 15.f, false);
 }
 
 void AMatchGameModeBase::PostLogin(APlayerController* NewPlayer)

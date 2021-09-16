@@ -4,6 +4,7 @@
 #include "AmmunitionWidgetBase.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "AmmunitionRangeWeaponSlotBase.h"
+#include "SpaceWar/Objects/Armor/Base/BaseArmorObject.h"
 #include "Components/Spacer.h"
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/Interfaces/UpdateAmmoInterface.h"
@@ -19,6 +20,27 @@ void UAmmunitionWidgetBase::UpdateAmmo()
 	{
 		IUpdateAmmoInterface::Execute_RefreshAmmo(GetOwningLocalPlayer());
 	}
+}
+
+void UAmmunitionWidgetBase::InitArmor(UVerticalBox* ArmorBox, TSubclassOf<UAmmunitionArmorSlotBase> SlotClass, FVector2D SpacerSize)
+{
+	/** Get armor id with game instance */
+	if(!GameInstanceBase) return;
+	auto const Armor = GameInstanceBase->GetCurrentArmorId();
+
+	auto const WidgetSlot = CreateWidget<UAmmunitionArmorSlotBase>(GetOwningPlayer(), SlotClass);
+	WidgetSlot->Init(Armor);
+	WidgetSlot->InitDesigner(ArmorDataAsset);
+	WidgetSlot->IsInStock = false;
+	WidgetSlot->OnArmorSlotClicked.AddDynamic(this, &UAmmunitionWidgetBase::ArmorSlotClicked);
+
+	/** add slot to vertical box */
+	ArmorBox->AddChildToVerticalBox(WidgetSlot);
+	
+	/** Create Spacer and add to vertical box */
+    auto const Spacer = NewObject<USpacer>(this);
+	Spacer->SetSize(SpacerSize);
+	ArmorBox->AddChildToVerticalBox(Spacer);
 }
 
 void UAmmunitionWidgetBase::InitRangeWeapon(UVerticalBox* RangeWeaponBox, TSubclassOf<UAmmunitionRangeWeaponSlotBase> SlotClass, FVector2D SpacerSize)
@@ -69,6 +91,20 @@ void UAmmunitionWidgetBase::SlotClicked_Implementation(UAmmunitionRangeWeaponSlo
 		SlotForReplacement = ClickSlot->GetType();
 	}
 }
+
+void UAmmunitionWidgetBase::ArmorSlotClicked_Implementation(UAmmunitionArmorSlotBase* ClickSlot)
+{
+	if(ClickSlot->IsInStock)
+	{
+		ASpaceWarCharacter* SpaceCharacter = Cast<ASpaceWarCharacter>(GetOwningPlayerPawn());
+		GameInstanceBase->SetCurrentArmor(ClickSlot->Id);
+		if(SpaceCharacter)
+		{
+			SpaceCharacter->Server_ReplacementArmor(ClickSlot->Id);
+		}
+	}
+}
+
 
 void UAmmunitionWidgetBase::StopUseState()
 {

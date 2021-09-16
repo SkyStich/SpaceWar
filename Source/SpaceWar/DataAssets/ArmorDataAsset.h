@@ -33,12 +33,15 @@ struct FArmorData
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
 	float JumpLenght;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
+	UTexture2D* Image;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
 	TAssetSubclassOf<UBaseArmorObject> ArmorClass;
 };
 
-UCLASS()
+UCLASS(BlueprintType)
 class SPACEWAR_API UArmorDataAsset : public UDataAsset
 {
 	GENERATED_BODY()
@@ -48,6 +51,9 @@ public:
 	static UBaseArmorObject* SyncCreateArmorObject(UObject* WorldContext, FArmorData Data, class ASpaceWarCharacter* Outer);
 	FArmorData FindData(const FName& Id) const { return ArmorDataMap.FindRef(Id); }
 	bool CheckId(const FName& Id) const;
+	
+	UFUNCTION(BlueprintPure)
+	TMap<FName, FArmorData> GetArmorData() const { return ArmorDataMap; }
 
 private:
 

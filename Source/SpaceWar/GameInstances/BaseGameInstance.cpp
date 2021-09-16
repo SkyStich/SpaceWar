@@ -28,8 +28,7 @@ void UBaseGameInstance::SetCurrentArmor(const FName& Id)
 
 TArray<FCurrentWeaponKey> UBaseGameInstance::GetWeaponsByPlayerClass()
 {
-	return Equipment.FindByPredicate([&](FEquipmentSave Value) -> bool
-		{ return CurrentSolderCategory == Value.Key; })->Value;
+	return Equipment.FindByPredicate([&](FEquipmentSave Value) -> bool { return CurrentSolderCategory == Value.Key; })->Value;
 }
 
 FName UBaseGameInstance::FindWeaponByType(EWeaponType Type, const TMap<EWeaponType, FName>& Map)
