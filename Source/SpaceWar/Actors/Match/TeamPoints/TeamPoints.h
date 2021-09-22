@@ -7,6 +7,8 @@
 #include "SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h"
 #include "TeamPoints.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOwnerTeamChanged, ETeam, NewOwnerTeam);
+
 UCLASS(Abstract)
 class SPACEWAR_API ATeamPoints : public AActor
 {
@@ -38,6 +40,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Getting")
 	ETeam GetOwnerTeam() const { return OwnerTeam; }
+	
+	UFUNCTION(BlueprintPure, Category = "Getting")
+	EPointNumber GetPointNumber() const { return PointNumber; }
 
 protected:
 	// Called when the game starts or when spawned
@@ -50,6 +55,11 @@ protected:
 
 	UFUNCTION()
 	void OnPointCaptureCollisionEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	
+public:
+
+	UPROPERTY(BlueprintAssignable)
+	FOwnerTeamChanged OnOwnerTeamChanged;
 	
 private:
 
@@ -64,6 +74,9 @@ private:
 
 	UPROPERTY(Replicated)
 	int32 CurrentValueCapture;
+
+	UPROPERTY(EditAnywhere)
+	EPointNumber PointNumber;
 
 	UPROPERTY()
 	TArray<AController*> OwnersController;

@@ -114,7 +114,7 @@ void ASpaceWarCharacter::BeginPlay()
 		
 		Server_InitArmor(GI->GetCurrentArmorId());
 
-		for(auto& ByArray : GI->GetWeaponsByPlayerClass())
+		for(auto& ByArray : GI->GetWeapons())
 		{
 			Server_CreateWeapon(ByArray.Key, ByArray.Value);
 		}

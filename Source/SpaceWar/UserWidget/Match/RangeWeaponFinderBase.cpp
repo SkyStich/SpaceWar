@@ -15,13 +15,13 @@ void URangeWeaponFinderBase::CreateSlot(UScrollBox* ScrollBox, UAmmunitionWidget
 	/** ClearChild */
 	if(IsFinderActive) return;
 	
-	auto const WeaponInInventory = MainWidget->GameInstanceBase->GetWeaponsByPlayerClass();
+	auto const WeaponInInventory = MainWidget->GameInstanceBase->GetWeapons();
 
 	IsFinderActive = true;
 	
 	for(const auto& ByArray :MainWidget->WeaponDataAsset->GetWeaponData())
 	{
-		if(WeaponInInventory.FindByPredicate([&](FCurrentWeaponKey& Value) -> bool{ return Value.Value == ByArray.Key; })) continue;
+		if(WeaponInInventory.FindKey(ByArray.Key)) continue;
 
 		auto const WidgetSlot = CreateWidget<UAmmunitionRangeWeaponSlotBase>(GetOwningPlayer(), SlotClass);
 
@@ -55,8 +55,7 @@ void URangeWeaponFinderBase::CreateArmorSlots(UScrollBox* ScrollBox, UAmmunition
 
 		ScrollBox->AddChild(ArmorSlot);
 	}
-}
-
+} 
 
 void URangeWeaponFinderBase::ClearChild(UScrollBox* ScrollBox)
 {

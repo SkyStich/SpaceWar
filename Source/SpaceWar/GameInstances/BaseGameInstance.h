@@ -50,13 +50,22 @@ public:
 	FString GetPlayerName() const { return PlayerName; }
 
 	UFUNCTION(BlueprintCallable, Category = "GameInstance")
-	void SetPlayerName(const FString& NewPlayerName) { PlayerName = NewPlayerName; }
+	void SetPlayerName(const FString& NewPlayerName);
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "GameInstance")
+	void LoadPlayerData();
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic, Category = "GameInstance")
+	void SaveFullPlayerData();
 
 	UFUNCTION(BlueprintCallable, Category = "GameInstance")
-	void SetCurrentMainHUBServerName(const FString& NewName) { CurrentMainHUBServerName = NewName; }
+	void SetCurrentMainHUBServerName(const FString& NewAddress) { CurrentMainHUBServerName = NewAddress; }
+
+	UFUNCTION(BlueprintPure)
+	TMap<EWeaponType, FName> GetWeapons() const { return Weapons; }
 	
-	UFUNCTION(BlueprintPure, Category = "GameInstance")
-	TArray<FCurrentWeaponKey> GetWeaponsByPlayerClass();
+	/*UFUNCTION(BlueprintPure, Category = "GameInstance")
+	TArray<FCurrentWeaponKey> GetWeaponsByPlayerClass();*/
 	
 	UFUNCTION(BlueprintPure, Category = "GameInstance")
 	FName FindWeaponByType(EWeaponType Type, const TMap<EWeaponType, FName>& Map);
@@ -78,6 +87,7 @@ public:
 	
 	void SetSessionID(const FString& SessionKey) { SessionID = SessionKey; }
 	void SetPlayerId(int32 const Id) { PlayerId = Id; }
+	virtual void Shutdown() override;
 
 protected:
 
@@ -86,7 +96,7 @@ protected:
 public:
     	
     UPROPERTY(BlueprintReadWrite)
-    TArray<FEquipmentSave> Equipment;
+    TMap<EWeaponType, FName> Weapons;
 
 private:
 

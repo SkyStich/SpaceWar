@@ -29,7 +29,6 @@ class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
 	void OnResponseRemoveServerFromDataBase(bool bResult, const FString& ErrorMessage);
 
 	void UpdateServerData();
-	void ShutDownServer();
 
 public:	
 	// Sets default values for this component's properties
@@ -42,10 +41,14 @@ public:
 	void CreateServerInDataBase();
 	
 	/** removes the server from the database when it is turned off */
+	UFUNCTION()
 	void RemoveServerFromDataBase();
-	
 
+	UFUNCTION()
+	void ShutDownServer();
+	
 protected:
+	
 	// Called when the game starts
 	virtual void BeginPlay() override;
 

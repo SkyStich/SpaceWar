@@ -13,6 +13,8 @@
 AMatchGameModeBase::AMatchGameModeBase()
 {
 	PointForWin = 1000;
+
+	DataBaseComponent = CreateDefaultSubobject<UGameServerDataBaseComponent>(TEXT("DataBaseComponent"));
 }
 
 void AMatchGameModeBase::BeginPlay()
@@ -43,7 +45,6 @@ void AMatchGameModeBase::SpawnSpectator(AController* PossessController, const FV
 
 void AMatchGameModeBase::AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, FTransform SpawnTransform, AController* Controller)
 {
-	ABaseMatchSpectator* Spectator = nullptr;
 	UClass* ActorClass = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), Controller, *Reference.ToString()));
 	if(!ActorClass)
 	{
@@ -51,6 +52,8 @@ void AMatchGameModeBase::AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, 
 	}
 	else
 	{
+		ABaseMatchSpectator* Spectator = nullptr;
+		
 		FActorSpawnParameters Param;
 		Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		Param.Owner = Controller;
@@ -106,10 +109,10 @@ void AMatchGameModeBase::GameFinish(FString Reason, ETeam WinnerTeam)
 {
 	OnMatchEnded.Broadcast(Reason, WinnerTeam);
 
-	/*FTimerDelegate TimerDel;
-	TimerDel.BindLambda([&]() -> void { UServerManipulationLibrary::ShutdownServer(); });
+	FTimerDelegate TimerDel;
+	TimerDel.BindUObject(DataBaseComponent, &UGameServerDataBaseComponent::RemoveServerFromDataBase);
 	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, false);*/
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, false);
 }
 
 void AMatchGameModeBase::MatchEnded(const FString& Reason, ETeam WinnerTeam)
@@ -129,4 +132,14 @@ void AMatchGameModeBase::PostLogin(APlayerController* NewPlayer)
 	Super::PostLogin(NewPlayer);
 
 	OnPlayerPostLogin.Broadcast(NewPlayer);
+}
+
+void AMatchGameModeBase::Logout(AController* Exiting)
+{
+	Super::Logout(Exiting);
+
+	if(GameState->PlayerArray.Num() <= 0)
+	{
+		DataBaseComponent->ShutDownServer();
+	}
 }

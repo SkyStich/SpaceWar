@@ -89,7 +89,7 @@ void UGameServerDataBaseComponent::OnResponseCreateServer(const int32 ServerID)
 {
 	if(ServerID < 0)
 	{
-		ShutDownServer();
+		//ShutDownServer();
 		return;
 	}
 	ServerData.Id = ServerID;
@@ -128,7 +128,7 @@ void UGameServerDataBaseComponent::OnResponseRemoveServerFromDataBase(bool bResu
 {
 	if(bResult)
 	{
-		ShutDownServer();
+//		ShutDownServer();
 		UE_LOG(LogTemp, Warning, TEXT("OnResponseRemoveServerFromDataBase"));
 	}
 }
@@ -142,7 +142,6 @@ void UGameServerDataBaseComponent::CallGameServer(const FGameAddressCallBack& Ca
 
 void UGameServerDataBaseComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	RemoveServerFromDataBase();
 	Super::EndPlay(EndPlayReason);
 }
 

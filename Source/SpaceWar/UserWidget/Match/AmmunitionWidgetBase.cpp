@@ -47,7 +47,7 @@ void UAmmunitionWidgetBase::InitRangeWeapon(UVerticalBox* RangeWeaponBox, TSubcl
 {
 	/** Get weapons id with game instance */
 	if(!GameInstanceBase) return;
-	auto const Weapons = GameInstanceBase->GetWeaponsByPlayerClass();
+	auto const Weapons = GameInstanceBase->GetWeapons();
 	
 	for(const auto& ByArray : Weapons)
 	{
@@ -104,7 +104,6 @@ void UAmmunitionWidgetBase::ArmorSlotClicked_Implementation(UAmmunitionArmorSlot
 		}
 	}
 }
-
 
 void UAmmunitionWidgetBase::StopUseState()
 {

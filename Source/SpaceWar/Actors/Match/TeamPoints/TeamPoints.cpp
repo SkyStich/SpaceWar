@@ -62,7 +62,6 @@ void ATeamPoints::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(ATeamPoints, CurrentValueCapture);
 }
 
-
 void ATeamPoints::OnPointCaptureCollisionBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool FromSweep, const FHitResult& SweepResult)
 {
 	/** if other actor is character */
@@ -152,7 +151,7 @@ void ATeamPoints::RefreshLaunchCapture()
 
 void ATeamPoints::OnRep_TeamPoints()
 {
-	
+	OnOwnerTeamChanged.Broadcast(OwnerTeam);
 }
 
 void ATeamPoints::LaunchPointCapture(ETeam CaptureTeam)

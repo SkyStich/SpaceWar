@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "SpaceWar/Enums/PlayerTeamEnum.h"
+#include "SpaceWar/Components/GameMode/GameServerDataBaseComponent.h"
 #include "MatchGameModeBase.generated.h"
 
 class ASpaceWarCharacter;
@@ -47,6 +48,7 @@ protected:
 	virtual void RespawnPlayer(AController* RespawnController, float const Time) {}
 	virtual void RespawnPlayer(AController* RespawnController) {}
 	virtual void BeginPlay() override;
+	virtual void Logout(AController* Exiting) override;
 	
 public:
 
@@ -65,6 +67,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	int32 PointForWin;
+
+	UPROPERTY()
+	UGameServerDataBaseComponent* DataBaseComponent;
 
 	FTimerHandle TimeMatchHandle;
 };

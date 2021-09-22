@@ -3,33 +3,34 @@
 
 #include "BaseGameInstance.h"
 
+
+#include "Kismet/GameplayStatics.h"
+#include "SpaceWar/SaveGame/SavePlayerData.h"
+
 UBaseGameInstance::UBaseGameInstance()
 {
 	CurrentArmor = "Base";
 	PlayerName = "PlayerName";
-	CurrentSolderCategory = ESolderCategory::Solder;
+	
+	Weapons.Add(EWeaponType::FirstWeapon, "SilverDragon");
+	Weapons.Add(EWeaponType::SecondWeapon, "BlackJack");
 }
 
 void UBaseGameInstance::Init()
 {
 	Super::Init();
-
-	FEquipmentSave SaveTest;
-	SaveTest.Key = ESolderCategory::Solder;
-	SaveTest.Value.Add(FCurrentWeaponKey(EWeaponType::FirstWeapon, "SilverDragon"));
-	SaveTest.Value.Add(FCurrentWeaponKey(EWeaponType::SecondWeapon, "BlackJack"));
-	Equipment.Add(SaveTest);
 }
 
 void UBaseGameInstance::SetCurrentArmor(const FName& Id)
 {
 	CurrentArmor = Id;
+	SaveFullPlayerData();
 }
 
-TArray<FCurrentWeaponKey> UBaseGameInstance::GetWeaponsByPlayerClass()
+/*TArray<FCurrentWeaponKey> UBaseGameInstance::GetWeaponsByPlayerClass()
 {
 	return Equipment.FindByPredicate([&](FEquipmentSave Value) -> bool { return CurrentSolderCategory == Value.Key; })->Value;
-}
+}*/
 
 FName UBaseGameInstance::FindWeaponByType(EWeaponType Type, const TMap<EWeaponType, FName>& Map)
 {
@@ -38,14 +39,39 @@ FName UBaseGameInstance::FindWeaponByType(EWeaponType Type, const TMap<EWeaponTy
 
 void UBaseGameInstance::ReplacementWeapon(EWeaponType Key, const FName& NewId)
 {
-	 auto Finder = &Equipment.FindByPredicate([&](FEquipmentSave& Value) -> bool
-		{ return Value.Key == CurrentSolderCategory; })->Value;
-
-	for(auto& ByArray : *Finder)
+	for(auto& ByArray : Weapons)
 	{
-		if(ByArray.Key == Key)
-		{
-			ByArray.Value = NewId;
-		}
+		if(ByArray.Key == Key) ByArray.Value = NewId;
 	}
+	SaveFullPlayerData();
+}
+
+void UBaseGameInstance::LoadPlayerData()
+{
+	if(USavePlayerData* SaveGame = Cast<USavePlayerData>(UGameplayStatics::LoadGameFromSlot(PlayerName + "Data", 0)))
+	{
+		Weapons = SaveGame->WeaponData;
+		CurrentArmor = SaveGame->EquippableArmorId;
+	}
+}
+
+void UBaseGameInstance::SaveFullPlayerData()
+{
+	if(USavePlayerData* SavePlayerData = Cast<USavePlayerData>(UGameplayStatics::CreateSaveGameObject(USavePlayerData::StaticClass())))
+	{
+		SavePlayerData->WeaponData = Weapons;
+		SavePlayerData->EquippableArmorId = CurrentArmor;
+		UGameplayStatics::SaveGameToSlot(SavePlayerData, PlayerName + "Data", 0);
+	}
+}
+
+void UBaseGameInstance::Shutdown()
+{
+	Super::Shutdown();
+}
+
+void UBaseGameInstance::SetPlayerName(const FString& NewPlayerName)
+{
+	PlayerName = NewPlayerName;
+	LoadPlayerData();
 }
