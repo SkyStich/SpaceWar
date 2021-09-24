@@ -40,7 +40,7 @@ void AMainHUBPlayerControllerBase::OnCreteServerResult(bool bResult, const FStri
 	if(bResult)
 	{
 		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
-		UGameplayStatics::OpenLevel(GetWorld(), *Address);
+		UGameplayStatics::LoadStreamLevel(GetWorld(), *Address, true, false, FLatentActionInfo());
 	}
 }
 
