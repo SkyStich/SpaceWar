@@ -218,3 +218,26 @@ void UClientServerTransfer::Client_CreateServerCompleteResult_Implementation(boo
 {
 	OnCreateServerComplete.Execute(bResult, Address);
 }
+
+void UClientServerTransfer::RequestReceivingGetServerListByType(const FString& Type, const FGetServerListDelegate& Callback)
+{
+	ServerListCallBack.OnGetServerListDelegate = Callback;
+	Server_SendReceivingServerListByType(Type);
+}
+
+void UClientServerTransfer::Server_SendReceivingServerListByType_Implementation(const FString& Type)
+{
+	FGetServerListDelegate CallBack;
+	CallBack.BindUFunction(this, "OnResponseReceivingServerList");
+
+	auto const Transfer = GetOwner()->FindComponentByClass<UDataBaseTransfer>();
+	if(Transfer)
+	{
+		Transfer->ReceivingServerListByType(Type, CallBack);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("UClientServerTransfer::Server_SendReceivingServerListByType --Player controller not have component UDataBaseTransfer   %s: "), *GetName());
+	}
+}
+

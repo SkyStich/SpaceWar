@@ -34,6 +34,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 	UFUNCTION(Server, Reliable)
 	void Server_SendReceivingCreateServerComplete(const FString& ServerName);
 
+	UFUNCTION(Server, Reliable)
+	void Server_SendReceivingServerListByType(const FString& Type);
+
 	UFUNCTION()
 	void ResponseRegisterUserFromDataBase(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
 
@@ -85,6 +88,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
 	void RequestReceivingCreateServerResult(const FString& ServerName, const FCreateServerCompelete& CallBack);
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
+	void RequestReceivingGetServerListByType(const FString& Type, const FGetServerListDelegate& Callback);
 
 protected:
 

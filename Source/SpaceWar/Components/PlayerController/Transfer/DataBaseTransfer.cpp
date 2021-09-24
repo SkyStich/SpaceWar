@@ -3,6 +3,7 @@
 #include "SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h"
 #include "SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestCheckServerCreation.h"
+#include "SpaceWar/Objects/Web/WebRequest/WebRequestGetGameListByType.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestReceivingWeaponList.h"
 
@@ -46,4 +47,11 @@ void UDataBaseTransfer::ReceivingCreateServerComplete(const FString& ServerName,
 	auto const Request = NewObject<UWebRequestCheckServerCreation>(GetOwner());
 	Request->AddCheckingServerKey(ServerName, CallBack);
 	Request->CollectRequest("127.0.0.1/SpaceWar/ReceivingCheckingServerCreation.php");
+}
+
+void UDataBaseTransfer::ReceivingServerListByType(const FString& Type, const FGetServerListDelegate CallBack)
+{
+	auto const Request = NewObject<UWebRequestGetGameListByType>(GetOwner());
+	Request->AddMapTypeKey(Type, CallBack);
+	Request->CollectRequest("127.0.0.1/SpaceWar/ReceivingServerListByMapType.php");
 }

@@ -36,4 +36,7 @@ public:
 
 	UFUNCTION()
 	void ReceivingCreateServerComplete(const FString& ServerName, const FCreateServerCompelete& CallBack);
+
+	UFUNCTION()
+	void ReceivingServerListByType(const FString& Type, const FGetServerListDelegate CallBack);
 };
