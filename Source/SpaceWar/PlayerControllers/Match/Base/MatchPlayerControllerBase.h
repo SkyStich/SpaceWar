@@ -48,9 +48,15 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public
 	
 	UFUNCTION()
 	void PausePressed();
+	
+	UFUNCTION()
+	void EndMatch(const FString& Reason, ETeam WinnerTeam);
 
+	UFUNCTION()
+	void ForcedDisconnectFromServer();
+	
 	UFUNCTION(Client, Reliable)
-	void Client_MatchFinish(const FString& Reason, ETeam WinnerTeam);
+	void Client_ConnectToHUBServer();
 	
 public:
 

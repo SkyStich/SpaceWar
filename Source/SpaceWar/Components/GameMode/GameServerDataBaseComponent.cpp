@@ -7,6 +7,7 @@
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerAddress.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerInfo.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestRemoveServer.h"
+#include "SpaceWar/GameModes/Match/Base/MatchGameModeBase.h"
 #include "SpaceWar/Structs/CreateServerCallBack.h"
 #include "SpaceWar/Structs/RemoveServerCallBack.h"
 
@@ -14,9 +15,8 @@
 UGameServerDataBaseComponent::UGameServerDataBaseComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickInterval = 15.f; 
+	PrimaryComponentTick.TickInterval = 10.f; 
 	
-	bServerActive = false;
 	bRequestForUpdateSent = false;
 }
 
@@ -57,7 +57,7 @@ void UGameServerDataBaseComponent::TickComponent(float DeltaTime, ELevelTick Tic
 
 void UGameServerDataBaseComponent::UpdateServerData()
 {
-	if(!bServerActive || bRequestForUpdateSent) return;
+	if(!ServerData.IsActive || bRequestForUpdateSent) return;
 
 	bRequestForUpdateSent = true;
 
@@ -89,11 +89,11 @@ void UGameServerDataBaseComponent::OnResponseCreateServer(const int32 ServerID)
 {
 	if(ServerID < 0)
 	{
-		//ShutDownServer();
+		ShutDownServer();
 		return;
 	}
 	ServerData.Id = ServerID;
-	bServerActive = true;
+	ServerData.IsActive = true;
 }
 
 void UGameServerDataBaseComponent::OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data)
@@ -102,11 +102,12 @@ void UGameServerDataBaseComponent::OnResponseGetServerInfo(bool bResult, const F
 	if(!bResult) return;
 	
 	bRequestForUpdateSent = false;
-	//ServerData.Address = Data.Address;
 	ServerData.Name = Data.Name;
-	if(Data.Address != ServerData.Address)
+	ServerData.IsActive = Data.IsActive;
+
+	if(!Data.IsActive)
 	{
-		//@ToDo добавить логику перенапралвения на другой аддресс если возможно
+		ForcedShutdownServer();
 	}
 }
 
@@ -116,7 +117,7 @@ void UGameServerDataBaseComponent::RemoveServerFromDataBase()
 	FRemoveServerDelegate CallBack;
 	CallBack.BindUFunction(this, "OnResponseRemoveServerFromDataBase");
 
-	bServerActive = false;
+	ServerData.IsActive = false;
 	SetTickableWhenPaused(true);
 	
 	auto const Request = NewObject<UWebRequestRemoveServer>(GetOwner());
@@ -128,7 +129,6 @@ void UGameServerDataBaseComponent::OnResponseRemoveServerFromDataBase(bool bResu
 {
 	if(bResult)
 	{
-//		ShutDownServer();
 		UE_LOG(LogTemp, Warning, TEXT("OnResponseRemoveServerFromDataBase"));
 	}
 }
@@ -147,6 +147,13 @@ void UGameServerDataBaseComponent::EndPlay(const EEndPlayReason::Type EndPlayRea
 
 void UGameServerDataBaseComponent::ShutDownServer()
 {
-	bServerActive = false;
-	RequestEngineExit("");
+	ServerData.IsActive = false;
+	RequestEngineExit("Game over");
+}
+
+void UGameServerDataBaseComponent::ForcedShutdownServer()
+{
+	OnForcedServerShutdown.Broadcast();
+	SetTickableWhenPaused(true);
+	ServerData.IsActive = false;
 }

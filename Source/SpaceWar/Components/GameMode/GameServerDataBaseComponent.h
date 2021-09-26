@@ -6,10 +6,11 @@
 #include "Components/ActorComponent.h"
 #include "SpaceWar/Structs/CreateServerCallBack.h"
 #include "SpaceWar/Structs/ServerInfo.h"
-
-
 #include "GameServerDataBaseComponent.generated.h"
 
+class AMatchGameModeBase;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FForcedServerShutdown);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
@@ -27,6 +28,9 @@ class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
 
 	UFUNCTION()
 	void OnResponseRemoveServerFromDataBase(bool bResult, const FString& ErrorMessage);
+
+	UFUNCTION()
+	void ForcedShutdownServer();
 
 	void UpdateServerData();
 
@@ -52,13 +56,15 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+public:
+
+	UPROPERTY()
+	FForcedServerShutdown OnForcedServerShutdown;
+
 private:
 
 	/** Save data about server */
 	FServersData ServerData;
-
-	/** true if server created in data base in activated */
-	bool bServerActive;
 
 	/**
 	 *	true if request for get server info send and awaiting a response
@@ -67,4 +73,6 @@ private:
 	bool bRequestForUpdateSent;
 
 	FGetServerInfoDelegate GetServerInfoCallBack;
+
+friend AMatchGameModeBase;
 };

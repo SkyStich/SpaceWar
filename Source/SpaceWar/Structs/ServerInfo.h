@@ -11,10 +11,14 @@ struct FServersData
 {
 	GENERATED_BODY()
 
-	FServersData() : Id(-1), Name(""), MapName(""), Address("") {}
-	
+	FServersData() : Id(-1), IsActive(false), Name(""), MapName(""), Address("") {}
+
 	UPROPERTY(BlueprintReadOnly)
 	int32 Id;
+
+	/** true if server created in data base in activated */
+	UPROPERTY(BlueprintReadOnly)
+	bool IsActive;
 	
 	UPROPERTY(BlueprintReadOnly)
 	FString Name;

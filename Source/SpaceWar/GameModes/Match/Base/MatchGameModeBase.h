@@ -42,6 +42,8 @@ public:
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void SpawnSpectator(AController* PossessController, const FVector& Location);
 
+	UGameServerDataBaseComponent* GetDataBaseComponent() const { return DataBaseComponent; }
+
 protected:
 
 	virtual void MatchEnded(const FString& Reason, ETeam WinnerTeam);
