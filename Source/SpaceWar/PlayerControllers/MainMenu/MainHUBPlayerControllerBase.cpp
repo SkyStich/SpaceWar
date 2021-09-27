@@ -17,11 +17,22 @@ void AMainHUBPlayerControllerBase::CreateServer(const FMapData& Data, FString Se
 	Server_CreateServer(Data.MapReference, ServerName);
 
 	CreateData = Data;
-	
+
+	/** send timer for chack server on created */
 	FTimerHandle SendRequestHandle;
 	FTimerDelegate TimerDel;
 	TimerDel.BindUObject(this, &AMainHUBPlayerControllerBase::CheckingForExistenceServer, ServerName);
 	GetWorld()->GetTimerManager().SetTimer(SendRequestHandle, TimerDel, 2.f, true, 3.f);
+
+	/** Bind timer on server time out */
+	FTimerHandle TimerToReset;
+	FTimerDelegate DelegateToReset;
+	DelegateToReset.BindLambda([&]() -> void
+	{
+		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+		OnServerNotCreated.Broadcast();
+	});
+	GetWorld()->GetTimerManager().SetTimer(TimerToReset, DelegateToReset, 15.f, false);
 }
 
 void AMainHUBPlayerControllerBase::CheckingForExistenceServer(FString ServerName)
@@ -35,7 +46,7 @@ void AMainHUBPlayerControllerBase::CheckingForExistenceServer(FString ServerName
 
 void AMainHUBPlayerControllerBase::OnCreteServerResult(bool bResult, const FString& Address)
 {
-	UE_LOG(LogTemp, Error, TEXT("Result: "), bResult);
+	UE_LOG(LogTemp, Error, TEXT("OnCreteServerResult: "), bResult);
 	bRequestSent = false;
 	if(bResult)
 	{

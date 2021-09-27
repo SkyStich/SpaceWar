@@ -28,6 +28,14 @@ void UGameServerDataBaseComponent::BeginPlay()
 	
 	auto const GM = UGameplayStatics::GetGameMode(GetWorld());
 	if(!GM) return;
+
+	/** Shut down server if server have ot option name */
+	if(!UGameplayStatics::HasOption(GM->OptionsString, "ServerName"))
+	{
+		UE_LOG(LogGameMode, Error, TEXT("Server have not ServerName. Add Server name option and launch server"));
+		ShutDownServer();
+		return;
+	}
 	
 	ServerData.Name = UGameplayStatics::ParseOption(GM->OptionsString, "ServerName");
 	ServerData.MapName = GetWorld()->GetMapName();

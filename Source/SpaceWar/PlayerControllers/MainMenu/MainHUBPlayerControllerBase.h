@@ -8,9 +8,8 @@
 
 #include "MainHUBPlayerControllerBase.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FServerNotCreated);
+
 UCLASS()
 class SPACEWAR_API AMainHUBPlayerControllerBase : public AMainMenuPlayerControllerBase
 {
@@ -35,4 +34,9 @@ private:
 	bool bRequestSent;
 	FMapData CreateData;
 	FCreateServerCompelete OnCreateServerComplete;
+
+public:
+
+	UPROPERTY(BlueprintAssignable)
+	FServerNotCreated OnServerNotCreated;
 };
