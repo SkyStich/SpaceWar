@@ -19,7 +19,8 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
 	bReplicates = true;
-	bCanWeaponManipulation = true; 
+	bCanWeaponManipulation = true;
+	SetCanBeDamaged(false);
 	NetUpdateFrequency = 40.f;
 
 	// set our turn rates for input
@@ -105,6 +106,12 @@ void ASpaceWarCharacter::BeginPlay()
 		FTimerHandle TimerHand;
 		GetWorld()->GetTimerManager().SetTimer(TimerHand, this, &ASpaceWarCharacter::ReplicateUpPitch, 0.05f, true);
 		WeaponManager->CreateThrow("Mine");
+
+		/** 2 ser later after spawn the player can be damage */
+		FTimerDelegate UpdateCanBeDamageTimerDelegate;
+		UpdateCanBeDamageTimerDelegate.BindLambda([&]() -> void { SetCanBeDamaged(true); });
+		FTimerHandle UpdateCanBeDamageHandle;
+		GetWorld()->GetTimerManager().SetTimer(UpdateCanBeDamageHandle, UpdateCanBeDamageTimerDelegate, 2.f, false);
 	}
 
 	if(IsLocallyControlled())
