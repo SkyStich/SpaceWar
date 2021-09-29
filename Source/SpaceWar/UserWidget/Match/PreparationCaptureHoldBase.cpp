@@ -5,8 +5,8 @@
 #include "SpaceWar/Interfaces/PreparationWidgetInterface.h"
 #include "SpaceWar/PlayerControllers/Match/Last/CaptureHoldController.h"
 
-void UPreparationCaptureHoldBase::SpawnPlayer()
+bool UPreparationCaptureHoldBase::SpawnPlayer()
 {
 	auto const PC = Cast<ACaptureHoldController>(GetOwningPlayer());
-	PC->SpawnPlayerByPoint(IPreparationWidgetInterface::Execute_FindSpawnPointNumber(this));
+	return PC->SpawnPlayerByPoint(IPreparationWidgetInterface::Execute_FindSpawnPointNumber(this));
 }

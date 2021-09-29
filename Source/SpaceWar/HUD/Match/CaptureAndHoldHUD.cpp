@@ -27,6 +27,8 @@ void ACaptureAndHoldHUD::BeginPlay()
 void ACaptureAndHoldHUD::PreMatchEnd(const FString& Reason, ETeam WinnerTeam)
 {
 	CreatePreMatchEnd(Reason, WinnerTeam);
+	RemoveCharacterWidgets();
+	RemoveSpectatorWidgets();
 }
 
 void ACaptureAndHoldHUD::PreparationSpawnCharacter()

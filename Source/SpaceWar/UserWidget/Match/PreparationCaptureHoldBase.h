@@ -17,5 +17,5 @@ class SPACEWAR_API UPreparationCaptureHoldBase : public UUserWidget
 public:
 
 	UFUNCTION(BlueprintCallable)
-	void SpawnPlayer();
+	bool SpawnPlayer();
 };

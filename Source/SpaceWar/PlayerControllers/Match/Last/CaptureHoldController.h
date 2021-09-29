@@ -8,6 +8,7 @@
 #include "CaptureHoldController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPreparationSpawnPlayer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FBeginSpawnPlayer);
 
 UCLASS()
 class SPACEWAR_API ACaptureHoldController : public AMatchPlayerControllerBase
@@ -26,26 +27,45 @@ class SPACEWAR_API ACaptureHoldController : public AMatchPlayerControllerBase
 	UFUNCTION()
 	void MatchEnded(const FString& Reason, ETeam WinnerTeam);
 	
+	UFUNCTION()
+	void OnPreparationStartGameFinishEvent(bool bResult);
+	
 public:
 
 	ACaptureHoldController();
 	virtual bool SpawnPlayer(const FVector& Location) override;
-	virtual void LaunchRespawnTimer(float const Time);
+	virtual void LaunchRespawnTimer();
 
 	UFUNCTION(BlueprintCallable)
-	void SpawnPlayerByPoint(EPointNumber Point);
+	bool SpawnPlayerByPoint(EPointNumber Point);
+
+	UFUNCTION(BlueprintPure)
+	bool GetIsCanSpawn() const  { return bCanSpawn; }
+	
+	UFUNCTION(BlueprintPure)
+	float GetRemainingTimeBeforeRespawn() const { return GetWorld()->GetTimerManager().GetTimerRemaining(RespawnTimer); }
 
 protected:
 
 	virtual void SetupInputComponent() override;
 	virtual void BeginPlay() override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 public:
 
+	UPROPERTY(BlueprintAssignable)
 	FPreparationSpawnPlayer OnPreparationSpawnPlayer;
+	
+	FBeginSpawnPlayer OnBeginSpawnPlayer;
 
 protected:
 
+	UPROPERTY(Replicated)
 	FTimerHandle RespawnTimer;
+	
+	UPROPERTY(Replicated)
 	bool bCanSpawn;
+
+	UPROPERTY(EditDefaultsOnly)
+	float RespawnTime;
 };

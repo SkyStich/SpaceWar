@@ -14,11 +14,11 @@ void AOnlinePlayerStateBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(GetLocalRole() != ROLE_Authority && GetPawn()->IsLocallyControlled())
+/*	if(GetLocalRole() != ROLE_Authority)
 	{
 		auto const GameInstance = GetGameInstance<UBaseGameInstance>();
 		Server_TransferPlayerNameToServer(GameInstance->GetPlayerName());
-	}
+	}*/
 }
 
 void AOnlinePlayerStateBase::SetTeam(const ETeam NewTeam)

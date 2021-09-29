@@ -2,6 +2,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/HUD.h"
 #include "EngineUtils.h"
+#include "Net/UnrealNetwork.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
@@ -11,14 +12,38 @@
 
 ACaptureHoldController::ACaptureHoldController()
 {
-	bCanSpawn = true;
+	bCanSpawn = false;
+	
+	RespawnTime = 15.f;
 }
 
 void ACaptureHoldController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Cast<ACaptureHoldGamestate>(UGameplayStatics::GetGameState(GetWorld()))->OnPreMatchEnd.AddDynamic(this, &ACaptureHoldController::MatchEnded);
+	auto const GS = Cast<ACaptureHoldGamestate>(UGameplayStatics::GetGameState(GetWorld()));
+
+	GS->OnPreMatchEnd.AddDynamic(this, &ACaptureHoldController::MatchEnded);
+	
+	if(GetLocalRole() == ROLE_Authority)
+	{
+		if(GS->GameInProgress())
+		{
+			bCanSpawn = true;
+		}
+		else
+		{
+			GS->OnPreparationStartGameFinish.AddDynamic(this, &ACaptureHoldController::OnPreparationStartGameFinishEvent);
+		}
+	}
+}
+
+void ACaptureHoldController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME_CONDITION(ACaptureHoldController, bCanSpawn, COND_OwnerOnly);
+	DOREPLIFETIME_CONDITION(ACaptureHoldController, RespawnTimer, COND_OwnerOnly);
 }
 
 void ACaptureHoldController::SetupInputComponent()
@@ -30,9 +55,10 @@ void ACaptureHoldController::SetupInputComponent()
 
 void ACaptureHoldController::SpawnPlayerPressed()
 {
-	if(GetCharacter()) return;
-	
-	OnPreparationSpawnPlayer.Broadcast();
+	if(!GetCharacter())
+	{
+		OnPreparationSpawnPlayer.Broadcast();
+	}
 }
 
 void ACaptureHoldController::MatchEnded(const FString& Reason, ETeam WinnerTeam)
@@ -47,25 +73,26 @@ void ACaptureHoldController::MatchEnded(const FString& Reason, ETeam WinnerTeam)
 	}
 }
 
-void ACaptureHoldController::LaunchRespawnTimer(float const Time)
+void ACaptureHoldController::LaunchRespawnTimer()
 {
 	FTimerDelegate TimerDel;
 	TimerDel.BindLambda([&]() -> void { bCanSpawn = true; });
-	GetWorld()->GetTimerManager().SetTimer(RespawnTimer, TimerDel, Time, false);
+	GetWorld()->GetTimerManager().SetTimer(RespawnTimer, TimerDel, RespawnTime, false);
 }
 
 bool ACaptureHoldController::SpawnPlayer(const FVector& Location)
 {
 	GetWorld()->GetTimerManager().ClearTimer(RespawnTimer);
 	if(!Super::SpawnPlayer(Location)) return false;
+	
 
 	bCanSpawn = false;
 	return true;
 }
 
-void ACaptureHoldController::SpawnPlayerByPoint(EPointNumber Point)
+bool ACaptureHoldController::SpawnPlayerByPoint(EPointNumber Point)
 {
-	if(!bCanSpawn) return;
+	if(!bCanSpawn) return false;
 	
 	TArray<APointCapturePlayerStart*>PointArray;
 	for(TActorIterator<APointCapturePlayerStart> It(GetWorld(), APointCapturePlayerStart::StaticClass()); It; ++It)
@@ -77,6 +104,7 @@ void ACaptureHoldController::SpawnPlayerByPoint(EPointNumber Point)
 		}
 	}
 	Server_SpawnPlayerByPoint(PointArray);
+	return true;
 }
 
 void ACaptureHoldController::Server_SpawnPlayerByPoint_Implementation(const TArray<APointCapturePlayerStart*>&PointArray)
@@ -102,3 +130,7 @@ void ACaptureHoldController::Client_ErrorMessage_Implementation(const FString& M
 	IErrorMessageInterface::Execute_ClientErrorMessage(MyHUD, Message);
 }
 
+void ACaptureHoldController::OnPreparationStartGameFinishEvent(bool bResult)
+{
+	bCanSpawn = bResult;
+}

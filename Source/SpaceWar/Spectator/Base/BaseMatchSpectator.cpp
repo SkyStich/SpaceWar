@@ -25,6 +25,12 @@ void ABaseMatchSpectator::BeginPlay()
 
 void ABaseMatchSpectator::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	if(!PlayerInputComponent)
+	{
+		PlayerInputComponent = NewObject<UInputComponent>(UInputComponent::StaticClass());
+		PlayerInputComponent->RegisterComponent();
+	}
 	check(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);

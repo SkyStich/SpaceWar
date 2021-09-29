@@ -16,6 +16,7 @@ enum class ETeam : uint8
 UENUM(BlueprintType)
 enum class EPointNumber : uint8
 {
+	None,
 	A,
 	B,
 	C

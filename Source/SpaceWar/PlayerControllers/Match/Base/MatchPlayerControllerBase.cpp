@@ -95,6 +95,8 @@ void AMatchPlayerControllerBase::SetupInputComponent()
 		InputComponent->RegisterComponent();
 	}
 
+	check(InputComponent);
+
 	InputComponent->BindAction("TabMenu", IE_Pressed, this, &AMatchPlayerControllerBase::PressTabMenu);
 	InputComponent->BindAction("TabMenu", IE_Released, this, &AMatchPlayerControllerBase::ReleasedTabMenu);
 

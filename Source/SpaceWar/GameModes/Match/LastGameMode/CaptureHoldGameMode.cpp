@@ -19,15 +19,15 @@ void ACaptureHoldGameMode::CharDead(AController* InstigatorController, AControll
 {
 	Super::CharDead(InstigatorController, LoserController, DamageCauser);
 
-	RespawnPlayer(LoserController, 5.f);
+	RespawnPlayer(LoserController);
 }
 
-void ACaptureHoldGameMode::RespawnPlayer(AController* LoserController, float const Time)
+void ACaptureHoldGameMode::RespawnPlayer(AController* LoserController)
 {
 	auto const LosController = Cast<ACaptureHoldController>(LoserController);
 	if(LosController)
 	{
-		LosController->LaunchRespawnTimer(Time);
+		LosController->LaunchRespawnTimer();
 	}
 }
 

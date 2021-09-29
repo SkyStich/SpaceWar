@@ -20,7 +20,7 @@ public:
 protected:
 
 	virtual void CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) override;
-	virtual void RespawnPlayer(AController* LoserController, float const Time) override;
+	virtual void RespawnPlayer(AController* LoserController) override;
 	virtual void MatchEnded(const FString& Reason, ETeam WinnerTeam) override;
 	virtual void TickTime(AOnlinetMatchGameStateBase* MatchGameState) override;
 	virtual void BeginPlay() override;

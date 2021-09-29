@@ -8,7 +8,6 @@ void AHoldOfFlagHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/** for test */
 	PreparationRound();
 
 	auto const GameState = Cast<ACaptureOfFlagGameState>(UGameplayStatics::GetGameState(GetWorld()));
@@ -42,4 +41,6 @@ void AHoldOfFlagHUD::StartRound()
 void AHoldOfFlagHUD::StopRound(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound)
 {
 	CreatePreMatchEnd(Reason, WinnerTeam);
+	RemoveSpectatorWidgets();
+	RemoveCharacterWidgets();
 }
