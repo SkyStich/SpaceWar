@@ -10,7 +10,6 @@
 #include "SpaceWar/Structs/UserInfo.h"
 #include "SpaceWar/Structs/RegisterUsersCallBack.h"
 #include "SpaceWar/Structs/ServerInfo.h"
-
 #include "ClientServerTransfer.generated.h"
 
 /** moves data between the client and the dedicated server */
@@ -36,6 +35,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 
 	UFUNCTION(Server, Reliable)
 	void Server_SendReceivingServerListByType(const FString& Type);
+	
+	UFUNCTION(Server, Reliable)
+	void Server_SendReceivingServerNameVerification(const FString& Name);
 
 	UFUNCTION()
 	void ResponseRegisterUserFromDataBase(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
@@ -51,6 +53,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 
 	UFUNCTION()
 	void OnResponseCreateServerResult(bool bResult, const FString& Address);
+
+	UFUNCTION()
+	void OnResponseServerNameVerification(bool bResult);
 	
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseRegisterUser(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
@@ -66,6 +71,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 
 	UFUNCTION(Client, Reliable)
 	void Client_CreateServerCompleteResult(bool bResult, const FString& Address);
+
+	UFUNCTION(Client, Reliable)
+	void Client_ResponseServerNameVerification(bool bResult);
 
 public:	
 
@@ -91,6 +99,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
 	void RequestReceivingGetServerListByType(const FString& Type, const FGetServerListDelegate& Callback);
+	
+	UFUNCTION(BlueprintCallable)
+	void RequestReceivingServerNameVerification(const FString& Name, const FServerNameVerificationCallback& Callback);
 
 protected:
 
@@ -103,4 +114,5 @@ public:
 	FGetServerListCallBack ServerListCallBack;
 	FReceivingWeaponListCallBack OnReceivingWeaponListCallBack;
 	FCreateServerCompelete OnCreateServerComplete;
+	FServerNameVerificationCallback OnServerNameVerificationCallback;
 };

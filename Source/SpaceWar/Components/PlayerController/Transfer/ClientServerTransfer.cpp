@@ -241,3 +241,34 @@ void UClientServerTransfer::Server_SendReceivingServerListByType_Implementation(
 	}
 }
 
+void UClientServerTransfer::RequestReceivingServerNameVerification(const FString& Name, const FServerNameVerificationCallback& Callback)
+{
+	OnServerNameVerificationCallback = Callback;
+	Server_SendReceivingServerNameVerification(Name);
+}
+
+void UClientServerTransfer::Server_SendReceivingServerNameVerification_Implementation(const FString& Name)
+{
+	FServerNameVerificationCallback Callback;
+	Callback.BindUFunction(this, "OnResponseServerNameVerification");
+
+	auto const Transfer = GetOwner()->FindComponentByClass<UDataBaseTransfer>();
+	if(Transfer)
+	{
+		Transfer->ReceivingServerNameVerification(Name, Callback);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("UClientServerTransfer::Server_SendReceivingServerNameVerification --Player controller not have component UDataBaseTransfer   %s: "), *GetName());
+	}
+}
+
+void UClientServerTransfer::Client_ResponseServerNameVerification_Implementation(bool bResult)
+{
+	OnServerNameVerificationCallback.Execute(bResult);
+}
+
+void UClientServerTransfer::OnResponseServerNameVerification(bool bResult)
+{
+	Client_ResponseServerNameVerification(bResult);
+}

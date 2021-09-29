@@ -12,8 +12,8 @@ void UTimeWorkLibrary::ConvertSecondOnTimeStandard(int32 Seconds, FString& Retur
 	FString StringMin;
 	FString StringSec;
 	
-	Minutes < 10 ? StringMin = "0" + FString::FromInt(Minutes) : StringMin = FString::FromInt(Minutes);
-	Seconds < 10 ? StringSec = "0" + FString::FromInt(Seconds) : StringSec = FString::FromInt(Seconds);
+	StringMin = Minutes < 10 ? "0" + FString::FromInt(Minutes) : FString::FromInt(Minutes);
+	StringSec = Seconds < 10 ? "0" + FString::FromInt(Sec) : FString::FromInt(Sec);
 
 	ReturnValue = StringMin + ":" + StringSec;
 }

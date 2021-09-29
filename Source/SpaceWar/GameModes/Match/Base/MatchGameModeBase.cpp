@@ -108,11 +108,6 @@ void AMatchGameModeBase::AsyncSpawnPlayerCharacterComplete(FSoftObjectPath Refer
 void AMatchGameModeBase::GameFinish(FString Reason, ETeam WinnerTeam)
 {
 	OnMatchEnded.Broadcast(Reason, WinnerTeam);
-
-	FTimerDelegate TimerDel;
-	TimerDel.BindUObject(DataBaseComponent, &UGameServerDataBaseComponent::RemoveServerFromDataBase);
-	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 5.f, false);
 }
 
 void AMatchGameModeBase::MatchEnded(const FString& Reason, ETeam WinnerTeam)
@@ -121,10 +116,12 @@ void AMatchGameModeBase::MatchEnded(const FString& Reason, ETeam WinnerTeam)
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 	OnPreMatchEnded.Broadcast(Reason, WinnerTeam);
 	
+	DataBaseComponent->RemoveServerFromDataBase();
+	
 	FTimerDelegate TimerDel;
 	TimerDel.BindUObject(this, &AMatchGameModeBase::GameFinish, Reason, WinnerTeam);
 	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 15.f, false);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 10.f, false);
 }
 
 void AMatchGameModeBase::PostLogin(APlayerController* NewPlayer)

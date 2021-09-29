@@ -39,4 +39,7 @@ public:
 
 	UFUNCTION()
 	void ReceivingServerListByType(const FString& Type, const FGetServerListDelegate CallBack);
+
+	UFUNCTION()
+	void ReceivingServerNameVerification(const FString& Name, const FServerNameVerificationCallback& Callback);
 };

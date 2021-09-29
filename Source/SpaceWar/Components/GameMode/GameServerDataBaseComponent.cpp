@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GameServerDataBaseComponent.h"
 #include "GameFramework/GameModeBase.h"
@@ -30,13 +30,14 @@ void UGameServerDataBaseComponent::BeginPlay()
 	if(!GM) return;
 
 	/** Shut down server if server have ot option name */
+#if UE_SERVER
 	if(!UGameplayStatics::HasOption(GM->OptionsString, "ServerName"))
 	{
 		UE_LOG(LogGameMode, Error, TEXT("Server have not ServerName. Add Server name option and launch server"));
 		ShutDownServer();
 		return;
 	}
-	
+#endif	
 	ServerData.Name = UGameplayStatics::ParseOption(GM->OptionsString, "ServerName");
 	ServerData.MapName = GetWorld()->GetMapName();
 	ServerData.MapName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
@@ -95,11 +96,13 @@ void UGameServerDataBaseComponent::CreateServerInDataBase()
 
 void UGameServerDataBaseComponent::OnResponseCreateServer(const int32 ServerID)
 {
+#if UE_Server
 	if(ServerID < 0)
 	{
 		ShutDownServer();
 		return;
 	}
+#endif
 	ServerData.Id = ServerID;
 	ServerData.IsActive = true;
 }

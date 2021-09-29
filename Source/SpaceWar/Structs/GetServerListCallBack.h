@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GetServerListCallBack.generated.h"
 
+DECLARE_DYNAMIC_DELEGATE_OneParam(FServerNameVerificationCallback, bool, bResult /** true if server passed the verification */);
+
 /** use for client */
 USTRUCT(BlueprintType)
 struct FClientServerInfo

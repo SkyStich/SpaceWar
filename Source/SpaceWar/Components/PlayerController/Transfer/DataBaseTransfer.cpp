@@ -6,6 +6,7 @@
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetGameListByType.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestReceivingWeaponList.h"
+#include "SpaceWar/Objects/Web/WebRequest/WebRequestServerNameVerification.h"
 
 // Sets default values for this component's properties
 UDataBaseTransfer::UDataBaseTransfer()
@@ -54,4 +55,11 @@ void UDataBaseTransfer::ReceivingServerListByType(const FString& Type, const FGe
 	auto const Request = NewObject<UWebRequestGetGameListByType>(GetOwner());
 	Request->AddMapTypeKey(Type, CallBack);
 	Request->CollectRequest("127.0.0.1/SpaceWar/ReceivingServerListByMapType.php");
+}
+
+void UDataBaseTransfer::ReceivingServerNameVerification(const FString& Name, const FServerNameVerificationCallback& Callback)
+{
+	auto const Request = NewObject<UWebRequestServerNameVerification>(GetOwner());
+	Request->AddVerificationKey(Name, Callback);
+	Request->CollectRequest("127.0.0.1/SpaceWar/ServerNameVerification.php");
 }

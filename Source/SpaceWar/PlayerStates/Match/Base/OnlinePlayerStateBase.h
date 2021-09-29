@@ -12,8 +12,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNumberOfMurdersIncrease);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNumberOnMurdersDecrease);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNumberOfDeathsChanged);
 
-
-
 UCLASS()
 class SPACEWAR_API AOnlinePlayerStateBase : public APlayerState, public IGetPlayerTeamInterface
 {
@@ -25,7 +23,12 @@ class SPACEWAR_API AOnlinePlayerStateBase : public APlayerState, public IGetPlay
 	UFUNCTION()
 	void OnRep_NumberOfDeaths();
 
+	UFUNCTION(Server, Reliable)
+	void Server_TransferPlayerNameToServer(const FString& Name);
+
 public:
+
+	AOnlinePlayerStateBase();
 
 	virtual ETeam FindPlayerTeam_Implementation() override { return PlayerTeam; }
 
@@ -38,15 +41,13 @@ public:
 	virtual void SetTeam(const ETeam NewTeam);
 
 	void IncrementNumberOfDeaths();
-	//void DecrementNumberOfDeaths();
 	void IncrementNumberOfMurders();
 	void DecrementNumberOfMurders();
-	
-	bool operator()(AOnlinePlayerStateBase* State);
 
 protected:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void BeginPlay();
 
 public:
 

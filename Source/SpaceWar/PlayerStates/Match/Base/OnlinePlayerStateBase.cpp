@@ -3,10 +3,22 @@
 
 #include "OnlinePlayerStateBase.h"
 #include "Net/UnrealNetwork.h"
+#include "SpaceWar/GameInstances/BaseGameInstance.h"
 
-bool AOnlinePlayerStateBase::operator()(AOnlinePlayerStateBase* State)
+AOnlinePlayerStateBase::AOnlinePlayerStateBase()
 {
-	return PlayerTeam == State->PlayerTeam;
+	bUseCustomPlayerNames = true;
+}
+
+void AOnlinePlayerStateBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if(GetLocalRole() != ROLE_Authority && GetPawn()->IsLocallyControlled())
+	{
+		auto const GameInstance = GetGameInstance<UBaseGameInstance>();
+		Server_TransferPlayerNameToServer(GameInstance->GetPlayerName());
+	}
 }
 
 void AOnlinePlayerStateBase::SetTeam(const ETeam NewTeam)
@@ -28,12 +40,6 @@ void AOnlinePlayerStateBase::IncrementNumberOfDeaths()
 	NumberOfDeaths++;
 	OnRep_NumberOfDeaths();
 }
-
-//void AOnlinePlayerStateBase::DecrementNumberOfDeaths()
-//{
-	//NumberOfDeaths--;
-	//OnRep_NumberOfDeaths();
-//}
 
 void AOnlinePlayerStateBase::DecrementNumberOfMurders()
 {
@@ -57,5 +63,11 @@ void AOnlinePlayerStateBase::OnRep_NumberOfMurders()
 {
 	OnNumberOfMurdersChanged.Broadcast();
 }
+
+void AOnlinePlayerStateBase::Server_TransferPlayerNameToServer_Implementation(const FString& Name)
+{
+	SetPlayerName(Name);
+}
+
 
 
