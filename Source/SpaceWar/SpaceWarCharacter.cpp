@@ -329,6 +329,7 @@ void ASpaceWarCharacter::GetCauserInfo_Implementation(FDamageCauserInfo& DamageC
 
 void ASpaceWarCharacter::UseJetpackPressed()
 {
+	if(!ArmorObject) return;
 	if(JetpackComponent->IsAbleToUseJetpack() && ArmorObject->GetData().bCanUseJetPack)
 	{
 		Server_UseJetpack();

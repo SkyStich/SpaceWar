@@ -24,18 +24,18 @@ void AMatchGameModeBase::BeginPlay()
 
 void AMatchGameModeBase::CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)
 {
-	SpawnSpectator(LoserController, LoserController->GetPawn()->GetActorLocation());
+	SpawnSpectator(LoserController, InstigatorController->GetPawn()->GetActorLocation(), LoserController->GetControlRotation());
 	
 	OnPlayerDead.Broadcast(InstigatorController, LoserController, DamageCauser);
 }
 
-void AMatchGameModeBase::SpawnSpectator(AController* PossessController, const FVector& Location)
+void AMatchGameModeBase::SpawnSpectator(AController* PossessController, const FVector& Location, const FRotator& Rotation)
 {
 	FActorSpawnParameters Param;
-	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 	Param.Owner = PossessController;
 	Param.Instigator = PossessController->GetPawn();
-	auto Spectator = GetWorld()->SpawnActor<ABaseMatchSpectator>(ABaseMatchSpectator::StaticClass(), Location, FRotator::ZeroRotator, Param);
+	auto Spectator = GetWorld()->SpawnActor<ASpectatorPawn>(SpectatorClass, Location + FVector(0.f, 0.f, 0.f), Rotation, Param);
 	if(!Spectator) return;
 		
 	Spectator->SetOwner(Spectator);

@@ -72,7 +72,7 @@ void ACaptureFlagController::PreparationRound()
 		/** if controller controlled PlayerCharacter, Spawn spectator and destroy player character */
 		auto const GM = Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		auto const TempPawn = GetCharacter();
-		GM->SpawnSpectator(this, GetCharacter()->GetActorLocation());
+		GM->SpawnSpectator(this, TempPawn->GetActorLocation(), GetControlRotation());
 		TempPawn->Destroy();
 	}
 }

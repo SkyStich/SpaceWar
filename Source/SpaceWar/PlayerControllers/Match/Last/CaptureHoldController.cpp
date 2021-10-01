@@ -43,7 +43,6 @@ void ACaptureHoldController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME_CONDITION(ACaptureHoldController, bCanSpawn, COND_OwnerOnly);
-	DOREPLIFETIME_CONDITION(ACaptureHoldController, RespawnTimer, COND_OwnerOnly);
 }
 
 void ACaptureHoldController::SetupInputComponent()

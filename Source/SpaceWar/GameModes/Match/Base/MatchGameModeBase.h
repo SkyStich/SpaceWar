@@ -40,7 +40,7 @@ public:
 	virtual void CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser);
 	virtual void SpawnCharacter(AMatchPlayerControllerBase* Controller, const FVector& Location);
 	virtual void PostLogin(APlayerController* NewPlayer) override;
-	virtual void SpawnSpectator(AController* PossessController, const FVector& Location);
+	virtual void SpawnSpectator(AController* PossessController, const FVector& Location, const FRotator& Rotation);
 
 	UGameServerDataBaseComponent* GetDataBaseComponent() const { return DataBaseComponent; }
 

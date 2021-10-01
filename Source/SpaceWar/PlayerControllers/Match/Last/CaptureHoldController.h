@@ -40,10 +40,10 @@ public:
 	bool SpawnPlayerByPoint(EPointNumber Point);
 
 	UFUNCTION(BlueprintPure)
-	bool GetIsCanSpawn() const  { return bCanSpawn; }
-	
+	bool GetIsCanSpawn() const { return bCanSpawn; }
+
 	UFUNCTION(BlueprintPure)
-	float GetRemainingTimeBeforeRespawn() const { return GetWorld()->GetTimerManager().GetTimerRemaining(RespawnTimer); }
+	float GetRespawnTime() const { return RespawnTime; }
 
 protected:
 
@@ -60,7 +60,6 @@ public:
 
 protected:
 
-	UPROPERTY(Replicated)
 	FTimerHandle RespawnTimer;
 	
 	UPROPERTY(Replicated)

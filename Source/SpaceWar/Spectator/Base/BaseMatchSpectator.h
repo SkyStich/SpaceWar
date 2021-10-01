@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/SpectatorPawn.h"
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -11,7 +11,7 @@
 #include "BaseMatchSpectator.generated.h"
 
 UCLASS()
-class SPACEWAR_API ABaseMatchSpectator : public APawn
+class SPACEWAR_API ABaseMatchSpectator : public ASpectatorPawn
 {
 	GENERATED_BODY()
 
@@ -25,9 +25,6 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	void LookUpAtRate(float Rate);
-	void TurnAtRate(float Rate);
-
 public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -35,7 +32,4 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USpringArmComponent* SpringArm;
-
-	float BaseTurnRate;
-	float BaseLookUpRate;
 };
