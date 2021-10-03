@@ -151,7 +151,7 @@ void ATeamPoints::RefreshLaunchCapture()
 
 void ATeamPoints::OnRep_TeamPoints()
 {
-	OnOwnerTeamChanged.Broadcast(OwnerTeam);
+	OnOwnerTeamChanged.Broadcast(OwnerTeam, PointNumber);
 }
 
 void ATeamPoints::LaunchPointCapture(ETeam CaptureTeam)

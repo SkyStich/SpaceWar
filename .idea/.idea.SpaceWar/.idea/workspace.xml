@@ -61,6 +61,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/PointNumber/W_PointDesigner.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/PointNumber/W_PointDesigner.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/PreparationMatch/W_PreparationCaptureAndHold.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/PreparationMatch/W_PreparationCaptureAndHold.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,8 +98,6 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/BPFLibrary/ServerManipulationLibrary.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/BPFLibrary/ServerManipulationLibrary.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetGameListByType.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetGameListByType.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/CreateServerCallBack.h" />
@@ -137,6 +139,8 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/TeamPoints/TeamPoints.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34481,6 +34485,8 @@
       <workItem from="1633074027670" duration="10000" />
       <workItem from="1633086111287" duration="4862000" />
       <workItem from="1633207740786" duration="1188000" />
+      <workItem from="1633248000152" duration="2070000" />
+      <workItem from="1633295594976" duration="593000" />
     </task>
     <servers />
   </component>

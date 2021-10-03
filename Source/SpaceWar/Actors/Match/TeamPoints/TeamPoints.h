@@ -7,7 +7,7 @@
 #include "SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h"
 #include "TeamPoints.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOwnerTeamChanged, ETeam, NewOwnerTeam);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOwnerTeamChanged, ETeam, NewOwnerTeam, EPointNumber, PointNumber);
 
 UCLASS(Abstract)
 class SPACEWAR_API ATeamPoints : public AActor
