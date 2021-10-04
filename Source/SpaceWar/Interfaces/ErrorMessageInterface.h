@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SpaceWar/UserWidget/ErrorWidget/ErrorMessageWidget.h"
 #include "UObject/Interface.h"
 #include "ErrorMessageInterface.generated.h"
 
@@ -23,5 +24,5 @@ class SPACEWAR_API IErrorMessageInterface
 public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Widget")
-	void ClientErrorMessage(const FString& Message);
+	UErrorMessageWidget* ClientErrorMessage(const FString& Message);
 };

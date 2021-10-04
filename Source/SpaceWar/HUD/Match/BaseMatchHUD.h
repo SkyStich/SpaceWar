@@ -18,7 +18,7 @@ class SPACEWAR_API ABaseMatchHUD : public AHUD, public IErrorMessageInterface
 	GENERATED_BODY()
 
 	UFUNCTION()
-	void CreateErrorWidget(const FString& Message);
+	UErrorMessageWidget* CreateErrorWidget(const FString& Message);
 
 	UFUNCTION()
 	void OnPreparationStartGameEvent(bool bResult);
@@ -50,7 +50,7 @@ protected:
 	
 	virtual void CreateTabMenu();
 
-	virtual void ClientErrorMessage_Implementation(const FString& Message) override;
+	virtual UErrorMessageWidget* ClientErrorMessage_Implementation(const FString& Message) override;
 	
 	UFUNCTION()
 	virtual void CreateMatchEndWidget(const FString& Reason, ETeam WinnerTeam);

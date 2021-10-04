@@ -53,26 +53,20 @@ void ABaseMatchHUD::BeginPlay()
 	GS->OnPreparationStartGameFinish.AddDynamic(this, &ABaseMatchHUD::OnPreparationStartGameEvent);
 }
 
-void ABaseMatchHUD::ClientErrorMessage_Implementation(const FString& Message)
+UErrorMessageWidget* ABaseMatchHUD::ClientErrorMessage_Implementation(const FString& Message)
 {
-	CreateErrorWidget(Message);
+	return CreateErrorWidget(Message);
 }
 
-void ABaseMatchHUD::CreateErrorWidget(const FString& Message)
+UErrorMessageWidget* ABaseMatchHUD::CreateErrorWidget(const FString& Message)
 {
 	auto const Widget = AssetData->SyncCreateWidget<UErrorMessageWidget>(GetWorld(), ErrorWidgetClass, GetOwningPlayerController());
 	if(Widget)
 	{
 		Widget->Init(Message);
 		Widget->AddToViewport();
-		
-		auto AutoDestroy = [&]() -> void { Widget->RemoveFromParent(); };
-		
-		FTimerHandle TimerHandle;
-		FTimerDelegate TimerDel;
-		TimerDel.BindLambda(AutoDestroy);
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 2.f, false);
 	}
+	return Widget;
 }
 
 void ABaseMatchHUD::NewOwningPlayerPawn(APawn* NewPawn)
@@ -120,7 +114,7 @@ void ABaseMatchHUD::RemoveCharacterWidgets()
 
 void ABaseMatchHUD::CreateSpectatorWidgets()
 {
-	if(SpectatorWidget)
+	if(SpectatorWidget && !SpectatorHUD)
 	{
 		SpectatorHUD = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), SpectatorWidget, GetOwningPlayerController());
 		SpectatorHUD->AddToViewport();

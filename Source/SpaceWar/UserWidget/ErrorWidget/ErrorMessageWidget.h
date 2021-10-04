@@ -6,9 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "ErrorMessageWidget.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FMessageClose);
+
 UCLASS()
 class SPACEWAR_API UErrorMessageWidget : public UUserWidget
 {
@@ -18,5 +17,9 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void Init(const FString& Message);
-	
+
+public:
+
+	UPROPERTY(BlueprintCallable, BlueprintAssignable)
+	FMessageClose OnMessageClose;
 };

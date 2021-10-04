@@ -108,8 +108,7 @@ bool ACaptureHoldController::SpawnPlayerByPoint(EPointNumber Point)
 
 void ACaptureHoldController::Server_SpawnPlayerByPoint_Implementation(const TArray<APointCapturePlayerStart*>&PointArray)
 {
-	auto const GameState = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
-	if(!bCanSpawn || !GameState) return;
+	if(!bCanSpawn) return;
 	
 	for(auto& ByArray : PointArray)
 	{
