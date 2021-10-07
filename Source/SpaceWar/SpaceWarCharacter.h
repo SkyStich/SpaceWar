@@ -188,6 +188,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = SkeletalMesh, meta = (AllowPrivateAccess = "true"))
 	UStaminaComponent* StaminaComponent;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	class USphereComponent* RotateArmComponent;
 
 private:
 

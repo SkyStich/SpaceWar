@@ -3,6 +3,7 @@
 #include "SpaceWarCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SphereComponent.h"
 #include "Components/HealthComponent.h"
 #include "Singleton/BaseSingleton.h"
 #include "Components/InputComponent.h"
@@ -46,8 +47,11 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	AimCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("AimCameraComponent"));
 	AimCamera->SetupAttachment(WeaponMesh);
 
+	RotateArmComponent = CreateDefaultSubobject<USphereComponent>(TEXT("RotateArmComponent"));
+	RotateArmComponent->SetupAttachment(FollowCamera);
+
 	SkeletalArm = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Arm"));
-	SkeletalArm->SetupAttachment(FollowCamera);
+	SkeletalArm->SetupAttachment(RotateArmComponent);
 
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MeaponMesh"));
 	WeaponManager = CreateDefaultSubobject<UEquipableWeaponManager>(TEXT("Weapon manager"));
@@ -93,7 +97,28 @@ void ASpaceWarCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "WeaponPoint");
-	IsLocallyControlled() || GetNetMode() == NM_DedicatedServer ? GetMesh()->SetVisibility(false) : SkeletalArm->DestroyComponent();
+	if(IsLocallyControlled() || GetNetMode() == NM_DedicatedServer)
+	{
+		GetMesh()->DestroyComponent();
+		
+		if(GetNetMode() != NM_DedicatedServer)
+		{
+			auto const GI = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+			if(!GI) return;
+		
+			Server_InitArmor(GI->GetCurrentArmorId());
+
+			for(auto& ByArray : GI->GetWeapons())
+			{
+				Server_CreateWeapon(ByArray.Key, ByArray.Value);
+			}
+		}
+	}
+	else
+	{
+		SkeletalArm->DestroyComponent();
+		RotateArmComponent->DestroyComponent();
+	}
 
 	HealthComponent->OnOwnerDead.AddDynamic(this, &ASpaceWarCharacter::CharDead);
 	StaminaComponent->OnStaminaUsed.AddDynamic(this, &ASpaceWarCharacter::OnStaminaUsedEvent);
@@ -112,19 +137,6 @@ void ASpaceWarCharacter::BeginPlay()
 		UpdateCanBeDamageTimerDelegate.BindLambda([&]() -> void { SetCanBeDamaged(true); });
 		FTimerHandle UpdateCanBeDamageHandle;
 		GetWorld()->GetTimerManager().SetTimer(UpdateCanBeDamageHandle, UpdateCanBeDamageTimerDelegate, 2.f, false);
-	}
-
-	if(IsLocallyControlled())
-	{
-		auto const GI = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-		if(!GI) return;
-		
-		Server_InitArmor(GI->GetCurrentArmorId());
-
-		for(auto& ByArray : GI->GetWeapons())
-		{
-			Server_CreateWeapon(ByArray.Key, ByArray.Value);
-		}
 	}
 	OnPlayerInitializationComplete.Broadcast();
 }
@@ -291,7 +303,7 @@ void ASpaceWarCharacter::MoveRight(float Value)
 
 USkeletalMeshComponent* ASpaceWarCharacter::GetLocalMesh() const
 {
-	return (IsLocallyControlled() || GetNetMode() == NM_DedicatedServer) ? SkeletalArm : GetMesh();
+	return IsLocallyControlled() ? SkeletalArm : GetMesh();
 }
 
 void ASpaceWarCharacter::SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr)

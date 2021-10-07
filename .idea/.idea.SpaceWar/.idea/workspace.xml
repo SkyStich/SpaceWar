@@ -60,9 +60,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Interfaces/MiniMapInterface.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapBase.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapBase.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapObjectIconBase.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapObjectIconBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/Test/TestMapHold.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/Test/TestMapHold.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/W_MainMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/W_MainMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/HeroFPP/HeroFPP.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/HeroFPP/HeroFPP.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/HeroFPP/HeroFPP_AnimationBlueprint.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/HeroFPP/HeroFPP_AnimationBlueprint.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/HeroFPP/HeroFPP_Skeleton.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/HeroFPP/HeroFPP_Skeleton.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameState/BP_CaptureAndHoldGameState.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameState/BP_CaptureAndHoldGameState.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_CaptureHoldHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_CaptureHoldHUD.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_MatchHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_MatchHUD.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/MiniMap/W_MiniMap.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/MiniMap/W_MiniMap.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/MiniMap/W_MiniMapObjectIcon.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/MiniMap/W_MiniMapObjectIcon.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,11 +102,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetGameListByType.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/CreateServerCallBack.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestGetServerInfo.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/ServerInfo.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.h" />
@@ -139,6 +148,11 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/Base/WebRequestBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Interfaces/MiniMapInterface.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapObjectIconBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapObjectIconBase.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34489,6 +34503,8 @@
       <workItem from="1633340181454" duration="4247000" />
       <workItem from="1633356540777" duration="4956000" />
       <workItem from="1633383881438" duration="1691000" />
+      <workItem from="1633549207578" duration="4757000" />
+      <workItem from="1633604825491" duration="4969000" />
     </task>
     <servers />
   </component>
