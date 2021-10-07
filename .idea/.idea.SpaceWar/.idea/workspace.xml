@@ -60,19 +60,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/HUD/PlayerHUD.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/AmmoStats/W_Pseudo3DAmmoStats.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/HUD/W_CaptureAndHoldPseudo3DHUD.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/HeroFPP/HeroFPP_AnimationBlueprint.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/HeroFPP/HeroFPP_AnimationBlueprint.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SciFiWeapLight/Weapons/White_AssaultRifle_Skeleton.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SciFiWeapLight/Weapons/White_AssaultRifle_Skeleton.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SciFiWeapLight/Weapons/White_Pistol_Skeleton.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SciFiWeapLight/Weapons/White_Pistol_Skeleton.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataAssets/WidgetDataAsset.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataAssets/WidgetDataAsset.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/Ammo/W_AmmoStats.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/Ammo/W_AmmoStats.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_CaptureHoldHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_CaptureHoldHUD.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_MatchHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_MatchHUD.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34502,7 +34492,8 @@
       <workItem from="1633549207578" duration="4757000" />
       <workItem from="1633604825491" duration="4969000" />
       <workItem from="1633616972417" duration="1358000" />
-      <workItem from="1633619413962" duration="3556000" />
+      <workItem from="1633619413962" duration="3958000" />
+      <workItem from="1633625416609" duration="695000" />
     </task>
     <servers />
   </component>
