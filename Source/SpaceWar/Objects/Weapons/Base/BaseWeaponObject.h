@@ -23,6 +23,8 @@ public:
 	UBaseWeaponObject();
 
 	void SetCharacterOwner(ASpaceWarCharacter* NewOwner);
+	
+	UFUNCTION(BlueprintPure)
 	bool GetWeaponUsed() const { return bWeaponUsed; }
 	
 	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
