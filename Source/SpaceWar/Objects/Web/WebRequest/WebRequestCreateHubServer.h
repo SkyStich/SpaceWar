@@ -5,29 +5,28 @@
 #include "CoreMinimal.h"
 #include "Base/WebRequestBase.h"
 #include "SpaceWar/Structs/CreateServerCallBack.h"
-#include "WebRequestCreateGameServer.generated.h"
 
+#include "WebRequestCreateHubServer.generated.h"
+
+/**
+ * 
+ */
 UCLASS()
-class SPACEWAR_API UWebRequestCreateGameServer : public UWebRequestBase
+class SPACEWAR_API UWebRequestCreateHubServer : public UWebRequestBase
 {
 	GENERATED_BODY()
-
+	
 public:
 
 	virtual void CollectRequest(const FString& ScriptURL) override;
-	void AddCreateServerKeys(const FString& Name, const FString& MapAddress, const FString& NewMapName, const FString& ServerOwnerName, const FCreateServerDelegate& CallBack);
-	
+	void AddCreateHudServerKey(const FString& serverName, const FString& address, const FCreateServerDelegate& callback);
+
 protected:
 
 	virtual void CallJsonResponse(const TSharedPtr<FJsonObject>& JsonResponse) override;
 	virtual void CallJsonFail() override;
 
-private:
-
-	FCreateServerDelegate OnCreateServerDelegate;
-	
 	FString ServerName;
 	FString Address;
-	FString MapName;
-	FString OwnerName;
+	FCreateServerDelegate Callback;
 };

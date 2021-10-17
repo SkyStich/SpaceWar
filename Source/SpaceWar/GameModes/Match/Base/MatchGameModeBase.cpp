@@ -5,6 +5,7 @@
 #include "SpaceWar/Singleton/BaseSingleton.h"
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
+#include "SpaceWar/Components/GameMode/GameDataBaseComponent.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "SpaceWar/BPFLibrary/ServerManipulationLibrary.h"
 #include "SpaceWar/GameStates/Base/GameStateMatchGame.h"
@@ -14,7 +15,7 @@ AMatchGameModeBase::AMatchGameModeBase()
 {
 	PointForWin = 1000;
 
-	DataBaseComponent = CreateDefaultSubobject<UGameServerDataBaseComponent>(TEXT("DataBaseComponent"));
+	DataBaseComponent = CreateDefaultSubobject<UGameDataBaseComponent>(TEXT("GameDataBaseComponent"));
 }
 
 void AMatchGameModeBase::BeginPlay()
@@ -128,14 +129,23 @@ void AMatchGameModeBase::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
-	OnPlayerPostLogin.Broadcast(NewPlayer);
+	if(DataBaseComponent->ServerData.IsActive)
+	{
+		OnPlayerPostLogin.Broadcast(NewPlayer);
+		return;
+	}
+}
+
+void AMatchGameModeBase::PreLogin(const FString& Options, const FString& Address, const FUniqueNetIdRepl& UniqueId, FString& ErrorMessage)
+{
+	Super::PreLogin(Options, Address, UniqueId, ErrorMessage);
 }
 
 void AMatchGameModeBase::Logout(AController* Exiting)
 {
 	Super::Logout(Exiting);
 
-	if(GameState->PlayerArray.Num() <= 0)
+	if(GetNumPlayers() <= 0)
 	{
 		DataBaseComponent->ShutDownServer();
 	}

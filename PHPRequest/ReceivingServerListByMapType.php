@@ -3,18 +3,10 @@
 include_once 'ConnectToDataBase.php';
 
 $Data = json_decode(file_get_contents('php://input'));
-$MapList = array();
+$MapType = $Data->GameType;
 
-foreach($Data->MapNames as $NameMap)
-{
-	$MapList[] = $NameMap->Map;
-}
-
-$In = str_repeat('?, ', count($MapList) - 1) . '?';
-
-$stmt = $Connect->prepare("Select ServerName, Address, MapName From servers Where MapName in " . "(" . $In . ")");
-$types = str_repeat('s', count($MapList));
-$stmt->bind_param($types, ...$MapList);
+$stmt = $Connect->prepare("Select ServerName, Address, MapName From servers Where MapType = ?");
+$stmt->bind_param('s', $MapType);
 $stmt->execute();
 $stmt->bind_result($Name, $Address, $MapName);
 

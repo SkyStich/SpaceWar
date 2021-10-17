@@ -5,12 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "SpaceWar/Enums/PlayerTeamEnum.h"
-#include "SpaceWar/Components/GameMode/GameServerDataBaseComponent.h"
 #include "MatchGameModeBase.generated.h"
 
 class ASpaceWarCharacter;
 class AMatchPlayerControllerBase;
 class AGameStateMatchGame;
+class UGameServerDataBaseComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FPlayerDead, AController*, InstegatedBy, AController*, LoserController, AActor*, DamageCauser);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FMatchEnded, const FString&, Reason, ETeam, TeamWinner);
@@ -41,6 +41,7 @@ public:
 	virtual void SpawnCharacter(AMatchPlayerControllerBase* Controller, const FVector& Location);
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void SpawnSpectator(AController* PossessController, const FVector& Location, const FRotator& Rotation);
+	virtual void PreLogin(const FString& Options, const FString& Address, const FUniqueNetIdRepl& UniqueId, FString& ErrorMessage) override;
 
 	UGameServerDataBaseComponent* GetDataBaseComponent() const { return DataBaseComponent; }
 

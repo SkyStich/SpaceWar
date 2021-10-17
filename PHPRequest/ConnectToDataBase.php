@@ -3,7 +3,7 @@
 //Server Name (if the server is external, you need to find out its address from the hosting)
 $ServerName = 'localhost';
 
-//the name of the user who can connect to the database
+//the name of the user who can connect to the database 
 $UserName = 'Smurf';
 
 //Pass from $UserName

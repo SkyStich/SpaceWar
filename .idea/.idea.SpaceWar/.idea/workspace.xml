@@ -60,11 +60,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameDataBaseComponent.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameDataBaseComponent.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/Subsystems/CreateSessionSubsystem.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/Subsystems/CreateSessionSubsystem.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Build/WindowsNoEditor/FileOpenOrder/EditorOpenOrder.log" beforeDir="false" afterPath="$PROJECT_DIR$/Build/WindowsNoEditor/FileOpenOrder/EditorOpenOrder.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Build/WindowsServer/FileOpenOrder/CookerOpenOrder.log" beforeDir="false" afterPath="$PROJECT_DIR$/Build/WindowsServer/FileOpenOrder/CookerOpenOrder.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Build/WindowsServer/FileOpenOrder/EditorOpenOrder.log" beforeDir="false" afterPath="$PROJECT_DIR$/Build/WindowsServer/FileOpenOrder/EditorOpenOrder.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/MainMenu/MainHUB/BP_MainHUBGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/MainMenu/MainHUB/BP_MainHUBGameMode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/MainHUBChannelList/W_ChannelServerListSlot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/MainMenu/MainHUBChannelList/W_ChannelServerListSlot.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PHPRequest/ConnectToDataBase.php" beforeDir="false" afterPath="$PROJECT_DIR$/PHPRequest/ConnectToDataBase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PHPRequest/CreateGameServer.php" beforeDir="false" afterPath="$PROJECT_DIR$/PHPRequest/CreateGameServer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PHPRequest/GetServerInfo.php" beforeDir="false" afterPath="$PROJECT_DIR$/PHPRequest/GetServerInfo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PHPRequest/ReceivingServerList.php" beforeDir="false" afterPath="$PROJECT_DIR$/PHPRequest/ReceivingServerList.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PHPRequest/RemoveServerFromDataBase.php" beforeDir="false" afterPath="$PROJECT_DIR$/PHPRequest/RemoveServerFromDataBase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/BPFLibrary/ServerManipulationLibrary.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/BPFLibrary/ServerManipulationLibrary.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainHUBPlayerControllerBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainHUBPlayerControllerBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainHUBPlayerControllerBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainHUBPlayerControllerBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWar.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWar.Build.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,31 +110,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainHUBPlayerControllerBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainHUBPlayerControllerBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestServerNameVerification.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/ServerNameVerificationCallback.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Structs/GetServerListCallBack.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestServerNameVerification.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/PlayerController/Transfer/ClientServerTransfer.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/BPFLibrary/TimeWorkLibrary.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/HoldOfFlagHUD.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/LastGameMode/CaptureHoldGameMode.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/LastGameMode/CaptureHoldGameMode.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/PreparationCaptureHoldBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/PreparationCaptureHoldBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Enums/PlayerTeamEnum.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Spectator/Base/BaseMatchSpectator.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureFlagController.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Spectator/Base/BaseMatchSpectator.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureHoldController.h" />
@@ -141,6 +136,31 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWar.Build.cs" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/Subsystems/CreateSessionSubsystem.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/Subsystems/CreateSessionSubsystem.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateHudServer.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateHudServer.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/HudServerDataBaseComponent.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/HudServerDataBaseComponent.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateHubServer.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateHubServer.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestRemoveHubServerFromDB.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestRemoveHuberverFromDB.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainHUBPlayerControllerBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateGameServer.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/BPFLibrary/ServerManipulationLibrary.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/MainMenu/MainHUBPlayerControllerBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/HubServerDataBaseComponent.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameDataBaseComponent.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameDataBaseComponent.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/HubServerDataBaseComponent.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34497,7 +34517,22 @@
       <workItem from="1633619413962" duration="3958000" />
       <workItem from="1633625416609" duration="695000" />
       <workItem from="1634071693974" duration="1474000" />
-      <workItem from="1634118277464" duration="2293000" />
+      <workItem from="1634118277464" duration="2896000" />
+      <workItem from="1634244538770" duration="212000" />
+      <workItem from="1634283763681" duration="303000" />
+      <workItem from="1634295226647" duration="3030000" />
+      <workItem from="1634298635636" duration="7000" />
+      <workItem from="1634298975130" duration="4538000" />
+      <workItem from="1634309716779" duration="277000" />
+      <workItem from="1634310475073" duration="327000" />
+      <workItem from="1634315793057" duration="2628000" />
+      <workItem from="1634324003084" duration="6692000" />
+      <workItem from="1634332644200" duration="5637000" />
+      <workItem from="1634381662805" duration="851000" />
+      <workItem from="1634387900030" duration="8342000" />
+      <workItem from="1634410237411" duration="6168000" />
+      <workItem from="1634460922742" duration="2906000" />
+      <workItem from="1634481713412" duration="4203000" />
     </task>
     <servers />
   </component>
@@ -34508,5 +34543,16 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp</url>
+          <line>36</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

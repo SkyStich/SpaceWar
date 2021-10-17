@@ -12,7 +12,7 @@ class AMatchGameModeBase;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FForcedServerShutdown);
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), Abstract, meta=(BlueprintSpawnableComponent) )
 class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -21,18 +21,10 @@ class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
 	void OnResponseServerAddress(const FString& Address, const FString& ErrorMessage);
 
 	UFUNCTION()
-	void OnResponseCreateServer(const int32 ServerID);
-
-	UFUNCTION()
 	void OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data);
 
 	UFUNCTION()
-	void OnResponseRemoveServerFromDataBase(bool bResult, const FString& ErrorMessage);
-
-	UFUNCTION()
 	void ForcedShutdownServer();
-
-	void UpdateServerData();
 
 public:	
 	// Sets default values for this component's properties
@@ -42,11 +34,11 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	void CallGameServer(const FGameAddressCallBack& CallBack);
-	void CreateServerInDataBase();
+	virtual void CreateServerInDataBase() {}
 	
 	/** removes the server from the database when it is turned off */
 	UFUNCTION()
-	void RemoveServerFromDataBase();
+	virtual void RemoveServerFromDataBase();
 
 	UFUNCTION()
 	void ShutDownServer();
@@ -55,13 +47,20 @@ protected:
 	
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	virtual bool UpdateServerData();
 
+	UFUNCTION()
+    void OnResponseCreateServer(const int32 ServerID);
+	
+	UFUNCTION()
+    void OnResponseRemoveServerFromDataBase(bool bResult, const FString& ErrorMessage);
+	
 public:
 
 	UPROPERTY()
 	FForcedServerShutdown OnForcedServerShutdown;
 
-private:
+protected:
 
 	/** Save data about server */
 	FServersData ServerData;

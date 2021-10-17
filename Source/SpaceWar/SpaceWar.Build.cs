@@ -16,5 +16,7 @@ public class SpaceWar : ModuleRules
 		{
 			"Http", "Json", "JsonUtilities"
 		});
+
+		DynamicallyLoadedModuleNames.Add("OnlineSubsystemNull");
 	}
 }

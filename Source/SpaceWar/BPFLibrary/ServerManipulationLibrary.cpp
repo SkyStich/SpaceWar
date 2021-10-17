@@ -6,7 +6,7 @@
 
 void UServerManipulationLibrary::LaunchServer(const FString& MapAddress, const FString& Attributes)
 {
-	FString const Result = MapAddress + "?" + Attributes + "?ip=127.0.0.1 -log";
+	FString const Result = MapAddress + "?" + Attributes + " -log";
 
 	/** it goes through all the directories and searches for the project folder (WindowsNoEditor->Project Name) */
 	FString const URL = FPaths::ProjectDir() + "Binaries/Win64/SpaceWarServer.exe";

@@ -6,6 +6,7 @@ $Data = json_decode(file_get_contents('php://input'));
 
 $ServerName = $Data->Servername;
 $Address = $Data->Address;
+$MapName = $Data->MapName;
 
 $stmt = $Connect->prepare("Select ServerId From Servers where Address = ?");
 $stmt->bind_param("s", $Address);
@@ -18,8 +19,8 @@ if($stmt->fetch())
 else
 {
 	$stmt->close();
-	$stmt = $Connect->prepare("Insert into Servers(ServerName, Address) Values (?, ?)");
-	$stmt->bind_param("ss", $ServerName, $Address);
+	$stmt = $Connect->prepare("Insert into Servers(ServerName, Address, MapName) Values (?, ?, ?)");
+	$stmt->bind_param("sss", $ServerName, $Address, $MapName);
 	$stmt->execute();
 
 	$LastId = $stmt->insert_id;

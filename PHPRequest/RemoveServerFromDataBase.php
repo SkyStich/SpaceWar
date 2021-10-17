@@ -5,7 +5,7 @@
 	$Data = json_decode(file_get_contents('php://input'));
 	$id = $Data->id;
 
-	$stmt = $Connect->prepare('Delete From servers where servers.ServerId = ?');
+	$stmt = $Connect->prepare('Delete From servers where ServerID = ?');
 	$stmt->bind_param("s", $id);
 	$stmt->execute();
 

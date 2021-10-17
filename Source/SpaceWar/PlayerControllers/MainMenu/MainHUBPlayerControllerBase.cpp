@@ -4,17 +4,18 @@
 #include "MainHUBPlayerControllerBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/BPFLibrary/ServerManipulationLibrary.h"
+#include "SpaceWar/GameInstances/BaseGameInstance.h"
 
-void AMainHUBPlayerControllerBase::Server_CreateServer_Implementation(const FString& MapReference, const FString& ServerName)
+void AMainHUBPlayerControllerBase::Server_CreateServer_Implementation(const FString& MapReference, const FString& ServerName, const FString& OwnerHudName)
 {
 	UE_LOG(LogTemp, Log, TEXT("Reference: %s"), *MapReference)
-	FString Param = TEXT("ServerName=") + ServerName;
+	FString Param = TEXT("ServerName=") + ServerName + "?OwnerName=" + OwnerHudName + "?ip=127.0.0.1 ";
 	UServerManipulationLibrary::LaunchServer(MapReference, Param);
 }
 
 void AMainHUBPlayerControllerBase::CreateServer(const FMapData& Data, FString ServerName)
 {
-	Server_CreateServer(Data.MapReference, ServerName);
+	Server_CreateServer(Data.MapReference, ServerName, GetGameInstance<UBaseGameInstance>()->GetCurrentMainHUBServerName());
 
 	CreateData = Data;
 

@@ -3,11 +3,12 @@
 
 #include "WebRequestCreateGameServer.h"
 
-void UWebRequestCreateGameServer::AddCreateServerKeys(const FString& Name, const FString& MapAddress, const FString& NewMapName, const FCreateServerDelegate& CallBack)
+void UWebRequestCreateGameServer::AddCreateServerKeys(const FString& Name, const FString& MapAddress, const FString& NewMapName, const FString& ServerOwnerName, const FCreateServerDelegate& CallBack)
 {
 	Address = MapAddress;
 	ServerName = Name;
 	MapName = NewMapName;
+	OwnerName = ServerOwnerName;
 	OnCreateServerDelegate = CallBack;
 }
 
@@ -17,6 +18,7 @@ void UWebRequestCreateGameServer::CollectRequest(const FString& ScriptURL)
 	JsonObject->SetStringField("Servername", ServerName);
 	JsonObject->SetStringField("MapName", MapName);
 	JsonObject->SetStringField("Address", Address);
+	JsonObject->SetStringField("HudName", OwnerName);
 
 	CallWebScript(ScriptURL, JsonObject);
 }

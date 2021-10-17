@@ -10,6 +10,7 @@
 #include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
+#include "SpaceWar/Components/GameMode/GameServerDataBaseComponent.h"
 
 AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 {
