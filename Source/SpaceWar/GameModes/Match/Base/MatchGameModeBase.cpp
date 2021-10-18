@@ -129,11 +129,11 @@ void AMatchGameModeBase::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
-	if(DataBaseComponent->ServerData.IsActive)
-	{
+//	if(DataBaseComponent->GetServerData().IsActive)
+	//{
 		OnPlayerPostLogin.Broadcast(NewPlayer);
-		return;
-	}
+	//	return;
+	//}
 }
 
 void AMatchGameModeBase::PreLogin(const FString& Options, const FString& Address, const FUniqueNetIdRepl& UniqueId, FString& ErrorMessage)

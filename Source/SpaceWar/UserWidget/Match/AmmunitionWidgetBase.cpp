@@ -22,6 +22,28 @@ void UAmmunitionWidgetBase::UpdateAmmo()
 	}
 }
 
+void UAmmunitionWidgetBase::InitThrow(UVerticalBox* ThrowBox, TSubclassOf<UAmmunitionThrowWidgetBase> SlotClass, FVector2D SpacerSize)
+{
+	/** Get armor id with game instance */
+	if(!GameInstanceBase) return;
+
+	auto const Throw = GameInstanceBase->GetCurrentThrowWeapon();
+
+	auto const WidgetSlot = CreateWidget<UAmmunitionThrowWidgetBase>(GetOwningPlayer(), SlotClass);
+	WidgetSlot->Init(Throw);
+	WidgetSlot->InitDesigner(WeaponDataAsset);
+	WidgetSlot->IsInStock = false;
+	WidgetSlot->OnThrowSlotClicked.AddDynamic(this, &UAmmunitionWidgetBase::ThrowSlotClicked);
+
+	/** add slot to vertical box */
+	ThrowBox->AddChildToVerticalBox(WidgetSlot);
+
+	/** Create Spacer and add to vertical box */
+	auto const Spacer = NewObject<USpacer>(this);
+	Spacer->SetSize(SpacerSize);
+	ThrowBox->AddChildToVerticalBox(Spacer);
+}
+
 void UAmmunitionWidgetBase::InitArmor(UVerticalBox* ArmorBox, TSubclassOf<UAmmunitionArmorSlotBase> SlotClass, FVector2D SpacerSize)
 {
 	/** Get armor id with game instance */
@@ -101,6 +123,19 @@ void UAmmunitionWidgetBase::ArmorSlotClicked_Implementation(UAmmunitionArmorSlot
 		if(SpaceCharacter)
 		{
 			SpaceCharacter->Server_ReplacementArmor(ClickSlot->Id);
+		}
+	}
+}
+
+void UAmmunitionWidgetBase::ThrowSlotClicked_Implementation(UAmmunitionThrowWidgetBase* ClickSlot)
+{
+	if(ClickSlot->IsInStock)
+	{
+		ASpaceWarCharacter* SpaceCharacter = Cast<ASpaceWarCharacter>(GetOwningPlayerPawn());
+		GameInstanceBase->SetThrowWeapon(ClickSlot->Id);
+		if(SpaceCharacter)
+		{
+			SpaceCharacter->Server_ReplacementThrow(ClickSlot->Id);
 		}
 	}
 }

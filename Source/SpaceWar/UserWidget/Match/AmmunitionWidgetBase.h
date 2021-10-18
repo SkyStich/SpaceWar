@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "AmmunitionThrowWidgetBase.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/VerticalBox.h"
 #include "SpaceWar/DataAssets/WeaponDataAsset.h"
@@ -26,6 +28,9 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ArmorSlotClicked(UAmmunitionArmorSlotBase* ClickSlot);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void ThrowSlotClicked(UAmmunitionThrowWidgetBase* ClickSlot);
 
 protected:
 
@@ -36,6 +41,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "AmmunitionWidget")
 	void UpdateAmmo();
+
+	UFUNCTION(BlueprintCallable, Category = "UserWidget")
+	void InitThrow(UVerticalBox* ThrowBox, TSubclassOf<UAmmunitionThrowWidgetBase> SlotClass, FVector2D SpacerSize = FVector2D(1, 100));
 	
 	UFUNCTION(BlueprintCallable, Category = "UserWidget")
 	void InitArmor(UVerticalBox* ArmorBox, TSubclassOf<UAmmunitionArmorSlotBase> SlotClass, FVector2D SpacerSize = FVector2D(1, 100));

@@ -38,7 +38,7 @@ void AMatchPlayerControllerBase::BeginPlay()
 		CreateChatComponent();
 		auto const GM = Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		GM->OnMatchEnded.AddDynamic(this, &AMatchPlayerControllerBase::EndMatch);
-		GM->GetDataBaseComponent()->OnForcedServerShutdown.AddDynamic(this, &AMatchPlayerControllerBase::ForcedDisconnectFromServer);
+	//	GM->GetDataBaseComponent()->OnForcedServerShutdown.AddDynamic(this, &AMatchPlayerControllerBase::ForcedDisconnectFromServer);
 	}
 }
 

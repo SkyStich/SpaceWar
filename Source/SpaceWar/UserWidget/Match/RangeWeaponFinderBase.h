@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 
 #include "AmmunitionArmorSlotBase.h"
+#include "AmmunitionThrowWidgetBase.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/ScrollBox.h"
 #include "RangeWeaponFinderBase.generated.h"
@@ -30,6 +31,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "WeaponFinder")
 	void CreateArmorSlots(UScrollBox* ScrollBox, class UAmmunitionWidgetBase* MainWidget, TSubclassOf<UAmmunitionArmorSlotBase> SlotClass);
+		
+	UFUNCTION(BlueprintCallable, Category = "WeaponFinder")
+	void CreateThrowSlot(UScrollBox* ScrollBox, class UAmmunitionWidgetBase* MainWidget, TSubclassOf<UAmmunitionThrowWidgetBase> SlotClass);
 
 protected:
 

@@ -12,7 +12,7 @@ class AMatchGameModeBase;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FForcedServerShutdown);
 
-UCLASS( ClassGroup=(Custom), Abstract, meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -35,6 +35,8 @@ public:
 
 	void CallGameServer(const FGameAddressCallBack& CallBack);
 	virtual void CreateServerInDataBase() {}
+
+	FServersData GetServerData() const { return ServerData; }
 	
 	/** removes the server from the database when it is turned off */
 	UFUNCTION()
@@ -72,6 +74,4 @@ protected:
 	bool bRequestForUpdateSent;
 
 	FGetServerInfoDelegate GetServerInfoCallBack;
-
-friend AMatchGameModeBase;
 };

@@ -110,6 +110,9 @@ public:
 	UFUNCTION(Server, Reliable)
 	void Server_ReplacementArmor(const FName& Id);
 	
+	UFUNCTION(Server, Reliable)
+	void Server_ReplacementThrow(const FName& Id);
+	
 	UFUNCTION()
 	void SetCanWeaponManipulation(bool NewState) { bCanWeaponManipulation = NewState; }
 	

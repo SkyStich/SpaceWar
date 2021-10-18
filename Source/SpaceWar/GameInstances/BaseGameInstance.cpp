@@ -11,6 +11,7 @@ UBaseGameInstance::UBaseGameInstance()
 {
 	CurrentArmor = "Base";
 	PlayerName = "PlayerName";
+	CurrentThrowWeapon = "Boom";
 	
 	Weapons.Add(EWeaponType::FirstWeapon, "SilverDragon");
 	Weapons.Add(EWeaponType::SecondWeapon, "BlackJack");
@@ -26,11 +27,6 @@ void UBaseGameInstance::SetCurrentArmor(const FName& Id)
 	CurrentArmor = Id;
 	SaveFullPlayerData();
 }
-
-/*TArray<FCurrentWeaponKey> UBaseGameInstance::GetWeaponsByPlayerClass()
-{
-	return Equipment.FindByPredicate([&](FEquipmentSave Value) -> bool { return CurrentSolderCategory == Value.Key; })->Value;
-}*/
 
 FName UBaseGameInstance::FindWeaponByType(EWeaponType Type, const TMap<EWeaponType, FName>& Map)
 {

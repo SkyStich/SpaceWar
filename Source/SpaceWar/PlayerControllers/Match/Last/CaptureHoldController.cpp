@@ -84,7 +84,6 @@ bool ACaptureHoldController::SpawnPlayer(const FVector& Location)
 	GetWorld()->GetTimerManager().ClearTimer(RespawnTimer);
 	if(!Super::SpawnPlayer(Location)) return false;
 	
-
 	bCanSpawn = false;
 	return true;
 }

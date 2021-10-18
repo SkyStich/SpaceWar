@@ -60,12 +60,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "GameInstance")
 	void SetCurrentMainHUBServerName(const FString& NewAddress) { CurrentMainHUBServerName = NewAddress; }
+	
+	UFUNCTION(BlueprintCallable, Category = "GameInstance")
+	void SetThrowWeapon(const FName& NewId) { CurrentThrowWeapon = NewId; }
 
 	UFUNCTION(BlueprintPure)
 	TMap<EWeaponType, FName> GetWeapons() const { return Weapons; }
-	
-	/*UFUNCTION(BlueprintPure, Category = "GameInstance")
-	TArray<FCurrentWeaponKey> GetWeaponsByPlayerClass();*/
 	
 	UFUNCTION(BlueprintPure, Category = "GameInstance")
 	FName FindWeaponByType(EWeaponType Type, const TMap<EWeaponType, FName>& Map);
@@ -75,6 +75,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "GameInstance")
 	FString GetCurrentMainHUBServerName() const { return CurrentMainHUBServerName; }
+
+	UFUNCTION(BlueprintPure, Category = "GameInstance")
+	FName GetCurrentThrowWeapon() const { return CurrentThrowWeapon; }
 	
 	UFUNCTION(BlueprintCallable, Category = "AmmunitionWidget")
     void SetCurrentSolderCategory(ESolderCategory NewCategory) { CurrentSolderCategory = NewCategory; }
@@ -102,6 +105,9 @@ private:
 
 	UPROPERTY()
 	FName CurrentArmor;
+	
+	UPROPERTY()
+	FName CurrentThrowWeapon;
 
 	UPROPERTY()
 	FString SessionID;

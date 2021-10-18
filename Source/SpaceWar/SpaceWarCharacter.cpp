@@ -22,7 +22,8 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	bReplicates = true;
 	bCanWeaponManipulation = true;
 	SetCanBeDamaged(false);
-	NetUpdateFrequency = 40.f;
+	NetUpdateFrequency = 35.f;
+	NetCullDistanceSquared = 20000.f;
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -485,7 +486,10 @@ void ASpaceWarCharacter::OnUpdateWeaponRecoil(const FVector& Vector)
 
 void ASpaceWarCharacter::Server_CreateWeapon_Implementation(EWeaponType Type, const FName& Id)
 {
+#if UE_EDITOR
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, FString::Printf(TEXT("%s"), *Id.ToString()));
+#endif
+	
 	auto const TempWeapon = WeaponManager->CreateWeaponByName(Id, Type);
 	if(Type == EWeaponType::FirstWeapon) WeaponManager->SetCurrentWeapon(TempWeapon);
 }
@@ -508,3 +512,10 @@ void ASpaceWarCharacter::Server_ReplacementArmor_Implementation(const FName& Id)
 	CreateArmor(Id);
 	//TempArmor->ConditionalBeginDestroy();
 }
+
+void ASpaceWarCharacter::Server_ReplacementThrow_Implementation(const FName& Id)
+{
+	auto const TempTrow = WeaponManager->GetThrow();
+	WeaponManager->CreateThrow(Id);
+}
+

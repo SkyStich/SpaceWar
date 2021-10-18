@@ -65,11 +65,6 @@ void AOnlineMatchGameModeBase::UpdatePlayerStatistics(AController* InstigatorCon
 	IUpdateSpecialPointsInterface::Execute_IncreaseSpecialPoint(InstigatorController, 150);
 }
 
-void AOnlineMatchGameModeBase::PostLogin(APlayerController* NewPlayer)
-{
-	Super::PostLogin(NewPlayer);
-}
-
 void AOnlineMatchGameModeBase::Logout(AController* Exiting)
 {
 	Super::Logout(Exiting);
