@@ -78,7 +78,8 @@ void AOnlinetMatchGameStateBase::UpdateTeamPoints(ETeam Team, int32 Value)
 
 void AOnlinetMatchGameStateBase::PreparationForStartGame()
 {
-	/*if(PlayerArray.Num() >= 2 && !bGameInProgress && !GetWorld()->GetTimerManager().IsTimerActive(PreparationGameStartHandle))
+#if UE_SERVER
+	if(PlayerArray.Num() >= 2 && !bGameInProgress && !GetWorld()->GetTimerManager().IsTimerActive(PreparationGameStartHandle))
 	{
 		auto f = [&]() -> void
 		{
@@ -94,7 +95,11 @@ void AOnlinetMatchGameStateBase::PreparationForStartGame()
 		FTimerDelegate TimerDel;
 		TimerDel.BindLambda(f);
 		GetWorld()->GetTimerManager().SetTimer(PreparationGameStartHandle, TimerDel, 1.f, true);
-	}*/
+		return;
+	}
+#endif
+
+	MatchStarted();
 }
 
 void AOnlinetMatchGameStateBase::MatchStarted()
@@ -106,11 +111,13 @@ void AOnlinetMatchGameStateBase::MatchStarted()
 
 void AOnlinetMatchGameStateBase::Logout(AController* Exiting)
 {
-	/*if(PlayerArray.Num() < 2 && !bGameInProgress)
+#if UE_SERVER
+	if(PlayerArray.Num() < 2 && !bGameInProgress)
 	{
 		FinishPreparationGame(false);
 		GetWorld()->GetTimerManager().ClearTimer(PreparationGameStartHandle);
-	}*/
+	}
+#endif
 }
 
 void AOnlinetMatchGameStateBase::NetMulticast_NewPlayerPostLogin_Implementation(APlayerState* PlayerState)
