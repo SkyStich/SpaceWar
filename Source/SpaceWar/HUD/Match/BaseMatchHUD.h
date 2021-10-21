@@ -20,10 +20,10 @@ class SPACEWAR_API ABaseMatchHUD : public AHUD, public IErrorMessageInterface
 	UFUNCTION()
 	UErrorMessageWidget* CreateErrorWidget(const FString& Message);
 
-	UFUNCTION()
-	void OnPreparationStartGameEvent(bool bResult);
-
 protected:
+	
+	UFUNCTION()
+	virtual void OnPreparationStartGameEvent(bool bResult) {}
 
 	virtual void BeginPlay() override;
 	virtual void NewOwningPlayerPawn(APawn* NewPawn);

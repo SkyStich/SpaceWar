@@ -47,7 +47,6 @@ void ABaseMatchHUD::BeginPlay()
 	CreateTabMenu();
 	CreateChatWidget();
 	CreateKillMessage();
-	CreatePreparationWidget();
 
 	auto const GS = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	GS->OnPreparationStartGameFinish.AddDynamic(this, &ABaseMatchHUD::OnPreparationStartGameEvent);
@@ -83,6 +82,7 @@ void ABaseMatchHUD::NewOwningPlayerPawn(APawn* NewPawn)
 		//Spectator
 		RemoveCharacterWidgets();
 		RemoveSpecialWidget();
+		RemoveAmmunitionWidget();
 		CreateSpectatorWidgets();
 	}
 }
@@ -114,7 +114,7 @@ void ABaseMatchHUD::RemoveCharacterWidgets()
 
 void ABaseMatchHUD::CreateSpectatorWidgets()
 {
-	if(SpectatorWidget && !SpectatorHUD)
+	if(SpectatorWidget && !SpectatorHUD && !PreparationWidget)
 	{
 		SpectatorHUD = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), SpectatorWidget, GetOwningPlayerController());
 		SpectatorHUD->AddToViewport();
@@ -323,10 +323,4 @@ void ABaseMatchHUD::RemoveKillMessage()
 		KillMessageWidget->RemoveFromParent();
 		KillMessageWidget = nullptr;
 	}
-}
-
-void ABaseMatchHUD::OnPreparationStartGameEvent(bool bResult)
-{
-	/** bind on new player connected */
-	GetOwningPlayerController()->GetOnNewPawnNotifier().AddUObject(this, &ABaseMatchHUD::NewOwningPlayerPawn);
 }

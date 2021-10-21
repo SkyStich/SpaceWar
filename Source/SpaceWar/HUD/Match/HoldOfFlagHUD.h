@@ -15,12 +15,13 @@ class SPACEWAR_API AHoldOfFlagHUD : public ABaseMatchHUD
 protected:
 
 	virtual void BeginPlay() override;
+	virtual void NewOwningPlayerPawn(APawn* NewPawn) override;
 
 	UFUNCTION()
 	void PreparationRound();
 
 	UFUNCTION()
-	void StartRound();
+	void StartRound(ETeam SecurityTeam);
 
 	UFUNCTION()
 	void StopRound(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound);

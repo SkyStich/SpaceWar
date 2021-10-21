@@ -29,6 +29,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void NewOwningPlayerPawn(APawn* Pawn) override;
 	virtual void CreatePreparationWidget() override;
+	virtual void OnPreparationStartGameEvent(bool bResult) override;
 
 public:
 

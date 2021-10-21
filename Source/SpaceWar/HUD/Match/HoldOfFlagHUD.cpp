@@ -10,6 +10,8 @@ void AHoldOfFlagHUD::BeginPlay()
 
 	PreparationRound();
 
+	GetOwningPlayerController()->GetOnNewPawnNotifier().AddUObject(this, &AHoldOfFlagHUD::NewOwningPlayerPawn);
+
 	auto const GameState = Cast<ACaptureOfFlagGameState>(UGameplayStatics::GetGameState(GetWorld()));
 	if(GameState)
 	{
@@ -33,14 +35,26 @@ void AHoldOfFlagHUD::PreparationRound()
 	RemoveSpecialWidget();
 }
 
-void AHoldOfFlagHUD::StartRound()
+void AHoldOfFlagHUD::StartRound(ETeam SecurityTeam)
 {
 	RemovePreparationWidget();
 }
 
 void AHoldOfFlagHUD::StopRound(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound)
-{
+{	
 	CreatePreMatchEnd(Reason, WinnerTeam);
+	
 	RemoveSpectatorWidgets();
 	RemoveCharacterWidgets();
+    RemoveSpecialWidget();
+}
+
+void AHoldOfFlagHUD::NewOwningPlayerPawn(APawn* NewPawn)
+{
+	if(GetOwningPlayerController()->GetCharacter())
+	{
+		RemovePreparationWidget();
+		CreateCharacterWidgets();
+		CreateSpecialWidget();
+	}
 }

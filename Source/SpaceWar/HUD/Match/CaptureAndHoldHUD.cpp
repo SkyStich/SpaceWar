@@ -15,14 +15,25 @@ ACaptureAndHoldHUD::ACaptureAndHoldHUD()
 void ACaptureAndHoldHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	CreatePreparationWidget();
 	ShowPreparationWidget();
 
 	auto const GS = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	GS->OnPreMatchEnd.AddDynamic(this, &ACaptureAndHoldHUD::PreMatchEnd);
 	GS->OnMatchEnd.AddDynamic(this, &ACaptureAndHoldHUD::CreateMatchEndWidget);
-	
-	Cast<ACaptureHoldController>(GetOwningPlayerController())->OnPreparationSpawnPlayer.AddDynamic(this, &ACaptureAndHoldHUD::PreparationSpawnCharacter);
+
+	auto const Controller = Cast<ACaptureHoldController>(GetOwningPlayerController());
+	Controller->OnPreparationSpawnPlayer.AddDynamic(this, &ACaptureAndHoldHUD::PreparationSpawnCharacter);
+}
+
+void ACaptureAndHoldHUD::OnPreparationStartGameEvent(bool bResult)
+{
+	if(bResult)
+	{
+		/** bind on new player connected */
+		GetOwningPlayerController()->GetOnNewPawnNotifier().AddUObject(this, &ACaptureAndHoldHUD::NewOwningPlayerPawn);
+	}
 }
 
 void ACaptureAndHoldHUD::NewOwningPlayerPawn(APawn* Pawn)
