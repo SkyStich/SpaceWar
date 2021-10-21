@@ -23,7 +23,6 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	bCanWeaponManipulation = true;
 	SetCanBeDamaged(false);
 	NetUpdateFrequency = 35.f;
-	NetCullDistanceSquared = 20000.f;
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -230,12 +229,12 @@ void ASpaceWarCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 void ASpaceWarCharacter::CharDead()
 {
 	if(SkeletalArm) SkeletalArm->SetVisibility(false);
-    GetMesh()->SetVisibility(true);
-    WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+  //  GetMesh()->SetVisibility(true);
+   // WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	/** Change fisics if this not dedicated server */
-	if(GetNetMode() != NM_DedicatedServer)
+	if(GetNetMode() != NM_DedicatedServer && GetMesh())
 	{
 		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
