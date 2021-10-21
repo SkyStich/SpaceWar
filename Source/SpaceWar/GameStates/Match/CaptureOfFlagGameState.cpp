@@ -70,7 +70,7 @@ void ACaptureOfFlagGameState::NetMulticast_RoundEnded_Implementation(const FStri
 
 void ACaptureOfFlagGameState::NetMulticast_RoundStarted_Implementation()
 {
-	OnRoundStarted.Broadcast();
+	OnRoundStarted.Broadcast(SecurityTeam);
 }
 
 void ACaptureOfFlagGameState::NetMulticast_RoundPreparation_Implementation()

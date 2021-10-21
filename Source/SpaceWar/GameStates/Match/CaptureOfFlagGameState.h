@@ -16,7 +16,7 @@ enum class EReasonForEndOfRound : uint8
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FRoundEnded, const FString&, Reason, ETeam, WinnerTeam, EReasonForEndOfRound, ReasonEndOfRound);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FRoundStarted);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRoundStarted, ETeam, SecurityTeam);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FRoundPreparation);
 
 UCLASS()

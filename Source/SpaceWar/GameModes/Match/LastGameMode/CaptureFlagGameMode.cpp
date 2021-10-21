@@ -18,7 +18,7 @@ void ACaptureFlagGameMode::UpdateTeamPoints(const int32 Value, ETeam Team)
 	Super::UpdateTeamPoints(Value, Team);
 }
 
-void ACaptureFlagGameMode::RoundStarted()
+void ACaptureFlagGameMode::RoundStarted(ETeam SecurityTeam)
 {
 	LaunchGameTimer();
 }

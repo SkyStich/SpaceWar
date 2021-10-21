@@ -28,7 +28,7 @@ protected:
 	virtual void TickTime(AOnlinetMatchGameStateBase* MatchPlayerState) override;
 
 	UFUNCTION()
-    virtual void RoundStarted();
+    virtual void RoundStarted(ETeam SecurityTeam);
 
 	UFUNCTION()
     virtual void RoundEnded(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound);
