@@ -13,12 +13,11 @@ void UMiniMapObjectIconBase::NativeTick(const FGeometry& MyGeometry, float InDel
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 
-	//if(bUpdate)
-//	{
-		//UpdateObjectLocation();
-	//}
+	if(bUpdate)
+	{
+		UpdateObjectLocation();
+	}
 }
-
 
 void UMiniMapObjectIconBase::GetXForUpdateLocation(float& ObjectX, float& OwnerX)
 {
@@ -62,18 +61,24 @@ FVector2D UMiniMapObjectIconBase::CalculatePosition(UMiniMapBase* MiniMap, float
 
 void UMiniMapObjectIconBase::UpdateObjectLocation()
 {
-	if(!GetOwningPlayer()) return;
-
-	auto const MainWidget = GetOwningPlayer()->GetHUD<ABaseMatchHUD>()->GetMainWidget();
-
-	if(!MainWidget->GetClass()->ImplementsInterface(UMiniMapInterface::StaticClass()))
+	if(!GetOwningPlayer() || !GetObjectIconOwner())
 	{
+		bUpdate = false;
 		RemoveFromParent();
+		return;
+	}
+	
+	auto const MainWidget = GetOwningPlayer()->GetHUD<ABaseMatchHUD>()->GetMainWidget();
+	if(!MainWidget || !MainWidget->GetClass()->ImplementsInterface(UMiniMapInterface::StaticClass()))
+	{
+		bUpdate = false;
+		RemoveFromParent();
+		return;
 	}
 	
 	auto const MiniMap = IMiniMapInterface::Execute_GetMiniMapWidget(MainWidget);
 
-	if(!MiniMap) return;
+	if(!MiniMap) RemoveFromParent();
 
 	auto const DesiredSize = MiniMap->GetMapImage()->GetDesiredSize();
 

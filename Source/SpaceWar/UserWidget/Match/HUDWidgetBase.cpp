@@ -20,13 +20,16 @@ void UHUDWidgetBase::NativeConstruct()
 void UHUDWidgetBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	
-	UpdateAmmoSlot();
+
+	if(OwnerPlayer)
+	{
+		UpdateAmmoSlot();
+	}
 }
 
 void UHUDWidgetBase::UpdateAmmoSlot()
 {
-	if(!OwnerPlayer && !AmmoWidget) return;
+	if(!OwnerPlayer && !AmmoWidget && !OwnerPlayer->GetWeaponManager()) return;
 	
 	auto const Weapon = OwnerPlayer->GetWeaponManager()->GetCurrentWeapon();
 	if(Weapon)
@@ -40,4 +43,13 @@ void UHUDWidgetBase::UpdateAmmoSlot()
 			}
 		}
 	}
+}
+
+void UHUDWidgetBase::RemoveFromParent()
+{
+	if(AmmoWidget)
+	{
+		AmmoWidget->RemoveFromParent();
+	}
+	Super::RemoveFromParent();
 }

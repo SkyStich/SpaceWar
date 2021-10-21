@@ -23,6 +23,7 @@ private:
 public:
 
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	virtual void RemoveFromParent() override;
 	
 protected:
 
