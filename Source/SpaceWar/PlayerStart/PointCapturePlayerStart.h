@@ -16,6 +16,12 @@ class SPACEWAR_API APointCapturePlayerStart : public AMatchPlayerStartBase
 	
 public:
 
+	UFUNCTION(BlueprintPure, Category = "PlayerStart")
+	ETeam GetSpawnTeam() const { return SpawnTeam; }
+		
+	UFUNCTION()
+    void SetSpawnTeam(ETeam NewTeam) { SpawnTeam = NewTeam; }
+
 	UFUNCTION(BlueprintPure)
 	EPointNumber GetPointNumber() const { return PointNumber; }
 
@@ -23,5 +29,7 @@ private:
  
 	UPROPERTY(EditAnywhere)
 	EPointNumber PointNumber;
-	
+
+	UPROPERTY(EditAnywhere)
+	ETeam SpawnTeam = ETeam::NoneTeam;
 };

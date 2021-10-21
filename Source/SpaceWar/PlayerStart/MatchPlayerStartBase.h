@@ -14,23 +14,17 @@ class SPACEWAR_API AMatchPlayerStartBase : public APlayerStart
 
 public:
 	
-	UFUNCTION(BlueprintPure, Category = "PlayerStart")
-	ETeam GetSpawnTeam() const { return SpawnTeam; }
+
 
 	UFUNCTION()
 	bool CheckOnFreePoints() const;
-	
-	UFUNCTION()
-	void SetSpawnTeam(ETeam NewTeam) { SpawnTeam = NewTeam; }
+
 
 protected:
 
 	virtual void BeginPlay() override;
 
 private:
-
-	UPROPERTY(EditAnywhere)
-	ETeam SpawnTeam = ETeam::NoneTeam;
 	
 	UPROPERTY()
 	bool bPointFree;

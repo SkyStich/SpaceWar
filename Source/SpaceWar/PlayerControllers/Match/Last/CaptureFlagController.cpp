@@ -7,7 +7,7 @@
 #include "EngineUtils.h"
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/GameModes/Match/LastGameMode/CaptureHoldGameMode.h"
-#include "SpaceWar/PlayerStart/MatchPlayerStartBase.h"
+#include "SpaceWar/PlayerStart/CaptureFlagPlayerStart.h"
 
 void ACaptureFlagController::BeginPlay()
 {
@@ -18,9 +18,10 @@ void ACaptureFlagController::BeginPlay()
 	if(GS)
 	{
 		GS->OnRoundEnded.AddDynamic(this, &ACaptureFlagController::RoundEnded);
+		GS->OnRoundStarted.AddDynamic(this, &ACaptureFlagController::RoundStarted);
+		
 		if(GetLocalRole() == ROLE_Authority)
 		{
-			GS->OnRoundStarted.AddDynamic(this, &ACaptureFlagController::RoundStarted);
 			GS->OnRoundPreparation.AddDynamic(this, &ACaptureFlagController::PreparationRound);
 		}
 	}
@@ -41,17 +42,20 @@ void ACaptureFlagController::RoundEnded(const FString& Reason, ETeam WinnerTeam,
 			GetCharacter()->InputComponent->ClearActionBindings();
 	}
 }
-
-void ACaptureFlagController::RoundStarted()
+	
+void ACaptureFlagController::RoundStarted(ETeam SecurityTeam)
 {
 	if(GetLocalRole() == ROLE_Authority)
 	{
 		/** Get All Player Start in current world */
-		for(TActorIterator<AMatchPlayerStartBase> It(GetWorld(), AMatchPlayerStartBase::StaticClass()); It; ++It)
+		for(TActorIterator<ACaptureFlagPlayerStart> It(GetWorld(), ACaptureFlagPlayerStart::StaticClass()); It; ++It)
 		{
-			AMatchPlayerStartBase* Temp = *It;
+			ACaptureFlagPlayerStart* Temp = *It;
+
+			bool const bIsSecurity = IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) == SecurityTeam;
+			
 			/** Find Free points */
-			if(Temp->CheckOnFreePoints() && IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) == Temp->GetSpawnTeam())
+			if(Temp->CheckOnFreePoints() && bIsSecurity == Temp->GetIsSecurityTeam())
 			{
 				SpawnPlayer(Temp->GetActorLocation());
 				return;
