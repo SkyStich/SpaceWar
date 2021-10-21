@@ -60,30 +60,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_AmmunitionThrowSlot.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionThrowWidgetBase.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionThrowWidgetBase.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/SpawnAttackTeam2.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerStart/CaptureFlagPlayerStart.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerStart/CaptureFlagPlayerStart.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Build/WindowsNoEditor/FileOpenOrder/EditorOpenOrder.log" beforeDir="false" afterPath="$PROJECT_DIR$/Build/WindowsNoEditor/FileOpenOrder/EditorOpenOrder.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameState/BP_CaptureAndHoldGameState.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameState/BP_CaptureAndHoldGameState.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/Test/TestMapHold.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/Test/TestMapHold.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_AmmuniitonGrid.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_AmmuniitonGrid.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_ArmorAmmunitionSlot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_ArmorAmmunitionSlot.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/Base/MatchGameModeBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/Center.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/Center.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/Example_Dynamic.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/Example_Dynamic.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/SpawnAttackTeam.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/SpawnAttackTeam.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/SpaceStation.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/SpaceStation.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/Health/W_HealthStates.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/Construct/Health/W_HealthStates.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/MiniMap/W_MiniMapObjectIcon.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/MiniMap/W_MiniMapObjectIcon.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/LastGameMode/CaptureFlagGameMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/LastGameMode/CaptureFlagGameMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/LastGameMode/CaptureFlagGameMode.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/LastGameMode/CaptureFlagGameMode.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureHoldController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureHoldController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/HoldOfFlagHUD.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/HoldOfFlagHUD.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/HoldOfFlagHUD.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/HoldOfFlagHUD.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureFlagController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureFlagController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureFlagController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureFlagController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerStart/MatchPlayerStartBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerStart/MatchPlayerStartBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/PlayerStart/PointCapturePlayerStart.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/PlayerStart/PointCapturePlayerStart.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionWidgetBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionWidgetBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionWidgetBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionWidgetBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapObjectIconBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapObjectIconBase.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,25 +115,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/Base/WebRequestBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Interfaces/MiniMapInterface.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapObjectIconBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapObjectIconBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWar.Build.cs" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/Subsystems/CreateSessionSubsystem.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/Subsystems/CreateSessionSubsystem.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateHudServer.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateHudServer.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/HudServerDataBaseComponent.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/HudServerDataBaseComponent.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateHubServer.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestCreateHubServer.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestRemoveHubServerFromDB.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Web/WebRequest/WebRequestRemoveHuberverFromDB.cpp" />
@@ -141,7 +128,6 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameServerDataBaseComponent.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameDataBaseComponent.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/HubServerDataBaseComponent.cpp" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Components/GameMode/GameDataBaseComponent.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureHoldController.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/OnlineMatchGameModeBase.cpp" />
@@ -155,11 +141,31 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionThrowWidgetBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionWidgetBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" />
-      <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/AmmunitionWidgetBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerStart/MatchPlayerStartBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerStart/PointCapturePlayerStart.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerStart/CaptureFlagPlayerStart.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/CaptureOfFlagGameState.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureFlagController.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerStart/CaptureFlagPlayerStart.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/PlayerControllers/Match/Last/CaptureFlagController.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/LastGameMode/CaptureFlagGameMode.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameModes/Match/LastGameMode/CaptureFlagGameMode.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/GameStates/Match/OnlinetMatchGameStateBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MiniMapObjectIconBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/HoldOfFlagHUD.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/HUDWidgetBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/BaseMatchHUD.h" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/HoldOfFlagHUD.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34537,6 +34543,8 @@
       <workItem from="1634513383947" duration="4031000" />
       <workItem from="1634550041781" duration="10619000" />
       <workItem from="1634578736443" duration="12261000" />
+      <workItem from="1634711268164" duration="14000" />
+      <workItem from="1634829431252" duration="19792000" />
     </task>
     <servers />
   </component>
