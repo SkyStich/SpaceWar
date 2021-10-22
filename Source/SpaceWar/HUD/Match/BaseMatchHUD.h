@@ -19,6 +19,9 @@ class SPACEWAR_API ABaseMatchHUD : public AHUD, public IErrorMessageInterface
 
 	UFUNCTION()
 	UErrorMessageWidget* CreateErrorWidget(const FString& Message);
+	
+	UFUNCTION()
+	void OnPausePressed();
 
 protected:
 	
@@ -45,6 +48,9 @@ protected:
 	
 	virtual void CreatePreMatchEnd(const FString& Reason, ETeam WinnerTeam);
 	virtual void RemovePreMatchEnd();
+	
+	virtual void CreatePauseMenu();
+	virtual void RemovePauseMenu();
 
 	virtual void CreateChatWidget();
 	
@@ -57,9 +63,6 @@ protected:
 
 	UFUNCTION()
     virtual void RemoveMatchEndWidget();
-
-	UFUNCTION()
-	virtual void PausePressed();
 
 public:
 
@@ -114,6 +117,9 @@ protected:
 	TAssetSubclassOf<UUserWidget> KillMessageClass;
 	
 	UPROPERTY()
+	TAssetSubclassOf<UUserWidget> PauseWidgetClass;
+	
+	UPROPERTY()
 	TAssetSubclassOf<UUserWidget> SpectatorWidget;
 
 	UPROPERTY()
@@ -136,6 +142,9 @@ protected:
 
 	UPROPERTY()
 	UUserWidget* KillMessageWidget;
+
+	UPROPERTY()
+	UUserWidget* PauseWidget;
 
 	UPROPERTY()
 	UEndGameWidgetBase* EndGameMatchWidget;

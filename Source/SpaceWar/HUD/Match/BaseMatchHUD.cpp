@@ -34,6 +34,9 @@ ABaseMatchHUD::ABaseMatchHUD()
 	
 	ConstructorHelpers::FClassFinder<UUserWidget>KillMessageFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/KillChat/W_KillChat"));
 	if(KillMessageFinder.Succeeded()) KillMessageClass = KillMessageFinder.Class;
+
+	ConstructorHelpers::FClassFinder<UUserWidget>PauseMenuFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/PauseMenu/W_PauseMenu"));
+	if(PauseMenuFinder.Succeeded()) PauseWidgetClass = PauseMenuFinder.Class;
 }
 
 void ABaseMatchHUD::BeginPlay()
@@ -50,6 +53,8 @@ void ABaseMatchHUD::BeginPlay()
 
 	auto const GS = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	GS->OnPreparationStartGameFinish.AddDynamic(this, &ABaseMatchHUD::OnPreparationStartGameEvent);
+	
+	Cast<AMatchPlayerControllerBase>(GetOwningPlayerController())->OnPausePressed.AddDynamic(this, &ABaseMatchHUD::OnPausePressed);
 }
 
 UErrorMessageWidget* ABaseMatchHUD::ClientErrorMessage_Implementation(const FString& Message)
@@ -274,16 +279,6 @@ void ABaseMatchHUD::ShowMainCharacterWidget()
 	}
 }
 
-void ABaseMatchHUD::PausePressed()
-{
-	if(!ChatWidget->IsHidden())
-	{
-		ChatWidget->HiddenChat();
-		return;
-	}
-	/** show pause */
-}
-
 void ABaseMatchHUD::CreateAmmunitionWidget()
 {
 	if(AmmunitionWidgetClass && !AmmunitionWidget)
@@ -323,4 +318,45 @@ void ABaseMatchHUD::RemoveKillMessage()
 		KillMessageWidget->RemoveFromParent();
 		KillMessageWidget = nullptr;
 	}
+}
+
+void ABaseMatchHUD::CreatePauseMenu()
+{
+	if(!PauseWidget)
+	{
+		PauseWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), PauseWidgetClass, GetOwningPlayerController());
+		PauseWidget->AddToViewport();
+
+		FInputModeGameAndUI InputMode;
+		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways);
+		InputMode.SetHideCursorDuringCapture(false);
+		InputMode.SetWidgetToFocus(PauseWidget->TakeWidget());
+		GetOwningPlayerController()->SetInputMode(InputMode);
+		GetOwningPlayerController()->bShowMouseCursor = true;
+		//PauseWidget->SetFocus();
+	}
+}
+
+void ABaseMatchHUD::RemovePauseMenu()
+{
+	if(PauseWidget)
+	{
+		PauseWidget->RemoveFromParent();
+		PauseWidget = nullptr;
+
+		GetOwningPlayerController()->SetInputMode(FInputModeGameOnly());
+		GetOwningPlayerController()->bShowMouseCursor = false;
+	}
+}
+
+void ABaseMatchHUD::OnPausePressed()
+{
+	/*if(ChatWidget->IsVisible())
+	{
+		/** Hidden chat widget, if chat in Viewport #1#
+		HiddenChat();
+		return;
+	}*/
+	
+	PauseWidget ? RemovePauseMenu() : CreatePauseMenu();
 }
