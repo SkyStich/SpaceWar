@@ -344,6 +344,9 @@ void ASpaceWarCharacter::UseJetpackPressed()
 	if(!ArmorObject) return;
 	if(JetpackComponent->IsAbleToUseJetpack() && ArmorObject->GetData().bCanUseJetPack)
 	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), UseJetpackSound, GetActorLocation(),FRotator::ZeroRotator,
+            UseJetpackSound->VolumeMultiplier, UseJetpackSound->PitchMultiplier, 0, UseJetpackSound->AttenuationSettings);
+		
 		Server_UseJetpack();
 	}
 }
@@ -355,6 +358,16 @@ void ASpaceWarCharacter::Server_UseJetpack_Implementation()
 	FVector Location;
 	JetpackComponent->StartUseJetpack(Controller->GetControlRotation().Vector(), Location);
 	LaunchCharacter(Location, true, false);
+	NetMulticast_PlayUseJetpackSound();
+}
+
+void ASpaceWarCharacter::NetMulticast_PlayUseJetpackSound_Implementation()
+{
+	if(!Controller)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), UseJetpackSound, GetActorLocation(),FRotator::ZeroRotator,
+			UseJetpackSound->VolumeMultiplier, UseJetpackSound->PitchMultiplier, 0, UseJetpackSound->AttenuationSettings);
+	}
 }
 
 void ASpaceWarCharacter::OwnerStartUseStamina()

@@ -42,6 +42,9 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	UFUNCTION(Server, Reliable)
 	void Server_CreateWeapon(EWeaponType Type, const FName& Id);
 
+	UFUNCTION(NetMulticast, Unreliable)
+	void NetMulticast_PlayUseJetpackSound();
+
 	UFUNCTION()
 	void SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr);
 
@@ -214,6 +217,9 @@ private:
 	
 	UPROPERTY(EditAnywhere)
 	UArmorDataAsset* ArmorDataAsset;
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundCue* UseJetpackSound;
 	
 	bool bMoveForward;
 
