@@ -16,7 +16,7 @@
 class ASpaceWarCharacter;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FGetMessage, const FString&, Message, bool, IsOnlyAlly);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPausePressed);
+DECLARE_DYNAMIC_DELEGATE(FPausePressed);
 
 UCLASS(Blueprintable)
 class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public IUpdateSpecialPointsInterface,
@@ -113,7 +113,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "PlayerController|Delegate")
 	FGetMessage OnGetMessage;
 	
-	UPROPERTY(BlueprintAssignable, Category = "PlayerController|Delegate")
+//	UPROPERTY(BlueprintAssignable, Category = "PlayerController|Delegate")
 	FPausePressed OnPausePressed;
 
 private:

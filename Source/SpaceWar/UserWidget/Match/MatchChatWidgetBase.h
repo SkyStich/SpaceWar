@@ -33,6 +33,11 @@ protected:
 	
 	UFUNCTION(BlueprintCallable, Category = "Widget")
 	void HiddenAllMessage(UScrollBox* ScrollBox);
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void FocusChanging();
+
+	virtual void NativeOnFocusChanging(const FWeakWidgetPath& PreviousFocusPath, const FWidgetPath& NewWidgetPath, const FFocusEvent& InFocusEvent) override;;
 
 public:
 
@@ -42,6 +47,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void HiddenChat();
 
+	UFUNCTION(BlueprintPure)
 	bool IsHidden() const { return bHidden; }
 
 private:

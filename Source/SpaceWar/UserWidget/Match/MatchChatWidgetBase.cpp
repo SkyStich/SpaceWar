@@ -47,3 +47,12 @@ void UMatchChatWidgetBase::HiddenAllMessage(UScrollBox* ScrollBox)
 	}
 }
 
+void UMatchChatWidgetBase::NativeOnFocusChanging(const FWeakWidgetPath& PreviousFocusPath, const FWidgetPath& NewWidgetPath, const FFocusEvent& InFocusEvent)
+{
+	Super::NativeOnFocusChanging(PreviousFocusPath, NewWidgetPath, InFocusEvent);
+	
+	if((InFocusEvent.GetCause() == EFocusCause::Cleared || InFocusEvent.GetCause() == EFocusCause::Mouse) && !bHidden)
+	{
+		HiddenChat();
+	}
+}

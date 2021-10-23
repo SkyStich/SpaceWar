@@ -54,7 +54,7 @@ void ABaseMatchHUD::BeginPlay()
 	auto const GS = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	GS->OnPreparationStartGameFinish.AddDynamic(this, &ABaseMatchHUD::OnPreparationStartGameEvent);
 	
-	Cast<AMatchPlayerControllerBase>(GetOwningPlayerController())->OnPausePressed.AddDynamic(this, &ABaseMatchHUD::OnPausePressed);
+	Cast<AMatchPlayerControllerBase>(GetOwningPlayerController())->OnPausePressed.BindUFunction(this, "OnPausePressed");
 }
 
 UErrorMessageWidget* ABaseMatchHUD::ClientErrorMessage_Implementation(const FString& Message)
@@ -333,7 +333,6 @@ void ABaseMatchHUD::CreatePauseMenu()
 		InputMode.SetWidgetToFocus(PauseWidget->TakeWidget());
 		GetOwningPlayerController()->SetInputMode(InputMode);
 		GetOwningPlayerController()->bShowMouseCursor = true;
-		//PauseWidget->SetFocus();
 	}
 }
 
@@ -351,12 +350,14 @@ void ABaseMatchHUD::RemovePauseMenu()
 
 void ABaseMatchHUD::OnPausePressed()
 {
-	/*if(ChatWidget->IsVisible())
+	if(!ChatWidget->IsHidden()) return;
+
+	if(PauseWidget)
 	{
-		/** Hidden chat widget, if chat in Viewport #1#
-		HiddenChat();
-		return;
-	}*/
-	
-	PauseWidget ? RemovePauseMenu() : CreatePauseMenu();
+		RemovePauseMenu();
+	}
+	else
+	{
+		CreatePauseMenu();
+	}
 }

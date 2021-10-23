@@ -216,7 +216,7 @@ void AMatchPlayerControllerBase::ToggleMainCharacterHUD()
 
 void AMatchPlayerControllerBase::PausePressed()
 {
-	OnPausePressed.Broadcast();
+	OnPausePressed.Execute();
 }
 
 void AMatchPlayerControllerBase::UseAmmunitionState_Implementation()

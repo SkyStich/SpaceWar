@@ -19,9 +19,6 @@ class SPACEWAR_API ABaseMatchHUD : public AHUD, public IErrorMessageInterface
 
 	UFUNCTION()
 	UErrorMessageWidget* CreateErrorWidget(const FString& Message);
-	
-	UFUNCTION()
-	void OnPausePressed();
 
 protected:
 	
@@ -85,6 +82,9 @@ public:
 	
 	UFUNCTION()
 	void ShowChatForAllPlayers();
+		
+	UFUNCTION()
+    void OnPausePressed();
 	
 	void ShowChatForAnAlly();
 	void HiddenChat();
