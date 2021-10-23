@@ -17,12 +17,16 @@ class SPACEWAR_API URangeWeaponObjectBase : public UBaseWeaponObject, public ICu
 	GENERATED_BODY()
 	
 	void ApplyPointDamage(const FHitResult& Hit);
-	FVector GetShootDirection();
-
 	void ReloadStart();
 	void ReloadStop();
 	void PlayUseWeaponEffects();
+
+	virtual void PlaySoundByCue(USoundCue* Sound, const FVector& Location, const FRotator& Rotation) override;
+	virtual void PlaySoundByCue(USoundCue* Sound, USkeletalMeshComponent* AttachComponent, const FName& SocketName) override;
+	virtual void PlaySound2DByCue(USoundCue* Sound) override;
+	
 	FVector FindRotateAround();
+	FVector GetShootDirection();
 	
 	UFUNCTION()
 	void OnRep_Reload();

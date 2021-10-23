@@ -43,15 +43,30 @@ struct FRangeWeaponCharacteristics
 };
 
 USTRUCT(BlueprintType)
+struct FRangeWeaponSoundData
+{
+	GENERATED_BODY();
+		
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	USoundCue* FireMuzzleSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	USoundCue* EquipSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	USoundCue* ReloadSound;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
+	USoundCue* BlankShot;
+};
+
+USTRUCT(BlueprintType)
 struct FRangeWeaponParticles
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|ClientEffects")
 	UParticleSystem* MuzzleParticle;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
-	USoundBase* MuzzleSound;
 };
 
 USTRUCT(BlueprintType)
@@ -175,10 +190,13 @@ struct FEquipWeaponData : public FBaseWeaponData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponParam")
 	FRangeWeaponAnim Animations;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|SoundEffect")
+	FRangeWeaponSoundData SoundData;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponClass")
 	TSoftClassPtr<URangeWeaponObjectBase>WeaponObject;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponClass")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|ParticleEffect")
 	FRangeWeaponParticles Particles;
 };
 

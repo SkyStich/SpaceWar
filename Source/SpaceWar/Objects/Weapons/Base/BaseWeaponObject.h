@@ -46,6 +46,14 @@ public:
 	virtual void StopAdditionalUsed() {}
 	virtual bool OwnerStartAdditionalUsed() { return false; }
 	virtual bool OwnerStopAdditionalUsed() { return false; }
+	
+	/** Play sound at location */
+	virtual void PlaySoundByCue(USoundCue* Sound, const FVector& Location, const FRotator& Rotation) {}
+
+	/** play sound attached */
+	virtual void PlaySoundByCue(USoundCue* Sound, USkeletalMeshComponent* AttachComponent, const FName& SocketName) {}
+
+	virtual void PlaySound2DByCue(USoundCue* Sound){}
 
 	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
 	virtual float GetSelectTime() const { return 0.f; }

@@ -52,24 +52,46 @@ void URangeWeaponObjectBase::PlayUseWeaponEffects()
 {
 	if(CharacterOwner->GetNetMode() != NM_DedicatedServer)
 	{
+		auto const AttachToComponent = CharacterOwner->GetWeaponMesh();
 		FVector Location;
 		FRotator Rotation;
 		CharacterOwner->GetWeaponMesh()->GetSocketWorldLocationAndRotation("Muzzle", Location, Rotation);
-		UGameplayStatics::SpawnEmitterAttached(WeaponData.Particles.MuzzleParticle, CharacterOwner->GetWeaponMesh(), "Muzzle", Location, Rotation, FVector(0.6f), EAttachLocation::KeepWorldPosition);
-		UGameplayStatics::SpawnSoundAttached(WeaponData.Particles.MuzzleSound, CharacterOwner->GetWeaponMesh(), "Muzzle", Location, Rotation, EAttachLocation::SnapToTarget, false);
+		
+		UGameplayStatics::SpawnEmitterAttached(WeaponData.Particles.MuzzleParticle, AttachToComponent, 
+			"Muzzle", Location, Rotation, FVector(0.6f), EAttachLocation::KeepWorldPosition);
+
+		if(CharacterOwner->Controller)
+		{
+			PlaySound2DByCue(WeaponData.SoundData.FireMuzzleSound);
+		}
+		else
+		{
+			PlaySoundByCue(WeaponData.SoundData.FireMuzzleSound, AttachToComponent, "Muzzle");
+		}
 	}
 }
 
 bool URangeWeaponObjectBase::UseWeapon()
 {
-	if(!Super::UseWeapon()) return false;
+	if(!Super::UseWeapon())
+	{
+		/** play blank shot on client */
+		if(!CharacterOwner->Controller) return false;
+		
+		if(CurrentAmmoInWeapon <= 0 && !bReloading && !GetWorld()->GetTimerManager().IsTimerActive(UseWeaponHandle))
+		{
+			if(!IsAuthority()) PlaySound2DByCue(WeaponData.SoundData.BlankShot);
+		}
+		return false;
+	}
 	
 	if(CharacterOwner->Controller)
 	{
 		CurrentAmmoInWeapon--;
 	}
 
-	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &URangeWeaponObjectBase::StopRateDelay, WeaponData.WeaponCharacteristicsBase.DelayBeforeUse, false);
+	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &URangeWeaponObjectBase::StopRateDelay,
+		WeaponData.WeaponCharacteristicsBase.DelayBeforeUse, false);
 
 	DropLineTrace();
 
@@ -102,7 +124,7 @@ bool URangeWeaponObjectBase::IsAbleToUseWeapon()
 
 FVector URangeWeaponObjectBase::FindRotateAround()
 {
-	FVector RotateAroundVector = CharacterOwner->GetActorForwardVector().RotateAngleAxis(CharacterOwner->GetLookUpPitch(), CharacterOwner->GetActorRightVector());
+	FVector RotateAroundVector = CharacterOwner->GetActorForwardVector().RotateAngleAxis(CharacterOwner->GetLookUpPitch(),CharacterOwner->GetActorRightVector());
  	RotateAroundVector.Z *= -1;
 	return RotateAroundVector;
 }
@@ -114,10 +136,12 @@ FVector URangeWeaponObjectBase::GetShootDirection()
 	float const TempSpread = bAccessoryUsed ? ((10.f / FMath::Max(1, WeaponData.Spreads.AccuracyInSight) - 1) * 0.5f) : CurrentSpread;
 	
 	/** Rotate trace with horizontal */
-	FVector const HorizontalRotate = FindRotateAround().RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.Spreads.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Y));
+	FVector const HorizontalRotate = FindRotateAround().RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1,
+		TempSpread, WeaponData.Spreads.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Y));
 
 	/** reottae trace with use up vector */
-	FVector const VerticalRotate = HorizontalRotate.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1, TempSpread, WeaponData.Spreads.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Z));
+	FVector const VerticalRotate = HorizontalRotate.RotateAngleAxis(UKismetMathLibrary::RandomFloatInRangeFromStream(TempSpread * -1,
+		TempSpread, WeaponData.Spreads.FireRandomStream), FRotationMatrix(RotateAroundVector.Rotation()).GetScaledAxis(EAxis::Z));
 
 	return VerticalRotate;
 }
@@ -149,8 +173,12 @@ void URangeWeaponObjectBase::ApplyPointDamage(const FHitResult& Hit)
 	{
 		FVector const HitFromDirection = UKismetMathLibrary::GetDirectionUnitVector(Hit.TraceEnd, Hit.TraceStart);
 		int32 const TempDistance = FVector::Distance(CharacterOwner->GetActorLocation(), Hit.Actor->GetActorLocation()) - WeaponData.RangeWeaponCharacteristics.MaxDamageDistance;
-		float const TempDamage = TempDistance > WeaponData.RangeWeaponCharacteristics.MaxDamageDistance ? FMath::Max(WeaponData.RangeWeaponCharacteristics.BaseDamage - int(TempDistance / 100), WeaponData.RangeWeaponCharacteristics.BaseDamage / 1.5f) : WeaponData.RangeWeaponCharacteristics.BaseDamage;
-		UGameplayStatics::ApplyPointDamage(Hit.GetActor(), TempDamage, HitFromDirection, Hit, CharacterOwner->Controller, CharacterOwner, UDamageType::StaticClass());
+
+		float const TempDamage = TempDistance > WeaponData.RangeWeaponCharacteristics.MaxDamageDistance ? FMath::Max(WeaponData.RangeWeaponCharacteristics.BaseDamage - TempDistance / 100,
+			WeaponData.RangeWeaponCharacteristics.BaseDamage / 1.5f) : WeaponData.RangeWeaponCharacteristics.BaseDamage;
+		
+		UGameplayStatics::ApplyPointDamage(Hit.GetActor(), TempDamage, HitFromDirection, Hit, CharacterOwner->Controller,
+			CharacterOwner, UDamageType::StaticClass());
 	}
 }
 
@@ -161,6 +189,15 @@ bool URangeWeaponObjectBase::IsAbleToReload()
 
 void URangeWeaponObjectBase::OnRep_Reload()
 {
+	if(CharacterOwner->Controller)
+	{
+		PlaySound2DByCue(WeaponData.SoundData.ReloadSound);
+	}
+	else
+	{
+		PlaySoundByCue(WeaponData.SoundData.ReloadSound, CharacterOwner->GetWeaponMesh()->GetComponentLocation(), FRotator::ZeroRotator);
+	}
+	
 	OnReload.Broadcast(bReloading);
 }
 
@@ -272,4 +309,23 @@ void URangeWeaponObjectBase::AddAmmo(int32 const Amount)
 FString URangeWeaponObjectBase::GetAmmoStatus() const
 {
 	return FString::FromInt(CurrentAmmoInWeapon) + " | " + FString::FromInt(CurrentAmmoInStorage);
+}
+
+void URangeWeaponObjectBase::PlaySoundByCue(USoundCue* Sound, const FVector& Location, const FRotator& Rotation)
+{
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), Sound, Location, Rotation, Sound->VolumeMultiplier,
+		Sound->PitchMultiplier, 0, Sound->AttenuationSettings);
+}
+
+void URangeWeaponObjectBase::PlaySoundByCue(USoundCue* Sound, USkeletalMeshComponent* AttachComponent, const FName& SocketName)
+{
+	FVector const  Location = AttachComponent->GetSocketLocation("SocketName");
+	bool const bStoWhenAttachedToDestroyed = false;
+	UGameplayStatics::SpawnSoundAttached(Sound, AttachComponent, SocketName, Location, FRotator::ZeroRotator,
+            EAttachLocation::SnapToTarget, bStoWhenAttachedToDestroyed, Sound->VolumeMultiplier, Sound->PitchMultiplier, 0, Sound->AttenuationSettings);
+}
+
+void URangeWeaponObjectBase::PlaySound2DByCue(USoundCue* Sound)
+{
+	UGameplayStatics::PlaySound2D(GetWorld(), Sound, Sound->VolumeMultiplier, Sound->PitchMultiplier);
 }
