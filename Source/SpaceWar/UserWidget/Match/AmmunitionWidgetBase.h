@@ -32,12 +32,12 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ThrowSlotClicked(UAmmunitionThrowWidgetBase* ClickSlot);
 
+	UFUNCTION(BlueprintCallable)
+	void StopUseState();
+
 protected:
 
 	virtual void NativeConstruct() override;
-
-	UFUNCTION(BlueprintCallable)
-	void StopUseState();
 
 	UFUNCTION(BlueprintCallable, Category = "AmmunitionWidget")
 	void UpdateAmmo();

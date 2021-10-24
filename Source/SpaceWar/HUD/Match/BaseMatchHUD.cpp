@@ -359,7 +359,7 @@ void ABaseMatchHUD::OnPausePressed()
 
 	if(AmmunitionWidget)
 	{
-		RemoveAmmunitionWidget();
+		AmmunitionWidget->StopUseState();
 		return;
 	}
 

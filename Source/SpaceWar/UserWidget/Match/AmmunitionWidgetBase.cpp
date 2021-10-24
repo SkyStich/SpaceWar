@@ -142,7 +142,6 @@ void UAmmunitionWidgetBase::ThrowSlotClicked_Implementation(UAmmunitionThrowWidg
 
 void UAmmunitionWidgetBase::StopUseState()
 {
-	RemoveFromParent();
 	auto const PC = GetOwningPlayer<AMatchPlayerControllerBase>();
 	if(!PC)
 	{
