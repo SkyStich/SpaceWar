@@ -73,17 +73,7 @@ void URangeWeaponObjectBase::PlayUseWeaponEffects()
 
 bool URangeWeaponObjectBase::UseWeapon()
 {
-	if(!Super::UseWeapon())
-	{
-		/** play blank shot on client */
-		if(!CharacterOwner->Controller) return false;
-		
-		if(CurrentAmmoInWeapon <= 0 && !bReloading && !GetWorld()->GetTimerManager().IsTimerActive(UseWeaponHandle))
-		{
-			if(!IsAuthority()) PlaySound2DByCue(WeaponData.SoundData.BlankShot);
-		}
-		return false;
-	}
+	if(!Super::UseWeapon()) return false;
 	
 	if(CharacterOwner->Controller)
 	{
@@ -327,5 +317,16 @@ void URangeWeaponObjectBase::PlaySoundByCue(USoundCue* Sound, USkeletalMeshCompo
 
 void URangeWeaponObjectBase::PlaySound2DByCue(USoundCue* Sound)
 {
-	UGameplayStatics::PlaySound2D(GetWorld(), Sound, Sound->VolumeMultiplier, Sound->PitchMultiplier);
+	UGameplayStatics::PlaySound2D(GetWorld(), Sound, Sound->VolumeMultiplier, Sound->PitchMultiplier, 0, nullptr, nullptr, false);
 }
+
+bool URangeWeaponObjectBase::OwnerStartUseWeapon()
+{
+	if(!Super::OwnerStartUseWeapon())
+	{
+		if(CurrentAmmoInWeapon <= 0 && CharacterOwner->IsCanWeaponManipulation()) PlaySound2DByCue(WeaponData.SoundData.BlankShot);
+		return false;
+	}
+	return true;
+}
+

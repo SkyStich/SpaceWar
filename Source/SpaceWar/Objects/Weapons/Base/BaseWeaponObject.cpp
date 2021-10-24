@@ -123,14 +123,16 @@ void UBaseWeaponObject::Server_StopUseWeapon_Implementation()
 	NetMulticast_StopUseWeapon();
 }
 
-void UBaseWeaponObject::OwnerStartUseWeapon()
+bool UBaseWeaponObject::OwnerStartUseWeapon()
 {
 	if(IsAbleToUseWeapon() && CharacterOwner->IsCanWeaponManipulation())
 	{
 		UseWeapon();
 		Server_StartUseWeapon();
 		OnWeaponUsed.Broadcast(true);
+		return true;
 	}
+	return false;
 }
 
 void UBaseWeaponObject::OwnerStopUseWeapon()

@@ -52,6 +52,7 @@ public:
 	virtual void StopAdditionalUsed() override;
 	virtual bool OwnerStartAdditionalUsed() override;
 	virtual bool OwnerStopAdditionalUsed() override;
+	virtual bool OwnerStartUseWeapon() override;
 
 	virtual float GetSelectTime() const override { return WeaponData.WeaponCharacteristicsBase.SelectWeaponTime; }
 	virtual float GetReloadTime() const override { return WeaponData.RangeWeaponCharacteristics.ReloadTime; }

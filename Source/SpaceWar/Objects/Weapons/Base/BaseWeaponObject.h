@@ -28,7 +28,7 @@ public:
 	bool GetWeaponUsed() const { return bWeaponUsed; }
 	
 	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
-	virtual void OwnerStartUseWeapon();
+	virtual bool OwnerStartUseWeapon();
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
 	virtual void OwnerStopUseWeapon();
