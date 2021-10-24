@@ -15,6 +15,9 @@ struct FArmorData
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
 	FName DisplayName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
+	FText Description;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
 	bool bCanUseJetPack;
