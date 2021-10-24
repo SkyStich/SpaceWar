@@ -151,7 +151,6 @@ void ABaseMatchHUD::CreateSpecialWidget()
 	{
 		SpecialShopWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), SpecialShopWidgetClass, GetOwningPlayerController());
 		SpecialShopWidget->AddToViewport();
-		SpecialShopWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 
@@ -351,6 +350,18 @@ void ABaseMatchHUD::RemovePauseMenu()
 void ABaseMatchHUD::OnPausePressed()
 {
 	if(!ChatWidget->IsHidden()) return;
+
+	if(SpecialShopWidget && SpecialShopWidget->IsVisible())
+	{
+		SpecialShopWidget->SetVisibility(ESlateVisibility::Collapsed);
+		return;
+	}
+
+	if(AmmunitionWidget)
+	{
+		RemoveAmmunitionWidget();
+		return;
+	}
 
 	if(PauseWidget)
 	{

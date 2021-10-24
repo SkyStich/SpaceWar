@@ -47,6 +47,13 @@ void UMatchChatWidgetBase::HiddenAllMessage(UScrollBox* ScrollBox)
 	}
 }
 
+void UMatchChatWidgetBase::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	bHidden = true;
+}
+
 void UMatchChatWidgetBase::NativeOnFocusChanging(const FWeakWidgetPath& PreviousFocusPath, const FWidgetPath& NewWidgetPath, const FFocusEvent& InFocusEvent)
 {
 	Super::NativeOnFocusChanging(PreviousFocusPath, NewWidgetPath, InFocusEvent);
