@@ -67,6 +67,9 @@ struct FRangeWeaponParticles
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|ClientEffects")
 	UParticleSystem* MuzzleParticle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|ClientEffects")
+	UParticleSystem* TraceParticle;
 };
 
 USTRUCT(BlueprintType)

@@ -9,8 +9,9 @@
 #include "Camera/CameraComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
+#include "SpaceWar/Actors/Match/Particle/FireParticleTrace.h"
 
-URangeWeaponObjectBase::URangeWeaponObjectBase() 
+URangeWeaponObjectBase::URangeWeaponObjectBase()
 {
 }
 
@@ -144,7 +145,7 @@ FVector URangeWeaponObjectBase::GetShootDirection()
 void URangeWeaponObjectBase::DropLineTrace()
 {
 	FVector const TraceStart = CharacterOwner->GetCurrentFireTrace();
-	FVector const TraceEnd = WeaponData.RangeWeaponCharacteristics.RangeOfUse * GetShootDirection() + TraceStart;		
+	FVector const TraceEnd = WeaponData.RangeWeaponCharacteristics.RangeOfUse * GetShootDirection() + TraceStart;
 
 	FHitResult Hit;
                                                                                                   
@@ -152,13 +153,26 @@ void URangeWeaponObjectBase::DropLineTrace()
 	QueryParams.AddIgnoredActor(CharacterOwner);                                                      
                                                                                                   
 	GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECC_GameTraceChannel4, QueryParams);
+	
+	if(!IsAuthority())
+	{
+		FActorSpawnParameters Param;
+		Param.Owner = CharacterOwner;
+		Param.Instigator = CharacterOwner;
+		Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		auto const Particle = GetWorld()->SpawnActor<AFireParticleTrace>(CharacterOwner->GetWeaponMesh()->GetSocketLocation("Muzzle"), CharacterOwner->GetControlRotation(), Param);
+		if(Particle)
+		{
+			Particle->Init(Hit.ImpactPoint, WeaponData.Particles.TraceParticle);
+		}
+	}
                                                                                                   
 	DrawDebugLine(GetWorld(), Hit.TraceStart, Hit.TraceEnd, IsAuthority() ? FColor::Purple : FColor::Green, false, 0.5f);
 	DrawDebugSphere(GetWorld(), Hit.ImpactPoint, 14.f, 6,FColor::Yellow, false, 0.5f);
 
 #if UE_EDITOR
 	if(CharacterOwner->Controller)
-	{
+	{ 
 		UKismetSystemLibrary::PrintString(GetWorld(), FString::Printf(TEXT("TraceEnd: x = %d   y = %d z = %d"),
 			int(Hit.ImpactPoint.X), int(Hit.ImpactPoint.Y), int(Hit.ImpactPoint.Z)), true, true, FColor::Purple, 1.f);
 	}
