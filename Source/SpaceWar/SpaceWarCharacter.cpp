@@ -99,7 +99,7 @@ void ASpaceWarCharacter::BeginPlay()
 	WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "WeaponPoint");
 	if(IsLocallyControlled() || GetNetMode() == NM_DedicatedServer)
 	{
-		GetMesh()->DestroyComponent();
+		GetMesh()->SetVisibility(false);
 		
 		if(GetNetMode() != NM_DedicatedServer)
 		{
@@ -229,8 +229,8 @@ void ASpaceWarCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 void ASpaceWarCharacter::CharDead()
 {
 	if(SkeletalArm) SkeletalArm->SetVisibility(false);
-  //  GetMesh()->SetVisibility(true);
-   // WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+    GetMesh()->SetVisibility(true);
+    WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	/** Change fisics if this not dedicated server */
@@ -303,7 +303,7 @@ void ASpaceWarCharacter::MoveRight(float Value)
 
 USkeletalMeshComponent* ASpaceWarCharacter::GetLocalMesh() const
 {
-	return IsLocallyControlled() ? SkeletalArm : GetMesh();
+	return IsLocallyControlled() || GetNetMode() == NM_DedicatedServer ? SkeletalArm : GetMesh();
 }
 
 void ASpaceWarCharacter::SyncLoadMesh(TAssetPtr<USkeletalMesh> MeshPtr)
@@ -326,7 +326,7 @@ void ASpaceWarCharacter::UpdateWeaponMesh(UBaseWeaponObject* Weapon)
 	{
 		RecoilTimeline.Stop();
 		FOnTimelineVector OnTimelineVector;
-		OnTimelineVector.BindUFunction(this, "OnUpdateWeaponRecoil");
+		OnTimelineVector.BindUFunction(this, "OnUpdateRecoilTimeLine");
 		RecoilTimeline.AddInterpVector(Weapon->GetRecoilCurveVector(), OnTimelineVector);
 		RecoilTimeline.SetLooping(true);
 	}
@@ -487,13 +487,18 @@ void ASpaceWarCharacter::UpdateAmmo_Implementation()
 	}
 }
 
-void ASpaceWarCharacter::OnUpdateWeaponRecoil(const FVector& Vector)
+void ASpaceWarCharacter::OnUpdateRecoilTimeLine(const FVector& Vector)
+{
+	WeaponRecoil = Vector;
+}
+
+void ASpaceWarCharacter::UpdateWeaponRecoil()
 {
 	/** Add Vertical recoil */
-	AddControllerPitchInput(-Vector.Z);
+	AddControllerPitchInput(-WeaponRecoil.Z);
 
-	/** Add Gorizontal recoil */
-	AddControllerYawInput(-Vector.X);
+	/** Add horizontal recoil */
+	AddControllerYawInput(-WeaponRecoil.X);
 }
 
 void ASpaceWarCharacter::Server_CreateWeapon_Implementation(EWeaponType Type, const FName& Id)

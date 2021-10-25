@@ -84,6 +84,11 @@ bool URangeWeaponObjectBase::UseWeapon()
 		WeaponData.WeaponCharacteristicsBase.DelayBeforeUse, false);
 
 	DropLineTrace();
+	
+	if(CharacterOwner->Controller)
+	{
+		if(bAccessoryUsed) CharacterOwner->UpdateWeaponRecoil();
+	}
 
 	PlayUseWeaponEffects();
 	
@@ -139,7 +144,7 @@ FVector URangeWeaponObjectBase::GetShootDirection()
 void URangeWeaponObjectBase::DropLineTrace()
 {
 	FVector const TraceStart = CharacterOwner->GetCurrentFireTrace();
-	FVector const TraceEnd = WeaponData.RangeWeaponCharacteristics.RangeOfUse * GetShootDirection() + TraceStart;
+	FVector const TraceEnd = WeaponData.RangeWeaponCharacteristics.RangeOfUse * GetShootDirection() + TraceStart;		
 
 	FHitResult Hit;
                                                                                                   
@@ -150,6 +155,14 @@ void URangeWeaponObjectBase::DropLineTrace()
                                                                                                   
 	DrawDebugLine(GetWorld(), Hit.TraceStart, Hit.TraceEnd, IsAuthority() ? FColor::Purple : FColor::Green, false, 0.5f);
 	DrawDebugSphere(GetWorld(), Hit.ImpactPoint, 14.f, 6,FColor::Yellow, false, 0.5f);
+
+#if UE_EDITOR
+	if(CharacterOwner->Controller)
+	{
+		UKismetSystemLibrary::PrintString(GetWorld(), FString::Printf(TEXT("TraceEnd: x = %d   y = %d z = %d"),
+			int(Hit.ImpactPoint.X), int(Hit.ImpactPoint.Y), int(Hit.ImpactPoint.Z)), true, true, FColor::Purple, 1.f);
+	}
+#endif
 
 	if(IsAuthority())
 	{

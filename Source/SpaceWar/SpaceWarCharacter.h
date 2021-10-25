@@ -28,7 +28,7 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	void UpdateWeaponMesh(UBaseWeaponObject* Weapon);
 
 	UFUNCTION()
-	void OnUpdateWeaponRecoil(const FVector& Vector);
+	void OnUpdateRecoilTimeLine(const FVector& Vector);
 
 	UFUNCTION()
 	void OnStaminaUsedEvent(bool bState);
@@ -71,6 +71,7 @@ public:
 	
 	FVector GetCurrentFireTrace() const;
 	void StopRecoilTimeline() { RecoilTimeline.Stop(); }
+	void UpdateWeaponRecoil();
 	
 	virtual void GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo) override;
 	virtual void RefreshAmmo_Implementation() override;
@@ -220,6 +221,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	USoundCue* UseJetpackSound;
+
+	/** update on "UpdateWeaponRecoil". Use for update control pitch and yaw when weapon used */
+	FVector WeaponRecoil;
 	
 	bool bMoveForward;
 
