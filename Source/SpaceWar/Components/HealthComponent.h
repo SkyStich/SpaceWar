@@ -14,30 +14,34 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOwnerDead);
 /** For owning client */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FArmorChanged);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHealthChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOwnerSufferedDamage, const FVector&, DamageDirection);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SPACEWAR_API UHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-	float ArmorResist(float Damage);
-
-	UFUNCTION()
-	void OnRep_OwnerDead();
-
-	bool IsOwnerDead();
-
 	UFUNCTION(Client, Unreliable)
 	void Client_HealthChanged();
 
 	UFUNCTION(Client, Unreliable)
 	void Client_ArmorChanged();
+	
+	UFUNCTION(Client, Unreliable)
+	void GetOwnerDamage(const FVector& DamageVector);
+
+	UFUNCTION()
+    void OnRep_OwnerDead();
 
 	void StartRegenerationHealth();
 	void StartRegenerationArmor();
 
 	void ArmorRegeneration();
 	void HealthRegeneration();
+
+	float ArmorResist(float Damage);
+
+	bool IsOwnerDead();
 	
 	bool CheckForFriendlyFire(AController* DamageReceiver, AController* InstigatorController); // return true, if damage be apply not friend
 
@@ -126,4 +130,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "HealthComponent|Gelegates")
 	FArmorChanged OnArmorChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "HealthComponent|Gelegates")
+	FOwnerSufferedDamage OnOwnerSufferedDamage;
 };

@@ -119,6 +119,9 @@ void UHealthComponent::OnPlayerTakePointDamage(AActor* DamagedActor, float Damag
 		Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->CharDead(InstigatedBy, GetOwner()->GetInstigatorController(), DamageCauser);
 		GetOwner()->SetCanBeDamaged(false);
 	}
+
+	OnOwnerSufferedDamage.Broadcast(ShotFromDirection);
+	GetOwnerDamage(ShotFromDirection);
 }
 
 float UHealthComponent::ArmorResist(float Damage)
@@ -216,4 +219,9 @@ void UHealthComponent::SetMaxArmor(const int32 NewMaxArmor)
 {
 	MaxArmor = NewMaxArmor;
 	CurrentArmor = MaxArmor;
+}
+
+void UHealthComponent::GetOwnerDamage_Implementation(const FVector& DamageVector)
+{
+	OnOwnerSufferedDamage.Broadcast(DamageVector);
 }

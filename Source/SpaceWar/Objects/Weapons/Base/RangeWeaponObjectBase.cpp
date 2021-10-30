@@ -166,11 +166,10 @@ void URangeWeaponObjectBase::DropLineTrace()
 			Particle->Init(Hit.ImpactPoint, WeaponData.Particles.TraceParticle);
 		}
 	}
-                                                                                                  
+#if UE_EDITOR                                                                                              
 	DrawDebugLine(GetWorld(), Hit.TraceStart, Hit.TraceEnd, IsAuthority() ? FColor::Purple : FColor::Green, false, 0.5f);
 	DrawDebugSphere(GetWorld(), Hit.ImpactPoint, 14.f, 6,FColor::Yellow, false, 0.5f);
-
-#if UE_EDITOR
+	
 	if(CharacterOwner->Controller)
 	{ 
 		UKismetSystemLibrary::PrintString(GetWorld(), FString::Printf(TEXT("TraceEnd: x = %d   y = %d z = %d"),

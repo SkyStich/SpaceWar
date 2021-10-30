@@ -80,6 +80,7 @@ public:
 
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	FORCEINLINE class UCameraComponent* GetAimCamera() const { return AimCamera; }
 
 	FORCEINLINE USkeletalMeshComponent* GetLocalMesh() const;
 	FORCEINLINE float GetLookUpPitch() const { return LookUpPitch; }

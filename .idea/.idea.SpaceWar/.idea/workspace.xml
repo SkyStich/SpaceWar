@@ -60,14 +60,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Camera/BP_CameraModifier_Damage.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/PostProcess/M_PostProcessDamageNotify.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/DamageNotify/W_DamageNotify.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/CameraManager/MatchPlayerCameraManager.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/CameraManager/MatchPlayerCameraManager.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/CameraModifier/GetDamageCameraModifier.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/CameraModifier/GetDamageCameraModifier.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Camera/CameraShake/BP_DamageCameraShake.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Camera/BP_CameraModifier_Damage.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/BackPlace.umap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Center.umap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/Example_Dynamic.umap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/ModSki/SpawnAttackTeam.umap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/PostProcess/M_PostProcessDamageNotify.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/PostProcess/M_PostProcessDamageNotify.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/HealthComponent.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/RangeWeaponObjectBase.cpp" afterDir="false" />
@@ -34557,6 +34557,13 @@
       <workItem from="1635321598229" duration="935000" />
       <workItem from="1635323584812" duration="11033000" />
       <workItem from="1635345434694" duration="5792000" />
+      <workItem from="1635508721141" duration="1146000" />
+      <workItem from="1635528186376" duration="1814000" />
+      <workItem from="1635536056083" duration="390000" />
+      <workItem from="1635587492348" duration="1887000" />
+      <workItem from="1635590898362" duration="1601000" />
+      <workItem from="1635595222832" duration="656000" />
+      <workItem from="1635596550042" duration="1295000" />
     </task>
     <servers />
   </component>

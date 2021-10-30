@@ -9,6 +9,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
 #include "SpaceWar/SpaceWarCharacter.h"
+#include "SpaceWar/CameraManager/MatchPlayerCameraManager.h"
 #include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
 #include "SpaceWar/Components/GameMode/GameServerDataBaseComponent.h"
 
@@ -23,10 +24,9 @@ AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 	SpecialObjectManager = CreateDefaultSubobject<USpecialObjectManagerComponent>(TEXT("SpecialObjectManager"));
 
 	static ConstructorHelpers::FClassFinder<ASpaceWarCharacter> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter"));
-	if(PlayerPawnBPClass.Succeeded())
-	{
-		PlayerClass = PlayerPawnBPClass.Class;
-	}
+	if(PlayerPawnBPClass.Succeeded()) PlayerClass = PlayerPawnBPClass.Class;
+	
+	PlayerCameraManagerClass = AMatchPlayerCameraManager::StaticClass();
 }
 
 void AMatchPlayerControllerBase::BeginPlay()
