@@ -10,7 +10,7 @@
 UBaseGameInstance::UBaseGameInstance()
 {
 	CurrentArmor = "Base";
-	PlayerName = "PlayerName";
+	PlayerName = "Stenly";
 	CurrentThrowWeapon = "Boom";
 	
 	Weapons.Add(EWeaponType::FirstWeapon, "SilverDragon");
