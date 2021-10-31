@@ -14,11 +14,11 @@ void AOnlinePlayerStateBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-/*	if(GetLocalRole() != ROLE_Authority)
+	if(GetOwner() && GetLocalRole() != ROLE_Authority)
 	{
 		auto const GameInstance = GetGameInstance<UBaseGameInstance>();
 		Server_TransferPlayerNameToServer(GameInstance->GetPlayerName());
-	}*/
+	}
 }
 
 void AOnlinePlayerStateBase::SetTeam(const ETeam NewTeam)
@@ -67,6 +67,10 @@ void AOnlinePlayerStateBase::OnRep_NumberOfMurders()
 void AOnlinePlayerStateBase::Server_TransferPlayerNameToServer_Implementation(const FString& Name)
 {
 	SetPlayerName(Name);
+	
+#if UE_EDITOR
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Yellow, FString::Printf(TEXT("PlayerName = %s"), *GetPlayerName()));
+#endif
 }
 
 

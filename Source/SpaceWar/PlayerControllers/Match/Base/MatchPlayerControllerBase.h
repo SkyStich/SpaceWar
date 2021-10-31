@@ -20,7 +20,7 @@ DECLARE_DYNAMIC_DELEGATE(FPausePressed);
 
 UCLASS(Blueprintable)
 class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public IUpdateSpecialPointsInterface,
-	public IPlayerControllerInterface, public ICustomInputInterface, public IMatchChatInterface, public IGetPlayerLoginInterface
+	public IPlayerControllerInterface, public ICustomInputInterface, public IMatchChatInterface
 {
 	GENERATED_BODY()
 
@@ -66,7 +66,6 @@ public:
 
 	virtual void IncreaseSpecialPoint_Implementation(int32 const Value) override;
 	virtual void DecreaseSpecialPoint_Implementation(int32 const Value) override;
-	virtual FString PlayerLoginFromController_Implementation() override;
 	virtual bool SpawnPlayer(const FVector& Location);
 	virtual bool IsPLayerCharacterAlive_Implementation() override { return GetCharacter() != nullptr; }
 

@@ -229,12 +229,6 @@ void AMatchPlayerControllerBase::StopUseAmmunitionState()
 	GetHUD<ABaseMatchHUD>()->RemoveAmmunitionWidget();
 }
 
-FString AMatchPlayerControllerBase::PlayerLoginFromController_Implementation()
-{
-	auto const GameInstance = Cast<UBaseGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	return GameInstance ? GameInstance->GetPlayerName() : "";
-}
-
 void AMatchPlayerControllerBase::EndMatch(const FString& Reason, ETeam WinnerTeam)
 {
 	Client_ConnectToHUBServer();
