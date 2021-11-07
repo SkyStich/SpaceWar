@@ -2,8 +2,9 @@ Binaries
 DerivedDataCache
 Intermediate
 Saved
-WesterTown
 ModSci
+StarterContent
+Mannequin
 .vscode
 .vs
 *.VC.db
@@ -15,3 +16,5 @@ ModSci
 *.xcodeproj
 *.xcworkspace
 Content/ThirdPersonCPP/Maps/Match/ModSki/Construct/Example_Dynamic_BuiltData.uasset
+Content/Elite_Landscapes
+Content/SpaceCockPits
