@@ -38,7 +38,6 @@ void AOnlinetMatchGameStateBase::BeginPlay()
 	{
 		auto GM = Cast<AOnlineMatchGameModeBase>(AuthorityGameMode);
 		GM->OnPlayerLogout.AddDynamic(this, &AOnlinetMatchGameStateBase::Logout);
-		MatchStarted();
 	}
 }
 
@@ -78,8 +77,13 @@ void AOnlinetMatchGameStateBase::UpdateTeamPoints(ETeam Team, int32 Value)
 
 void AOnlinetMatchGameStateBase::PreparationForStartGame()
 {
-#if UE_SERVER
-	if(PlayerArray.Num() >= 2 && !bGameInProgress && !GetWorld()->GetTimerManager().IsTimerActive(PreparationGameStartHandle))
+	int32 PlayerForStartGame = 2;
+#if UE_EDITOR
+	CurrentMatchTime = 2.f;
+	PlayerForStartGame = 1;
+#endif
+	
+	if(PlayerArray.Num() >= PlayerForStartGame && !bGameInProgress && !GetWorld()->GetTimerManager().IsTimerActive(PreparationGameStartHandle))
 	{
 		auto f = [&]() -> void
 		{
@@ -97,9 +101,6 @@ void AOnlinetMatchGameStateBase::PreparationForStartGame()
 		GetWorld()->GetTimerManager().SetTimer(PreparationGameStartHandle, TimerDel, 1.f, true);
 		return;
 	}
-#endif
-
-	MatchStarted();
 }
 
 void AOnlinetMatchGameStateBase::MatchStarted()

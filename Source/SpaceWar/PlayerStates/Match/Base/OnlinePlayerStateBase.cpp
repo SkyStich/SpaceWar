@@ -72,6 +72,3 @@ void AOnlinePlayerStateBase::Server_TransferPlayerNameToServer_Implementation(co
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Yellow, FString::Printf(TEXT("PlayerName = %s"), *GetPlayerName()));
 #endif
 }
-
-
-

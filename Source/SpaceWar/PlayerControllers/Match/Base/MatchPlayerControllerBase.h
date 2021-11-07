@@ -112,7 +112,6 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "PlayerController|Delegate")
 	FGetMessage OnGetMessage;
 	
-//	UPROPERTY(BlueprintAssignable, Category = "PlayerController|Delegate")
 	FPausePressed OnPausePressed;
 
 private:

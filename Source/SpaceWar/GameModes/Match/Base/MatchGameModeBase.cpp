@@ -116,8 +116,10 @@ void AMatchGameModeBase::MatchEnded(const FString& Reason, ETeam WinnerTeam)
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(GameState);
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 	OnPreMatchEnded.Broadcast(Reason, WinnerTeam);
-	
+
+#if UE_SERVER
 	DataBaseComponent->RemoveServerFromDataBase();
+#endif
 	
 	FTimerDelegate TimerDel;
 	TimerDel.BindUObject(this, &AMatchGameModeBase::GameFinish, Reason, WinnerTeam);
@@ -128,12 +130,8 @@ void AMatchGameModeBase::MatchEnded(const FString& Reason, ETeam WinnerTeam)
 void AMatchGameModeBase::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
-
-//	if(DataBaseComponent->GetServerData().IsActive)
-	//{
-		OnPlayerPostLogin.Broadcast(NewPlayer);
-	//	return;
-	//}
+	
+	OnPlayerPostLogin.Broadcast(NewPlayer);
 }
 
 void AMatchGameModeBase::PreLogin(const FString& Options, const FString& Address, const FUniqueNetIdRepl& UniqueId, FString& ErrorMessage)
