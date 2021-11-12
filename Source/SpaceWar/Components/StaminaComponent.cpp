@@ -15,16 +15,15 @@ UStaminaComponent::UStaminaComponent()
 	
 	IncreasePerSec = 10;
 	DecreasePerSec = 15;
+
+	SuperSprintSpeed = 1900.f;
+	bCanToggleSuperStamina = true;
 }
 
-
-// Called when the game starts
 void UStaminaComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
 }
 
 void UStaminaComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -33,6 +32,7 @@ void UStaminaComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 
 	DOREPLIFETIME_CONDITION(UStaminaComponent, CurrentStaminaValue, COND_OwnerOnly);
 	DOREPLIFETIME(UStaminaComponent, bStaminaUse);
+	DOREPLIFETIME(UStaminaComponent, bSuperSprintUse);
 }
 
 void UStaminaComponent::StartUseStamina()
@@ -96,3 +96,35 @@ void UStaminaComponent::Server_StopUseStamina_Implementation()
 
 	StopUseStamina();
 }
+
+void UStaminaComponent::OnRep_SuperSprint()
+{
+	OnSuperSprintUsed.Broadcast(bSuperSprintUse);
+
+	FTimerDelegate TimerDel;
+	FTimerHandle TimerHandle;
+	TimerDel.BindLambda([&]() -> void
+	{
+		bCanToggleSuperStamina = true;
+	});
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, 1.2f, false);
+}
+
+void UStaminaComponent::StartUseSuperSprint()
+{
+	if(bStaminaUse || bSuperSprintUse) return;
+
+	bCanToggleSuperStamina = false;
+	bSuperSprintUse = true;
+	OnRep_SuperSprint();
+}
+
+void UStaminaComponent::StopUseSuperSprint()
+{
+	if(!bSuperSprintUse) return;
+
+	bCanToggleSuperStamina = false;
+	bSuperSprintUse = false;
+	OnRep_SuperSprint();
+}
+

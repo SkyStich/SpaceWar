@@ -7,6 +7,7 @@
 #include "StaminaComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStaminaUsed, bool, bStaminaState);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSuperSprintUsed, bool, bSprintState);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStaminaEnded);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -22,11 +23,16 @@ class SPACEWAR_API UStaminaComponent : public UActorComponent
 	UFUNCTION()
 	void OnRep_StaminaUse();
 
+	UFUNCTION()
+	void OnRep_SuperSprint();
+
 public:	
 	// Sets default values for this component's properties
 	UStaminaComponent();
 
 	void StopUseStamina();
+	void StartUseSuperSprint();
+	void StopUseSuperSprint();
 
 	UFUNCTION(Server, Unreliable, BlueprintCallable)
 	void Server_StartUseStamina();
@@ -39,6 +45,10 @@ public:
 	
 	UFUNCTION(BlueprintPure)
 	bool IsStaminaUse() const { return bStaminaUse; }
+	
+	bool IsSuperSprintUsed() const { return bSuperSprintUse; }
+	bool IsCanToggleSuperStamina() const { return bCanToggleSuperStamina; }
+	float GetSuperSprintSpeed() const { return SuperSprintSpeed; }
 
 protected:
 	// Called when the game starts
@@ -52,6 +62,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Stamina|Delegate")
 	FStaminaEnded OnStaminaEnded;
+	
+	UPROPERTY(BlueprintAssignable, Category = "Sprint|Delegate")
+	FSuperSprintUsed OnSuperSprintUsed;
 
 private:
 
@@ -64,11 +77,19 @@ private:
 	UPROPERTY(EditAnywhere, Category = "StaminaComponent|Editable")
 	float DecreasePerSec;
 
+	UPROPERTY(EditAnywhere, Category = "StaminaComponent|Speed")
+	float SuperSprintSpeed;
+
 	UPROPERTY(ReplicatedUsing = OnRep_StaminaUse)
 	bool bStaminaUse;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_SuperSprint)
+	bool bSuperSprintUse;
 
 	UPROPERTY(Replicated)
 	float CurrentStaminaValue;
+
+	bool bCanToggleSuperStamina;
 
 	FTimerHandle StaminaHandle;
 };
