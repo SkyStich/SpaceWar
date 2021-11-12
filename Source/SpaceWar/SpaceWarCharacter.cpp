@@ -82,6 +82,7 @@ void ASpaceWarCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ASpaceWarCharacter::StopUseWeapon);
 
 	PlayerInputComponent->BindAction("UseJetpack", IE_Released, this, &ASpaceWarCharacter::UseJetpackPressed);
+	PlayerInputComponent->BindAction("SuperSprint", IE_Pressed, this, &ASpaceWarCharacter::ToggleUseSuperSprint);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASpaceWarCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASpaceWarCharacter::MoveRight);
@@ -96,7 +97,13 @@ void ASpaceWarCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, "WeaponPoint");
+	WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "WeaponPoint");
+	HealthComponent->OnOwnerDead.AddDynamic(this, &ASpaceWarCharacter::CharDead);
+	StaminaComponent->OnStaminaUsed.AddDynamic(this, &ASpaceWarCharacter::OnStaminaUsedEvent);
+	
+	SetActorTickEnabled(false);
+	UpdateMeshMaterialByOwnerTeam();
+	
 	if(IsLocallyControlled() || GetNetMode() == NM_DedicatedServer)
 	{
 		GetMesh()->SetVisibility(false);
@@ -120,11 +127,6 @@ void ASpaceWarCharacter::BeginPlay()
 		RotateArmComponent->DestroyComponent();
 	}
 
-	HealthComponent->OnOwnerDead.AddDynamic(this, &ASpaceWarCharacter::CharDead);
-	StaminaComponent->OnStaminaUsed.AddDynamic(this, &ASpaceWarCharacter::OnStaminaUsedEvent);
-	
-	SetActorTickEnabled(false);
-
 	if(GetLocalRole() == ROLE_Authority)
 	{
 		SetActorTickEnabled(false);
@@ -138,7 +140,13 @@ void ASpaceWarCharacter::BeginPlay()
 		FTimerHandle UpdateCanBeDamageHandle;
 		GetWorld()->GetTimerManager().SetTimer(UpdateCanBeDamageHandle, UpdateCanBeDamageTimerDelegate, 2.f, false);
 	}
+	else
+	{
+		/** Create mini map icon if this not server or owning client */
+		if(!IsLocallyControlled()) CreateMinMapIcon("Enemy");
+	}
 	OnPlayerInitializationComplete.Broadcast();
+	StaminaComponent->OnSuperSprintUsed.AddDynamic(this, &ASpaceWarCharacter::ASpaceWarCharacter::OnSuperStaminaUsedEvent);
 }
 
 bool ASpaceWarCharacter::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags)
@@ -148,6 +156,11 @@ bool ASpaceWarCharacter::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* 
 	if(ArmorObject) Channel->ReplicateSubobject(ArmorObject, *Bunch, *RepFlags);
 	
 	return ParentReturn;
+}
+
+void ASpaceWarCharacter::Jump()
+{
+	if(!StaminaComponent->GetSuperSprintSpeed() || !StaminaComponent->IsStaminaUse()) Super::Jump();
 }
 
 void ASpaceWarCharacter::Server_InitArmor_Implementation(const FName& ArmorName)
@@ -372,8 +385,7 @@ void ASpaceWarCharacter::NetMulticast_PlayUseJetpackSound_Implementation()
 
 void ASpaceWarCharacter::OwnerStartUseStamina()
 {
-	if(!bCanWeaponManipulation || WeaponManager->GetCurrentWeapon()->GetAdditionalUse() || !bMoveForward) return;
-	if(StaminaComponent->GetCurrentStaminaValue() <= 0 || WeaponManager->GetCurrentWeapon()->GetAdditionalUse()) return;
+	if(!bCanWeaponManipulation || WeaponManager->GetCurrentWeapon()->GetAdditionalUse() || !bMoveForward || StaminaComponent->GetCurrentStaminaValue() <= 0) return;
 	
 	StaminaComponent->Server_StartUseStamina();
 }
@@ -495,10 +507,10 @@ void ASpaceWarCharacter::OnUpdateRecoilTimeLine(const FVector& Vector)
 void ASpaceWarCharacter::UpdateWeaponRecoil()
 {
 	/** Add Vertical recoil */
-	AddControllerPitchInput(-WeaponRecoil.Z);
+	AddControllerPitchInput(-WeaponRecoil.Z * 1.8f);
 
 	/** Add horizontal recoil */
-	AddControllerYawInput(-WeaponRecoil.X);
+	AddControllerYawInput(-WeaponRecoil.X * 1.8f);
 }
 
 void ASpaceWarCharacter::Server_CreateWeapon_Implementation(EWeaponType Type, const FName& Id)
@@ -536,3 +548,62 @@ void ASpaceWarCharacter::Server_ReplacementThrow_Implementation(const FName& Id)
 	WeaponManager->CreateThrow(Id);
 }
 
+void ASpaceWarCharacter::ToggleUseSuperSprint()
+{
+	if(!StaminaComponent->IsCanToggleSuperStamina()) return;
+	if(StaminaComponent->IsSuperSprintUsed())
+	{
+		GetCharacterMovement()->MaxWalkSpeed = ArmorObject->GetData().MaxBaseSpeed;
+		Server_StopUseSuperSprint();
+		GetLocalMesh()->SetVisibility(true);
+	}
+	else
+	{
+		if(bCanWeaponManipulation && !WeaponManager->GetCurrentWeapon()->GetAdditionalUse() && bMoveForward && !GetCharacterMovement()->IsFalling())
+		{
+			GetCharacterMovement()->MaxWalkSpeed = GetStaminaComponent()->GetSuperSprintSpeed();
+			Server_StartUseSuperSprint();
+		}
+	}
+}
+
+void ASpaceWarCharacter::Server_StartUseSuperSprint_Implementation()
+{
+	if(!StaminaComponent->IsCanToggleSuperStamina()) return;
+	
+	bCanWeaponManipulation = false;
+	GetCharacterMovement()->MaxWalkSpeed = GetStaminaComponent()->GetSuperSprintSpeed();
+	StaminaComponent->StartUseSuperSprint();
+}
+
+void ASpaceWarCharacter::Server_StopUseSuperSprint_Implementation()
+{
+	if(!StaminaComponent->IsCanToggleSuperStamina()) return;
+	
+	GetCharacterMovement()->MaxWalkSpeed = ArmorObject->GetData().MaxBaseSpeed;
+	StaminaComponent->StopUseSuperSprint();
+}
+
+void ASpaceWarCharacter::OnSuperStaminaUsedEvent(bool bUse)
+{
+	FTimerDelegate TimerDel;
+	FTimerHandle TimerHandle;
+	if(bUse)
+	{
+		TimerDel.BindLambda([&]() -> void
+		{
+			WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "SKT_FlagPoint");
+            if(IsLocallyControlled()) GetLocalMesh()->SetVisibility(false);
+		});
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, WeaponManager->GetCurrentWeapon()->GetSelectTime(), false);
+	}
+	else
+	{
+		WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "WeaponPoint");
+		TimerDel.BindLambda([&]() -> void
+		{
+			bCanWeaponManipulation = true;
+		});
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, WeaponManager->GetCurrentWeapon()->GetSelectTime(), false);
+	}
+}

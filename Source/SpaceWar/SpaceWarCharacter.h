@@ -66,6 +66,18 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 
 	void CreateArmor(const FName& Id);
 
+	UFUNCTION(Server, Reliable)
+	void Server_StartUseSuperSprint();
+
+	UFUNCTION(Server, Reliable)
+	void Server_StopUseSuperSprint();
+
+	UFUNCTION()
+	void ToggleUseSuperSprint();
+	
+	UFUNCTION()
+	void OnSuperStaminaUsedEvent(bool bUse);
+
 public:
 	ASpaceWarCharacter();
 	
@@ -75,6 +87,7 @@ public:
 	
 	virtual void GetCauserInfo_Implementation(FDamageCauserInfo& DamageCauserInfo) override;
 	virtual void RefreshAmmo_Implementation() override;
+	virtual void Jump() override;
 	
 	virtual void OnConstruction(const FTransform& Transform) override;
 
@@ -156,6 +169,12 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent)
     void StopAiming();
+    
+    UFUNCTION(BlueprintImplementableEvent)
+	void CreateMinMapIcon(FName RowName);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateMeshMaterialByOwnerTeam();
 
 public:
 
