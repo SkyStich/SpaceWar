@@ -61,7 +61,7 @@ FVector2D UMiniMapObjectIconBase::CalculatePosition(UMiniMapBase* MiniMap, float
 
 void UMiniMapObjectIconBase::UpdateObjectLocation()
 {
-	if(!GetOwningPlayer() || !GetObjectIconOwner())
+	if(!GetOwningPlayer() || !GetObjectIconOwner() || !GetOwningPlayerPawn())
 	{
 		bUpdate = false;
 		RemoveFromParent();
