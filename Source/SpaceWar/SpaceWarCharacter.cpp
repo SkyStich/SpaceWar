@@ -2,6 +2,7 @@
 
 #include "SpaceWarCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/HealthComponent.h"
@@ -160,7 +161,7 @@ bool ASpaceWarCharacter::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* 
 
 void ASpaceWarCharacter::Jump()
 {
-	if(!StaminaComponent->GetSuperSprintSpeed() || !StaminaComponent->IsStaminaUse()) Super::Jump();
+	if(!StaminaComponent->GetSuperSprintSpeed() && !StaminaComponent->IsStaminaUse()) Super::Jump();
 }
 
 void ASpaceWarCharacter::Server_InitArmor_Implementation(const FName& ArmorName)
@@ -357,8 +358,8 @@ void ASpaceWarCharacter::UseJetpackPressed()
 	if(!ArmorObject) return;
 	if(JetpackComponent->IsAbleToUseJetpack() && ArmorObject->GetData().bCanUseJetPack)
 	{
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), UseJetpackSound, GetActorLocation(),FRotator::ZeroRotator,
-            UseJetpackSound->VolumeMultiplier, UseJetpackSound->PitchMultiplier, 0, UseJetpackSound->AttenuationSettings);
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundData.UseJetpackSound, GetActorLocation(),FRotator::ZeroRotator,
+            SoundData.UseJetpackSound->VolumeMultiplier, SoundData.UseJetpackSound->PitchMultiplier, 0, SoundData.UseJetpackSound->AttenuationSettings);
 		
 		Server_UseJetpack();
 	}
@@ -378,8 +379,8 @@ void ASpaceWarCharacter::NetMulticast_PlayUseJetpackSound_Implementation()
 {
 	if(!Controller)
 	{
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), UseJetpackSound, GetActorLocation(),FRotator::ZeroRotator,
-			UseJetpackSound->VolumeMultiplier, UseJetpackSound->PitchMultiplier, 0, UseJetpackSound->AttenuationSettings);
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundData.UseJetpackSound, GetActorLocation(),FRotator::ZeroRotator,
+			SoundData.UseJetpackSound->VolumeMultiplier, SoundData.UseJetpackSound->PitchMultiplier, 0, SoundData.UseJetpackSound->AttenuationSettings);
 	}
 }
 
@@ -586,6 +587,8 @@ void ASpaceWarCharacter::Server_StopUseSuperSprint_Implementation()
 
 void ASpaceWarCharacter::OnSuperStaminaUsedEvent(bool bUse)
 {
+	static UAudioComponent* AudioComponent;
+	
 	FTimerDelegate TimerDel;
 	FTimerHandle TimerHandle;
 	if(bUse)
@@ -596,14 +599,24 @@ void ASpaceWarCharacter::OnSuperStaminaUsedEvent(bool bUse)
             if(IsLocallyControlled()) GetLocalMesh()->SetVisibility(false);
 		});
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, WeaponManager->GetCurrentWeapon()->GetSelectTime(), false);
+
+		if(GetNetMode() != ENetMode::NM_DedicatedServer)
+		{
+			AudioComponent = SpawnSoundAttachedCue(RootComponent, SoundData.StartUseSuperStaminaSound);
+		}
 	}
 	else
 	{
+	
 		WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "WeaponPoint");
-		TimerDel.BindLambda([&]() -> void
-		{
-			bCanWeaponManipulation = true;
-		});
+		
+		TimerDel.BindLambda([&]() -> void { bCanWeaponManipulation = true; });
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDel, WeaponManager->GetCurrentWeapon()->GetSelectTime(), false);
 	}
+}
+
+UAudioComponent* ASpaceWarCharacter::SpawnSoundAttachedCue(USceneComponent* AttachComponent, USoundCue* Sound)
+{
+	return UGameplayStatics::SpawnSoundAttached(Sound, AttachComponent, "None", GetActorLocation(), FRotator::ZeroRotator,
+            EAttachLocation::KeepRelativeOffset, true, Sound->VolumeMultiplier, Sound->PitchMultiplier, 0, Sound->AttenuationSettings);
 }

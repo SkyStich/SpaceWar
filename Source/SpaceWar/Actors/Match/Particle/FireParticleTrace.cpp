@@ -25,7 +25,7 @@ void AFireParticleTrace::Tick(float DeltaTime)
 	float const TempAlpha = FMath::FInterpConstantTo(Alpha, 1.f, DeltaTime, 8.f);
 	SetActorLocation(FMath::Lerp(GetActorLocation(), EndParticleLocation, TempAlpha));
 
-	if(GetActorLocation().Equals(EndParticleLocation, 0.2f))
+	if(GetActorLocation().Equals(EndParticleLocation, 0.8f))
 	{
 		Destroy();
 	}

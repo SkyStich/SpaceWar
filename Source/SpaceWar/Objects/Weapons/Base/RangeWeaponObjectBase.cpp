@@ -163,7 +163,7 @@ void URangeWeaponObjectBase::DropLineTrace()
 		auto const Particle = GetWorld()->SpawnActor<AFireParticleTrace>(CharacterOwner->GetWeaponMesh()->GetSocketLocation("Muzzle"), CharacterOwner->GetControlRotation(), Param);
 		if(Particle)
 		{
-			Particle->Init(Hit.ImpactPoint, WeaponData.Particles.TraceParticle);
+			Particle->Init(Hit.bBlockingHit ? Hit.ImpactPoint : Hit.TraceEnd, WeaponData.Particles.TraceParticle);
 		}
 	}
 #if UE_EDITOR                                                                                              

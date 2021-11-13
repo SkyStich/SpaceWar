@@ -19,6 +19,18 @@ class UHealthComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPlayerInitializationComplete);
 
+USTRUCT(BlueprintType)
+struct FSoundData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundCue* UseJetpackSound;
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundCue* StartUseSuperStaminaSound;
+};
+
 UCLASS(config=Game)
 class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, public IFirstAidInterface, public IUpdateAmmoInterface
 {
@@ -77,6 +89,8 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	
 	UFUNCTION()
 	void OnSuperStaminaUsedEvent(bool bUse);
+
+	UAudioComponent* SpawnSoundAttachedCue(USceneComponent* AttachComponent, USoundCue* Sound);
 
 public:
 	ASpaceWarCharacter();
@@ -239,8 +253,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	UArmorDataAsset* ArmorDataAsset;
 
-	UPROPERTY(EditAnywhere, Category = "Sound")
-	USoundCue* UseJetpackSound;
+	UPROPERTY(EditAnywhere)
+	FSoundData SoundData;
 
 	/** update on "UpdateWeaponRecoil". Use for update control pitch and yaw when weapon used */
 	FVector WeaponRecoil;
