@@ -12,8 +12,10 @@
 
 void URangeWeaponFinderBase::CreateSlot(UScrollBox* ScrollBox, UAmmunitionWidgetBase* MainWidget, TSubclassOf<UAmmunitionRangeWeaponSlotBase> SlotClass)
 {
-	/** ClearChild */
-	if(IsFinderActive) return;
+	if(IsFinderActive)
+	{
+		ClearChild(ScrollBox);
+	}
 	
 	auto const WeaponInInventory = MainWidget->GameInstanceBase->GetWeapons();
 
@@ -36,7 +38,10 @@ void URangeWeaponFinderBase::CreateSlot(UScrollBox* ScrollBox, UAmmunitionWidget
 
 void URangeWeaponFinderBase::CreateArmorSlots(UScrollBox* ScrollBox, UAmmunitionWidgetBase* MainWidget, TSubclassOf<UAmmunitionArmorSlotBase> SlotClass)
 {
-	if(IsFinderActive) return;
+	if(IsFinderActive)
+	{
+		ClearChild(ScrollBox);
+	}
 
 	/** get current armor id */
 	auto const Armor = MainWidget->GameInstanceBase->GetCurrentArmorId();
@@ -61,7 +66,10 @@ void URangeWeaponFinderBase::CreateArmorSlots(UScrollBox* ScrollBox, UAmmunition
 
 void URangeWeaponFinderBase::CreateThrowSlot(UScrollBox* ScrollBox, UAmmunitionWidgetBase* MainWidget, TSubclassOf<UAmmunitionThrowWidgetBase> SlotClass)
 {
-	if(IsFinderActive) return;
+	if(IsFinderActive)
+	{
+		ClearChild(ScrollBox);
+	}
 
 	auto const Throw = MainWidget->GameInstanceBase->GetCurrentThrowWeapon();
 

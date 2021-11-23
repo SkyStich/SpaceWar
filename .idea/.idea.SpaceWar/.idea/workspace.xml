@@ -60,91 +60,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/Default_Material.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/HealthStation.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/HealthStation_PhysicsAsset.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/HealthStation_Skeleton.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/SM_station_G_002_MAT_station_AmbientOcclus.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/SM_station_G_002_MAT_station_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/SM_station_G_002_MAT_station_Emissive.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/SM_station_G_002_MAT_station_Metallic.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/SM_station_G_002_MAT_station_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/SM_station_G_002_MAT_station_Opacity.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/SM_station_G_002_MAT_station_Roughness.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/HealthBox/lambert1.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/SpecialWeapon/FirstAidImage.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/SpecialWeapon/Turel.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/SpecialWeapon/WeaponBoxImage.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/ThrowWeapon/BaseGranateIcon.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/ThrowWeapon/Granade.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Image/ThrowWeapon/GroundMine.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/M_WeaponBox.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/M_WeaponBox2.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/WeaponBox.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/WeaponBox_PhysicsAsset.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/WeaponBox_Skeleton.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/corner_05_destruct_2_low_main_big_BaseColo.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/corner_05_destruct_2_low_main_big_Emissive.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/corner_05_destruct_2_low_main_big_Metallic.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/corner_05_destruct_2_low_main_big_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/corner_05_destruct_2_low_main_big_Roughnes.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/corner_05_destruct_2_low_main_small_BaseCo.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/corner_05_destruct_2_low_main_small_Emissi.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/corner_05_destruct_2_low_main_small_Metall.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/corner_05_destruct_2_low_main_small_Normal.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/WeaponBox/corner_05_destruct_2_low_main_small_Roughn.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Pawns/SpecialObject/MySpecialWeaponObjectBase.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Pawns/SpecialObject/TurelController.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Match/Desert_03.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/Transition/TransitionMap.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/AmmoStats/ThrowAmmoStats.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/BPFLibrary/LoadObjectsInMemoryLibrary.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/SpaceWar/BPFLibrary/LoadObjectsInMemoryLibrary.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Build/WindowsNoEditor/FileOpenOrder/EditorOpenOrder.log" beforeDir="false" afterPath="$PROJECT_DIR$/Build/WindowsNoEditor/FileOpenOrder/EditorOpenOrder.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/Animations/NewTPP_Animation/Grab_Rifle_From_Ащкцфкв.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/NewHeroTPP/Equip_Rifle_Standing.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/MobileStarterContent/Audio/Explosion_Cue.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/MobileStarterContent/Audio/Explosion_Cue.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Weapons/Turel/TurelAnimGruf.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Weapons/Turel/TurelAnimGruf.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/MySpecialControllerBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/MySpecialControllerBase.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/MySpecialWeaponObjectBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/MySpecialWeaponObjectBase.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterBundle/CollectionMaps/Map1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterBundle/CollectionMaps/Map1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameModes/MainMenu/Authorization/AuthorizationGMTest.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameState/BP_CaptureAndHoldGameState.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/GameState/BP_CaptureAndHoldGameState.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Pawns/SpecialObject/BP_AmmunitionStation.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Pawns/SpecialObject/BP_AmmunitionStation.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Pawns/SpecialObject/BP_FirstAidStation.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Pawns/SpecialObject/BP_FirstAidStation.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataAssets/EquipWeaponDataAsset.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataAssets/EquipWeaponDataAsset.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataTables/DT_SpecialWeaponObject.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/DataTables/DT_SpecialWeaponObject.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/EmptyMap/StartPlayerMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/EmptyMap/StartPlayerMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/MainHUB/MainHUBLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/MainHUB/MainHUBLevel.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/MainHUB/MainHUBLevel_BuiltData.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/MainHUB/MainHUBLevel_BuiltData.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/ThirdPersonExampleMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_AmmunitionRangeWeaponSlot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_AmmunitionRangeWeaponSlot.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_AmmunitionThrowSlot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/AmmunitionState/W_AmmunitionThrowSlot.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_CaptureHoldHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_CaptureHoldHUD.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_MatchHUD.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/UI/Matches/LastWidget/W_MatchHUD.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/EquipableWeaponManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/SpecialObject/SpecialObjectHealthComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/SpecialObject/SpecialObjectHealthComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Components/SpecialObject/SpecialObjectHealthComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Components/SpecialObject/SpecialObjectHealthComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Controllers/SpecialControllers/Base/SpecialControllerBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Controllers/SpecialControllers/Base/SpecialControllerBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Controllers/SpecialControllers/Base/SpecialControllerBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Controllers/SpecialControllers/Base/SpecialControllerBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Controllers/SpecialControllers/SpecialTurelController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Controllers/SpecialControllers/SpecialTurelController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Controllers/SpecialControllers/SpecialTurelController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Controllers/SpecialControllers/SpecialTurelController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Menu/AuthorizationGameMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Menu/AuthorizationGameMode.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Menu/AuthorizationGameMode.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameModes/Menu/AuthorizationGameMode.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/HUD/Match/CaptureAndHoldHUD.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/BaseMineObject.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/BaseMineObject.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/Objects/WeaponsThrow/ThrowWeaponBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/SpaceWarCharacter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SpaceWar.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/SpaceWar.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +87,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Objects/Weapons/Base/BaseWeaponObject.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MatchChatWidgetBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/MatchChatWidgetBase.cpp" />
@@ -221,6 +137,7 @@
       <option value="$PROJECT_DIR$/Source/SpaceWar/Controllers/SpecialControllers/Base/SpecialControllerBase.cpp" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h" />
       <option value="$PROJECT_DIR$/Source/SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.cpp" />
+      <option value="$PROJECT_DIR$/Source/SpaceWar/UserWidget/Match/RangeWeaponFinderBase.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1rUeDhcSZlTnJVV5RT2Z1CkbRD4" />
@@ -34673,6 +34590,7 @@
       <workItem from="1637614042978" duration="625000" />
       <workItem from="1637616301947" duration="573000" />
       <workItem from="1637660665263" duration="9045000" />
+      <workItem from="1637672817690" duration="1230000" />
     </task>
     <servers />
   </component>
