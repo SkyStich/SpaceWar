@@ -2,10 +2,13 @@
 
 
 #include "SpecialWeaponObjectBase.h"
+#include "AIController.h"
 #include "Net/UnrealNetwork.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "SpaceWar/SpaceWarCharacter.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ASpecialWeaponObjectBase::ASpecialWeaponObjectBase()
@@ -23,6 +26,9 @@ ASpecialWeaponObjectBase::ASpecialWeaponObjectBase()
 	SkeletalMesh->SetupAttachment(RootComponent);
 
 	ObjectHealthComponent = CreateDefaultSubobject<USpecialObjectHealthComponent>(TEXT("SpecialObjectHealth"));
+
+	ConstructorHelpers::FObjectFinder<USoundCue>DestroySoundFinder(TEXT("/Game/Assets/MobileStarterContent/Audio/Explosion_Cue"));
+	if(DestroySoundFinder.Succeeded()) DestroySound = DestroySoundFinder.Object;
 	
 	bReplicates = true;
 	NetUpdateFrequency = 10.f;
@@ -63,6 +69,7 @@ void ASpecialWeaponObjectBase::BeginPlay()
 	if(GetLocalRole() == ROLE_Authority)
 	{
 		bObjectConstruct = true;
+		ObjectHealthComponent->OnHealthEnded.AddDynamic(this, &ASpecialWeaponObjectBase::OnHealthEnded);
 		
 		if(!GetInstigator()->IsLocallyControlled())
 		{
@@ -167,4 +174,19 @@ void ASpecialWeaponObjectBase::PlaceSucceeded()
 		Team = IGetPlayerTeamInterface::Execute_FindPlayerTeam(OwnerController->PlayerState);
 	}
 	OnPlaceSucceeded.Broadcast(this);
+}
+
+void ASpecialWeaponObjectBase::OnHealthEnded()
+{
+	Destroy();
+}
+
+void ASpecialWeaponObjectBase::Destroyed()
+{
+	if(GetLocalRole() != ROLE_Authority)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DestroyParticle, GetActorLocation());
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), DestroySound, GetActorLocation(), FRotator::ZeroRotator,
+            DestroySound->VolumeMultiplier, DestroySound->PitchMultiplier, 0.f, DestroySound->AttenuationSettings);
+	}
 }

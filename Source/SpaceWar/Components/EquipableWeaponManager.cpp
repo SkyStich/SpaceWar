@@ -154,16 +154,11 @@ bool UEquipableWeaponManager::CreateThrow(const FName Name)
 	return ThrowWeaponBase != nullptr;
 }
 
-void UEquipableWeaponManager::OnThrowUsed(bool bUsed)
-{
-	
-}
-
 void UEquipableWeaponManager::OnRep_ThrowWeapon()
 {
 	if(ThrowWeaponBase != nullptr)
 	{
-		ThrowWeaponBase->OnWeaponUsed.AddDynamic(this, &UEquipableWeaponManager::OnThrowUsed);
+		OnThrowChanged.Broadcast(ThrowWeaponBase);
 	}
 }
 

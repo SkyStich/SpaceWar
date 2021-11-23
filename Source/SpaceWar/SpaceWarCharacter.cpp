@@ -115,6 +115,7 @@ void ASpaceWarCharacter::BeginPlay()
 			if(!GI) return;
 		
 			Server_InitArmor(GI->GetCurrentArmorId());
+			Server_CreateThrow(GI->GetCurrentThrowWeapon());
 
 			for(auto& ByArray : GI->GetWeapons())
 			{
@@ -133,7 +134,6 @@ void ASpaceWarCharacter::BeginPlay()
 		SetActorTickEnabled(false);
 		FTimerHandle TimerHand;
 		GetWorld()->GetTimerManager().SetTimer(TimerHand, this, &ASpaceWarCharacter::ReplicateUpPitch, 0.05f, true);
-		WeaponManager->CreateThrow("Mine");
 
 		/** 2 ser later after spawn the player can be damage */
 		FTimerDelegate UpdateCanBeDamageTimerDelegate;
@@ -619,4 +619,9 @@ UAudioComponent* ASpaceWarCharacter::SpawnSoundAttachedCue(USceneComponent* Atta
 {
 	return UGameplayStatics::SpawnSoundAttached(Sound, AttachComponent, "None", GetActorLocation(), FRotator::ZeroRotator,
             EAttachLocation::KeepRelativeOffset, true, Sound->VolumeMultiplier, Sound->PitchMultiplier, 0, Sound->AttenuationSettings);
+}
+
+void ASpaceWarCharacter::Server_CreateThrow_Implementation(const FName& Id)
+{
+	WeaponManager->CreateThrow(Id);
 }

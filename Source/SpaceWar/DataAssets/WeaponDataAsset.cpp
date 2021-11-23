@@ -17,16 +17,6 @@ USkeletalMesh* UWeaponDataAsset::GetWeaponMesh(TAssetPtr<USkeletalMesh> ItemMesh
 	return ItemMesh.Get();
 }
 
-UTexture2D* UWeaponDataAsset::GetIcon(TAssetPtr<UTexture2D> IconPtr)
-{
-	if(IconPtr.IsPending())
-	{
-		auto const SoftObject = IconPtr.ToSoftObjectPath();
-		IconPtr = Cast<UTexture2D>(UBaseSingleton::Get().AssetLoader.LoadSynchronous(IconPtr));
-	}
-	return IconPtr.Get();
-}
-
 FBaseThrowData UWeaponDataAsset::GetThrowData(const FName& WeaponName) const
 {
 	return ThrowWeaponData.FindRef(WeaponName);

@@ -83,5 +83,8 @@
 			"Name": "AvfMedia",
 			"Enabled": false
 		}
+	],
+	"TargetPlatforms": [
+		"WindowsNoEditor"
 	]
 }

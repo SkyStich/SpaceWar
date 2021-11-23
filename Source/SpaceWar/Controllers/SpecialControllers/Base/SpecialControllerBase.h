@@ -15,6 +15,7 @@ class SPACEWAR_API ASpecialControllerBase : public AAIController
 protected:
 
 	virtual void OnPossess(APawn* InPawn) override;
+	virtual void OnUnPossess() override;
 public:
 
 	ASpecialControllerBase();

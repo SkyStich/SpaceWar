@@ -14,4 +14,7 @@ class SPACEWAR_API AAuthorizationGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+
+	AAuthorizationGameMode();
 };

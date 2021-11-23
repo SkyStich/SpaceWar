@@ -11,6 +11,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCurrentWeaponChanged, UBaseWeaponObject*, NewCurrentWeapon);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWeaponSelect, bool, NewState);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FThrowChanged, UThrowWeaponBase*, Throw);
 
 UENUM(BlueprintType)
 enum class EWeaponType : uint8
@@ -58,9 +59,6 @@ class SPACEWAR_API UEquipableWeaponManager : public UActorComponent
 	
 	UFUNCTION()
 	void OnRep_ThrowWeapon();
-
-	UFUNCTION()
-	void OnThrowUsed(bool bUsed);
 	
 	UFUNCTION()
 	void CurrentWeaponUnEquip(UBaseWeaponObject* NewWeapon);
@@ -140,4 +138,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "WeaponManager|Delegate")
 	FWeaponSelect OnWeaponSelect;
+
+	UPROPERTY(BlueprintAssignable, Category = "WeaponManager|Delegate")
+	FThrowChanged OnThrowChanged;
 };

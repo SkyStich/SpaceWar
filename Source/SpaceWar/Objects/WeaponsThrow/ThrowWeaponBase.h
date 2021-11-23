@@ -9,6 +9,7 @@
 
 class ASpaceWarCharacter;
 
+/** called when the player has thrown a grenade (released it from his hands) */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWeaponThrow);
 
 UCLASS(Abstract)
@@ -32,7 +33,10 @@ public:
 	void Init(const FBaseThrowData& NewData);
 	void IncrementCurrentAmount();
 
+	UFUNCTION(BlueprintPure)
 	FBaseThrowData GetThrowData() const { return ThrowData; }
+
+	UFUNCTION(BlueprintPure)
 	int32 GetCurrentAmount() const { return CurrentAmountThrow; }
 
 protected:

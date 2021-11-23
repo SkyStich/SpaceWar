@@ -36,12 +36,15 @@ void UBaseMineObject::FindPositionForSettingsMine(AController* OwnerController)
 	FHitResult VerticalHit;
 	bool const bVerticalTraceSucceeded = GetWorld()->LineTraceSingleByObjectType(VerticalHit, VerticalTraceStart, VerticalTraceEnd, QueryParams);
 
+#if UE_EDITOR
 	DrawDebugLine(GetWorld(), VerticalTraceStart, VerticalTraceEnd, FColor::Green, true, false, 2.f);
 	DrawDebugSphere(GetWorld(), bVerticalTraceSucceeded ? VerticalHit.ImpactPoint : VerticalHit.TraceEnd, 12.f, 16, FColor::Yellow, true, false);
-
+#endif
+	
 	if(bVerticalTraceSucceeded)
 	{
 		SettingsMine(OwnerController, VerticalHit.ImpactPoint);
+		OnWeaponThrow.Broadcast();
 	}
 	StopUseWeapon();
 }
@@ -63,10 +66,8 @@ ABaseMineProjectile* UBaseMineObject::SettingsMine(AController* OwnerController,
 		SpawnMime->Init(OwnerController, &ThrowData);
 		return SpawnMime;
 	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Mine can not spawn!"), *GetName());
-	}
+
+	UE_LOG(LogTemp, Error, TEXT("Mine can not spawn!"), *GetName());
 	return nullptr;
 }
 

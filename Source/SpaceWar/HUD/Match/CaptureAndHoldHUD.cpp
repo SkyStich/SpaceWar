@@ -40,11 +40,7 @@ void ACaptureAndHoldHUD::NewOwningPlayerPawn(APawn* Pawn)
 {
 	Super::NewOwningPlayerPawn(Pawn);
 
-	if(GetOwningPlayerController()->GetCharacter())
-	{
-		RemovePreparationWidget();
-	}
-	else
+	if(!GetOwningPlayerController()->GetCharacter())
 	{
 		CreatePreparationWidget();
 		HiddenPreparationWidget();

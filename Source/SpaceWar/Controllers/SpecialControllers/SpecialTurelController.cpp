@@ -4,10 +4,14 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Perception/AISense_Sight.h"
+#include "GameFramework/Character.h"
+#include "Perception/AISenseConfig_Sight.h"
 
 ASpecialTurelController::ASpecialTurelController()
 {
-	Perception = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("PerceptionComponent"));
+	SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("PerceptionComponent")));
+
+	SetupPerception();
 }
 
 void ASpecialTurelController::OnPossess(APawn* InPawn)
@@ -42,9 +46,21 @@ void ASpecialTurelController::OnPerceptionUpdate(AActor* Actor, FAIStimulus Stim
 {
 	if(Stimulus.WasSuccessfullySensed())
 	{
-		auto const PS = Actor->GetInstigatorController()->PlayerState;
+		/** return if actor have not controller */
+		auto const TargetCharacter = Cast<ACharacter>(Actor);
+		if(!TargetCharacter) return;
+		
+		auto const PS = TargetCharacter->Controller->PlayerState;
 		if(TurelPawn->bObjectUsed || !PS->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass())) return;                                                         
 
+		if(TurelPawn->TargetActor)
+		{
+			/** Calculate distance from current target to new target */
+			float const OldTargetDistance = FVector::Distance(GetPawn()->GetActorLocation(), TurelPawn->TargetActor->GetActorLocation());
+			float const NewTargetDistance = FVector::Distance(GetPawn()->GetActorLocation(), TargetCharacter->GetActorLocation());
+			if(NewTargetDistance < OldTargetDistance) TurelPawn->TargetActor = TargetCharacter;
+		}
+		
 		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(PS) != TurelPawn->Team)
 		{
 			GetWorld()->GetTimerManager().ClearTimer(PerceptionRefreshHandle);
@@ -96,7 +112,9 @@ void ASpecialTurelController::DropTraceForTarget()
 		FVector const HitFromDirection = (OutHit.TraceEnd - OutHit.TraceStart).GetSafeNormal();
 		UGameplayStatics::ApplyPointDamage(TurelPawn->TargetActor, TurelPawn->BaseDamage, HitFromDirection, OutHit, TurelPawn->OwnerController, this, UDamageType::StaticClass());
 	}
+#if UE_EDITOR
 	Test(OutHit);
+#endif
 }
 
 void ASpecialTurelController::Test_Implementation(const FHitResult& Hit)
@@ -142,4 +160,23 @@ void ASpecialTurelController::StopRateDelay()
 	{
 		UseObject();
 	}
+}
+
+void ASpecialTurelController::SetupPerception()
+{
+	auto SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightConfig"));
+	SightConfig->SightRadius = 3000.f;
+	SightConfig->LoseSightRadius = 3500.f;
+	SightConfig->PeripheralVisionAngleDegrees = 180.f;
+
+	/** set sense affiliation filter */
+	FAISenseAffiliationFilter SenseAffiliationFilter;
+	SenseAffiliationFilter.bDetectEnemies = true;
+	SenseAffiliationFilter.bDetectFriendlies = true;
+	SenseAffiliationFilter.bDetectNeutrals = true;
+	SightConfig->DetectionByAffiliation = SenseAffiliationFilter;
+
+	SightConfig->SetMaxAge(3.f);
+	GetPerceptionComponent()->SetDominantSense(*SightConfig->GetSenseImplementation());
+	GetPerceptionComponent()->ConfigureSense(*SightConfig);
 }

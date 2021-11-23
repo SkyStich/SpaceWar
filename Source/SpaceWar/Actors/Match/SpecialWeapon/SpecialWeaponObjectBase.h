@@ -24,6 +24,9 @@ class SPACEWAR_API ASpecialWeaponObjectBase : public APawn, public ICurrentChara
 	
 	UFUNCTION()
 	void UpdateLocation();
+
+	UFUNCTION()
+	void OnHealthEnded();
 	
 	UFUNCTION(Server, Unreliable)
 	void Server_InstigatorIsNull();
@@ -33,15 +36,15 @@ public:
 	ASpecialWeaponObjectBase();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
-	void UpdateLocation(const FVector& Location) { SetActorLocation(Location); }
-
 	virtual bool InteractionObject_Implementation(ASpaceWarCharacter* Player) override;
+	virtual void Destroyed() override;
+	void SetOwnerController(AMatchPlayerControllerBase* NewOwnerController) { OwnerController = NewOwnerController; }
+	void UpdateLocation(const FVector& Location) { SetActorLocation(Location); }
 
 	UFUNCTION(BlueprintPure)
 	ETeam GetTeam() const { return Team; }
-
-	void SetOwnerController(AMatchPlayerControllerBase* NewOwnerController) { OwnerController = NewOwnerController; }
+ 
+	USpecialObjectHealthComponent* GetObjectHealthComponent() const { return ObjectHealthComponent; }
 
 protected:
 	// Called when the game starts or when spawned
@@ -78,4 +81,10 @@ protected:
 	
 	UPROPERTY(ReplicatedUsing = OnRep_ObjectConstruct)
 	bool bObjectConstruct;
+	
+	UPROPERTY(BlueprintReadOnly)
+	USoundCue* DestroySound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UParticleSystem* DestroyParticle;
 };

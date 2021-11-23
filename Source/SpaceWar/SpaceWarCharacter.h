@@ -84,6 +84,9 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	UFUNCTION(Server, Reliable)
 	void Server_StopUseSuperSprint();
 
+	UFUNCTION(Server, Reliable)
+	void Server_CreateThrow(const FName& Id);
+
 	UFUNCTION()
 	void ToggleUseSuperSprint();
 	

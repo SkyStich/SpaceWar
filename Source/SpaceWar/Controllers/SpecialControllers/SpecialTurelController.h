@@ -25,6 +25,7 @@ class SPACEWAR_API ASpecialTurelController : public ASpecialControllerBase
 	void StopRateDelay();
 	void StopObjectUse(bool bRefresh);
 	void DropTraceForTarget();
+	void SetupPerception();
 
 	UFUNCTION(NetMulticast, Unreliable)
 	void Test(const FHitResult& Hit);

@@ -217,9 +217,6 @@ public:
 	
 	URangeWeaponObjectBase* CreateWeaponObject(const FName& WeaponName, UObject* WorldContext, UObject* Outer);
 	UThrowWeaponBase* CreateThrowWeaponObject(const FName& WeaponName, UObject* WorldContext, UObject* Outer);
-
-	UFUNCTION(BlueprintCallable)
-	UTexture2D* GetIcon(TAssetPtr<UTexture2D> IconPtr);
 	
 	UFUNCTION(BlueprintPure, Category = "DataAsset")
 	TMap<FName, FEquipWeaponData> GetWeaponData() const { return EquipWeaponData; }

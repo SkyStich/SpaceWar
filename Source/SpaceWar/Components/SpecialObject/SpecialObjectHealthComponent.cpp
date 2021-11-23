@@ -3,6 +3,8 @@
 
 #include "SpecialObjectHealthComponent.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "UObject/ConstructorHelpers.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Net/UnrealNetwork.h"
 
@@ -60,6 +62,7 @@ void USpecialObjectHealthComponent::IncreaseHealth(float Value)
 	{
 		CurrentHealth = MaxHealth;
 		bIsDead = false;
+
 		OnRep_IsDead();
 	}
 }
