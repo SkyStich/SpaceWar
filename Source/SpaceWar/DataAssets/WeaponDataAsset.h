@@ -211,7 +211,9 @@ class SPACEWAR_API UWeaponDataAsset : public UDataAsset
 	
 public:
 	
+	UFUNCTION(BlueprintPure)
 	USkeletalMesh* GetWeaponMesh(TAssetPtr<USkeletalMesh> ItemMesh) const;
+	
 	FEquipWeaponData GetEquipWeaponData(const FName& WeaponName) const;
 	FBaseThrowData GetThrowData(const FName& WeaponName) const;
 	

@@ -32,6 +32,8 @@ struct FEquipmentSave
 	TArray<FCurrentWeaponKey> Value;
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFirstWeaponChanged, const FName&, Id);
+
 UCLASS()
 class SPACEWAR_API UBaseGameInstance : public UGameInstance
 {
@@ -101,6 +103,8 @@ public:
     UPROPERTY(BlueprintReadWrite)
     TMap<EWeaponType, FName> Weapons;
 
+	UPROPERTY(BlueprintAssignable)
+	FFirstWeaponChanged OnFirstWeaponChanged;
 private:
 
 	UPROPERTY()

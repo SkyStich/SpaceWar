@@ -35,6 +35,11 @@ FName UBaseGameInstance::FindWeaponByType(EWeaponType Type, const TMap<EWeaponTy
 
 void UBaseGameInstance::ReplacementWeapon(EWeaponType Key, const FName& NewId)
 {
+	if(Key == EWeaponType::FirstWeapon)
+	{
+		OnFirstWeaponChanged.Broadcast(NewId);
+	}
+	
 	for(auto& ByArray : Weapons)
 	{
 		if(ByArray.Key == Key) ByArray.Value = NewId;
