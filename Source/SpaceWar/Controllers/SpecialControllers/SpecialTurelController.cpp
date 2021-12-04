@@ -27,12 +27,12 @@ void ASpecialTurelController::OnPossess(APawn* InPawn)
 
 void ASpecialTurelController::OwnerPlaced(ASpecialWeaponObjectBase* SpecialWeapon)
 {
-	Perception->OnTargetPerceptionUpdated.AddDynamic(this, &ASpecialTurelController::OnPerceptionUpdate);
+	GetPerceptionComponent()->OnTargetPerceptionUpdated.AddDynamic(this, &ASpecialTurelController::OnPerceptionUpdate);
 }
 
 void ASpecialTurelController::ObjectDead()
 {
-	Perception->OnTargetPerceptionUpdated.RemoveAll(this);
+	GetPerceptionComponent()->OnTargetPerceptionUpdated.RemoveAll(this);
 	TurelPawn->TargetActor = nullptr;
 	StopObjectUse(false);
 }
@@ -88,7 +88,7 @@ void ASpecialTurelController::OnPerceptionUpdate(AActor* Actor, FAIStimulus Stim
 AActor* ASpecialTurelController::GetFirstPerceptionByTeam()
 {
 	TArray<AActor*> Actors;
-	Perception->GetKnownPerceivedActors(UAISense_Sight::StaticClass(), Actors);
+	GetPerceptionComponent()->GetKnownPerceivedActors(UAISense_Sight::StaticClass(), Actors);
 	for(auto& ByArray : Actors)
 	{
 		auto const PS = ByArray->GetInstigatorController()->PlayerState;
@@ -106,6 +106,7 @@ void ASpecialTurelController::DropTraceForTarget()
 
 	FCollisionQueryParams Query;
 	Query.AddIgnoredActor(this);
+	Query.AddIgnoredActor(GetPawn());
 	FHitResult OutHit;
 	if(GetWorld()->LineTraceSingleByChannel(OutHit, TurelPawn->GetActorLocation(), TurelPawn->TargetActor->GetActorLocation(), ECC_Visibility, Query))
 	{

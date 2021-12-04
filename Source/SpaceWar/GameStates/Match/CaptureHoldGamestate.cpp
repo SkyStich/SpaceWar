@@ -22,11 +22,6 @@ void ACaptureHoldGamestate::BeginPlay()
 	}
 }
 
-void ACaptureHoldGamestate::FinishPreparationGame(bool bResult)
-{
-	Super::FinishPreparationGame(bResult);
-}
-
 void ACaptureHoldGamestate::MatchFinish_Implementation(const FString& Reason, ETeam WinnerTeam)
 {
 	Super::MatchFinish_Implementation(Reason, WinnerTeam);

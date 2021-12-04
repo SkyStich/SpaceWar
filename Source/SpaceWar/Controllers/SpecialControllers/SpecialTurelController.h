@@ -48,9 +48,6 @@ protected:
 
 protected:
 
-	UPROPERTY(VisibleAnywhere)
-	UAIPerceptionComponent* Perception;
-
 	UPROPERTY()
 	ABaseTurelPawn* TurelPawn;
 

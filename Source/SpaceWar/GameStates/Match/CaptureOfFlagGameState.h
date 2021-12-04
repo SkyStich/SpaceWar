@@ -33,6 +33,9 @@ public:
 	virtual void MatchStarted() override;
 	void UpdateTeamPoints(ETeam Team, int32 Value, EReasonForEndOfRound ReasonEndOfRound);
 
+	UFUNCTION(BlueprintPure)
+	ETeam GetSecurityTeam() const { return SecurityTeam; }
+
 protected:
 
 	virtual void RefreshRound();
@@ -40,7 +43,6 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PlayerDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser) override;
-	virtual void FinishPreparationGame(bool bResult) override;
 
 	UFUNCTION(NetMulticast, Reliable)
     void NetMulticast_RoundEnded(const FString& Reason, ETeam WinnerTeam, EReasonForEndOfRound ReasonEndOfRound);
@@ -53,9 +55,6 @@ protected:
 
 	UFUNCTION(BlueprintPure)
     int32 GetCurrentPreparationTime() const { return CurrentPreparationTime; }
-
-	UFUNCTION(BlueprintPure)
-	ETeam GetSecurityTeam() const { return SecurityTeam; }
     
 private:
 	

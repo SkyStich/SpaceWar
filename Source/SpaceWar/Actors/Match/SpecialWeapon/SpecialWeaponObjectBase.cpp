@@ -15,7 +15,7 @@ ASpecialWeaponObjectBase::ASpecialWeaponObjectBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	SetActorTickInterval(0.05f);
+	SetActorTickInterval(0.f);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	
@@ -60,10 +60,6 @@ void ASpecialWeaponObjectBase::BeginPlay()
 	if(GetInstigator()->IsLocallyControlled())
 	{
 		SetActorTickEnabled(true);
-	}
-	else
-	{
-		SkeletalMesh->SetVisibility(false);
 	}
 
 	if(GetLocalRole() == ROLE_Authority)
@@ -130,10 +126,12 @@ void ASpecialWeaponObjectBase::UpdateLocation()
 	{
 		GetWorld()->LineTraceSingleByChannel(NewHit, OutHit.TraceEnd, OutHit.TraceEnd - FVector(0.f, 0.f, 500.f), ECC_Visibility, Params);
 	}
-	
+
+#if UE_EDITOR
 	DrawDebugLine(GetWorld(), Location, TraceEnd, FColor::Green, false, 0.5f);
 	DrawDebugLine(GetWorld(), NewHit.TraceStart, NewHit.TraceEnd, FColor::Blue, false, 0.5f);
 	DrawDebugSphere(GetWorld(), NewHit.ImpactPoint, 8.f, 8, FColor::Yellow);
+#endif
 	
 	SetActorLocation(NewHit.ImpactPoint);
 	SetActorRotation(GetInstigator()->GetActorRotation());

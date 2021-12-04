@@ -58,7 +58,7 @@ protected:
 	virtual void MatchStarted();
 	
 	UFUNCTION()
-    virtual void FinishPreparationGame(bool bResult);
+    void FinishPreparationGame(bool bResult);
 
 public:
 

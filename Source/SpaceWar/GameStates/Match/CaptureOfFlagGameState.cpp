@@ -23,13 +23,6 @@ void ACaptureOfFlagGameState::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 	DOREPLIFETIME(ACaptureOfFlagGameState, CurrentPreparationTime);
 }
 
-void ACaptureOfFlagGameState::FinishPreparationGame(bool bResult)
-{
-	Super::FinishPreparationGame(bResult);
-
-	RefreshRound();
-}
-
 void ACaptureOfFlagGameState::RefreshRound()
 {
 	CurrentPreparationTime = 20;
@@ -125,7 +118,6 @@ void ACaptureOfFlagGameState::MatchStarted()
 	if(GetLocalRole() != ROLE_Authority) return;
 	
 	Super::MatchStarted();
-
 	RefreshRound();
 }
 

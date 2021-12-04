@@ -2,6 +2,8 @@
 
 
 #include "GameStateMatchGame.h"
+#include "GameFramework/Controller.h"
+#include "GameFramework/PlayerState.h"
 #include "Net/UnrealNetwork.h"
 #include "SpaceWar/GameModes/Match/Base/MatchGameModeBase.h"
 #include "SpaceWar/Interfaces/GetPlayerLoginInterface.h"
@@ -54,8 +56,13 @@ void AGameStateMatchGame::PreMatchFinish_Implementation(const FString& Reason, E
 
 void AGameStateMatchGame::PlayerDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)
 {
-	const FString InstigatorName = IGetPlayerLoginInterface::Execute_PlayerLoginFromController(InstigatorController);
-	const FString LoserName = IGetPlayerLoginInterface::Execute_PlayerLoginFromController(LoserController);
+	FString InstigatorName("");
+	if(InstigatorController)
+	{
+		 InstigatorName = InstigatorController->PlayerState->GetPlayerName();
+	}
+
+	const FString LoserName = LoserController->PlayerState->GetPlayerName();
 	NetMulticast_OnPlayerDead(InstigatorName, LoserName, DamageCauser);
 }
 

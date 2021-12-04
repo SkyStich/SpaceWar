@@ -38,8 +38,8 @@ void AFlagForCapture::BeginPlay()
 	{
 		SphereCollision->OnComponentBeginOverlap.AddDynamic(this, &AFlagForCapture::OnPointCaptureCollisionBeginOverlap);
 		auto const GS = Cast<ACaptureOfFlagGameState>(UGameplayStatics::GetGameState(GetWorld()));
-		if(GS)
-			GS->OnRoundEnded.AddDynamic(this, &AFlagForCapture::RoundEnded);
+		if(GS) GS->OnRoundEnded.AddDynamic(this, &AFlagForCapture::RoundEnded);
+		DefaultSpawnLocation = GetActorLocation();
 	}
 }
 
@@ -60,7 +60,25 @@ bool AFlagForCapture::InteractionObject_Implementation(ASpaceWarCharacter* Playe
 {
 	if(OwnerCharacter) return false;
 
+	/** get current game state */
+	auto const GS = Cast<ACaptureOfFlagGameState>(UGameplayStatics::GetGameState(GetWorld()));
+
+	if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(Player->Controller->PlayerState) == GS->GetSecurityTeam())
+	{
+		/** if this player in save team */
+		if(bFlagCaptured)
+		{
+			SetActorLocation(DefaultSpawnLocation);
+			bFlagCaptured = false;
+			ForceNetUpdate();
+			return true;
+		}
+		return false;
+	}
+	
+	/** if this player in attack team */
 	OwnerCharacter = Player;
+	bFlagCaptured = true;
 	OnRep_CharOwner();
 	Player->GetHealthComponent()->OnOwnerDead.AddDynamic(this, &AFlagForCapture::OwnerPlayerDeath);
 	ForceNetUpdate();
@@ -80,28 +98,21 @@ void AFlagForCapture::OnRep_CharOwner()
 	if(OwnerCharacter)
 	{
 		AttachToComponent(OwnerCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "SKT_FlagPoint");
-		SetHidden(true);
 	}
 	else
 	{     
-		SetHidden(false);
-		DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
+		DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 	}
 }
-
-
 
 void AFlagForCapture::OnPointCaptureCollisionBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool FromSweep, const FHitResult& SweepResult)
 {
 	//If this Delivery point of flag
 	if(!OtherActor->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass()) || !OwnerCharacter) return;
 	auto const TempTeam = IGetPlayerTeamInterface::Execute_FindPlayerTeam(OwnerCharacter->Controller->PlayerState);
+
+	auto const GS = Cast<ACaptureOfFlagGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	if(!GS) return;
      
-	if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(OtherActor) == TempTeam)
-	{
-		auto const GS = Cast<ACaptureOfFlagGameState>(UGameplayStatics::GetGameState(GetWorld()));
-		if(!GS) return;
-     
-		GS->UpdateTeamPoints(TempTeam, 1, EReasonForEndOfRound::FlagBeCapture);
-	}
+	GS->UpdateTeamPoints(TempTeam, 1, EReasonForEndOfRound::FlagBeCapture);
 }

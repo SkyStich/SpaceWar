@@ -18,9 +18,7 @@ ASpawnFlagHelpers::ASpawnFlagHelpers()
 	NetUpdateFrequency = 1.f;
 
 	ConstructorHelpers::FClassFinder<AFlagForCapture>FlagClassFinder(TEXT("/Game/ThirdPersonCPP/Blueprints/Actors/CaptureMode/BP_FlagForCapture"));
-
-	if(FlagClassFinder.Succeeded())
-		FlagClass = FlagClassFinder.Class;
+	if(FlagClassFinder.Succeeded()) FlagClass = FlagClassFinder.Class;
 }
 
 // Called when the game starts or when spawned
@@ -56,6 +54,7 @@ void ASpawnFlagHelpers::SpawnFlag()
 	{
 		UE_LOG(LogActor, Error, TEXT("-- Flag for capture is not spawned! ASpawnFlagHelpers::SpawnFlag"), *GetName());	
 	}
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("SpawnFlag"));
 }
 
 

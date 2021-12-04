@@ -40,6 +40,7 @@ public:
 	virtual void Destroyed() override;
 	void SetOwnerController(AMatchPlayerControllerBase* NewOwnerController) { OwnerController = NewOwnerController; }
 	void UpdateLocation(const FVector& Location) { SetActorLocation(Location); }
+	USkeletalMeshComponent* GetMesh() const { return SkeletalMesh; }
 
 	UFUNCTION(BlueprintPure)
 	ETeam GetTeam() const { return Team; }

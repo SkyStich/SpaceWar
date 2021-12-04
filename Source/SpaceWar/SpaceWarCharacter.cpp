@@ -295,8 +295,8 @@ void ASpaceWarCharacter::MoveForward(float Value)
 		return;
 	}
 	bMoveForward = false;
-	if(StaminaComponent->IsStaminaUse())
-    	OwnerStopUseStamina();
+	if(StaminaComponent->IsStaminaUse()) OwnerStopUseStamina();
+	else if(StaminaComponent->IsSuperSprintUsed()) ToggleUseSuperSprint();
 }
 
 void ASpaceWarCharacter::MoveRight(float Value)
@@ -462,6 +462,8 @@ void ASpaceWarCharacter::StopPlayerFirstAid_Implementation()
 
 void ASpaceWarCharacter::StartUseWeapon()
 {
+	if(StaminaComponent->IsSuperSprintUsed()) ToggleUseSuperSprint();
+	
 	if(bCanWeaponManipulation && WeaponManager->GetCurrentWeapon())
 	{
 		RecoilTimeline.PlayFromStart();
@@ -607,7 +609,6 @@ void ASpaceWarCharacter::OnSuperStaminaUsedEvent(bool bUse)
 	}
 	else
 	{
-	
 		WeaponMesh->AttachToComponent(GetLocalMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "WeaponPoint");
 		
 		TimerDel.BindLambda([&]() -> void { bCanWeaponManipulation = true; });

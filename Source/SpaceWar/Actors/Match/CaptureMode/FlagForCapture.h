@@ -50,4 +50,9 @@ private:
 
 	UPROPERTY(ReplicatedUsing = OnRep_CharOwner)
 	ASpaceWarCharacter* OwnerCharacter;
+
+	/** true if a member of the capture team picked up the flag or flag is lost. else if Current location == Default spawn location */
+	bool bFlagCaptured;
+
+	FVector DefaultSpawnLocation;
 };
