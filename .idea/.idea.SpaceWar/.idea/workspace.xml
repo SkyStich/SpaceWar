@@ -60,24 +60,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce54c934-b028-4192-aead-d0010a63e950" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Characters/Animations/NewTPP_Animation/Looking_Through_Files_Low.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Characters/Animations/NewTPP_Animation/RifleMainHUBEquip.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Characters/Animations/NewTPP_Animation/RifleMainHUBEquip_Montage.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Characters/Animations/NewTPP_Animation/Rifle_Idle.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Characters/Animations/NewTPP_Animation/Sitting_Talking.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Characters/Animations/NewTPP_Animation/Talking.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Characters/Animations/NewTPP_Animation/Writing.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/Characters/NewHeroTPP/BP_MainHUBAnimation.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Assets/MainHUBPeople/BP_WeatingCharacter.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpaceWar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/NewHeroTPP/BP_NewHeroAnimBP.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/NewHeroTPP/BP_NewHeroAnimBP.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SciFiWeapLight/Weapons/White_AssaultRifle_Skeleton.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SciFiWeapLight/Weapons/White_AssaultRifle_Skeleton.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Actors/MainMenu/MainMenuCharacterDesigner.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Actors/MainMenu/MainMenuCharacterDesigner.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Pawns/MainHUB/BP_MainHUBPawn.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Blueprints/Pawns/MainHUB/BP_MainHUBPawn.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/MainHUB/MainHUBLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPersonCPP/Maps/MainHUB/MainHUBLevel.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/DataAssets/WeaponDataAsset.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SpaceWar/GameInstances/BaseGameInstance.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34618,6 +34602,7 @@
       <workItem from="1638612497550" duration="2855000" />
       <workItem from="1638618889752" duration="875000" />
       <workItem from="1638626350530" duration="10000" />
+      <workItem from="1638638901812" duration="732000" />
     </task>
     <servers />
   </component>
