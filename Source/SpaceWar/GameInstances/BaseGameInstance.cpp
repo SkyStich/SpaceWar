@@ -10,11 +10,16 @@
 UBaseGameInstance::UBaseGameInstance()
 {
 	CurrentArmor = "Base";
-	PlayerName = "Stenly";
+	PlayerName = "Mushu";
 	CurrentThrowWeapon = "Boom";
 	
 	Weapons.Add(EWeaponType::FirstWeapon, "SilverDragon");
 	Weapons.Add(EWeaponType::SecondWeapon, "BlackJack");
+}
+
+void UBaseGameInstance::OnStart()
+{
+	Super::OnStart();
 }
 
 void UBaseGameInstance::Init()
@@ -25,7 +30,6 @@ void UBaseGameInstance::Init()
 void UBaseGameInstance::SetCurrentArmor(const FName& Id)
 {
 	CurrentArmor = Id;
-	SaveFullPlayerData();
 }
 
 FName UBaseGameInstance::FindWeaponByType(EWeaponType Type, const TMap<EWeaponType, FName>& Map)
@@ -44,13 +48,15 @@ void UBaseGameInstance::ReplacementWeapon(EWeaponType Key, const FName& NewId)
 	{
 		if(ByArray.Key == Key) ByArray.Value = NewId;
 	}
-	SaveFullPlayerData();
 }
 
 void UBaseGameInstance::LoadPlayerData()
 {
-	if(USavePlayerData* SaveGame = Cast<USavePlayerData>(UGameplayStatics::LoadGameFromSlot(PlayerName + "Data", 0)))
+	//if(GIsServer) return;
+
+	if(USavePlayerData* SaveGame = Cast<USavePlayerData>(UGameplayStatics::LoadGameFromSlot(FString(PlayerName + "Data"), GetPrimaryPlayerController()->NetPlayerIndex)))
 	{
+		UKismetSystemLibrary::PrintString(GetWorld(), FString::Printf(TEXT("LoadArmor: %ls"), *SaveGame->EquippableArmorId.ToString()));
 		Weapons = SaveGame->WeaponData;
 		CurrentArmor = SaveGame->EquippableArmorId;
 	}
@@ -62,7 +68,11 @@ void UBaseGameInstance::SaveFullPlayerData()
 	{
 		SavePlayerData->WeaponData = Weapons;
 		SavePlayerData->EquippableArmorId = CurrentArmor;
-		UGameplayStatics::SaveGameToSlot(SavePlayerData, PlayerName + "Data", 0);
+		UKismetSystemLibrary::PrintString(GetWorld(), FString::Printf(TEXT("SaveArmor: %ls"), *CurrentArmor.ToString()));
+		if(UGameplayStatics::SaveGameToSlot(SavePlayerData, FString(PlayerName + "Data"), GetPrimaryPlayerController()->NetPlayerIndex))
+		{
+			CurrentThrowWeapon = "Boom";
+		}
 	}
 }
 
@@ -74,5 +84,4 @@ void UBaseGameInstance::Shutdown()
 void UBaseGameInstance::SetPlayerName(const FString& NewPlayerName)
 {
 	PlayerName = NewPlayerName;
-	LoadPlayerData();
 }

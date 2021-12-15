@@ -37,3 +37,20 @@ struct FGetServerListCallBack
 	
 	FGetServerListDelegate OnGetServerListDelegate;
 };
+
+USTRUCT(BlueprintType)
+struct FGetServerHUDListCallBack
+{
+	GENERATED_BODY()
+
+	FGetServerHUDListCallBack() : ServerName(""), Address("") {}
+	FGetServerHUDListCallBack(const FString& Name, const FString& ServerAddress) : ServerName(Name), Address(ServerAddress) {}
+
+	UPROPERTY(BlueprintReadOnly)
+	FString ServerName;
+	
+	UPROPERTY(BlueprintReadOnly)
+	FString Address;
+};
+
+DECLARE_DYNAMIC_DELEGATE_OneParam(FGetServerHudListDelegate, const TArray<FGetServerHUDListCallBack>&, Callback);

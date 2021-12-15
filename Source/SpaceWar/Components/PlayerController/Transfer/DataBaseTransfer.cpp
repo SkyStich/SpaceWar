@@ -2,6 +2,7 @@
 #include "DataBaseTransfer.h"
 #include "SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h"
 #include "SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.h"
+#include "SpaceWar/Objects/Web/WebRequest/WebRequesGetHUDServerList.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestCheckServerCreation.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetGameListByType.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h"
@@ -62,4 +63,11 @@ void UDataBaseTransfer::ReceivingServerNameVerification(const FString& Name, con
 	auto const Request = NewObject<UWebRequestServerNameVerification>(GetOwner());
 	Request->AddVerificationKey(Name, Callback);
 	Request->CollectRequest("127.0.0.1/SpaceWar/ServerNameVerification.php");
+}
+
+void UDataBaseTransfer::ReceivingFindHudServerList(const FGetServerHudListDelegate& Callback)
+{
+	auto const Request = NewObject<UWebRequesGetHUDServerList>();
+	Request->AddReceivingWeaponListKey(Callback);
+	Request->CollectRequest("127.0.0.1/SpaceWar/GetHUDServers.php");
 }

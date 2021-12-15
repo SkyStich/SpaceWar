@@ -4,11 +4,6 @@
 #include "SpaceWar/Objects/Web/WebRequest/AuthorizationRequest.h"
 #include "Kismet/GameplayStatics.h"
 
-AAuthorizationPlayerController::AAuthorizationPlayerController()
-{
-
-}
-
 void AAuthorizationPlayerController::BeginPlay()
 {
 	Super::BeginPlay();

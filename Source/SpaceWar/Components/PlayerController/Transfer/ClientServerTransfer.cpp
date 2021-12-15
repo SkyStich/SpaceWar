@@ -14,7 +14,6 @@ UClientServerTransfer::UClientServerTransfer()
 	SetIsReplicatedByDefault(true);
 }
 
-
 // Called when the game starts
 void UClientServerTransfer::BeginPlay()
 {
@@ -272,3 +271,32 @@ void UClientServerTransfer::OnResponseServerNameVerification(bool bResult)
 {
 	Client_ResponseServerNameVerification(bResult);
 }
+
+void UClientServerTransfer::RequestReceivingFindServerHudList(const FGetServerHudListDelegate& Callback)
+{
+	OnGetServerHudListDelegate = Callback;
+	Server_SendReceivingServerHudList();	
+}
+
+void UClientServerTransfer::Server_SendReceivingServerHudList_Implementation()
+{
+	FGetServerHudListDelegate Callback;
+	Callback.BindUFunction(this, "OnResponseFindServerHudList");
+
+	auto const Transfer = GetOwner()->FindComponentByClass<UDataBaseTransfer>();
+	if(Transfer)
+	{
+		Transfer->ReceivingFindHudServerList(Callback);
+	}
+}
+
+void UClientServerTransfer::OnResponseFindServerHudList(TArray<FGetServerHUDListCallBack> HudList)
+{
+	Client_ResponseServerHudList(HudList);
+}
+
+void UClientServerTransfer::Client_ResponseServerHudList_Implementation(const TArray<FGetServerHUDListCallBack>& HudList)
+{
+	OnGetServerHudListDelegate.Execute(HudList);
+}
+

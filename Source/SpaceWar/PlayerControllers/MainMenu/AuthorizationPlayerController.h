@@ -6,14 +6,12 @@
 #include "MainMenuPlayerControllerBase.h"
 #include "AuthorizationPlayerController.generated.h"
 
-UCLASS(Blueprintable)
+UCLASS()
 class SPACEWAR_API AAuthorizationPlayerController : public AMainMenuPlayerControllerBase
 {
 	GENERATED_BODY()
 
 public:
-
-	AAuthorizationPlayerController();
 
 	virtual void BeginPlay() override;
 

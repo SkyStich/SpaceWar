@@ -93,10 +93,11 @@ public:
 	void SetSessionID(const FString& SessionKey) { SessionID = SessionKey; }
 	void SetPlayerId(int32 const Id) { PlayerId = Id; }
 	virtual void Shutdown() override;
+	virtual void Init() override;
 
 protected:
 
-	virtual void Init() override;
+	virtual void OnStart() override;
 	
 public:
     	
@@ -107,7 +108,7 @@ public:
 	FFirstWeaponChanged OnFirstWeaponChanged;
 private:
 
-	UPROPERTY()
+	UPROPERTY(SaveGame)
 	FName CurrentArmor;
 	
 	UPROPERTY()

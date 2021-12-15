@@ -42,4 +42,7 @@ public:
 
 	UFUNCTION()
 	void ReceivingServerNameVerification(const FString& Name, const FServerNameVerificationCallback& Callback);
+
+	UFUNCTION()
+	void ReceivingFindHudServerList(const FGetServerHudListDelegate& Callback);
 };

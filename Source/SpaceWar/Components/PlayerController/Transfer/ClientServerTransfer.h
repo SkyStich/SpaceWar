@@ -39,6 +39,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 	UFUNCTION(Server, Reliable)
 	void Server_SendReceivingServerNameVerification(const FString& Name);
 
+	UFUNCTION(Server, Reliable)
+	void Server_SendReceivingServerHudList();
+
 	UFUNCTION()
 	void ResponseRegisterUserFromDataBase(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
 
@@ -56,6 +59,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 
 	UFUNCTION()
 	void OnResponseServerNameVerification(bool bResult);
+
+	UFUNCTION()
+	void OnResponseFindServerHudList(TArray<FGetServerHUDListCallBack> HudList);
 	
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseRegisterUser(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
@@ -74,6 +80,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseServerNameVerification(bool bResult);
+
+	UFUNCTION(Client, Reliable)
+	void Client_ResponseServerHudList(const TArray<FGetServerHUDListCallBack>& HudList);
 
 public:	
 
@@ -100,8 +109,11 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
 	void RequestReceivingGetServerListByType(const FString& Type, const FGetServerListDelegate& Callback);
 	
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
 	void RequestReceivingServerNameVerification(const FString& Name, const FServerNameVerificationCallback& Callback);
+
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
+	void RequestReceivingFindServerHudList(const FGetServerHudListDelegate& Callback);
 
 protected:
 
@@ -115,4 +127,5 @@ public:
 	FReceivingWeaponListCallBack OnReceivingWeaponListCallBack;
 	FCreateServerCompelete OnCreateServerComplete;
 	FServerNameVerificationCallback OnServerNameVerificationCallback;
+	FGetServerHudListDelegate OnGetServerHudListDelegate;
 };
