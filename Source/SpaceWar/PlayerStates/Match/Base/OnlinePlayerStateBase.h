@@ -31,6 +31,7 @@ public:
 	AOnlinePlayerStateBase();
 
 	virtual ETeam FindPlayerTeam_Implementation() override { return PlayerTeam; }
+	ETeam GetTeam() const { return PlayerTeam; }
 
 	UFUNCTION(BlueprintPure, Category = "PlayerState|Statistics")
 	int32 GetNumberOfMurders() const { return NumberOfMurders; }

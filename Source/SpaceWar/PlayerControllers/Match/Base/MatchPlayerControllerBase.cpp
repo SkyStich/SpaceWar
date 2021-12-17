@@ -22,6 +22,7 @@ AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 	bAttachToPawn = true;
 
 	SpecialObjectManager = CreateDefaultSubobject<USpecialObjectManagerComponent>(TEXT("SpecialObjectManager"));
+	DataBaseTransfer = CreateDefaultSubobject<UDataBaseTransfer>(TEXT("DataBaseTransfer"));
 
 	static ConstructorHelpers::FClassFinder<ASpaceWarCharacter> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter"));
 	if(PlayerPawnBPClass.Succeeded()) PlayerClass = PlayerPawnBPClass.Class;
@@ -38,6 +39,7 @@ void AMatchPlayerControllerBase::BeginPlay()
 		CreateChatComponent();
 		auto const GM = Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		GM->OnMatchEnded.AddDynamic(this, &AMatchPlayerControllerBase::EndMatch);
+		GM->OnPreMatchEnded.AddDynamic(this, &AMatchPlayerControllerBase::PreEndMatch);
 	//	GM->GetDataBaseComponent()->OnForcedServerShutdown.AddDynamic(this, &AMatchPlayerControllerBase::ForcedDisconnectFromServer);
 	}
 }
@@ -228,6 +230,18 @@ void AMatchPlayerControllerBase::StopUseAmmunitionState()
 	GetHUD<ABaseMatchHUD>()->RemoveAmmunitionWidget();
 }
 
+void AMatchPlayerControllerBase::PreEndMatch(const FString& Reason, ETeam WinnerTeam)
+{
+	auto const PS = GetPlayerState<AOnlinePlayerStateBase>();
+	
+	int32 const MinExp = PS->GetTeam() == WinnerTeam ? 800 : 400;
+	int32 const MurdersExp = 100 * PS->GetNumberOfMurders();
+	int32 const Death = 50 * PS->GetNumberOfDeaths();
+	int32 const Exp = MinExp + (MurdersExp < 0 ? 0 : MurdersExp) - Death;
+
+	ReceivingUpdateLevel(FMath::Clamp(Exp, MinExp, 10000));
+}
+
 void AMatchPlayerControllerBase::EndMatch(const FString& Reason, ETeam WinnerTeam)
 {
 	Client_ConnectToHUBServer();
@@ -242,4 +256,14 @@ void AMatchPlayerControllerBase::Client_ConnectToHUBServer_Implementation()
 {
 	FString const Address = GetGameInstance<UBaseGameInstance>()->GetCurrentMainHUBServerName();
 	UGameplayStatics::OpenLevel(GetWorld(), *Address);
+}
+
+void AMatchPlayerControllerBase::ReceivingUpdateLevel(const int32 Exp)
+{
+	DataBaseTransfer->UpdateExpInfo(Exp, PlayerState->GetPlayerName());
+}
+
+void AMatchPlayerControllerBase::UpdateExp(const int32 Value)
+{
+	ReceivingUpdateLevel(Value);
 }

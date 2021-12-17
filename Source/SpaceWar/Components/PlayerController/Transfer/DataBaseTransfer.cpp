@@ -8,6 +8,7 @@
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestReceivingWeaponList.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestServerNameVerification.h"
+#include "SpaceWar/Objects/Web/WebRequest/WebRequestUpdateLevel.h"
 
 // Sets default values for this component's properties
 UDataBaseTransfer::UDataBaseTransfer()
@@ -67,7 +68,15 @@ void UDataBaseTransfer::ReceivingServerNameVerification(const FString& Name, con
 
 void UDataBaseTransfer::ReceivingFindHudServerList(const FGetServerHudListDelegate& Callback)
 {
-	auto const Request = NewObject<UWebRequesGetHUDServerList>();
+	auto const Request = NewObject<UWebRequesGetHUDServerList>(GetOwner());
 	Request->AddReceivingWeaponListKey(Callback);
 	Request->CollectRequest("127.0.0.1/SpaceWar/GetHUDServers.php");
 }
+
+void UDataBaseTransfer::	UpdateExpInfo(int32 const CurrentExp, const FString& PlayerName)
+{
+	auto const Request = NewObject<UWebRequestUpdateLevel>(GetOwner());
+	Request->AddUpdateLevelKey(CurrentExp, PlayerName);
+	Request->CollectRequest("127.0.0.1/SpaceWar/UpdateLevelInfo.php");
+}
+

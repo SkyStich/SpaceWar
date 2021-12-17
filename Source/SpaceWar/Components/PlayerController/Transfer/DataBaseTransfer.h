@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "SpaceWar/Components/PlayerController/ExperienceComponent.h"
 #include "SpaceWar/Structs/GetServerListCallBack.h"
 #include "SpaceWar/Structs/ReceivingWeaponListCallBack.h"
 #include "SpaceWar/Structs/CreateServerCallBack.h"
@@ -45,4 +46,7 @@ public:
 
 	UFUNCTION()
 	void ReceivingFindHudServerList(const FGetServerHudListDelegate& Callback);
+
+	UFUNCTION()
+	void UpdateExpInfo(int32 const CurrentExp, const FString& PlayerName);
 };

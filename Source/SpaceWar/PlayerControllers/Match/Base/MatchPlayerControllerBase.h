@@ -7,6 +7,7 @@
 #include "SpaceWar/Components/SpecialObjectManagerComponent.h"
 #include "SpaceWar/Interfaces/MatchChatInterface.h"
 #include "SpaceWar/Components/ChatMatchComponent.h"
+#include "SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h"
 #include "SpaceWar/Interfaces/CustomInputInterface.h"
 #include "SpaceWar/Interfaces/GetPlayerLoginInterface.h"
 #include "SpaceWar/Interfaces/UpdateSpecialPointsInterface.h"
@@ -14,6 +15,7 @@
 #include "MatchPlayerControllerBase.generated.h"
 
 class ASpaceWarCharacter;
+class UExperienceComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FGetMessage, const FString&, Message, bool, IsOnlyAlly);
 DECLARE_DYNAMIC_DELEGATE(FPausePressed);
@@ -30,6 +32,9 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public
 	void PressSpecialShop();
 
 	void CreateChatComponent();
+
+	void UpdateExp(const int32 Value);
+	void ReceivingUpdateLevel(const int32 Exp);
 
 	UFUNCTION(Client, Unreliable)
 	void Client_SpecialObjectErrorSpawned();
@@ -51,6 +56,9 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public
 	
 	UFUNCTION()
 	void EndMatch(const FString& Reason, ETeam WinnerTeam);
+
+	UFUNCTION()
+	void PreEndMatch(const FString& Reason, ETeam WinnerTeam);
 
 	UFUNCTION()
 	void ForcedDisconnectFromServer();
@@ -127,4 +135,7 @@ private:
 
 	UPROPERTY()
 	UChatMatchComponent* ChatComponent;
+
+	UPROPERTY()
+	UDataBaseTransfer* DataBaseTransfer;
 };
