@@ -6,29 +6,25 @@
 #include "Base/WebRequestBase.h"
 #include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
 
-#include "WebRequestUpdateLevel.generated.h"
+#include "WebRequestFindLevelInfo.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class SPACEWAR_API UWebRequestUpdateLevel : public UWebRequestBase
+class SPACEWAR_API UWebRequestFindLevelInfo : public UWebRequestBase
 {
 	GENERATED_BODY()
-
 
 public:
 
 	virtual void CollectRequest(const FString& ScriptURL) override;
-	void AddUpdateLevelKey(const int32 NewExp, const FString& Name);
+	void AddFindLevelInfoKeys(const FString& Login, const FFindPlayerLevel& Callback);
 
 protected:
 
-	virtual void CallJsonFail() override;
 	virtual void CallJsonResponse(const TSharedPtr<FJsonObject>& JsonResponse) override;
+	virtual void CallJsonFail() override;
 
 private:
 
-	int32 Exp;
-	FString PlayerName;
+	FString PlayerLogin;
+	FFindPlayerLevel OnGetPlayerLevel;
 };

@@ -14,29 +14,32 @@ ABaseMatchHUD::ABaseMatchHUD()
 {
 	MatchType = EMatchData::CaptureOfFlag;
 	
-	ConstructorHelpers::FObjectFinder<UMatchWidgetDataAsset>WidgetData(TEXT("/Game/ThirdPersonCPP/DataAssets/WidgetDataAsset"));
+	static ConstructorHelpers::FObjectFinder<UMatchWidgetDataAsset>WidgetData(TEXT("/Game/ThirdPersonCPP/DataAssets/WidgetDataAsset"));
 	if(WidgetData.Succeeded()) AssetData = WidgetData.Object;
 	
-	ConstructorHelpers::FClassFinder<UErrorMessageWidget>ErrorMessageFinder(TEXT("/Game/ThirdPersonCPP/UI/ErrorMessage/W_ErrorMessage"));
+	static ConstructorHelpers::FClassFinder<UErrorMessageWidget>ErrorMessageFinder(TEXT("/Game/ThirdPersonCPP/UI/ErrorMessage/W_ErrorMessage"));
 	if(ErrorMessageFinder.Succeeded()) ErrorWidgetClass = ErrorMessageFinder.Class;
 
-	ConstructorHelpers::FClassFinder<UMatchChatWidgetBase>ChatWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/Chat/W_MatchChat"));
+	static ConstructorHelpers::FClassFinder<UMatchChatWidgetBase>ChatWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/Chat/W_MatchChat"));
 	if(ChatWidgetFinder.Succeeded()) ChatWidgetClass = ChatWidgetFinder.Class;
 
-	ConstructorHelpers::FClassFinder<UAmmunitionWidgetBase>AmmunitionWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/AmmunitionState/W_AmmuniitonGrid"));
+	static ConstructorHelpers::FClassFinder<UAmmunitionWidgetBase>AmmunitionWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/AmmunitionState/W_AmmuniitonGrid"));
 	if(AmmunitionWidgetFinder.Succeeded()) AmmunitionWidgetClass = AmmunitionWidgetFinder.Class;
 
-	ConstructorHelpers::FClassFinder<UUserWidget>SpecialShopWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/W_ShopSpecialWeapon"));
+	static ConstructorHelpers::FClassFinder<UUserWidget>SpecialShopWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/W_ShopSpecialWeapon"));
 	if(SpecialShopWidgetFinder.Succeeded()) SpecialShopWidgetClass = SpecialShopWidgetFinder.Class;
 
-	ConstructorHelpers::FClassFinder<UUserWidget>SpectatorWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/Spectator/W_MainSpectator"));
+	static ConstructorHelpers::FClassFinder<UUserWidget>SpectatorWidgetFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/Spectator/W_MainSpectator"));
 	if(SpectatorWidgetFinder.Succeeded()) SpectatorWidget = SpectatorWidgetFinder.Class;
 	
-	ConstructorHelpers::FClassFinder<UUserWidget>KillMessageFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/KillChat/W_KillChat"));
+	static ConstructorHelpers::FClassFinder<UUserWidget>KillMessageFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/LastWidget/KillChat/W_KillChat"));
 	if(KillMessageFinder.Succeeded()) KillMessageClass = KillMessageFinder.Class;
 
-	ConstructorHelpers::FClassFinder<UUserWidget>PauseMenuFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/PauseMenu/W_PauseMenu"));
+	static ConstructorHelpers::FClassFinder<UUserWidget>PauseMenuFinder(TEXT("/Game/ThirdPersonCPP/UI/Matches/PauseMenu/W_PauseMenu"));
 	if(PauseMenuFinder.Succeeded()) PauseWidgetClass = PauseMenuFinder.Class;
+
+	static ConstructorHelpers::FClassFinder<UUserWidget> LevelGridFinder(TEXT("/Game/ThirdPersonCPP/UI/ExpLogic/W_LevelGrid"));
+	if(LevelGridFinder.Succeeded()) LevelGridClass = LevelGridFinder.Class;
 }
 
 void ABaseMatchHUD::BeginPlay()
@@ -198,6 +201,9 @@ void ABaseMatchHUD::CreatePreMatchEnd(const FString& Reason, ETeam WinnerTeam)
 	PreEndMatchWidget = AssetData->SyncCreateWidget<UEndGameWidgetBase>(GetWorld(), MatchWidgetData->PreEndMatch, GetOwningPlayerController());
 	PreEndMatchWidget->Init(Reason, WinnerTeam);
 	PreEndMatchWidget->AddToViewport();
+
+	LevelGridWidget = AssetData->SyncCreateWidget<UUserWidget>(GetWorld(), LevelGridClass, GetOwningPlayerController());
+	LevelGridWidget->AddToViewport(1);
 }
 
 void ABaseMatchHUD::RemovePreMatchEnd()

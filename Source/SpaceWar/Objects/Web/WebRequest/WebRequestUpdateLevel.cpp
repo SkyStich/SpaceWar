@@ -26,7 +26,7 @@ void UWebRequestUpdateLevel::CallJsonResponse(const TSharedPtr<FJsonObject>& Jso
 		UE_LOG(LogWebRequest, Error, TEXT("Update level info complete with fail: %s"), *ErrorMessage);
 		return;
 	}
-	UE_LOG(LogWebRequest, Error, TEXT("Update level complete"));
+	UE_LOG(LogWebRequest, Warning, TEXT("Update level complete"));
 }
 
 void UWebRequestUpdateLevel::CallJsonFail()

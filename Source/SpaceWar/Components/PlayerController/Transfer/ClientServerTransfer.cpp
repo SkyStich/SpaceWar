@@ -300,3 +300,34 @@ void UClientServerTransfer::Client_ResponseServerHudList_Implementation(const TA
 	OnGetServerHudListDelegate.Execute(HudList);
 }
 
+void UClientServerTransfer::RequestReceivingGetLevelInfo(const FString& Login, const FFindPlayerLevel& Callback)
+{
+	OnGetPlayerLevel = Callback;
+	Server_SendReceivingLevelInfo(Login);
+}
+
+void UClientServerTransfer::Server_SendReceivingLevelInfo_Implementation(const FString& Login)
+{
+	FFindPlayerLevel Callback;
+	Callback.BindUFunction(this, "OnResponseLevelInfo");
+
+	auto const Transfer = GetOwner()->FindComponentByClass<UDataBaseTransfer>();
+	if(Transfer)
+	{
+		Transfer->GetLevelInfo(Login, Callback);
+		return;
+	}
+	UE_LOG(LogTemp, Error, TEXT("UClientServerTransfer::Server_SendReceivingLevelInfo --Player controller not have component UDataBaseTransfer   %s: "), *GetName());
+}
+
+void UClientServerTransfer::OnResponseLevelInfo(int32 Level, int32 Exp)
+{
+	Client_ResponseLevelInfo(Level, Exp);
+}
+
+void UClientServerTransfer::Client_ResponseLevelInfo_Implementation(int32 Level, int32 Exp)
+{
+	OnGetPlayerLevel.Execute(Level, Exp);
+}
+
+

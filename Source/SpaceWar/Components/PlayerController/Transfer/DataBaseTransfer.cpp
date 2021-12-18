@@ -4,6 +4,7 @@
 #include "SpaceWar/Objects/Web/WebRequest/RegisterWebRequest.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequesGetHUDServerList.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestCheckServerCreation.h"
+#include "SpaceWar/Objects/Web/WebRequest/WebRequestFindLevelInfo.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetGameListByType.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestGetServerList.h"
 #include "SpaceWar/Objects/Web/WebRequest/WebRequestReceivingWeaponList.h"
@@ -73,10 +74,16 @@ void UDataBaseTransfer::ReceivingFindHudServerList(const FGetServerHudListDelega
 	Request->CollectRequest("127.0.0.1/SpaceWar/GetHUDServers.php");
 }
 
-void UDataBaseTransfer::	UpdateExpInfo(int32 const CurrentExp, const FString& PlayerName)
+void UDataBaseTransfer::UpdateExpInfo(int32 const CurrentExp, const FString& PlayerName)
 {
 	auto const Request = NewObject<UWebRequestUpdateLevel>(GetOwner());
 	Request->AddUpdateLevelKey(CurrentExp, PlayerName);
 	Request->CollectRequest("127.0.0.1/SpaceWar/UpdateLevelInfo.php");
 }
 
+void UDataBaseTransfer::GetLevelInfo(const FString& Login, const FFindPlayerLevel& Callback)
+{
+	auto const Request = NewObject<UWebRequestFindLevelInfo>(GetOwner());
+	Request->AddFindLevelInfoKeys(Login, Callback);
+	Request->CollectRequest("127.0.0.1/SpaceWar/GetLevelInfo.php");
+}

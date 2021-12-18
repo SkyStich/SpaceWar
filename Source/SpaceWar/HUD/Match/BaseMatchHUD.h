@@ -123,6 +123,9 @@ protected:
 	TAssetSubclassOf<UUserWidget> SpectatorWidget;
 
 	UPROPERTY()
+	TAssetSubclassOf<UUserWidget> LevelGridClass;
+
+	UPROPERTY()
 	UMatchWidgetDataAsset* AssetData;
 
 	UPROPERTY()
@@ -145,6 +148,9 @@ protected:
 
 	UPROPERTY()
 	UUserWidget* PauseWidget;
+
+	UPROPERTY()
+	UUserWidget* LevelGridWidget;
 
 	UPROPERTY()
 	UEndGameWidgetBase* EndGameMatchWidget;

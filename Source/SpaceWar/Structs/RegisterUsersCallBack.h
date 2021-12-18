@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "RegisterUsersCallBack.generated.h"
 
+
 DECLARE_DYNAMIC_DELEGATE_ThreeParams(FDelegateRequestRegisterUserCallBack, bool, bResult, const FString&, SessionKey, const FString&, ErrorMessage);
 
 USTRUCT()

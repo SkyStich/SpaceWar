@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
 #include "SpaceWar/Structs/CreateServerCallBack.h"
 #include "SpaceWar/Structs/GetServerListCallBack.h"
 #include "SpaceWar/Structs/ReceivingWeaponListCallBack.h"
@@ -42,6 +43,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 	UFUNCTION(Server, Reliable)
 	void Server_SendReceivingServerHudList();
 
+	UFUNCTION(Server, Reliable)
+	void Server_SendReceivingLevelInfo(const FString& Login);
+
 	UFUNCTION()
 	void ResponseRegisterUserFromDataBase(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
 
@@ -62,6 +66,9 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 
 	UFUNCTION()
 	void OnResponseFindServerHudList(TArray<FGetServerHUDListCallBack> HudList);
+
+	UFUNCTION()
+	void OnResponseLevelInfo(int32 Level, int32 Exp);
 	
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseRegisterUser(bool bResult, const FString& SessionKey, const FString& ErrorMessage);
@@ -84,6 +91,8 @@ class SPACEWAR_API UClientServerTransfer : public UActorComponent
 	UFUNCTION(Client, Reliable)
 	void Client_ResponseServerHudList(const TArray<FGetServerHUDListCallBack>& HudList);
 
+	UFUNCTION(Client, Reliable)
+	void Client_ResponseLevelInfo(int32 Level, int32 Exp);
 public:	
 
 	UClientServerTransfer();
@@ -114,6 +123,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
 	void RequestReceivingFindServerHudList(const FGetServerHudListDelegate& Callback);
+	
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
+	void RequestReceivingGetLevelInfo(const FString& Login, const FFindPlayerLevel& Callback);
 
 protected:
 
@@ -128,4 +140,5 @@ public:
 	FCreateServerCompelete OnCreateServerComplete;
 	FServerNameVerificationCallback OnServerNameVerificationCallback;
 	FGetServerHudListDelegate OnGetServerHudListDelegate;
+	FFindPlayerLevel OnGetPlayerLevel;
 };

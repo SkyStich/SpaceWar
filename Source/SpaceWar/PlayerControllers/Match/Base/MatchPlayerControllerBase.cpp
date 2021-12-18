@@ -12,6 +12,7 @@
 #include "SpaceWar/CameraManager/MatchPlayerCameraManager.h"
 #include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
 #include "SpaceWar/Components/GameMode/GameServerDataBaseComponent.h"
+#include "SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h"
 
 AMatchPlayerControllerBase::AMatchPlayerControllerBase()
 {
@@ -240,11 +241,21 @@ void AMatchPlayerControllerBase::PreEndMatch(const FString& Reason, ETeam Winner
 	int32 const Exp = MinExp + (MurdersExp < 0 ? 0 : MurdersExp) - Death;
 
 	ReceivingUpdateLevel(FMath::Clamp(Exp, MinExp, 10000));
+	Client_UpdateLevelInfo(FMath::Clamp(Exp, MinExp, 10000));
+}
+
+void AMatchPlayerControllerBase::Client_UpdateLevelInfo_Implementation(int32 Exp)
+{
+	auto const GI = GetGameInstance<UBaseGameInstance>();
+	GI->SetLevel(GI->GetLevel() + ((GI->GetExp() + Exp) / (2200 * GI->GetLevel() + 300)));
+	GI->SetExp(GI->GetExp() + Exp);
 }
 
 void AMatchPlayerControllerBase::EndMatch(const FString& Reason, ETeam WinnerTeam)
 {
+#if UE_EDITOR
 	Client_ConnectToHUBServer();
+#endif
 }
 
 void AMatchPlayerControllerBase::ForcedDisconnectFromServer()

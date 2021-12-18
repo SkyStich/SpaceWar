@@ -13,6 +13,9 @@ UBaseGameInstance::UBaseGameInstance()
 	PlayerName = "Mushu";
 	CurrentThrowWeapon = "Boom";
 	
+	CurrentLevel = 1;
+	CurrentExp = 0;
+	
 	Weapons.Add(EWeaponType::FirstWeapon, "SilverDragon");
 	Weapons.Add(EWeaponType::SecondWeapon, "BlackJack");
 }
@@ -85,3 +88,17 @@ void UBaseGameInstance::SetPlayerName(const FString& NewPlayerName)
 {
 	PlayerName = NewPlayerName;
 }
+
+void UBaseGameInstance::SetLevel(int32 Value)
+{
+	CurrentLevel = Value;
+	OnCurrentLevelChanged.Broadcast(CurrentLevel);
+}
+
+void UBaseGameInstance::SetExp(int32 Value)
+{
+	CurrentExp = Value;
+	OnCurrentExpChanged.Broadcast(CurrentExp, Value);
+}
+
+

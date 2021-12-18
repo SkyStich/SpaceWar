@@ -20,6 +20,9 @@ struct FCurrentWeaponKey
 	FName Value;
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FCurrentExpChanged, int32, NewExp, int32, ValueToAdd);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCurrentLevelChanged, int32, NewLevel);
+
 USTRUCT(BlueprintType)
 struct FEquipmentSave
 {
@@ -89,6 +92,18 @@ public:
 
 	UFUNCTION(BlueprintPure, BlueprintCosmetic)
 	FString GetSessionKey() const { return SessionID; }
+
+	UFUNCTION(BlueprintCallable)
+	void SetExp(int32 Value);
+
+	UFUNCTION(BlueprintCallable)
+	void SetLevel(int32 Value);
+
+	UFUNCTION(BlueprintPure)
+	int32 GetExp() const { return CurrentExp; }
+
+	UFUNCTION(BlueprintPure)
+	int32 GetLevel() const { return CurrentLevel; }
 	
 	void SetSessionID(const FString& SessionKey) { SessionID = SessionKey; }
 	void SetPlayerId(int32 const Id) { PlayerId = Id; }
@@ -106,6 +121,13 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FFirstWeaponChanged OnFirstWeaponChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FCurrentExpChanged OnCurrentExpChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FCurrentLevelChanged OnCurrentLevelChanged;
+	
 private:
 
 	UPROPERTY(SaveGame)
@@ -125,6 +147,12 @@ private:
 	
 	UPROPERTY()
 	int32 PlayerId;
+
+	UPROPERTY()
+	int32 CurrentLevel;
+
+	UPROPERTY()
+	int32 CurrentExp;
 
 protected:
 	
