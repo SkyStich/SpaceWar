@@ -70,7 +70,7 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public
 	
 public:
 
-	AMatchPlayerControllerBase();
+	AMatchPlayerControllerBase(const FObjectInitializer& ObjectInitializer);
 
 	void SetPlayerClass(TSubclassOf<ASpaceWarCharacter> NewPlayerClass);
 

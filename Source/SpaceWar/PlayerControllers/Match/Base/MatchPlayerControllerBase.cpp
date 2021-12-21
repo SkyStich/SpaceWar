@@ -14,7 +14,8 @@
 #include "SpaceWar/Components/GameMode/GameServerDataBaseComponent.h"
 #include "SpaceWar/Components/PlayerController/Transfer/DataBaseTransfer.h"
 
-AMatchPlayerControllerBase::AMatchPlayerControllerBase()
+AMatchPlayerControllerBase::AMatchPlayerControllerBase(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	bReplicates = true;
 	NetUpdateFrequency = 2.f;

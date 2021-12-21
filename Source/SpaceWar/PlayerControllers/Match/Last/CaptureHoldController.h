@@ -32,7 +32,7 @@ class SPACEWAR_API ACaptureHoldController : public AMatchPlayerControllerBase
 	
 public:
 
-	ACaptureHoldController();
+	ACaptureHoldController(const FObjectInitializer& ObjectInitializer);
 	virtual bool SpawnPlayer(const FVector& Location) override;
 	virtual void LaunchRespawnTimer();
 

@@ -10,7 +10,8 @@
 #include "SpaceWar/Interfaces/ErrorMessageInterface.h"
 #include "SpaceWar/PlayerStart/PointCapturePlayerStart.h"
 
-ACaptureHoldController::ACaptureHoldController()
+ACaptureHoldController::ACaptureHoldController(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	bCanSpawn = false;
 	

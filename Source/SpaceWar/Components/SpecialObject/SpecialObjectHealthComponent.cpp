@@ -16,7 +16,7 @@ USpecialObjectHealthComponent::USpecialObjectHealthComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 
 	CurrentHealth = MaxHealth = 140.f;
-	SetIsReplicated(true);
+	SetIsReplicatedByDefault(true);
 }
 
 

@@ -16,9 +16,9 @@ USpecialObjectManagerComponent::USpecialObjectManagerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 
-	SetIsReplicated(true);
+	SetIsReplicatedByDefault(true);
 
-	ConstructorHelpers::FObjectFinder<UDataTable>SpecialTable(TEXT("/Game/ThirdPersonCPP/DataTables/DT_SpecialWeaponObject"));
+	static ConstructorHelpers::FObjectFinder<UDataTable>SpecialTable(TEXT("/Game/ThirdPersonCPP/DataTables/DT_SpecialWeaponObject"));
 	if(SpecialTable.Succeeded())
 	{
 		SpecialDataTable = SpecialTable.Object;
