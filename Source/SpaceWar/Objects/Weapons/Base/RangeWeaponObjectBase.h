@@ -53,6 +53,8 @@ public:
 	virtual bool OwnerStartAdditionalUsed() override;
 	virtual bool OwnerStopAdditionalUsed() override;
 	virtual bool OwnerStartUseWeapon() override;
+	virtual void PrimaryFiringModeUpdated();
+	virtual bool IsAbleToAutoFire();
 
 	virtual float GetSelectTime() const override { return WeaponData.WeaponCharacteristicsBase.SelectWeaponTime; }
 	virtual float GetReloadTime() const override { return WeaponData.RangeWeaponCharacteristics.ReloadTime; }
@@ -90,6 +92,7 @@ protected:
 	virtual bool IsAbleToUseWeapon() override;
 	virtual bool IsAbleToReload();
 	virtual void DropLineTrace();
+	virtual void ShotLogic();
 
 	virtual void OnWeaponSelectingEvent(bool NewState) override;
 
@@ -118,6 +121,9 @@ protected:
 		
 	UPROPERTY(Replicated)
 	FEquipWeaponData WeaponData;
+
+	UPROPERTY(Replicated)
+	bool bPrimaryFiringMode;
 
 	UPROPERTY()
 	float CurrentSpread;

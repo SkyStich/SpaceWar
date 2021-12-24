@@ -13,6 +13,7 @@
 
 URangeWeaponObjectBase::URangeWeaponObjectBase()
 {
+	bPrimaryFiringMode = true;
 }
 
 void URangeWeaponObjectBase::BeginPlay()
@@ -39,6 +40,7 @@ void URangeWeaponObjectBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, CurrentAmmoInWeapon, COND_OwnerOnly);
 	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, bReloading, COND_SkipOwner);
 	DOREPLIFETIME_CONDITION(URangeWeaponObjectBase, bAccessoryUsed, COND_SkipOwner);
+	DOREPLIFETIME(URangeWeaponObjectBase, bPrimaryFiringMode);
 	DOREPLIFETIME(URangeWeaponObjectBase, WeaponData);
 }
 
@@ -57,17 +59,20 @@ void URangeWeaponObjectBase::PlayUseWeaponEffects()
 		FVector Location;
 		FRotator Rotation;
 		CharacterOwner->GetWeaponMesh()->GetSocketWorldLocationAndRotation("Muzzle", Location, Rotation);
-		
+
 		UGameplayStatics::SpawnEmitterAttached(WeaponData.Particles.MuzzleParticle, AttachToComponent, 
 			"Muzzle", Location, Rotation, FVector(0.6f), EAttachLocation::KeepWorldPosition);
 
-		if(CharacterOwner->Controller)
+		if(WeaponData.SoundData.FireMuzzleSound)
 		{
-			PlaySound2DByCue(WeaponData.SoundData.FireMuzzleSound);
-		}
-		else
-		{
-			PlaySoundByCue(WeaponData.SoundData.FireMuzzleSound, AttachToComponent, "Muzzle");
+			if(CharacterOwner->Controller)
+			{
+				PlaySound2DByCue(WeaponData.SoundData.FireMuzzleSound);
+			}
+			else
+			{
+				PlaySoundByCue(WeaponData.SoundData.FireMuzzleSound, AttachToComponent, "Muzzle");
+			}
 		}
 	}
 }
@@ -84,8 +89,8 @@ bool URangeWeaponObjectBase::UseWeapon()
 	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &URangeWeaponObjectBase::StopRateDelay,
 		WeaponData.WeaponCharacteristicsBase.DelayBeforeUse, false);
 
-	DropLineTrace();
-	
+	ShotLogic();
+
 	if(CharacterOwner->Controller)
 	{
 		if(bAccessoryUsed) CharacterOwner->UpdateWeaponRecoil();
@@ -96,11 +101,21 @@ bool URangeWeaponObjectBase::UseWeapon()
 	return true;
 }
 
+void URangeWeaponObjectBase::ShotLogic()
+{
+	DropLineTrace();
+}
+
+bool URangeWeaponObjectBase::IsAbleToAutoFire()
+{
+	return WeaponData.RangeWeaponCharacteristics.bCanAutoFire && bWeaponUsed;
+}
+
 void URangeWeaponObjectBase::StopRateDelay()
 {
 	GetWorld()->GetTimerManager().ClearTimer(UseWeaponHandle);
 
-	if(WeaponData.RangeWeaponCharacteristics.bCanAutoFire && bWeaponUsed)
+	if(IsAbleToAutoFire())
 	{
 		UseWeapon();
 	}
@@ -160,10 +175,14 @@ void URangeWeaponObjectBase::DropLineTrace()
 		Param.Owner = CharacterOwner;
 		Param.Instigator = CharacterOwner;
 		Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		auto const Particle = GetWorld()->SpawnActor<AFireParticleTrace>(CharacterOwner->GetWeaponMesh()->GetSocketLocation("Muzzle"), CharacterOwner->GetControlRotation(), Param);
-		if(Particle)
+		
+		if(WeaponData.Particles.TraceParticle)
 		{
-			Particle->Init(Hit.bBlockingHit ? Hit.ImpactPoint : Hit.TraceEnd, WeaponData.Particles.TraceParticle);
+			auto const Particle = GetWorld()->SpawnActor<AFireParticleTrace>(CharacterOwner->GetWeaponMesh()->GetSocketLocation("Muzzle"), CharacterOwner->GetControlRotation(), Param);
+			if(Particle)
+			{
+				Particle->Init(Hit.bBlockingHit ? Hit.ImpactPoint : Hit.TraceEnd, WeaponData.Particles.TraceParticle);
+			}
 		}
 	}
 #if UE_EDITOR                                                                                              
@@ -329,12 +348,14 @@ FString URangeWeaponObjectBase::GetAmmoStatus() const
 
 void URangeWeaponObjectBase::PlaySoundByCue(USoundCue* Sound, const FVector& Location, const FRotator& Rotation)
 {
+	if(!Sound) return;
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), Sound, Location, Rotation, Sound->VolumeMultiplier,
 		Sound->PitchMultiplier, 0, Sound->AttenuationSettings);
 }
 
 void URangeWeaponObjectBase::PlaySoundByCue(USoundCue* Sound, USkeletalMeshComponent* AttachComponent, const FName& SocketName)
 {
+	if(!Sound) return;
 	FVector const  Location = AttachComponent->GetSocketLocation("SocketName");
 	bool const bStoWhenAttachedToDestroyed = false;
 	UGameplayStatics::SpawnSoundAttached(Sound, AttachComponent, SocketName, Location, FRotator::ZeroRotator,
@@ -342,7 +363,8 @@ void URangeWeaponObjectBase::PlaySoundByCue(USoundCue* Sound, USkeletalMeshCompo
 }
 
 void URangeWeaponObjectBase::PlaySound2DByCue(USoundCue* Sound)
-{
+{ 
+	if(!Sound) return;
 	UGameplayStatics::PlaySound2D(GetWorld(), Sound, Sound->VolumeMultiplier, Sound->PitchMultiplier, 0, nullptr, nullptr, false);
 }
 
@@ -354,5 +376,10 @@ bool URangeWeaponObjectBase::OwnerStartUseWeapon()
 		return false;
 	}
 	return true;
+}
+
+void URangeWeaponObjectBase::PrimaryFiringModeUpdated()
+{
+	bPrimaryFiringMode = !bPrimaryFiringMode;
 }
 
