@@ -23,27 +23,14 @@ public:
 	UBaseWeaponObject();
 
 	void SetCharacterOwner(ASpaceWarCharacter* NewOwner);
-	
-	UFUNCTION(BlueprintPure)
-	bool GetWeaponUsed() const { return bWeaponUsed; }
-	
-	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
-	virtual bool OwnerStartUseWeapon();
-
-	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
-	virtual void OwnerStopUseWeapon();
-
-	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
-	FName GetWeaponName() const { return WeaponName; }
-
 	void SetWeaponName(const FName& Name) { WeaponName = Name; } 
 	
 	virtual TAssetPtr<USkeletalMesh> GetWeaponMesh() { return nullptr; }
 	virtual void StopUseWeapon();
-	
 	virtual bool GetAdditionalUse() const { return false; }
 	virtual void StartAdditionalUsed() {}
 	virtual void StopAdditionalUsed() {}
+	virtual void PressedToggleFiringMode() {} 
 	virtual bool OwnerStartAdditionalUsed() { return false; }
 	virtual bool OwnerStopAdditionalUsed() { return false; }
 	
@@ -77,7 +64,19 @@ public:
 	virtual FString GetAmmoStatus() const { return "";}
 
 	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
-	virtual UAnimSequenceBase* GetReloadAnim() const { return nullptr; }	
+	virtual UAnimSequenceBase* GetReloadAnim() const { return nullptr; }
+
+	UFUNCTION(BlueprintPure)
+	bool GetWeaponUsed() const { return bWeaponUsed; }
+	
+	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
+    virtual bool OwnerStartUseWeapon();
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon|Pressed")
+    virtual void OwnerStopUseWeapon();
+
+	UFUNCTION(BlueprintPure, Category = "Weapon|Getting")
+    FName GetWeaponName() const { return WeaponName; }
 	
 protected:
 
@@ -113,7 +112,6 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	virtual bool UseWeapon();
-
 	virtual bool IsAbleToUseWeapon();
 
 public:

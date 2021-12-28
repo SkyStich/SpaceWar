@@ -9,7 +9,7 @@ UStaminaComponent::UStaminaComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 
-	SetIsReplicated(true);
+	SetIsReplicatedByDefault(true);
 	
 	CurrentStaminaValue = MaxStaminaValue = 120.f;
 	

@@ -86,8 +86,7 @@ bool URangeWeaponObjectBase::UseWeapon()
 		CurrentAmmoInWeapon--;
 	}
 
-	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &URangeWeaponObjectBase::StopRateDelay,
-		WeaponData.WeaponCharacteristicsBase.DelayBeforeUse, false);
+	StartDelayBeforeUsedTimer();
 
 	ShotLogic();
 
@@ -101,12 +100,18 @@ bool URangeWeaponObjectBase::UseWeapon()
 	return true;
 }
 
+void URangeWeaponObjectBase::StartDelayBeforeUsedTimer()
+{
+	GetWorld()->GetTimerManager().SetTimer(UseWeaponHandle, this, &URangeWeaponObjectBase::StopRateDelay,
+        GetDelayBeforeUsed(), false);
+}
+
 void URangeWeaponObjectBase::ShotLogic()
 {
 	DropLineTrace();
 }
 
-bool URangeWeaponObjectBase::IsAbleToAutoFire()
+bool URangeWeaponObjectBase::IsAbleToAutoFire() const
 {
 	return WeaponData.RangeWeaponCharacteristics.bCanAutoFire && bWeaponUsed;
 }
@@ -378,8 +383,29 @@ bool URangeWeaponObjectBase::OwnerStartUseWeapon()
 	return true;
 }
 
+bool URangeWeaponObjectBase::IsAbleToToggleFiringMode()
+{
+	return !bWeaponUsed && !bReloading;	
+}
+
 void URangeWeaponObjectBase::PrimaryFiringModeUpdated()
 {
 	bPrimaryFiringMode = !bPrimaryFiringMode;
+}
+
+void URangeWeaponObjectBase::PressedToggleFiringMode()
+{
+	if(IsAbleToToggleFiringMode())
+	{
+		Server_ToggleFiringMode();
+	}
+}
+
+void URangeWeaponObjectBase::Server_ToggleFiringMode_Implementation()
+{
+	if(IsAbleToToggleFiringMode())
+	{
+		PrimaryFiringModeUpdated();
+	}
 }
 

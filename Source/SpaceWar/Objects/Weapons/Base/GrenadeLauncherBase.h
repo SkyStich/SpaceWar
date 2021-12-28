@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "RangeWeaponObjectBase.h"
+#include "SpaceWar/Actors/Match/Projectile/GrenadeRifle/GrenadeStandartProjectile.h"
 #include "SpaceWar/Actors/Match/Projectile/GrenadeRifle/GrenadeToTouchProjectile.h"
 #include "GrenadeLauncherBase.generated.h"
 
@@ -16,6 +17,8 @@ public:
 
 	UGrenadeLauncherBase();
 
+	virtual FText CurrentFiringModeText() const override { return bPrimaryFiringMode ? FText::FromString("Ricocheting") : FText::FromString("Impact"); }
+
 protected:
 
 	virtual void ShotLogic() override;
@@ -23,4 +26,5 @@ protected:
 private:
 
 	TSubclassOf<AGrenadeToTouchProjectile> SecondaryProjectileClass;
+	TSubclassOf<AGrenadeStandartProjectile> FirstlyProjectileClass;
 };

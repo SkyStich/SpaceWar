@@ -86,7 +86,7 @@ public:
 	virtual void GetMessage_Implementation(const FString& Message, bool const IsOnlyAlly) override;
 
 	UFUNCTION(BlueprintPure, Category = "PlayerController|PlayerClass")
-	TAssetSubclassOf<ASpaceWarCharacter> GetPlayerClass() const { return PlayerClass; }
+	TSubclassOf<ASpaceWarCharacter> GetPlayerClass() const { return PlayerClass; }
 
 	UFUNCTION(BlueprintPure, Category = "PlayerController|PlayerClass")
 	USpecialObjectManagerComponent* GetSpecialManagerComponent() const { return SpecialObjectManager; }
@@ -127,7 +127,7 @@ public:
 private:
 
 	UPROPERTY(Replicated)
-	TAssetSubclassOf<ASpaceWarCharacter>PlayerClass;
+	TSubclassOf<ASpaceWarCharacter>PlayerClass;
 
 	UPROPERTY()
 	USpecialObjectManagerComponent* SpecialObjectManager;

@@ -82,6 +82,8 @@ void ASpaceWarCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASpaceWarCharacter::StartUseWeapon);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ASpaceWarCharacter::StopUseWeapon);
 
+	PlayerInputComponent->BindAction("ChangeFireModePressed", IE_Released, this, &ASpaceWarCharacter::ChangeFireModePressed);
+
 	PlayerInputComponent->BindAction("UseJetpack", IE_Released, this, &ASpaceWarCharacter::UseJetpackPressed);
 	PlayerInputComponent->BindAction("SuperSprint", IE_Pressed, this, &ASpaceWarCharacter::ToggleUseSuperSprint);
 
@@ -625,4 +627,12 @@ UAudioComponent* ASpaceWarCharacter::SpawnSoundAttachedCue(USceneComponent* Atta
 void ASpaceWarCharacter::Server_CreateThrow_Implementation(const FName& Id)
 {
 	WeaponManager->CreateThrow(Id);
+}
+
+void ASpaceWarCharacter::ChangeFireModePressed()
+{
+	if(WeaponManager->GetCurrentWeapon())
+	{
+		WeaponManager->GetCurrentWeapon()->PressedToggleFiringMode();
+	}
 }

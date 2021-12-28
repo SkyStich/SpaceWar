@@ -77,6 +77,7 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	void UpdateAmmo();
 
 	void CreateArmor(const FName& Id);
+	void ChangeFireModePressed();
 
 	UFUNCTION(Server, Reliable)
 	void Server_StartUseSuperSprint();

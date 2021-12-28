@@ -13,14 +13,8 @@ void AGrenadeToTouchProjectile::OnComponentHit(UPrimitiveComponent* HitComp, AAc
 {
 	Super::OnComponentHit(HitComp, OtherActor, OtherComp, NormalImpulse, Hit);
 
-	FVector const Origin = GetActorLocation();
-	AController* DamageInstigator = Cast<AController>(GetOwner());
-	TArray<AActor*> IgnoredActors;
-	IgnoredActors.Add(this);
-
-	UGameplayStatics::ApplyRadialDamageWithFalloff(this, BaseDamage, BaseDamage * 0.35, Origin, Radius * 0.35, Radius, 2.5f, UDamageType::StaticClass(), IgnoredActors, this, DamageInstigator, ECC_WorldStatic);
+	Explosion();
 	Destroy();
-	
 	ForceNetUpdate();
 }
 	

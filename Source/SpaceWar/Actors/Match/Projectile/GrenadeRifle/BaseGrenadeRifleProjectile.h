@@ -25,6 +25,8 @@ protected:
 	UFUNCTION()
 	virtual void OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	void Explosion(float const DamageFallOf = 2.5f);
+	
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Data")

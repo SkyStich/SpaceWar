@@ -2,6 +2,7 @@
 
 
 #include "BaseGrenadeRifleProjectile.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ABaseGrenadeRifleProjectile::ABaseGrenadeRifleProjectile()
@@ -11,16 +12,16 @@ ABaseGrenadeRifleProjectile::ABaseGrenadeRifleProjectile()
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 
-	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComponent"));
-
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
+	CapsuleComponent->SetCollisionProfileName("BlockAll");
+	RootComponent = CapsuleComponent;
 	
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMesh"));
 	ProjectileMesh->SetupAttachment(RootComponent);
 	ProjectileMesh->SetCollisionProfileName("NoCollision");
 	
 	bReplicates = true;
-	NetUpdateFrequency = 5.f;
+	NetUpdateFrequency = 1.f;
 }
 
 // Called when the game starts or when spawned
@@ -35,6 +36,16 @@ void ABaseGrenadeRifleProjectile::BeginPlay()
 	{
 		CapsuleComponent->OnComponentHit.AddDynamic(this, &ABaseGrenadeRifleProjectile::OnComponentHit);
 	}
+}
+
+void ABaseGrenadeRifleProjectile::Explosion(float const DamageFallOf)
+{
+	FVector const Origin = GetActorLocation();
+	AController* DamageInstigator = Cast<AController>(GetOwner());
+	TArray<AActor*> IgnoredActors;
+	IgnoredActors.Add(this);
+
+	UGameplayStatics::ApplyRadialDamageWithFalloff(this, BaseDamage, BaseDamage * 0.35, Origin, Radius * 0.35, Radius, DamageFallOf, UDamageType::StaticClass(), IgnoredActors, this, DamageInstigator, ECC_WorldStatic);
 }
 
 void ABaseGrenadeRifleProjectile::OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)

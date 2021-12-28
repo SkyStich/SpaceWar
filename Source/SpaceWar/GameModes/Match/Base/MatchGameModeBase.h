@@ -30,9 +30,6 @@ private:
 	UFUNCTION()
 	void AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, FTransform SpawnTransform, AController* Controller);
 
-	UFUNCTION()
-	void AsyncSpawnPlayerCharacterComplete(FSoftObjectPath Reference, FTransform SpawnTransform, AMatchPlayerControllerBase* Controller);
-
 public:
 
 	AMatchGameModeBase();

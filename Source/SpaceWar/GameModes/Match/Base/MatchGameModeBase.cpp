@@ -70,31 +70,10 @@ void AMatchGameModeBase::AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, 
 
 void AMatchGameModeBase::SpawnCharacter(AMatchPlayerControllerBase* Controller, const FVector& Location)
 {
-	if(Controller->GetPlayerClass().IsNull() || !Controller)
-	{
-		FString const InstigatorName = *GetWorld()->GetFullName();
-		UE_LOG(LogGameMode, Warning, TEXT("Player class is null -- AMatchPlayerControllerBase::PlayerClass"), *InstigatorName);
-		return;
-	}
-	FTransform const Transform(FRotator::ZeroRotator, Location, FVector(1.f));
-	FStreamableManager& StreamableManager = UBaseSingleton::Get().AssetLoader;
-	FSoftObjectPath const Ref = Controller->GetPlayerClass().ToSoftObjectPath();
-	StreamableManager.RequestAsyncLoad(Ref, FStreamableDelegate::CreateUObject(this, &AMatchGameModeBase::AsyncSpawnPlayerCharacterComplete, Ref, Transform, Controller));
-}
-
-void AMatchGameModeBase::AsyncSpawnPlayerCharacterComplete(FSoftObjectPath Reference, FTransform SpawnTransform, AMatchPlayerControllerBase* Controller)
-{
-	UClass* ActorClass = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), Controller, *Reference.ToString()));
-	if(!ActorClass)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Actor class is NULL -- AMatchGameModeBase::AsyncSpawnPlayerCharacterComplete"), *Reference.ToString());
-		return;
-	}
-
 	ASpaceWarCharacter* SpawnCharacter = nullptr;
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-	SpawnCharacter = GetWorld()->SpawnActor<ASpaceWarCharacter>(ActorClass, SpawnTransform, Params);
+	SpawnCharacter = GetWorld()->SpawnActor<ASpaceWarCharacter>(Controller->GetPlayerClass(), Location, FRotator::ZeroRotator, Params);
 
 	if(SpawnCharacter)
 	{

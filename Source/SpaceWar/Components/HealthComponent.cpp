@@ -17,7 +17,7 @@ UHealthComponent::UHealthComponent()
 	HealthRegenerationPerSec = 1.f;
 	ArmorRegenerationPerSec = 2.f;
 	
-	SetIsReplicated(true);
+	SetIsReplicatedByDefault(true);
 }
 
 // Called when the game starts

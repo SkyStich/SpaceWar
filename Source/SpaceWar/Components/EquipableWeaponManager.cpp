@@ -12,7 +12,7 @@ UEquipableWeaponManager::UEquipableWeaponManager()
 {
 	CurrentWeapon = nullptr;
 	bWeaponSelect = false;
-	SetIsReplicated(true);
+	SetIsReplicatedByDefault(true);
 }
 
 // Called when the game starts

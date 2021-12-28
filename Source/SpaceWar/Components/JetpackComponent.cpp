@@ -11,7 +11,7 @@ UJetpackComponent::UJetpackComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
-	SetIsReplicated(true);
+	SetIsReplicatedByDefault(true);
 	bJetpackInCoolDawn = false;
 	Straight = 2200.f;
 	ZVelocity = 0.65;
