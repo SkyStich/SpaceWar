@@ -10,5 +10,10 @@ FString AConnectToServerGameMode::GetAddress()
 	{
 		return UGameplayStatics::ParseOption(OptionsString, "ServerIp") + ":7777";
 	}
-	return "127.0.0.1:7777";
+	return "None";
+}
+
+void AConnectToServerGameMode::BeginPlay()
+{
+	Super::BeginPlay();
 }

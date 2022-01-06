@@ -101,11 +101,25 @@ void UAmmunitionWidgetBase::SlotClicked_Implementation(UAmmunitionRangeWeaponSlo
 	{
 		if(SlotForReplacement == EWeaponType::Unknown || SlotForReplacement == EWeaponType::SpecialWeapon) return;
 
-		ASpaceWarCharacter* SpaceCharacter = Cast<ASpaceWarCharacter>(GetOwningPlayerPawn());
-		GameInstanceBase->ReplacementWeapon(SlotForReplacement, ClickSlot->GetId());
-		if(SpaceCharacter)
+		auto const ArmorData = ArmorDataAsset->GetArmorData().Find(GameInstanceBase->GetCurrentArmorId());
+		
+		FName const TempWeaponCurrentId = GameInstanceBase->FindWeaponByType(SlotForReplacement == EWeaponType::FirstWeapon ? EWeaponType::SecondWeapon : EWeaponType::FirstWeapon, GameInstanceBase->GetWeapons());
+
+		float const CurrentWeaponWeight = WeaponDataAsset->GetEquipWeaponData(TempWeaponCurrentId).WeaponCharacteristicsBase.Weight;
+		float const NewWeaponWeight = WeaponDataAsset->GetEquipWeaponData(ClickSlot->GetId()).WeaponCharacteristicsBase.Weight;
+		
+		if((NewWeaponWeight + CurrentWeaponWeight) <= ArmorData->MaxWeight)
 		{
-			SpaceCharacter->GetWeaponManager()->Server_ReplacementWeapon(SlotForReplacement, ClickSlot->GetId());
+			ASpaceWarCharacter* SpaceCharacter = Cast<ASpaceWarCharacter>(GetOwningPlayerPawn());
+			GameInstanceBase->ReplacementWeapon(SlotForReplacement, ClickSlot->GetId());
+			if(SpaceCharacter)
+			{
+				SpaceCharacter->GetWeaponManager()->Server_ReplacementWeapon(SlotForReplacement, ClickSlot->GetId());
+			}
+		}
+		else
+		{
+			ClickSlot->SlotCanNotReplacement();
 		}
 	}
 	else
@@ -118,6 +132,17 @@ void UAmmunitionWidgetBase::ArmorSlotClicked_Implementation(UAmmunitionArmorSlot
 {
 	if(ClickSlot->IsInStock)
 	{
+		float CurrentWeight = 0.f;
+		for(auto const ByArray : GameInstanceBase->Weapons)
+		{
+			CurrentWeight += WeaponDataAsset->GetEquipWeaponData(ByArray.Value).WeaponCharacteristicsBase.Weight;
+		}
+		
+		if(CurrentWeight > ArmorDataAsset->FindData(ClickSlot->Id).MaxWeight)
+		{
+			ClickSlot->ArmorCanNotReplacement();
+			return;
+		}
 		ASpaceWarCharacter* SpaceCharacter = Cast<ASpaceWarCharacter>(GetOwningPlayerPawn());
 		GameInstanceBase->SetCurrentArmor(ClickSlot->Id);
 		if(SpaceCharacter)

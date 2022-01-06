@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "SpecialObjectManagerComponent.h"
 #include "DrawDebugHelpers.h"
 #include "SpaceWar/Actors/Match/SpecialWeapon/SpecialWeaponObjectBase.h"
@@ -26,7 +25,6 @@ USpecialObjectManagerComponent::USpecialObjectManagerComponent()
 
 	CurrentSpecialPoints = 50000;
 }
-
 
 // Called when the game starts
 void USpecialObjectManagerComponent::BeginPlay()

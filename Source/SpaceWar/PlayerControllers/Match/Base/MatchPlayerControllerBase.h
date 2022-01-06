@@ -35,12 +35,6 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public
 	void UpdateExp(const int32 Value);
 	void ReceivingUpdateLevel(const int32 Exp);
 
-	UFUNCTION(Client, Unreliable)
-	void Client_SpecialObjectErrorSpawned();
-
-	UFUNCTION(Client, Reliable)
-	void Client_GetMessage(const FString& Message, bool const IsOnlyAlly);
-
 	UFUNCTION()
 	void CreateChatForAllPlayer();
 
@@ -67,6 +61,12 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public
 
 	UFUNCTION(Client, Reliable)
 	void Client_UpdateLevelInfo(int32 Exp);
+	
+	UFUNCTION(Client, Unreliable)
+    void Client_SpecialObjectErrorSpawned();
+    
+    UFUNCTION(Client, Reliable)
+    void Client_GetMessage(const FString& Message, bool const IsOnlyAlly);
 	
 public:
 

@@ -14,6 +14,11 @@ class SPACEWAR_API AConnectToServerGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+
+protected:
+
+	virtual void BeginPlay() override;
+
 public:
 
 	UFUNCTION(BlueprintPure)

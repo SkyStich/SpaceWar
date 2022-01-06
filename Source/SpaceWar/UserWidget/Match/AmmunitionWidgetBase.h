@@ -13,9 +13,6 @@
 #include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
 #include "AmmunitionWidgetBase.generated.h"
 
-/**
- * 
- */
 UCLASS(Abstract)
 class SPACEWAR_API UAmmunitionWidgetBase : public UUserWidget
 {

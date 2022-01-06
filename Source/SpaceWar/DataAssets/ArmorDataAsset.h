@@ -36,6 +36,9 @@ struct FArmorData
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
 	float JumpLenght;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
+	float MaxWeight;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ArmorData")
 	UTexture2D* Image;

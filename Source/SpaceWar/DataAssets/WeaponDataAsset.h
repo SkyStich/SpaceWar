@@ -98,6 +98,9 @@ struct FWeaponCharacteristicsBase
 	float SelectWeaponTime;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponCategory")
+	float Weight;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponDataAsset|WeaponCategory")
 	EWeaponCategory Category;
 };
 

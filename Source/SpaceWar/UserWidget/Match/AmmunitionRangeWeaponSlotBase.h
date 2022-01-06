@@ -19,6 +19,9 @@ public:
 	void Init(EWeaponType NewType, FName NewId);
 
 	UFUNCTION(BlueprintImplementableEvent)
+	void SlotCanNotReplacement();
+
+	UFUNCTION(BlueprintImplementableEvent)
 	void InitDesigner(UWeaponDataAsset* AssetData);
 
 	UFUNCTION(BlueprintCallable)

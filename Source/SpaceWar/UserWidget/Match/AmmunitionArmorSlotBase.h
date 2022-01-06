@@ -20,6 +20,9 @@ public:
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void InitDesigner(UArmorDataAsset* AssetData);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ArmorCanNotReplacement();
 	
 public:
 
