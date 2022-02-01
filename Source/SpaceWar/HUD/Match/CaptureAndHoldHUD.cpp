@@ -93,3 +93,9 @@ void ACaptureAndHoldHUD::CreatePreparationWidget()
 		PreparationWidget->AddToViewport();
 	}
 }
+
+void ACaptureAndHoldHUD::SpawnPlayerCompleteWithFail()
+{
+	CreatePreparationWidget();
+	ShowPreparationWidget();
+}

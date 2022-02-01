@@ -34,4 +34,5 @@ protected:
 public:
 
 	ACaptureAndHoldHUD();
+	void SpawnPlayerCompleteWithFail();
 };

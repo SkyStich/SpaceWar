@@ -16,8 +16,13 @@ class SPACEWAR_API UBaseSingleton : public UObject
 	GENERATED_BODY()
 
 public:
-
     static UBaseSingleton& Get(); 
+    FString GetMainServerAddress() const { return MainServerAddress; }
 
 	FStreamableManager AssetLoader;
+
+private:
+
+	UPROPERTY(Config)
+	FString MainServerAddress;
 };

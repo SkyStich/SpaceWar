@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
 #include "SpaceWar/GameStates/Match/CaptureHoldGamestate.h"
+#include "SpaceWar/HUD/Match/CaptureAndHoldHUD.h"
 #include "SpaceWar/Interfaces/ErrorMessageInterface.h"
 #include "SpaceWar/PlayerStart/PointCapturePlayerStart.h"
 
@@ -97,7 +98,7 @@ bool ACaptureHoldController::SpawnPlayerByPoint(EPointNumber Point)
 	for(TActorIterator<APointCapturePlayerStart> It(GetWorld(), APointCapturePlayerStart::StaticClass()); It; ++It)
 	{
 		auto Temp = *It;
-		if(Temp->GetPointNumber() == Point && IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) == Temp->GetSpawnTeam())
+		if(Temp->GetPointNumber() == Point)
 		{
 			PointArray.Add(Temp);
 		}
@@ -114,7 +115,7 @@ void ACaptureHoldController::Server_SpawnPlayerByPoint_Implementation(const TArr
 	{
 		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) != ByArray->GetSpawnTeam()) return;
 
-		if(ByArray->CheckOnFreePoints())
+		if(ByArray->CheckOnFreePoints() && IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) == ByArray->GetSpawnTeam())
 		{
 			SpawnPlayer(ByArray->GetActorLocation());
 			return;
@@ -126,6 +127,7 @@ void ACaptureHoldController::Server_SpawnPlayerByPoint_Implementation(const TArr
 void ACaptureHoldController::Client_ErrorMessage_Implementation(const FString& Message)
 {
 	IErrorMessageInterface::Execute_ClientErrorMessage(MyHUD, Message);
+	GetHUD<ACaptureAndHoldHUD>()->SpawnPlayerCompleteWithFail();
 }
 
 void ACaptureHoldController::OnPreparationStartGameFinishEvent(bool bResult)

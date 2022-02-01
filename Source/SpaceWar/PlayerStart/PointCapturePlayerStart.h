@@ -13,6 +13,11 @@ UCLASS()
 class SPACEWAR_API APointCapturePlayerStart : public AMatchPlayerStartBase
 {
 	GENERATED_BODY()
+
+private:
+
+	UFUNCTION()
+	void OnOwnerTeamChanged(ETeam NewOwnerTeam, EPointNumber Number);
 	
 public:
 
@@ -25,6 +30,10 @@ public:
 	UFUNCTION(BlueprintPure)
 	EPointNumber GetPointNumber() const { return PointNumber; }
 
+protected:
+
+	virtual void BeginPlay() override;
+
 private:
  
 	UPROPERTY(EditAnywhere)
@@ -32,4 +41,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	ETeam SpawnTeam = ETeam::NoneTeam;
+
+	UPROPERTY(EditAnywhere)
+	class ATeamPoints* Point;
 };

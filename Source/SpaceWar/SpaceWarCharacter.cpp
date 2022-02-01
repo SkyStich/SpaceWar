@@ -23,7 +23,7 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	bReplicates = true;
 	bCanWeaponManipulation = true;
 	SetCanBeDamaged(false);
-	NetUpdateFrequency = 35.f;
+	NetUpdateFrequency = 50.f;
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -39,7 +39,9 @@ ASpaceWarCharacter::ASpaceWarCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
-
+	GetCharacterMovement()->MovementState.bCanJump = true;
+	GetCharacterMovement()->MovementState.bCanCrouch = true;
+	
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
@@ -70,8 +72,8 @@ void ASpaceWarCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
 	
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASpaceWarCharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ASpaceWarCharacter::JumpReleased);
 
 	PlayerInputComponent->BindAction("Stamina", IE_Pressed, this, &ASpaceWarCharacter::OwnerStartUseStamina);
 	PlayerInputComponent->BindAction("Stamina", IE_Released, this, &ASpaceWarCharacter::OwnerStopUseStamina);
@@ -87,6 +89,9 @@ void ASpaceWarCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 	PlayerInputComponent->BindAction("UseJetpack", IE_Released, this, &ASpaceWarCharacter::UseJetpackPressed);
 	PlayerInputComponent->BindAction("SuperSprint", IE_Pressed, this, &ASpaceWarCharacter::ToggleUseSuperSprint);
 
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ASpaceWarCharacter::CrouchPressed);
+	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &ASpaceWarCharacter::CrouchReleased);
+	
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASpaceWarCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASpaceWarCharacter::MoveRight);
 
@@ -163,7 +168,7 @@ bool ASpaceWarCharacter::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* 
 
 void ASpaceWarCharacter::Jump()
 {
-	if(!StaminaComponent->GetSuperSprintSpeed() && !StaminaComponent->IsStaminaUse()) Super::Jump();
+	if(!StaminaComponent->IsSuperSprintUsed() && !StaminaComponent->IsStaminaUse()) Super::Jump();
 }
 
 void ASpaceWarCharacter::Server_InitArmor_Implementation(const FName& ArmorName)
@@ -635,4 +640,31 @@ void ASpaceWarCharacter::ChangeFireModePressed()
 	{
 		WeaponManager->GetCurrentWeapon()->PressedToggleFiringMode();
 	}
+}
+
+void ASpaceWarCharacter::CrouchPressed()
+{
+	if(!GetCharacterMovement()->IsFalling() && !GetCharacterMovement()->IsCrouching())
+	{
+		Crouch();
+	}
+}
+
+void ASpaceWarCharacter::CrouchReleased()
+{
+	if(GetCharacterMovement()->IsCrouching())
+	{
+		UnCrouch();	
+	}
+	
+}
+
+void ASpaceWarCharacter::JumpPressed()
+{
+	Jump();
+}
+
+void ASpaceWarCharacter::JumpReleased()
+{
+	StopJumping();
 }

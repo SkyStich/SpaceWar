@@ -37,6 +37,18 @@ class ASpaceWarCharacter : public ACharacter, public IGetDamageCauserInfo, publi
 	GENERATED_BODY()
 
 	UFUNCTION()
+	void CrouchPressed();
+
+	UFUNCTION()
+	void CrouchReleased();
+
+	UFUNCTION()
+	void JumpPressed();
+	
+	UFUNCTION()
+	void JumpReleased();
+
+	UFUNCTION()
 	void UpdateWeaponMesh(UBaseWeaponObject* Weapon);
 
 	UFUNCTION()

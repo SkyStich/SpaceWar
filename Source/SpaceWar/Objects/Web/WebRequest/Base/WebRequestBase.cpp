@@ -24,7 +24,6 @@ bool UWebRequestBase::CallWebScript(const FString& ScriptURL, TSharedPtr<FJsonOb
 
 	TSharedRef<TJsonWriter<>> JsonWriter = TJsonWriterFactory<>::Create(&JSonStream);
 
-	/** Засовываем все в json */
 	FJsonSerializer::Serialize(JsonRequest.ToSharedRef(), JsonWriter);
 	HttpRequest->SetContentAsString(JSonStream);
 
@@ -70,8 +69,7 @@ void UWebRequestBase::InitRequest(TSharedRef<IHttpRequest, ESPMode::ThreadSafe>&
 
 	/** set address url */
 	Request->SetURL(ScriptURL);
-	
-	Request->SetVerb(WebRequestType == EWebRequestType::Post ? "post" : "get");
+	Request->SetVerb(UEnum::GetValueAsString(WebRequestType));
 	Request->SetHeader(TEXT("User-Agent"), "X-UnrealEngine-Agent");
 	Request->SetHeader("Content-Type", TEXT("application/Json"));
 }
