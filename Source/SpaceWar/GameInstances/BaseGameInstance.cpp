@@ -55,8 +55,6 @@ void UBaseGameInstance::ReplacementWeapon(EWeaponType Key, const FName& NewId)
 
 void UBaseGameInstance::LoadPlayerData()
 {
-	//if(GIsServer) return;
-
 	if(USavePlayerData* SaveGame = Cast<USavePlayerData>(UGameplayStatics::LoadGameFromSlot(FString(PlayerName + "Data"), GetPrimaryPlayerController()->NetPlayerIndex)))
 	{
 		UKismetSystemLibrary::PrintString(GetWorld(), FString::Printf(TEXT("LoadArmor: %ls"), *SaveGame->EquippableArmorId.ToString()));

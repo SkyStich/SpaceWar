@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Config=game)
 class SPACEWAR_API UBaseSingleton : public UObject
 {
 	GENERATED_BODY()

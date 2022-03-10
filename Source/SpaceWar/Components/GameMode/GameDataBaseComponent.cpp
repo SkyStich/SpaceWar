@@ -13,6 +13,7 @@ void UGameDataBaseComponent::CreateServerInDataBase()
 {
 	Super::CreateServerInDataBase();
 
+#if UE_SERVER
 	auto const GameMode = UGameplayStatics::GetGameMode(GetWorld());
 	if(!GameMode) return;
 	if(UGameplayStatics::HasOption(GameMode->OptionsString, "OwnerName"))
@@ -27,6 +28,7 @@ void UGameDataBaseComponent::CreateServerInDataBase()
 		return;
 	}
 	UE_LOG(LogActorComponent, Error, TEXT("Game mode have not option OwnerName (Server hub owner)"));
+#endif
 }
 
 void UGameDataBaseComponent::RemoveServerFromDataBase()

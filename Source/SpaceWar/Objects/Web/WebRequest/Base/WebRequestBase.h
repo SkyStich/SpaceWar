@@ -14,8 +14,8 @@ DECLARE_LOG_CATEGORY_EXTERN(LogWebRequest, Log, All);
 UENUM(BlueprintType)
 enum class EWebRequestType : uint8
 {
-	Post,
-	Get
+	Post	UMETA(DisplayName = "Post"),
+	Get		UMETA(DisplayName = "Get")
 };
 
 UCLASS(BlueprintType)

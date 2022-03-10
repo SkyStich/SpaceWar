@@ -41,7 +41,7 @@ void UWebRequestBase::OnResponseReceived(FHttpRequestPtr Request, FHttpResponseP
 		CallJsonFail();
 		return;
 	}
-
+	
 	TSharedPtr<FJsonObject>JsonObject;
 	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
 
@@ -69,7 +69,8 @@ void UWebRequestBase::InitRequest(TSharedRef<IHttpRequest, ESPMode::ThreadSafe>&
 
 	/** set address url */
 	Request->SetURL(ScriptURL);
-	Request->SetVerb(UEnum::GetValueAsString(WebRequestType));
+	FString Verb = WebRequestType == EWebRequestType::Post ? "POST" : "GET";
+	Request->SetVerb(Verb);
 	Request->SetHeader(TEXT("User-Agent"), "X-UnrealEngine-Agent");
 	Request->SetHeader("Content-Type", TEXT("application/Json"));
 }

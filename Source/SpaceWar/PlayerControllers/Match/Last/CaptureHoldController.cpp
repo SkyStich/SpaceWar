@@ -98,7 +98,7 @@ bool ACaptureHoldController::SpawnPlayerByPoint(EPointNumber Point)
 	for(TActorIterator<APointCapturePlayerStart> It(GetWorld(), APointCapturePlayerStart::StaticClass()); It; ++It)
 	{
 		auto Temp = *It;
-		if(Temp->GetPointNumber() == Point)
+		if(Temp->GetPointNumber() == Point && Temp->CheckOnFreePoints() && IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) == Temp->GetSpawnTeam())
 		{
 			PointArray.Add(Temp);
 		}
@@ -113,8 +113,6 @@ void ACaptureHoldController::Server_SpawnPlayerByPoint_Implementation(const TArr
 	
 	for(auto& ByArray : PointArray)
 	{
-		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) != ByArray->GetSpawnTeam()) return;
-
 		if(ByArray->CheckOnFreePoints() && IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState) == ByArray->GetSpawnTeam())
 		{
 			SpawnPlayer(ByArray->GetActorLocation());

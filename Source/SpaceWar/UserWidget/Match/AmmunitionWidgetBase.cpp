@@ -101,14 +101,14 @@ void UAmmunitionWidgetBase::SlotClicked_Implementation(UAmmunitionRangeWeaponSlo
 	{
 		if(SlotForReplacement == EWeaponType::Unknown || SlotForReplacement == EWeaponType::SpecialWeapon) return;
 
-		auto const ArmorData = ArmorDataAsset->GetArmorData().Find(GameInstanceBase->GetCurrentArmorId());
+		auto const ArmorData = ArmorDataAsset->GetArmorData().FindRef(GameInstanceBase->GetCurrentArmorId());
 		
 		FName const TempWeaponCurrentId = GameInstanceBase->FindWeaponByType(SlotForReplacement == EWeaponType::FirstWeapon ? EWeaponType::SecondWeapon : EWeaponType::FirstWeapon, GameInstanceBase->GetWeapons());
 
 		float const CurrentWeaponWeight = WeaponDataAsset->GetEquipWeaponData(TempWeaponCurrentId).WeaponCharacteristicsBase.Weight;
 		float const NewWeaponWeight = WeaponDataAsset->GetEquipWeaponData(ClickSlot->GetId()).WeaponCharacteristicsBase.Weight;
 		
-		if((NewWeaponWeight + CurrentWeaponWeight) <= ArmorData->MaxWeight)
+		if((NewWeaponWeight + CurrentWeaponWeight) <= ArmorData.MaxWeight)
 		{
 			ASpaceWarCharacter* SpaceCharacter = Cast<ASpaceWarCharacter>(GetOwningPlayerPawn());
 			GameInstanceBase->ReplacementWeapon(SlotForReplacement, ClickSlot->GetId());

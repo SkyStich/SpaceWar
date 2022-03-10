@@ -9,7 +9,7 @@
 void AMainHUBPlayerControllerBase::Server_CreateServer_Implementation(const FString& MapReference, const FString& ServerName, const FString& OwnerHudName)
 {
 	UE_LOG(LogTemp, Log, TEXT("Reference: %s"), *MapReference)
-	FString Param = TEXT("ServerName=") + ServerName + "?OwnerName=" + OwnerHudName + "?ip=127.0.0.1 ";
+	FString Param = TEXT("ServerName=") + ServerName + "?OwnerName=" + OwnerHudName + "?ip=26.217.133.211 ";
 	UServerManipulationLibrary::LaunchServer(MapReference, Param);
 }
 
