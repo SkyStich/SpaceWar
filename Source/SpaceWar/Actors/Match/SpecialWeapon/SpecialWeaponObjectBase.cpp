@@ -5,6 +5,7 @@
 #include "AIController.h"
 #include "Net/UnrealNetwork.h"
 #include "DrawDebugHelpers.h"
+#include "Components/SlateWrapperTypes.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "SpaceWar/SpaceWarCharacter.h"
 #include "UObject/ConstructorHelpers.h"
@@ -61,6 +62,10 @@ void ASpecialWeaponObjectBase::BeginPlay()
 	{
 		SetActorTickEnabled(true);
 	}
+	else
+	{
+		SkeletalMesh->SetVisibility(false);
+	}
 
 	if(GetLocalRole() == ROLE_Authority)
 	{
@@ -86,8 +91,11 @@ void ASpecialWeaponObjectBase::Tick(float DeltaTime)
 			Server_InstigatorIsNull();
 			return;
 		}
-		
-		UpdateLocation();
+
+		if(GetInstigatorController())
+		{
+			UpdateLocation();
+		}
 	}
 }
 

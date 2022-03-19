@@ -64,7 +64,7 @@ public:
 	void SaveFullPlayerData();
 
 	UFUNCTION(BlueprintCallable, Category = "GameInstance")
-	void SetCurrentMainHUBServerName(const FString& NewAddress) { CurrentMainHUBServerName = NewAddress; }
+	void SetCurrentMainHUBServerAddress(const FString& NewAddress) { CurrentMainHUBServerAddress = NewAddress; }
 	
 	UFUNCTION(BlueprintCallable, Category = "GameInstance")
 	void SetThrowWeapon(const FName& NewId) { CurrentThrowWeapon = NewId; }
@@ -79,7 +79,7 @@ public:
 	ESolderCategory GetCurrentSolderCategory() const { return CurrentSolderCategory; }
 
 	UFUNCTION(BlueprintPure, Category = "GameInstance")
-	FString GetCurrentMainHUBServerName() const { return CurrentMainHUBServerName; }
+	FString GetCurrentMainHUBServerAddress() const { return CurrentMainHUBServerAddress; }
 
 	UFUNCTION(BlueprintPure, Category = "GameInstance")
 	FName GetCurrentThrowWeapon() const { return CurrentThrowWeapon; }
@@ -143,7 +143,7 @@ private:
 	FString PlayerName;
 
 	UPROPERTY()
-	FString CurrentMainHUBServerName;
+	FString CurrentMainHUBServerAddress;
 	
 	UPROPERTY()
 	int32 PlayerId;

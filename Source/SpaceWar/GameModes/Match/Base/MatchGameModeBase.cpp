@@ -15,12 +15,19 @@ AMatchGameModeBase::AMatchGameModeBase()
 {
 	PointForWin = 1000;
 
-	DataBaseComponent = CreateDefaultSubobject<UGameDataBaseComponent>(TEXT("GameDataBaseComponent"));
+	GameDataBaseComponent = CreateDefaultSubobject<UGameDataBaseComponent>(TEXT("GameDataBaseComponent"));
 }
 
 void AMatchGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameDataBaseComponent->OnForcedServerShutdown.BindUFunction(this, "OnForcedServerShutdownEvent");
+}
+
+void AMatchGameModeBase::OnForcedServerShutdownEvent()
+{
+	OnPreServerShutdown.Broadcast();
 }
 
 void AMatchGameModeBase::CharDead(AController* InstigatorController, AController* LoserController, AActor* DamageCauser)
@@ -97,7 +104,7 @@ void AMatchGameModeBase::MatchEnded(const FString& Reason, ETeam WinnerTeam)
 	OnPreMatchEnded.Broadcast(Reason, WinnerTeam);
 
 #if UE_SERVER
-	DataBaseComponent->RemoveServerFromDataBase();
+	GameDataBaseComponent->RemoveServerFromDataBase();
 #endif
 	
 	FTimerDelegate TimerDel;
@@ -122,8 +129,8 @@ void AMatchGameModeBase::Logout(AController* Exiting)
 {
 	Super::Logout(Exiting);
 
-	if(GetNumPlayers() <= 0)
+	if(GameState->PlayerArray.Num() <= 0)
 	{
-		DataBaseComponent->ShutDownServer();
+		GameDataBaseComponent->ShutDownServer();
 	}
 }

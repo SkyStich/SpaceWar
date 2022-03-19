@@ -179,10 +179,14 @@ void UEquipableWeaponManager::WeaponReplacement(EWeaponType NewType, const FName
 
 	auto const TempWeapon = WeaponDataAsset->CreateWeaponObject(Id, GetWorld(), GetOwner());
 
-	if(!TempWeapon || !OldPlayerWeapon) return;
+	if(!TempWeapon) return;
+	bool IsCurrent = false;
 
-	bool const IsCurrent = OldPlayerWeapon->GetWeaponName() == TempWeapon->GetWeaponName();
-
+	if(OldPlayerWeapon && CurrentWeapon)
+	{
+		IsCurrent = CurrentWeapon == OldPlayerWeapon;
+	}
+	
 	RemoveFromWeapons(NewType);
 	AddToWeapons(NewType, TempWeapon);
 	if(IsCurrent) SetCurrentWeapon(TempWeapon);

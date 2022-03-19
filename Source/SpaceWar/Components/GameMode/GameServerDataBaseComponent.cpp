@@ -134,13 +134,12 @@ void UGameServerDataBaseComponent::EndPlay(const EEndPlayReason::Type EndPlayRea
 
 void UGameServerDataBaseComponent::ShutDownServer()
 {
-	ServerData.IsActive = false;
 	RequestEngineExit("Game over");
 }
 
 void UGameServerDataBaseComponent::ForcedShutdownServer()
 {
-	OnForcedServerShutdown.Broadcast();
+	OnForcedServerShutdown.Execute();
 	SetTickableWhenPaused(true);
 	ServerData.IsActive = false;
 }

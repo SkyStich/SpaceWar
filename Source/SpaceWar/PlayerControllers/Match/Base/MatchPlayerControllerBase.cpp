@@ -42,7 +42,7 @@ void AMatchPlayerControllerBase::BeginPlay()
 		auto const GM = Cast<AMatchGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		GM->OnMatchEnded.AddDynamic(this, &AMatchPlayerControllerBase::EndMatch);
 		GM->OnPreMatchEnded.AddDynamic(this, &AMatchPlayerControllerBase::PreEndMatch);
-	//	GM->GetDataBaseComponent()->OnForcedServerShutdown.AddDynamic(this, &AMatchPlayerControllerBase::ForcedDisconnectFromServer);
+		GM->OnPreServerShutdown.AddDynamic(this, &AMatchPlayerControllerBase::ForcedDisconnectFromServer);
 	}
 }
 
@@ -254,9 +254,7 @@ void AMatchPlayerControllerBase::Client_UpdateLevelInfo_Implementation(int32 Exp
 
 void AMatchPlayerControllerBase::EndMatch(const FString& Reason, ETeam WinnerTeam)
 {
-#if UE_EDITOR
 	Client_ConnectToHUBServer();
-#endif
 }
 
 void AMatchPlayerControllerBase::ForcedDisconnectFromServer()
@@ -266,7 +264,7 @@ void AMatchPlayerControllerBase::ForcedDisconnectFromServer()
 
 void AMatchPlayerControllerBase::Client_ConnectToHUBServer_Implementation()
 {
-	FString const Address = GetGameInstance<UBaseGameInstance>()->GetCurrentMainHUBServerName();
+	FString const Address = GetGameInstance<UBaseGameInstance>()->GetCurrentMainHUBServerAddress();
 	UGameplayStatics::OpenLevel(GetWorld(), *Address);
 }
 

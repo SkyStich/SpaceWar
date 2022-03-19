@@ -99,7 +99,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Weapons|Getting")
 	bool GetThrowUsed() const { return ThrowWeaponBase->GetWeaponUsed(); }
 
-	UFUNCTION(BlueprintCallable, Server, Unreliable, Category = "WeaponManager|Weapon")
+	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "WeaponManager|Weapon")
 	void Server_ReplacementWeapon(EWeaponType Key, const FName& Id);
 	
 protected:

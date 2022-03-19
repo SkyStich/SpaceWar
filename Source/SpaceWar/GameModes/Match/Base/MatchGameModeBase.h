@@ -16,6 +16,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FPlayerDead, AController*, Insteg
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FMatchEnded, const FString&, Reason, ETeam, TeamWinner);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerPostLogin, APlayerController*, PlayerConttroller);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FPreMatchEnded, const FString&, Reason, ETeam, TeamWinner);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPreServerShutdown);
 
 UCLASS(Abstract)
 class SPACEWAR_API AMatchGameModeBase : public AGameModeBase
@@ -30,6 +31,9 @@ private:
 	UFUNCTION()
 	void AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, FTransform SpawnTransform, AController* Controller);
 
+	UFUNCTION()
+	void OnForcedServerShutdownEvent();
+
 public:
 
 	AMatchGameModeBase();
@@ -40,7 +44,8 @@ public:
 	virtual void SpawnSpectator(AController* PossessController, const FVector& Location, const FRotator& Rotation);
 	virtual void PreLogin(const FString& Options, const FString& Address, const FUniqueNetIdRepl& UniqueId, FString& ErrorMessage) override;
 
-	UGameServerDataBaseComponent* GetDataBaseComponent() const { return DataBaseComponent; }
+	UFUNCTION()
+	UGameServerDataBaseComponent* GetDataBaseComponent() const { return GameDataBaseComponent; }
 
 protected:
 
@@ -62,14 +67,17 @@ public:
 
 	UPROPERTY()
 	FPlayerPostLogin OnPlayerPostLogin;
+	
+	UPROPERTY()
+	FPreServerShutdown OnPreServerShutdown;
 
 protected:
 
 	UPROPERTY(EditAnywhere)
 	int32 PointForWin;
 
-	UPROPERTY()
-	UGameServerDataBaseComponent* DataBaseComponent;
+	UPROPERTY(VisibleDefaultsOnly)
+	UGameServerDataBaseComponent* GameDataBaseComponent;
 
 	FTimerHandle TimeMatchHandle;
 };

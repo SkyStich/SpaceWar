@@ -10,7 +10,8 @@
 
 class AMatchGameModeBase;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FForcedServerShutdown);
+DECLARE_DYNAMIC_DELEGATE(FForcedServerShutdown);
+DECLARE_DYNAMIC_DELEGATE(FTestDelegate);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
@@ -59,8 +60,8 @@ protected:
 	
 public:
 
-	UPROPERTY()
 	FForcedServerShutdown OnForcedServerShutdown;
+	FTestDelegate OnTestDelegate;
 
 protected:
 

@@ -16,7 +16,7 @@ class SPACEWAR_API AMainHUBPlayerControllerBase : public AMainMenuPlayerControll
 	GENERATED_BODY()
 		
 	UFUNCTION(Server, Reliable)
-    void Server_CreateServer(const FString& MapReference, const FString& ServerName, const FString& OwnerHudName);
+    void Server_CreateServer(const FString& MapReference, const FString& ServerName);
 	
 	UFUNCTION()
 	void CheckingForExistenceServer(FString ServerName);
