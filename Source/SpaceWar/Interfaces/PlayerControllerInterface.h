@@ -21,6 +21,12 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintAuthorityOnly)
 	bool IsPLayerCharacterAlive();
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void StartVotingKickPlayer(APlayerController* KickPlayer);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void VotingStartedForKickPlayer();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void TransferSpawnLocationByPointNumber(EPointNumber NumberPoint);

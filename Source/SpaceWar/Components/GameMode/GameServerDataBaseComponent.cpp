@@ -10,10 +10,12 @@
 // Sets default values for this component's properties
 UGameServerDataBaseComponent::UGameServerDataBaseComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickInterval = 10.f; 
+	PrimaryComponentTick.bCanEverTick = false;
 	
 	bRequestForUpdateSent = false;
+
+	ActivateTickTime = 30.f;
+	DeactivateTickTime = 120.f;
 }
 
 void UGameServerDataBaseComponent::BeginPlay()
@@ -30,7 +32,7 @@ void UGameServerDataBaseComponent::BeginPlay()
 	if(!UGameplayStatics::HasOption(GM->OptionsString, "ServerName"))
 	{
 		UE_LOG(LogGameMode, Error, TEXT("Server have not ServerName. Add Server name option and launch server"));
-		ShutDownServer();
+		ShutDownServer("Server have not ServerName");
 		return;
 	}
 #endif	
@@ -52,17 +54,19 @@ void UGameServerDataBaseComponent::BeginPlay()
 	}
 }
 
-void UGameServerDataBaseComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UGameServerDataBaseComponent::StartServerDataTimer(const float TickRate)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	GetWorld()->GetTimerManager().SetTimer(ServerDataHandle, this, &UGameServerDataBaseComponent::OnUpdateServerData, TickRate, true);
+}
 
-	if(!GetOwner()) return;
-	UpdateServerData();
+void UGameServerDataBaseComponent::OnUpdateServerData()
+{
+	if(GetOwner()) UpdateServerData();
 }
 
 bool UGameServerDataBaseComponent::UpdateServerData()
 {
-	if(ServerData.IsActive && !bRequestForUpdateSent)
+	if(!bRequestForUpdateSent)
 	{
 		return bRequestForUpdateSent = true;
 	}
@@ -88,35 +92,29 @@ void UGameServerDataBaseComponent::OnResponseCreateServer(const int32 ServerID)
 #endif
 	ServerData.Id = ServerID;
 	ServerData.IsActive = true;
+	StartServerDataTimer(ActivateTickTime);
 }
 
 void UGameServerDataBaseComponent::OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data)
 {
 	UE_LOG(LogTemp, Log, TEXT("OnResponseGetServerInfo. Name: %s     Address: %s"), *ServerData.Name, *ServerData.Address);
-	if(!bResult) return;
 	
 	bRequestForUpdateSent = false;
 	ServerData.Name = Data.Name;
-	ServerData.IsActive = Data.IsActive;
-
-	if(!Data.IsActive)
-	{
-		ForcedShutdownServer();
-	}
 }
 
 /** Remove server */
 void UGameServerDataBaseComponent::RemoveServerFromDataBase()
 {
 	ServerData.IsActive = false;
-	SetTickableWhenPaused(true);
+	StopServerDataTimer();
 }
 
 void UGameServerDataBaseComponent::OnResponseRemoveServerFromDataBase(bool bResult, const FString& ErrorMessage)
 {
 	if(bResult)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("OnResponseRemoveServerFromDataBase"));
+		ShutDownServer("Server removed");
 	}
 }
 
@@ -132,14 +130,15 @@ void UGameServerDataBaseComponent::EndPlay(const EEndPlayReason::Type EndPlayRea
 	Super::EndPlay(EndPlayReason);
 }
 
-void UGameServerDataBaseComponent::ShutDownServer()
+void UGameServerDataBaseComponent::ShutDownServer(const FString& Reason)
 {
-	RequestEngineExit("Game over");
+	UE_LOG(LogTemp, Warning, TEXT("ShutDownServer"));
+	RequestEngineExit(Reason);
 }
 
 void UGameServerDataBaseComponent::ForcedShutdownServer()
 {
-	OnForcedServerShutdown.Execute();
-	SetTickableWhenPaused(true);
+	OnForcedServerShutdown.Broadcast();
+	StopServerDataTimer();
 	ServerData.IsActive = false;
 }

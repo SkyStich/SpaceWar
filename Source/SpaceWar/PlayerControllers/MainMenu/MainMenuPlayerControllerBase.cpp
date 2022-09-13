@@ -7,7 +7,7 @@ AMainMenuPlayerControllerBase::AMainMenuPlayerControllerBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	bReplicates = true;
+	bReplicates = true; 
 	NetUpdateFrequency = 1.f;
 
 	DataBaseTransfer = CreateDefaultSubobject<UDataBaseTransfer>(TEXT("DataBaseTransfer"));

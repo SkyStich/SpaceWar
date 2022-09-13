@@ -22,6 +22,7 @@ AMatchPlayerControllerBase::AMatchPlayerControllerBase(const FObjectInitializer&
 
 	DecreaseSpecialPointsValue = 200;
 	bAttachToPawn = true;
+	bVoteWasCast = false;
 
 	SpecialObjectManager = CreateDefaultSubobject<USpecialObjectManagerComponent>(TEXT("SpecialObjectManager"));
 	DataBaseTransfer = CreateDefaultSubobject<UDataBaseTransfer>(TEXT("DataBaseTransfer"));
@@ -241,8 +242,8 @@ void AMatchPlayerControllerBase::PreEndMatch(const FString& Reason, ETeam Winner
 	int32 const Death = 50 * PS->GetNumberOfDeaths();
 	int32 const Exp = MinExp + (MurdersExp < 0 ? 0 : MurdersExp) - Death;
 
-	ReceivingUpdateLevel(FMath::Clamp(Exp, MinExp, 10000));
-	Client_UpdateLevelInfo(FMath::Clamp(Exp, MinExp, 10000));
+	ReceivingUpdateLevel(FMath::Clamp(Exp, MinExp, 5000));
+	Client_UpdateLevelInfo(FMath::Clamp(Exp, MinExp, 5000));
 }
 
 void AMatchPlayerControllerBase::Client_UpdateLevelInfo_Implementation(int32 Exp)
@@ -276,4 +277,37 @@ void AMatchPlayerControllerBase::ReceivingUpdateLevel(const int32 Exp)
 void AMatchPlayerControllerBase::UpdateExp(const int32 Value)
 {
 	ReceivingUpdateLevel(Value);
+}
+
+void AMatchPlayerControllerBase::StartVotingKickPlayer_Implementation(APlayerController* KickPlayer)
+{
+	if(KickPlayer)
+	{
+		Server_StartVotingForKickPlayer(KickPlayer);
+	}
+}
+
+void AMatchPlayerControllerBase::Server_StartVotingForKickPlayer_Implementation(APlayerController* KickPlayer)
+{
+	auto const KickPlayerTeam = IGetPlayerTeamInterface::Execute_FindPlayerTeam(KickPlayer->PlayerState);
+	auto const OwnerTeam = IGetPlayerTeamInterface::Execute_FindPlayerTeam(PlayerState);
+	
+	if(KickPlayerTeam != OwnerTeam) return;
+	
+	AGameStateBase* GameState = UGameplayStatics::GetGameState(GetWorld());
+
+	if(GameState && GameState->GetClass()->ImplementsInterface(UMainGameStateInterface::StaticClass()))
+	{
+		IMainGameStateInterface::Execute_StartVotingForKickPlayer(GameState, KickPlayer, OwnerTeam);
+	}
+}
+
+void AMatchPlayerControllerBase::VotingStartedForKickPlayer_Implementation()
+{
+	
+}
+
+void AMatchPlayerControllerBase::Client_VotingStartedForKickPlayer_Implementation()
+{
+	
 }

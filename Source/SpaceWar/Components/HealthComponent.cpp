@@ -52,7 +52,6 @@ void UHealthComponent::Init(float const InitMaxArmor, float const InitArmorRegen
 
 void UHealthComponent::FirstAid(float const Value)
 {
-	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("FIRSTAID!!!!"));
 	if(CurrentHealth >= MaxHealth)
 	{
 		ChangeCurrentArmor(Value);
@@ -120,8 +119,8 @@ void UHealthComponent::OnPlayerTakePointDamage(AActor* DamagedActor, float Damag
 		GetOwner()->SetCanBeDamaged(false);
 	}
 
-	OnOwnerSufferedDamage.Broadcast(ShotFromDirection);
-	GetOwnerDamage(ShotFromDirection);
+	OnOwnerSufferedDamage.Execute(ShotFromDirection);
+	Client_GetOwnerDamage(ShotFromDirection);
 }
 
 float UHealthComponent::ArmorResist(float Damage)
@@ -221,7 +220,7 @@ void UHealthComponent::SetMaxArmor(const int32 NewMaxArmor)
 	CurrentArmor = MaxArmor;
 }
 
-void UHealthComponent::GetOwnerDamage_Implementation(const FVector& DamageVector)
+void UHealthComponent::Client_GetOwnerDamage_Implementation(const FVector& DamageVector)
 {
-	OnOwnerSufferedDamage.Broadcast(DamageVector);
+	OnOwnerSufferedDamage.Execute(DamageVector);
 }

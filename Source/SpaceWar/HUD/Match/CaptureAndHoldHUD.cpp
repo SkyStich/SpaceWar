@@ -40,6 +40,7 @@ void ACaptureAndHoldHUD::NewOwningPlayerPawn(APawn* Pawn)
 {
 	Super::NewOwningPlayerPawn(Pawn);
 
+	if(!Pawn || Pawn->IsPendingKill()) return;
 	if(!GetOwningPlayerController()->GetCharacter())
 	{
 		CreatePreparationWidget();

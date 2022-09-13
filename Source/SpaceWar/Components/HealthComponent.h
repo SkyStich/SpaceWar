@@ -14,7 +14,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOwnerDead);
 /** For owning client */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FArmorChanged);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHealthChanged);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOwnerSufferedDamage, const FVector&, DamageDirection);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FOwnerSufferedDamage, const FVector&, DamageDirection);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SPACEWAR_API UHealthComponent : public UActorComponent
@@ -28,7 +28,7 @@ class SPACEWAR_API UHealthComponent : public UActorComponent
 	void Client_ArmorChanged();
 	
 	UFUNCTION(Client, Unreliable)
-	void GetOwnerDamage(const FVector& DamageVector);
+	void Client_GetOwnerDamage(const FVector& DamageVector);
 
 	UFUNCTION()
     void OnRep_OwnerDead();
@@ -130,7 +130,6 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "HealthComponent|Gelegates")
 	FArmorChanged OnArmorChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "HealthComponent|Gelegates")
+	
 	FOwnerSufferedDamage OnOwnerSufferedDamage;
 };

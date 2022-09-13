@@ -35,6 +35,7 @@ void AMatchPlayerCameraManager::BeginPlay()
 
 void AMatchPlayerCameraManager::OnNewPawn(APawn* NewPawn)
 {
+	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("Hello"), true, true, FColor::Red);
 	if(!NewPawn) return;
 	auto const Player = Cast<ASpaceWarCharacter>(NewPawn);
 	if(Player && !Player->IsPendingKill())
@@ -42,7 +43,7 @@ void AMatchPlayerCameraManager::OnNewPawn(APawn* NewPawn)
 		DamageDynamicInstance = UKismetMaterialLibrary::CreateDynamicMaterialInstance(GetWorld(), DamageMaterial);
 		Player->GetFollowCamera()->AddOrUpdateBlendable(DamageDynamicInstance);
 		Player->GetAimCamera()->AddOrUpdateBlendable(DamageDynamicInstance);
-		Player->GetHealthComponent()->OnOwnerSufferedDamage.AddDynamic(this, &AMatchPlayerCameraManager::OnOwnerSufferedDamage);
+		Player->GetHealthComponent()->OnOwnerSufferedDamage.BindUFunction(this, "OnOwnerSufferedDamage");
 	}
 	else
 	{

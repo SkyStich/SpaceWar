@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{998B0745-47C4-BDA7-0876-B3844F9AEA61}",
+	"EngineAssociation": "{3DAEB458-4C46-C225-EDB5-D091C27B9B9A}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -100,6 +100,30 @@
 				"Win64",
 				"Linux"
 			]
+		},
+		{
+			"Name": "OnlineSubsystemIOS",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"IOS",
+				"TVOS"
+			]
+		},
+		{
+			"Name": "MobilePatchingUtils",
+			"Enabled": false
+		},
+		{
+			"Name": "PerforceSourceControl",
+			"Enabled": false
+		},
+		{
+			"Name": "PlasticSourceControl",
+			"Enabled": false
+		},
+		{
+			"Name": "SubversionSourceControl",
+			"Enabled": false
 		}
 	],
 	"TargetPlatforms": [

@@ -67,6 +67,12 @@ class SPACEWAR_API AMatchPlayerControllerBase : public APlayerController, public
     
     UFUNCTION(Client, Reliable)
     void Client_GetMessage(const FString& Message, bool const IsOnlyAlly);
+    
+    UFUNCTION(Client, Unreliable)
+    void Client_VotingStartedForKickPlayer();
+
+	UFUNCTION(Server, Reliable)
+	void Server_StartVotingForKickPlayer(APlayerController* KickPlayer);
 	
 public:
 
@@ -109,6 +115,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "HUD")
 	void StopUseAmmunitionState();
 
+	virtual void StartVotingKickPlayer_Implementation(APlayerController* KickPlayer) override;
+	virtual void VotingStartedForKickPlayer_Implementation() override;
+	
 protected:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -140,4 +149,6 @@ private:
 
 	UPROPERTY()
 	class UDataBaseTransfer* DataBaseTransfer;
+
+	bool bVoteWasCast;
 };

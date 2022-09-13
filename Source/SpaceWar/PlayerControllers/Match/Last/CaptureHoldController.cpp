@@ -109,7 +109,11 @@ bool ACaptureHoldController::SpawnPlayerByPoint(EPointNumber Point)
 
 void ACaptureHoldController::Server_SpawnPlayerByPoint_Implementation(const TArray<APointCapturePlayerStart*>&PointArray)
 {
-	if(!bCanSpawn) return;
+	if(!bCanSpawn)
+	{
+		Client_ErrorMessage(TEXT("You can not spawn"));
+		return;
+	}
 	
 	for(auto& ByArray : PointArray)
 	{

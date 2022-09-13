@@ -4,12 +4,17 @@
 #include "OnlinetMatchGameStateBase.h"
 #include "Net/UnrealNetwork.h"
 #include "SpaceWar/GameModes/Match/OnlineMatchGameModeBase.h"
+#include "SpaceWar/Interfaces/PlayerControllerInterface.h"
 
 AOnlinetMatchGameStateBase::AOnlinetMatchGameStateBase()
 {
 	TeamPointsA = 0;
 	TeamPointsB = 0;
 	MaxGamePreparationTime = 20;
+
+	VotingDatas.Reserve(2);
+	VotingDatas[0] = FVotingData();
+	VotingDatas[1] = FVotingData();
 }
 
 void AOnlinetMatchGameStateBase::NewPlayerLogin(APlayerController* PC)
@@ -136,5 +141,41 @@ void AOnlinetMatchGameStateBase::NetMulticast_FinishPreparationStartGame_Impleme
 	OnPreparationStartGameFinish.Broadcast(bResult);
 }
 
+FVotingData* AOnlinetMatchGameStateBase::GetVotingDataByTeam(ETeam const Team)
+{
+	return &VotingDatas[(uint8)Team - 1];
+}
 
+void AOnlinetMatchGameStateBase::StartVotingForKickPlayer_Implementation(APlayerController* KickPlayer, ETeam const VotingOwnerTeam)
+{
+	auto VotingData = GetVotingDataByTeam(VotingOwnerTeam);
+	if(!VotingData) return;
+	if(GetWorld()->GetTimerManager().IsTimerActive(VotingData->VotingTimer) && !KickPlayer) return;
+
+	for(auto const ByArray : PlayerArray)
+	{
+		if(VotingOwnerTeam == IGetPlayerTeamInterface::Execute_FindPlayerTeam(ByArray))
+		{
+			if(ByArray->GetOwner() == KickPlayer) continue;
+			IPlayerControllerInterface::Execute_VotingStartedForKickPlayer(ByArray->GetOwner());
+		}
+	}
+	VotingData->KickPlayer = KickPlayer;
+	FTimerDelegate TimerDel;
+	TimerDel.BindUObject(this, &AOnlinetMatchGameStateBase::StopVoting, VotingData);
+	GetWorld()->GetTimerManager().SetTimer(VotingData->VotingTimer, TimerDel, 30.f, false);
+}
+
+void AOnlinetMatchGameStateBase::StopVoting(FVotingData* VotingData)
+{
+	GetWorld()->GetTimerManager().ClearTimer(VotingData->VotingTimer);
+
+	if(VotingData->AmountForKick > VotingData->AmountForSave)
+	{
+		VotingData->KickPlayer->ClientWasKicked(FText(FString("Player be kicked")));
+	}
+	VotingData->KickPlayer = nullptr;
+	VotingData->AmountForKick = 0;
+	VotingData->AmountForSave = 0;
+}
 

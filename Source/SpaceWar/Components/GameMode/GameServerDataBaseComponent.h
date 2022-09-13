@@ -10,8 +10,8 @@
 
 class AMatchGameModeBase;
 
-DECLARE_DYNAMIC_DELEGATE(FForcedServerShutdown);
-DECLARE_DYNAMIC_DELEGATE(FTestDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FForcedServerShutdown);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FServerDeactivate);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
@@ -22,16 +22,12 @@ class SPACEWAR_API UGameServerDataBaseComponent : public UActorComponent
 	void OnResponseServerAddress(const FString& Address, const FString& ErrorMessage);
 
 	UFUNCTION()
-	void OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data);
-
-	UFUNCTION()
-	void ForcedShutdownServer();
+	void OnUpdateServerData();
 
 public:	
 	// Sets default values for this component's properties
 	UGameServerDataBaseComponent();
 	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	void CallGameServer(const FGameAddressCallBack& CallBack);
@@ -44,13 +40,21 @@ public:
 	virtual void RemoveServerFromDataBase();
 
 	UFUNCTION()
-	void ShutDownServer();
+	void ShutDownServer(const FString& Reason);
+
+	UFUNCTION()
+	void ForcedShutdownServer();
 	
 protected:
 	
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	virtual bool UpdateServerData();
+	virtual void StartServerDataTimer(const float TickRate);
+	void StopServerDataTimer() { GetWorld()->GetTimerManager().ClearTimer(ServerDataHandle); }
+	
+	UFUNCTION()
+	virtual void OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data);
 
 	UFUNCTION()
     void OnResponseCreateServer(const int32 ServerID);
@@ -60,8 +64,11 @@ protected:
 	
 public:
 
+	UPROPERTY(BlueprintAssignable)
 	FForcedServerShutdown OnForcedServerShutdown;
-	FTestDelegate OnTestDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FServerDeactivate OnServerDeactivate;
 
 protected:
 
@@ -74,5 +81,13 @@ protected:
 	*/
 	bool bRequestForUpdateSent;
 
+	float ActivateTickTime;
+	float DeactivateTickTime;
+
 	FGetServerInfoDelegate GetServerInfoCallBack;
+private:
+
+	/** Need to update server data from database */
+	UPROPERTY()
+	FTimerHandle ServerDataHandle;
 };

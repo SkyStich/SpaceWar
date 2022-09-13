@@ -64,8 +64,6 @@ bool USpecialObjectManagerComponent::CreateSpecialObject(const FName& ObjectId, 
 		}
 		return true;
 	}
-	
-	UKismetSystemLibrary::PrintString(GetWorld(), TEXT("do not have CurrentSpecialPoints for buy object --USpecialObjectManagerComponent::CreateSpecialObject"));
 	return false;
 }
 

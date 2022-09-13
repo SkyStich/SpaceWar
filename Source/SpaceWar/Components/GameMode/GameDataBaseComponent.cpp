@@ -55,3 +55,13 @@ bool UGameDataBaseComponent::UpdateServerData()
 	return false;
 }
 
+void UGameDataBaseComponent::OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data)
+{
+	Super::OnResponseGetServerInfo(bResult, ErrorMessage, Data);
+
+	if(!Data.IsActive || !bResult)
+	{
+		ForcedShutdownServer();
+	}
+}
+

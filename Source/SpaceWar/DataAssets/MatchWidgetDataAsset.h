@@ -48,7 +48,7 @@ public:
 	FMatchWidgetData* GetWidgetData(EMatchData MatchType) { return WidgetData.Find(MatchType); }
 	
 	template<class T>
-	T* SyncCreateWidget(UObject* WorldContext, TSoftClassPtr<UUserWidget> WidgetClass, APlayerController* OwningPlayer) const
+	static T* SyncCreateWidget(UObject* WorldContext, TSoftClassPtr<UUserWidget> WidgetClass, APlayerController* OwningPlayer)
 	{
 		if(WidgetClass.IsNull())
 		{

@@ -56,7 +56,6 @@ void ABaseMatchHUD::BeginPlay()
 
 	auto const GS = Cast<AOnlinetMatchGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	GS->OnPreparationStartGameFinish.AddDynamic(this, &ABaseMatchHUD::OnPreparationStartGameEvent);
-	
 	Cast<AMatchPlayerControllerBase>(GetOwningPlayerController())->OnPausePressed.BindUFunction(this, "OnPausePressed");
 }
 
@@ -78,6 +77,7 @@ UErrorMessageWidget* ABaseMatchHUD::CreateErrorWidget(const FString& Message)
 
 void ABaseMatchHUD::NewOwningPlayerPawn(APawn* NewPawn)
 {
+	if(!NewPawn || NewPawn->IsPendingKill()) return;
 	if(GetOwningPlayerController()->GetCharacter())
 	{
 		//Character

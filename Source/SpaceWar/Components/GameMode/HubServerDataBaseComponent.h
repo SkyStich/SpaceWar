@@ -14,9 +14,24 @@ class SPACEWAR_API UHubServerDataBaseComponent : public UGameServerDataBaseCompo
 {
 	GENERATED_BODY()
 
+private:
+
+	UFUNCTION()
+	void DeactivateServer();
+
+	UFUNCTION()
+	void ActivateServer();
+
+protected:
+
+	virtual void OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data) override;
+
 public:
+
+	UHubServerDataBaseComponent();
 
 	virtual void CreateServerInDataBase() override;
 	virtual void RemoveServerFromDataBase() override;
 	virtual bool UpdateServerData() override;
+
 };

@@ -127,7 +127,7 @@ public:
 
 	FORCEINLINE USkeletalMeshComponent* GetLocalMesh() const;
 	FORCEINLINE float GetLookUpPitch() const { return LookUpPitch; }
-
+	
 	UFUNCTION(BlueprintPure)
 	UEquipableWeaponManager* GetWeaponManager() const { return WeaponManager; }
 	

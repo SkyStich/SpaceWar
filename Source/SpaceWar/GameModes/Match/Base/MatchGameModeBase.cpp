@@ -7,7 +7,6 @@
 #include "SpaceWar/PlayerControllers/Match/Base/MatchPlayerControllerBase.h"
 #include "SpaceWar/Components/GameMode/GameDataBaseComponent.h"
 #include "SpaceWar/SpaceWarCharacter.h"
-#include "SpaceWar/BPFLibrary/ServerManipulationLibrary.h"
 #include "SpaceWar/GameStates/Base/GameStateMatchGame.h"
 #include "SpaceWar/Spectator/Base/BaseMatchSpectator.h"
 
@@ -22,7 +21,7 @@ void AMatchGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameDataBaseComponent->OnForcedServerShutdown.BindUFunction(this, "OnForcedServerShutdownEvent");
+	GameDataBaseComponent->OnForcedServerShutdown.AddDynamic(this, &AMatchGameModeBase::OnForcedServerShutdownEvent);
 }
 
 void AMatchGameModeBase::OnForcedServerShutdownEvent()
@@ -60,27 +59,24 @@ void AMatchGameModeBase::AsyncSpawnSpectatorComplete(FSoftObjectPath Reference, 
 	}
 	else
 	{
-		ABaseMatchSpectator* Spectator = nullptr;
-		
 		FActorSpawnParameters Param;
 		Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		Param.Owner = Controller;
 		Param.Instigator = Controller->GetPawn();
-		Spectator = GetWorld()->SpawnActor<ABaseMatchSpectator>(ActorClass, SpawnTransform, Param);
-		if(!Spectator) return;
+		ABaseMatchSpectator* NewSpectator = GetWorld()->SpawnActor<ABaseMatchSpectator>(ActorClass, SpawnTransform, Param);
+		if(!NewSpectator) return;
 		
-		Spectator->SetOwner(Spectator);
-		Spectator->SetInstigator(Spectator);
-		Controller->Possess(Spectator);
+		NewSpectator->SetOwner(NewSpectator);
+		NewSpectator->SetInstigator(NewSpectator);
+		Controller->Possess(NewSpectator);
 	}
 }
 
 void AMatchGameModeBase::SpawnCharacter(AMatchPlayerControllerBase* Controller, const FVector& Location)
 {
-	ASpaceWarCharacter* SpawnCharacter = nullptr;
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-	SpawnCharacter = GetWorld()->SpawnActor<ASpaceWarCharacter>(Controller->GetPlayerClass(), Location, FRotator::ZeroRotator, Params);
+	auto SpawnCharacter = GetWorld()->SpawnActor<ASpaceWarCharacter>(Controller->GetPlayerClass(), Location, FRotator::ZeroRotator, Params);
 
 	if(SpawnCharacter)
 	{
@@ -129,8 +125,15 @@ void AMatchGameModeBase::Logout(AController* Exiting)
 {
 	Super::Logout(Exiting);
 
-	if(GameState->PlayerArray.Num() <= 0)
+	FTimerDelegate TimerDel;
+	TimerDel.BindLambda([&]() -> void
 	{
-		GameDataBaseComponent->ShutDownServer();
-	}
+		if(GameState->PlayerArray.Num() <= 0)
+		{
+			GameDataBaseComponent->ShutDownServer("All player disconnect from server");
+		}
+	});
+	FTimerHandle ShutDownTimer;
+	GetWorld()->GetTimerManager().SetTimer(ShutDownTimer, TimerDel, 5.f, false);
+
 }

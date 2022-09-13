@@ -54,7 +54,6 @@ void ASpawnFlagHelpers::SpawnFlag()
 	{
 		UE_LOG(LogActor, Error, TEXT("-- Flag for capture is not spawned! ASpawnFlagHelpers::SpawnFlag"), *GetName());	
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("SpawnFlag"));
 }
 
 

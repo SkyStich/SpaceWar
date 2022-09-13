@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "../Base/GameStateMatchGame.h"
+#include "SpaceWar/Interfaces/MainGameStateInterface.h"
 #include "SpaceWar/PlayerStates/Match/Base/OnlinePlayerStateBase.h"
 #include "OnlinetMatchGameStateBase.generated.h"
 
@@ -11,8 +12,29 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNewPlayerPostLogin, APlayerState*, 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTeamPointUpdate, int32, NewValue, ETeam, TeamUpdate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPreparationStartGameFinish, bool, bResult /** if true, game start else start wait new player*/);
 
+USTRUCT()
+struct FVotingData
+{
+
+	GENERATED_BODY()
+	
+	FVotingData() : VotingTimer(FTimerHandle()), KickPlayer(nullptr), AmountForKick(0.f), AmountForSave(0.f) {}
+
+	UPROPERTY()
+	FTimerHandle VotingTimer;
+
+	UPROPERTY()
+	APlayerController* KickPlayer;
+
+	UPROPERTY()
+	int32 AmountForKick;
+
+	UPROPERTY()
+	int32 AmountForSave;
+};
+
 UCLASS()
-class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame
+class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame, public IMainGameStateInterface
 {
 	GENERATED_BODY()
 
@@ -27,6 +49,11 @@ class SPACEWAR_API AOnlinetMatchGameStateBase : public AGameStateMatchGame
 
 	UFUNCTION(NetMulticast, Reliable)
 	void NetMulticast_FinishPreparationStartGame(bool bResult);
+
+	void StopVoting(FVotingData* VotingData);
+
+	FTimerHandle* GetVotingTimerByTeam(ETeam const Team);
+	FVotingData* GetVotingDataByTeam(ETeam const Team);
 
 public:
 
@@ -43,6 +70,10 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	bool GameInProgress() const { return bGameInProgress; }
+
+	void StartVotingForKickPlayer(APlayerController* KickPlayer);
+
+	virtual void StartVotingForKickPlayer_Implementation(APlayerController* Player, ETeam const VotingOwnerTeam) override;
 	
 	virtual void UpdateTeamPoints(ETeam Team, int32 Value);
 
@@ -87,5 +118,8 @@ private:
 	UPROPERTY(Replicated)
 	bool bGameInProgress;
 
+	UPROPERTY()
+	TArray<FVotingData> VotingDatas;
+	
 friend class AOnlineMatchGameModeBase;
 };

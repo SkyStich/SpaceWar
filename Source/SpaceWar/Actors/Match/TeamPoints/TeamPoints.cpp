@@ -161,7 +161,6 @@ void ATeamPoints::LaunchPointCapture(ETeam CaptureTeam)
 		GetWorld()->GetTimerManager().SetTimer(CaptureHandle, this, &ATeamPoints::DecreaseCurrentValueCapture, 0.1, true);
 		return;
 	}
-	
 	CurrentAmountOwnerInPoint = CurrentAmountEnemyAtPoint;
 	CurrentAmountEnemyAtPoint = 0;
 	OwnerTeam = CaptureTeam;
@@ -176,14 +175,9 @@ void ATeamPoints::LaunchPointCapture(ETeam CaptureTeam)
 		auto const TempState = Character->GetController()->PlayerState;
 		if(!TempState->GetClass()->ImplementsInterface(UGetPlayerTeamInterface::StaticClass())) continue;
 
-		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(TempState) == OwnerTeam)
-		{
-			OwnersController.Add(Character->Controller);
-		}
-		else
-		{
-			OwnersController.Remove(Character->Controller);
-		}
+		if(IGetPlayerTeamInterface::Execute_FindPlayerTeam(TempState) == OwnerTeam) OwnersController.Add(Character->Controller);
+		else OwnersController.Remove(Character->Controller);
+		
 	}
 	OnRep_TeamPoints();
 	RefreshLaunchCapture();

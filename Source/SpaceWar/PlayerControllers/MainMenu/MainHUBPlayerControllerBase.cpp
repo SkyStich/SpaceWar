@@ -2,11 +2,11 @@
 
 
 #include "MainHUBPlayerControllerBase.h"
-
 #include "GameFramework/GameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "SpaceWar/BPFLibrary/ServerManipulationLibrary.h"
 #include "SpaceWar/Components/GameMode/GameServerDataBaseComponent.h"
+#include "SpaceWar/DataAssets/MatchWidgetDataAsset.h"
 #include "SpaceWar/GameInstances/BaseGameInstance.h"
 
 void AMainHUBPlayerControllerBase::Server_CreateServer_Implementation(const FString& MapReference, const FString& ServerName)
@@ -15,7 +15,7 @@ void AMainHUBPlayerControllerBase::Server_CreateServer_Implementation(const FStr
 	auto const GameModeComponent = UGameplayStatics::GetGameMode(GetWorld())->FindComponentByClass<UGameServerDataBaseComponent>();
 	if(GameModeComponent)
 	{
-		FString Param = TEXT("ServerName=") + ServerName + "?OwnerName=" + GameModeComponent->GetServerData().Name + "?ip=26.217.133.211 ";
+		FString Param = TEXT("ServerName=") + ServerName + "?OwnerName=" + GameModeComponent->GetServerData().Name + "?ip=26.54.247.144 ";
 		UServerManipulationLibrary::LaunchServer(MapReference, Param);
 	}
 }
@@ -51,5 +51,12 @@ void AMainHUBPlayerControllerBase::OnCreteServerResult(bool bResult, const FStri
 		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 		UGameplayStatics::OpenLevel(GetWorld(), *Address);
 	}
+}
+
+void AMainHUBPlayerControllerBase::ClientWasKicked_Implementation(const FText& KickReason)
+{
+	Super::ClientWasKicked_Implementation(KickReason);
+	
+	UGameplayStatics::OpenLevel(this, "DisconectFromGameLevel");
 }
 

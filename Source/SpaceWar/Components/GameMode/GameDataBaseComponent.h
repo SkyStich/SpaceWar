@@ -14,6 +14,10 @@ class SPACEWAR_API UGameDataBaseComponent : public UGameServerDataBaseComponent
 {
 	GENERATED_BODY()
 
+protected:
+
+	virtual void OnResponseGetServerInfo(bool bResult, const FString& ErrorMessage, const FServersData& Data) override;
+
 public:
 
 	virtual void CreateServerInDataBase() override;

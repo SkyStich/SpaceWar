@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "MainMenuPlayerControllerBase.h"
 #include "SpaceWar/Structs/MapInfo.h"
-
 #include "MainHUBPlayerControllerBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FServerNotCreated);
@@ -28,6 +27,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "PlayerController")
     void CreateServer(const FMapData& Data, FString ServerName);
+    
+    virtual void ClientWasKicked_Implementation(const FText& KickReason) override;
 
 private:
 

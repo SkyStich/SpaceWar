@@ -55,7 +55,6 @@ void AFlagForCapture::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	DOREPLIFETIME(AFlagForCapture, OwnerCharacter);
 }
 
-
 bool AFlagForCapture::InteractionObject_Implementation(ASpaceWarCharacter* Player)
 {
 	if(OwnerCharacter) return false;

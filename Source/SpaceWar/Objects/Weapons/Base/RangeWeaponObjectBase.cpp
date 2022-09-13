@@ -211,10 +211,13 @@ void URangeWeaponObjectBase::ApplyPointDamage(const FHitResult& Hit)
 {
 	if(Hit.GetActor())
 	{
+		int32 const MaxDamageDistance = WeaponData.RangeWeaponCharacteristics.MaxDamageDistance;
+		float const BaseDamage = WeaponData.RangeWeaponCharacteristics.BaseDamage;
+		
 		FVector const HitFromDirection = UKismetMathLibrary::GetDirectionUnitVector(Hit.TraceEnd, Hit.TraceStart);
-		int32 const TempDistance = FVector::Distance(CharacterOwner->GetActorLocation(), Hit.Actor->GetActorLocation()) - WeaponData.RangeWeaponCharacteristics.MaxDamageDistance;
+		int32 const TempDistance = FVector::Distance(CharacterOwner->GetActorLocation(), Hit.Actor->GetActorLocation()) - MaxDamageDistance;
 
-		float const TempDamage = TempDistance > WeaponData.RangeWeaponCharacteristics.MaxDamageDistance ? FMath::Max(WeaponData.RangeWeaponCharacteristics.BaseDamage - TempDistance / 100,
+		float const TempDamage = TempDistance > WeaponData.RangeWeaponCharacteristics.MaxDamageDistance ? FMath::Max(BaseDamage - TempDistance / 100,
 			WeaponData.RangeWeaponCharacteristics.BaseDamage / 1.5f) : WeaponData.RangeWeaponCharacteristics.BaseDamage;
 		
 		UGameplayStatics::ApplyPointDamage(Hit.GetActor(), TempDamage, HitFromDirection, Hit, CharacterOwner->Controller,

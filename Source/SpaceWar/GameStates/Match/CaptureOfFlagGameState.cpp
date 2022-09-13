@@ -11,7 +11,7 @@ ACaptureOfFlagGameState::ACaptureOfFlagGameState()
 }
 
 void ACaptureOfFlagGameState::BeginPlay()
-{
+{	
 	Super::BeginPlay();
 }
 
@@ -85,9 +85,9 @@ void ACaptureOfFlagGameState::UpdateTeamPoints(ETeam Team, int32 Value, EReasonF
 	else
 	{
 		TeamPointsB += Value;
+		OnTeamPointUpdate.Broadcast(TeamPointsB, Team);
 	}
 	NetMulticast_RoundEnded(UEnum::GetValueAsString(ReasonEndOfRound), Team, ReasonEndOfRound);
-	OnTeamPointUpdate.Broadcast(GetTeamPointsB(), Team);
 }
 
 void ACaptureOfFlagGameState::IncrementTime()

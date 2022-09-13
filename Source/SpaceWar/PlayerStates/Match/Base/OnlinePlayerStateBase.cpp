@@ -67,8 +67,4 @@ void AOnlinePlayerStateBase::OnRep_NumberOfMurders()
 void AOnlinePlayerStateBase::Server_TransferPlayerNameToServer_Implementation(const FString& Name)
 {
 	SetPlayerName(Name);
-	
-#if UE_EDITOR
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Yellow, FString::Printf(TEXT("PlayerName = %s"), *GetPlayerName()));
-#endif
 }
